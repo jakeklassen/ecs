@@ -1,0 +1,8 @@
+.*
+**/tsconfig.json
+**/nodemon.json
+**/tslint.json
+**/webpack.config.ts
+**/jest.config.js
+src
+demo

@@ -1,0 +1,32 @@
+{
+  "name": "ecs",
+  "version": "0.0.1",
+  "description": "Entity Component System",
+  "main": "./dist/ecs.min.js",
+  "types": "./dist/ecs.d.ts",
+  "scripts": {
+    "dev": "yarn run tslint && tsc",
+    "dev:watch": "nodemon --exec 'yarn run dev || exit 1'",
+    "tslint": "tslint --project .",
+    "build": "yarn run dev && uglifyjs ./dist/ecs.js -o ./dist/ecs.min.js",
+    "test": "yarn run clean && jest && yarn run demo:test && yarn run clean",
+    "test:coverage": "yarn run clean && jest --coverage && yarn run demo:test && yarn run clean",
+    "clean": "rimraf dist",
+    "demo:test": "yarn run build && cd demo && yarn install && yarn run add-self && yarn test"
+  },
+  "author": "Jake Klassen <jklassendev@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^23.3.7",
+    "@types/node": "^10.12.18",
+    "jest": "^23.6.0",
+    "nodemon": "^1.17.5",
+    "prettier": "^1.15.3",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^23.10.4",
+    "tslint": "^5.10.0",
+    "typescript": "^3.2.2",
+    "typescript-tslint-plugin": "^0.2.1",
+    "uglify-js": "^3.4.9"
+  }
+}
