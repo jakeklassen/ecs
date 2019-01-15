@@ -2,7 +2,9 @@ import { Entity, EntityId } from './entity';
 import { System } from './system';
 
 export type Type<T> = new (...args: any[]) => T;
-export type Component = Type<ObjectConstructor>;
+// export interface Type<T> extends Function {
+//   new (...args: any[]): T;
+// }
 
 export function* entityIdGenerator(): IterableIterator<number> {
   let id = 0;
@@ -18,7 +20,7 @@ export function* entityIdGenerator(): IterableIterator<number> {
  */
 export class World {
   private systems: System[] = [];
-  private entities: Map<EntityId, Component[]> = new Map();
+  private entities: Map<EntityId, Array<{}>> = new Map();
 
   constructor(private readonly idGenerator = entityIdGenerator()) {}
 
@@ -32,19 +34,18 @@ export class World {
     return new Entity(this.idGenerator.next().value);
   }
 
-  public addEntityComponents(
-    entity: EntityId,
-    ...components: Component[]
-  ): void {
+  public addEntityComponent<T>(entity: EntityId, component: T): World {
     if (this.entities.has(entity) === false) {
-      this.entities.set(entity, components);
+      this.entities.set(entity, [component]);
     } else {
       const current = this.entities.get(entity);
 
       if (current != null) {
-        this.entities.set(entity, [...current, ...components]);
+        this.entities.set(entity, [...current, component]);
       }
     }
+
+    return this;
   }
 
   /**
@@ -65,14 +66,14 @@ export class World {
     }
   }
 
-  public view(...components: Component[]): Map<EntityId, Component[]> {
+  public view(...components: Array<Type<{}>>): Map<EntityId, Array<{}>> {
     if (components.length === 0) {
       throw new Error(
         'You must provide a list of component constructor functions',
       );
     }
 
-    const entities = new Map<EntityId, Component[]>();
+    const entities = new Map<EntityId, Array<{}>>();
 
     for (const [id, entityComponents] of this.entities.entries()) {
       if (entityComponents.length === 0) {

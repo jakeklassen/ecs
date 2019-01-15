@@ -27,11 +27,9 @@ class Rectangle {
 const world = new World();
 const player = world.createEntity();
 
-world.addEntityComponents(
-  player.id,
-  new Rectangle(10, 10, 55, 55),
-  new Color('red'),
-);
+world
+  .addEntityComponent(player.id, new Rectangle(10, 10, 55, 55))
+  .addEntityComponent(player.id, new Color('red'));
 
 class RenderingSystem extends System {
   constructor(private readonly context: CanvasRenderingContext2D) {
@@ -44,11 +42,11 @@ class RenderingSystem extends System {
     for (const [entity, components] of world.view(Rectangle, Color)) {
       const { color } = components.find(
         component => component.constructor === Color,
-      );
+      ) as Color;
 
       const { x, y, width, height } = components.find(
         component => component.constructor === Rectangle,
-      );
+      ) as Rectangle;
 
       this.context.fillStyle = color;
       this.context.fillRect(x, y, width, height);
