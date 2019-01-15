@@ -1,8 +1,17 @@
 import { Entity, EntityId } from './entity';
-import { Type } from './interfaces/type.interface';
 import { System } from './system';
 
-export type Component = Type<{}>;
+export type Type<T> = new (...args: any[]) => T;
+export type Component = Type<ObjectConstructor>;
+
+export function* entityIdGenerator(): IterableIterator<number> {
+  let id = 0;
+
+  while (true) {
+    ++id;
+    yield id;
+  }
+}
 
 /**
  * Container for Systems and Entities
@@ -11,18 +20,49 @@ export class World {
   private systems: System[] = [];
   private entities: Map<EntityId, Component[]> = new Map();
 
+  constructor(private readonly idGenerator = entityIdGenerator()) {}
+
   public update(dt: number) {
     for (const system of this.systems) {
       system.update(this, dt);
     }
   }
 
+  public createEntity(): Entity {
+    return new Entity(this.idGenerator.next().value);
+  }
+
+  public addEntityComponents(
+    entity: EntityId,
+    ...components: Component[]
+  ): void {
+    if (this.entities.has(entity) === false) {
+      this.entities.set(entity, components);
+    } else {
+      const current = this.entities.get(entity);
+
+      if (current != null) {
+        this.entities.set(entity, [...current, ...components]);
+      }
+    }
+  }
+
+  /**
+   * Register a new system. Systems are executed linearly in the order added.
+   * @param system System
+   */
   public addSystem(system: System) {
     this.systems.push(system);
   }
 
-  public removeAdd(system: System) {
+  public removeSystem(system: System) {
     this.systems = this.systems.filter(existing => existing === system);
+  }
+
+  public updateSystems(dt: number) {
+    for (const system of this.systems) {
+      system.update(this, dt);
+    }
   }
 
   public view(...components: Component[]): Map<EntityId, Component[]> {
@@ -44,7 +84,7 @@ export class World {
       );
 
       if (hasAll) {
-        entities.set(id, components);
+        entities.set(id, entityComponents);
       }
     }
 

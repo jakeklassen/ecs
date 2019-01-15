@@ -1,0 +1,19 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel *.html"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.2.3",
+    "@types/mainloop.js": "^1.0.5",
+    "parcel-bundler": "^1.11.0"
+  },
+  "dependencies": {
+    "mainloop.js": "^1.0.4"
+  }
+}
