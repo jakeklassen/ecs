@@ -4,9 +4,7 @@ export type EntityId = number;
  * Representation of a unique entity value within the world
  */
 export class Entity {
-  public id: EntityId;
+  private version: number = 0;
 
-  constructor(id: EntityId) {
-    this.id = id;
-  }
+  constructor(public id: EntityId) {}
 }

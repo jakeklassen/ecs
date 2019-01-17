@@ -6,6 +6,7 @@
     "arrow-parens": false,
     "quotemark": [true, "single", "avoid-escape", "avoid-template"],
     "no-console": [true, "log"],
+    "no-shadowed-variable": false,
     "object-literal-sort-keys": [false],
     "ordered-imports": [
       true,

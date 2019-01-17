@@ -3,13 +3,16 @@ import fs from 'fs';
 import 'jest';
 import path from 'path';
 
-const TSC_COMMONJS_PATH = path.resolve(__dirname, '../dist/ecs.js');
-const TSC_COMMONJS_SOURCEMAP_PATH = path.resolve(__dirname, '../dist/ecs.js.map');
+const TSC_COMMONJS_PATH = path.resolve(__dirname, '../dist/src/ecs.js');
+const TSC_COMMONJS_SOURCEMAP_PATH = path.resolve(
+  __dirname,
+  '../dist/src/ecs.js.map',
+);
 
 describe('tsc bundle result', () => {
-  test('should generate ecs.js and ecs.js.map for commonjs modules', (done) => {
+  test('should generate ecs.js and ecs.js.map for commonjs modules', done => {
     // Run tsc in child process
-    const forked = exec('yarn run dev', (err, stdout, stderr) => {
+    const forked = exec('yarn run build', (err, stdout, stderr) => {
       if (err) {
         throw err;
         done();

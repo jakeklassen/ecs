@@ -28,8 +28,8 @@ const world = new World();
 const player = world.createEntity();
 
 world
-  .addEntityComponent(player.id, new Rectangle(10, 10, 55, 55))
-  .addEntityComponent(player.id, new Color('red'));
+  .addEntityComponent(player, new Rectangle(10, 10, 55, 55))
+  .addEntityComponent(player, new Color('red'));
 
 class RenderingSystem extends System {
   constructor(private readonly context: CanvasRenderingContext2D) {

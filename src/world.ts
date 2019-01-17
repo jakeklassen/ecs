@@ -34,14 +34,14 @@ export class World {
     return new Entity(this.idGenerator.next().value);
   }
 
-  public addEntityComponent<T>(entity: EntityId, component: T): World {
-    if (this.entities.has(entity) === false) {
-      this.entities.set(entity, [component]);
+  public addEntityComponent<T>(entity: Entity, component: T): World {
+    if (this.entities.has(entity.id) === false) {
+      this.entities.set(entity.id, [component]);
     } else {
-      const current = this.entities.get(entity);
+      const current = this.entities.get(entity.id);
 
       if (current != null) {
-        this.entities.set(entity, [...current, component]);
+        this.entities.set(entity.id, [...current, component]);
       }
     }
 
