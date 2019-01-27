@@ -19,14 +19,14 @@
   "devDependencies": {
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
-    "jest": "^23.6.0",
+    "jest": "^24.0.0",
     "nodemon": "^1.17.5",
-    "prettier": "^1.16.0",
+    "prettier": "^1.16.1",
     "rimraf": "^2.6.3",
     "ts-jest": "^23.10.4",
     "tslint": "^5.10.0",
     "typescript": "^3.2.4",
-    "typescript-tslint-plugin": "^0.2.1",
+    "typescript-tslint-plugin": "^0.3.0",
     "uglify-js": "^3.4.9"
   }
 }

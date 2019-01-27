@@ -11,10 +11,12 @@ if (ctx == null) {
   throw new Error('failed to obtain canvas 2d context');
 }
 
+// Color Component
 class Color {
   constructor(public color: string) {}
 }
 
+// Rectangle Component
 class Rectangle {
   constructor(
     public readonly x: number,
@@ -36,7 +38,7 @@ class RenderingSystem extends System {
     super();
   }
 
-  public update(world: World, dt: number) {
+  public update(world: World) {
     this.context.clearRect(0, 0, 640, 480);
 
     for (const [entity, components] of world.view(Rectangle, Color)) {

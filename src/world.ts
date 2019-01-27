@@ -1,4 +1,4 @@
-import { Entity, EntityId } from './entity';
+import { Entity } from './entity';
 import { System } from './system';
 
 export type Type<T> = new (...args: any[]) => T;
