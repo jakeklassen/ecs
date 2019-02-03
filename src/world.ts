@@ -1,7 +1,10 @@
+import { ComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
 
-export type Type<T> = new (...args: any[]) => T;
+export type Constructor<T> = new (...args: any[]) => T;
+// tslint:disable-next-line: ban-types
+// export type Constructor<T> = Function & { prototype: T };
 
 export function* entityIdGenerator(): IterableIterator<number> {
   let id = 0;
@@ -19,7 +22,7 @@ export class World {
   private systems: System[] = [];
   private systemsToRemove: System[] = [];
   private systemsToAdd: System[] = [];
-  private entities: Map<Entity, Array<{}>> = new Map();
+  private entities: Map<Entity, ComponentMap> = new Map();
 
   /**
    * Create a new World instance
@@ -43,12 +46,17 @@ export class World {
 
   public addEntityComponent<T>(entity: Entity, component: T): World {
     if (this.entities.has(entity) === false) {
-      this.entities.set(entity, [component]);
-    } else {
-      const current = this.entities.get(entity);
+      const components = new ComponentMap();
+      components.set(component);
 
-      if (current != null) {
-        this.entities.set(entity, [...current, component]);
+      this.entities.set(entity, components);
+    } else {
+      const components = this.entities.get(entity);
+
+      if (components != null) {
+        components.set(component);
+
+        this.entities.set(entity, components);
       }
     }
 
@@ -95,23 +103,23 @@ export class World {
     }
   }
 
-  public view(...components: Array<Type<{}>>): Map<Entity, Array<{}>> {
+  public view(
+    ...components: Array<Constructor<{}>>
+  ): Map<Entity, ComponentMap> {
     if (components.length === 0) {
       throw new Error(
         'You must provide a list of component constructor functions',
       );
     }
 
-    const entities = new Map<Entity, Array<{}>>();
+    const entities = new Map<Entity, ComponentMap>();
 
     for (const [entity, entityComponents] of this.entities.entries()) {
-      if (entityComponents.length === 0) {
+      if (entityComponents.size === 0) {
         continue;
       }
 
-      const hasAll = entityComponents.every(
-        component => components.find(C => component.constructor === C) != null,
-      );
+      const hasAll = components.every(C => entityComponents.get(C) != null);
 
       if (hasAll) {
         entities.set(entity, entityComponents);

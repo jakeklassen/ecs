@@ -3,27 +3,13 @@
 import '@babel/polyfill';
 import * as mainloop from 'mainloop.js';
 import { System, World } from '../../src/ecs';
+import { Color, Rectangle } from '../shared/components';
 
 const canvas = document.querySelector('#canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
 
 if (ctx == null) {
   throw new Error('failed to obtain canvas 2d context');
-}
-
-// Color Component
-class Color {
-  constructor(public color: string) {}
-}
-
-// Rectangle Component
-class Rectangle {
-  constructor(
-    public readonly x: number,
-    public readonly y: number,
-    public readonly width: number,
-    public readonly height: number,
-  ) {}
 }
 
 const world = new World();
@@ -42,13 +28,8 @@ class RenderingSystem extends System {
     this.context.clearRect(0, 0, 640, 480);
 
     for (const [entity, components] of world.view(Rectangle, Color)) {
-      const { color } = components.find(
-        component => component.constructor === Color,
-      ) as Color;
-
-      const { x, y, width, height } = components.find(
-        component => component.constructor === Rectangle,
-      ) as Rectangle;
+      const { color } = components.get(Color) as Color;
+      const { x, y, width, height } = components.get(Rectangle) as Rectangle;
 
       this.context.fillStyle = color;
       this.context.fillRect(x, y, width, height);
