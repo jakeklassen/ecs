@@ -70,7 +70,8 @@
   "exclude": [
     "node_modules",
     "dist",
-    "demo",
+    "examples",
+    "test",
     "**/*.test.ts",
     "**/webpack.config.ts"
   ],
