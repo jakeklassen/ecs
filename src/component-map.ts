@@ -1,4 +1,4 @@
-import { Constructor } from './ecs';
+import { Constructor } from './';
 
 export type Constructor<T> = new (...args: any[]) => T;
 
