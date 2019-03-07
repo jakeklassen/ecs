@@ -1,4 +1,4 @@
-import { Constructor } from './';
+import { Constructor } from './index';
 
 export type Constructor<T> = new (...args: any[]) => T;
 
