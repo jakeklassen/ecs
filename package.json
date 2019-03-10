@@ -16,6 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "@pika/pack": "^0.3.4",
+    "@pika/plugin-build-node": "^0.3.14",
+    "@pika/plugin-build-web": "^0.3.14",
     "@pika/plugin-ts-standard-pkg": "^0.3.14",
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.20",
@@ -33,6 +35,12 @@
     "pipeline": [
       [
         "@pika/plugin-ts-standard-pkg"
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "@pika/plugin-build-web"
       ]
     ]
   }
