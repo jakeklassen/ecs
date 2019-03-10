@@ -41,9 +41,6 @@
         "@pika/plugin-ts-standard-pkg"
       ],
       [
-        "@pika/plugin-build-node"
-      ],
-      [
         "@pika/plugin-build-web"
       ]
     ]
