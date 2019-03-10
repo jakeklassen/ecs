@@ -1,5 +1,5 @@
 {
-  "name": "ecs",
+  "name": "@jakeklassen/ecs",
   "version": "0.0.1",
   "description": "Entity Component System",
   "scripts": {
