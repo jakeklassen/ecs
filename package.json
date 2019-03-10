@@ -1,6 +1,6 @@
 {
   "name": "@jakeklassen/ecs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Entity Component System",
   "repository": {
     "type": "git",
