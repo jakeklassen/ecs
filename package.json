@@ -2,11 +2,9 @@
   "name": "ecs",
   "version": "0.0.1",
   "description": "Entity Component System",
-  "main": "./dist/src/ecs.js",
-  "types": "./dist/src/ecs.d.ts",
   "scripts": {
     "tslint": "tslint --project .",
-    "prebuild": "rimraf dist",
+    "prebuild": "yarn run clean",
     "build": "yarn run tslint && tsc",
     "build:watch": "nodemon --exec 'yarn run build || exit 1'",
     "test": "jest",
@@ -17,6 +15,8 @@
   "author": "Jake Klassen <jklassendev@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@pika/pack": "^0.3.4",
+    "@pika/plugin-ts-standard-pkg": "^0.3.14",
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.20",
     "jest": "^23",
@@ -28,5 +28,12 @@
     "typescript": "^3.3.1",
     "typescript-tslint-plugin": "^0.3.0",
     "uglify-js": "^3.4.9"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg"
+      ]
+    ]
   }
 }

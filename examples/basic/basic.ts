@@ -2,7 +2,7 @@
 
 import '@babel/polyfill';
 import * as mainloop from 'mainloop.js';
-import { System, World } from '../../src/ecs';
+import { System, World } from '../../src';
 import { Color, Rectangle } from '../shared/components';
 
 const canvas = document.querySelector('#canvas') as HTMLCanvasElement;
