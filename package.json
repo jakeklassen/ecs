@@ -1,6 +1,6 @@
 {
   "name": "@jakeklassen/ecs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Entity Component System",
   "scripts": {
     "tslint": "tslint --project .",
