@@ -7,11 +7,11 @@
     "start": "parcel *.html"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.3.4",
     "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-env": "^7.3.4",
     "@types/mainloop.js": "^1.0.5",
-    "parcel-bundler": "^1.11.0"
+    "parcel-bundler": "^1.12.0"
   },
   "dependencies": {
     "mainloop.js": "^1.0.4"

@@ -4,7 +4,7 @@
   "description": "Entity Component System",
   "scripts": {
     "tslint": "tslint --project .",
-    "prebuild": "rimraf dist",
+    "prebuild": "yarn run clean",
     "build": "yarn run tslint && tsc",
     "build:watch": "nodemon --exec 'yarn run build || exit 1'",
     "test": "jest",
