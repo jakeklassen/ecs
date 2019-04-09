@@ -28,7 +28,11 @@ class PlayerMovementSystem extends System {
   }
 
   public update(world: World, dt: number) {
-    for (const [entity, components] of world.view(Rectangle, Color)) {
+    for (const [entity, components] of world.view(
+      Rectangle,
+      Transform,
+      Velocity,
+    )) {
       const rectangle = components.get(Rectangle) as Rectangle;
       const transform = components.get(Transform) as Transform;
       const velocity = components.get(Velocity) as Velocity;
@@ -63,7 +67,11 @@ class RenderingSystem extends System {
   public update(world: World) {
     this.context.clearRect(0, 0, 640, 480);
 
-    for (const [entity, components] of world.view(Rectangle, Color)) {
+    for (const [entity, components] of world.view(
+      Rectangle,
+      Color,
+      Transform,
+    )) {
       const { color } = components.get(Color) as Color;
       const { width, height } = components.get(Rectangle) as Rectangle;
       const transform = components.get(Transform) as Transform;
