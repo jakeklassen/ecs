@@ -15,7 +15,8 @@
     "pretest:coverage": "yarn run clean",
     "test:coverage": "jest --coverage",
     "clean": "rimraf dist",
-    "pika": "./node_modules/.bin/pack"
+    "pika": "./node_modules/.bin/pack",
+    "version": "yarn build"
   },
   "author": "Jake Klassen <jklassendev@gmail.com>",
   "license": "MIT",
