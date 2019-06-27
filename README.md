@@ -10,4 +10,3 @@ TypeScript Entity Component System.
 - Benchmarks
 - More examples
 
-_Built using [create-typescript-library](https://github.com/ryancat/create-typescript-library)_
