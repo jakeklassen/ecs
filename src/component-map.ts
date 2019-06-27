@@ -1,15 +1,13 @@
 import { Constructor } from './index';
 
-export type Constructor<T> = new (...args: any[]) => T;
-
 export class ComponentMap {
-  private readonly map = new Map<Constructor<{}>, {}>();
+  private readonly map = new Map<Constructor<unknown>, unknown>();
 
   public get<T>(ctor: Constructor<T>): T | undefined {
     return this.map.get(ctor) as T;
   }
 
-  public set<T>(component: T) {
+  public set<T extends object>(component: T) {
     this.map.set(component.constructor as Constructor<T>, component);
   }
 

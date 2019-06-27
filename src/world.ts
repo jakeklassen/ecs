@@ -2,7 +2,7 @@ import { ComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
 
-export type Constructor<T> = new (...args: any[]) => T;
+export type Constructor<T = unknown> = new (...args: any[]) => T;
 // tslint:disable-next-line: ban-types
 // export type Constructor<T> = Function & { prototype: T };
 
@@ -28,7 +28,7 @@ export class World {
    * Create a new World instance
    * @param idGenerator Unique entity id generator
    */
-  constructor(private readonly idGenerator = entityIdGenerator()) {}
+  constructor(private readonly idGenerator = entityIdGenerator()) { }
 
   /**
    * Update all world systems
@@ -44,7 +44,7 @@ export class World {
     return new Entity(this.idGenerator.next().value);
   }
 
-  public addEntityComponent<T>(entity: Entity, component: T): World {
+  public addEntityComponent<T extends object>(entity: Entity, component: T): World {
     if (this.entities.has(entity) === false) {
       const components = new ComponentMap();
       components.set(component);
