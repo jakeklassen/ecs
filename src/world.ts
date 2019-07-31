@@ -28,7 +28,7 @@ export class World {
    * Create a new World instance
    * @param idGenerator Unique entity id generator
    */
-  constructor(private readonly idGenerator = entityIdGenerator()) { }
+  constructor(private readonly idGenerator = entityIdGenerator()) {}
 
   /**
    * Update all world systems
@@ -44,7 +44,10 @@ export class World {
     return new Entity(this.idGenerator.next().value);
   }
 
-  public addEntityComponent<T extends object>(entity: Entity, component: T): World {
+  public addEntityComponent<T extends Constructor<T>>(
+    entity: Entity,
+    component: InstanceType<T>,
+  ): World {
     if (this.entities.has(entity) === false) {
       const components = new ComponentMap();
       components.set(component);
