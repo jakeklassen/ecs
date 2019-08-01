@@ -1,17 +1,20 @@
+import { Component } from './component';
 import { Constructor } from './index';
 
 export class ComponentMap {
-  private readonly map = new Map<Constructor<unknown>, unknown>();
+  private readonly map = new Map<Constructor<Component>, Component>();
 
-  public get<T>(ctor: Constructor<T>): T | undefined {
-    return this.map.get(ctor) as T;
+  public get<T extends Component>(ctor: Constructor<Component>): T | undefined {
+    const component = this.map.get(ctor);
+
+    return component != null ? (component as T) : undefined;
   }
 
-  public set<T extends object>(component: T) {
-    this.map.set(component.constructor as Constructor<T>, component);
+  public set(component: Component) {
+    this.map.set(component.constructor as Constructor<Component>, component);
   }
 
-  public has<T>(componentCtor: Constructor<T>) {
+  public has(componentCtor: Constructor<Component>) {
     return this.map.has(componentCtor);
   }
 
