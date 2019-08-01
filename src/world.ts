@@ -1,10 +1,13 @@
+import { Component } from './component';
 import { ComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
 
-export type Constructor<T = unknown> = new (...args: any[]) => T;
-// tslint:disable-next-line: ban-types
-// export type Constructor<T> = Function & { prototype: T };
+// tslint:disable: max-classes-per-file
+
+export type Constructor<T = unknown, Arguments extends any[] = any[]> = new (
+  ...args: Arguments
+) => T;
 
 export function* entityIdGenerator(): IterableIterator<number> {
   let id = 0;
@@ -44,10 +47,7 @@ export class World {
     return new Entity(this.idGenerator.next().value);
   }
 
-  public addEntityComponent<T extends Constructor<T>>(
-    entity: Entity,
-    component: InstanceType<T>,
-  ): World {
+  public addEntityComponent(entity: Entity, component: Component): World {
     if (this.entities.has(entity) === false) {
       const components = new ComponentMap();
       components.set(component);
@@ -107,7 +107,7 @@ export class World {
   }
 
   public view(
-    ...components: Array<Constructor<{}>>
+    ...components: Array<Constructor<Component>>
   ): Map<Entity, ComponentMap> {
     if (components.length === 0) {
       throw new Error(

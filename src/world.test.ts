@@ -1,13 +1,16 @@
 import 'jest';
+import { Component } from './component';
 import { World } from './world';
 
-class Color {
+class Color extends Component {
   constructor(
     public readonly r: number,
     public readonly g: number,
     public readonly b: number,
     public readonly a: number,
-  ) {}
+  ) {
+    super();
+  }
 }
 
 describe('World', () => {
