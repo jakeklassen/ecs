@@ -2,12 +2,15 @@ import { Component } from './component';
 import { Constructor } from './index';
 
 export class ComponentMap {
-  private readonly map = new Map<Constructor<Component>, InstanceType<any>>();
+  private readonly map = new Map<
+    Constructor<Component>,
+    InstanceType<typeof Component>
+  >();
 
-  public get(
-    ctor: Constructor<Component>,
-  ): InstanceType<typeof Component> | undefined {
-    return this.map.get(ctor);
+  public get<T extends Component>(ctor: Constructor<Component>): T | undefined {
+    const component = this.map.get(ctor);
+
+    return component != null ? (component as T) : undefined;
   }
 
   public set(component: InstanceType<typeof Component>) {
