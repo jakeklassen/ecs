@@ -9,6 +9,7 @@
   "scripts": {
     "benchmark": "ts-node --project tsconfig.benchmark.json benchmark/world-view.ts",
     "docs": "typedoc --out docs --exclude \"**/*+(index|.test|.spec|.e2e).ts\" src/",
+    "postdocs": "cp jekyll.config.yml docs/config.yml",
     "lint": "tslint --project .",
     "prebuild": "yarn run clean",
     "build": "yarn run lint && tsc",
