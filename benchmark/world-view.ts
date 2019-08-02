@@ -1,6 +1,6 @@
 import Benchmark, { Event } from 'benchmark';
 import sampleSize from 'lodash/sampleSize';
-import { Constructor, World } from '../src';
+import { World } from '../src';
 import { Component } from '../src/component';
 
 // tslint:disable: max-classes-per-file no-console
