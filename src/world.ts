@@ -1,9 +1,7 @@
-import { Component } from './component';
+import { Component, ComponentConstructor } from './component';
 import { ComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
-
-// tslint:disable: max-classes-per-file
 
 export type Constructor<T = unknown, Arguments extends any[] = any[]> = new (
   ...args: Arguments
@@ -107,24 +105,16 @@ export class World {
   }
 
   public view(
-    ...components: Array<Constructor<Component>>
+    ...components: ComponentConstructor[]
   ): Map<Entity, ComponentMap> {
-    if (components.length === 0) {
-      throw new Error(
-        'You must provide a list of component constructor functions',
-      );
-    }
-
     const entities = new Map<Entity, ComponentMap>();
+    const mask = components.reduce(
+      (bitmask, ctor) => bitmask | ctor.bitmask,
+      0n,
+    );
 
     for (const [entity, entityComponents] of this.entities.entries()) {
-      if (entityComponents.size === 0) {
-        continue;
-      }
-
-      const hasAll = components.every(C => entityComponents.get(C) != null);
-
-      if (hasAll) {
+      if (mask & entityComponents.bitmask) {
         entities.set(entity, entityComponents);
       }
     }

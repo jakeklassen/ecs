@@ -7,7 +7,7 @@
     "url": "https://github.com/jakeklassen/ecs.git"
   },
   "scripts": {
-    "benchmark": "ts-node --project tsconfig.benchmark.json benchmark/world-view.ts",
+    "benchmark": "ts-node --project tsconfig.benchmark.json",
     "docs": "typedoc --out docs --exclude \"**/*+(index|.test|.spec|.e2e).ts\" src/",
     "postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
     "lint": "tslint --project .",
