@@ -4,9 +4,12 @@ import Benchmark, { Event } from 'benchmark';
 
 const NUM_ELEMENTS = 100_000;
 
-const collection = Array.from({ length: NUM_ELEMENTS }, (_, n) => n);
-const map = new Map(collection.map(n => [n, n]));
-const lookup: { [key: number]: number } = collection.reduce(
+const plainArray = Array.from({ length: NUM_ELEMENTS }, (_, n) => n);
+const objectArray = Array.from({ length: NUM_ELEMENTS }, (_, n) => ({
+  key: n,
+}));
+const map = new Map(plainArray.map(n => [n, n]));
+const lookup: { [key: number]: number } = plainArray.reduce(
   (acc, n) => ({ ...acc, n }),
   {},
 );
@@ -14,20 +17,37 @@ const lookup: { [key: number]: number } = collection.reduce(
 const suite = new Benchmark.Suite();
 
 suite
-  .add(`Array for @ ${NUM_ELEMENTS} elements`, () => {
+  .add(`plain Array for loop @ ${NUM_ELEMENTS} elements`, () => {
     // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < collection.length; ++i) {
+    for (let i = 0; i < plainArray.length; ++i) {
       // tslint:disable-next-line: no-unused-expression
-      collection[i] & 0b0010;
+      plainArray[i] & 0b0010;
     }
   })
-  .add(`Array for-of @ ${NUM_ELEMENTS} elements`, () => {
-    for (const n of collection) {
+  .add(`plain Array for-of loop @ ${NUM_ELEMENTS} elements`, () => {
+    for (const n of plainArray) {
       // tslint:disable-next-line: no-unused-expression
       n & 0b0010;
     }
   })
-  .add(`Map for-of entries() @ ${NUM_ELEMENTS} elements`, () => {
+  .add(`object Array for loop with Objects @ ${NUM_ELEMENTS} elements`, () => {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < objectArray.length; ++i) {
+      // tslint:disable-next-line: no-unused-expression
+      objectArray[i].key & 0b0010;
+    }
+  })
+  .add(
+    `object Array for-of loop with Objects @ ${NUM_ELEMENTS} elements`,
+    () => {
+      // tslint:disable-next-line: prefer-for-of
+      for (const pair of objectArray.entries()) {
+        // tslint:disable-next-line: no-unused-expression
+        pair[1].key & 0b0010;
+      }
+    },
+  )
+  .add(`Map for-of loop Map#entries() @ ${NUM_ELEMENTS} elements`, () => {
     for (const [k, v] of map.entries()) {
       // tslint:disable-next-line: no-unused-expression
       v & 0b0010;
@@ -36,26 +56,32 @@ suite
   .add(`Map#forEach @ ${NUM_ELEMENTS} elements`, () => {
     map.forEach(v => v & 0b0010);
   })
-  .add(`Array for with Map#get @ ${NUM_ELEMENTS} elements`, () => {
+  .add(`plain Array for loop with Map#get @ ${NUM_ELEMENTS} elements`, () => {
     // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < collection.length; ++i) {
+    for (let i = 0; i < plainArray.length; ++i) {
       // tslint:disable-next-line: no-unused-expression
-      map.get(collection[i])! & 0b0010;
+      map.get(plainArray[i])! & 0b0010;
     }
   })
-  .add(`Array for with lookup Object @ ${NUM_ELEMENTS} elements`, () => {
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < collection.length; ++i) {
-      // tslint:disable-next-line: no-unused-expression
-      lookup[collection[i]] & 0b0010;
-    }
-  })
-  .add(`Array for-of with lookup Object @ ${NUM_ELEMENTS} elements`, () => {
-    for (const i of collection) {
-      // tslint:disable-next-line: no-unused-expression
-      lookup[i] & 0b0010;
-    }
-  })
+  .add(
+    `plain Array for loop with lookup Object @ ${NUM_ELEMENTS} elements`,
+    () => {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < plainArray.length; ++i) {
+        // tslint:disable-next-line: no-unused-expression
+        lookup[plainArray[i]] & 0b0010;
+      }
+    },
+  )
+  .add(
+    `plain Array for-of loop with lookup Object @ ${NUM_ELEMENTS} elements`,
+    () => {
+      for (const i of plainArray) {
+        // tslint:disable-next-line: no-unused-expression
+        lookup[i] & 0b0010;
+      }
+    },
+  )
   .on('cycle', (event: Event) => {
     console.log(String(event.target));
   })
