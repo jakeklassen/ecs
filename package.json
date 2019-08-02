@@ -8,6 +8,7 @@
   },
   "scripts": {
     "benchmark": "ts-node --project tsconfig.benchmark.json benchmark/world-view.ts",
+    "docs": "typedoc --out docs --exclude \"**/*+(index|.test|.spec|.e2e).ts\" src/",
     "lint": "tslint --project .",
     "prebuild": "yarn run clean",
     "build": "yarn run lint && tsc",
@@ -39,6 +40,7 @@
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
     "tslint": "^5.16.0",
+    "typedoc": "^0.15.0",
     "typescript": "^3.5.3",
     "typescript-tslint-plugin": "^0.5.4",
     "uglify-js": "^3.5.11"
