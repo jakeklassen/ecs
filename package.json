@@ -58,5 +58,8 @@
         "@pika/plugin-build-web"
       ]
     ]
+  },
+  "dependencies": {
+    "bitset": "^5.0.5"
   }
 }
