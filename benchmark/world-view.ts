@@ -1,47 +1,38 @@
 import Benchmark, { Event } from 'benchmark';
-import sample from 'lodash/sample';
+import sampleSize from 'lodash/sampleSize';
 import { Constructor, World } from '../src';
 import { Component } from '../src/component';
 
 // tslint:disable: max-classes-per-file no-console
 
-const COMPONENTS_PER_ENTITY = 3;
-const ENTITIES = 100_000;
+const NUM_COMPONENTS = 1000;
+const COMPONENTS_PER_ENTITY = 100;
+const NUM_ENTITIES = 100_000;
 
 const suite = new Benchmark.Suite();
 
-class Color extends Component {}
-class Rectangle extends Component {}
-class BoxCollider2d extends Component {}
-class Velocity2d extends Component {}
-class PlayerTag extends Component {}
-class EnemyTag extends Component {}
-class TerrainTag extends Component {}
-
-const components = [
-  Color,
-  Rectangle,
-  BoxCollider2d,
-  Velocity2d,
-  PlayerTag,
-  EnemyTag,
-  TerrainTag,
-];
+const components = Array.from(
+  { length: NUM_COMPONENTS },
+  () => class extends Component {},
+);
 
 const world = new World();
-const entities = Array.from({ length: ENTITIES }, () => world.createEntity());
+const entities = Array.from({ length: NUM_ENTITIES }, () =>
+  world.createEntity(),
+);
+
 entities.forEach(entity => {
-  Array.from(
-    { length: COMPONENTS_PER_ENTITY },
-    () => new (sample(components) as Constructor<Component>)(),
-  ).forEach(component => world.addEntityComponent(entity, component));
+  sampleSize(components, COMPONENTS_PER_ENTITY).forEach(ctor =>
+    world.addEntityComponent(entity, new ctor()),
+  );
 });
 
 suite
   .add(
-    `World#view: ${ENTITIES} entities with ${COMPONENTS_PER_ENTITY} components each`,
+    `World#view: ${NUM_ENTITIES} entities with ${COMPONENTS_PER_ENTITY} components each`,
     () => {
-      world.view(BoxCollider2d, PlayerTag, Velocity2d);
+      const [Ctor1, Ctor2, Ctor3] = components;
+      world.view(Ctor1, Ctor2, Ctor3);
     },
   )
   .on('cycle', (event: Event) => {

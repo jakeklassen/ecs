@@ -15,7 +15,7 @@ Memory: 16GB
 
 ### Node 12.7.0
 
-> `World#view` @ `100_000` entities with `3` components each x `135 ops/sec ±0.43%` (76 runs sampled)
+> `World#view()` @ `100_000` entities with `100` components each x `x 31.10 ops/sec ±1.00%` (54 runs sampled)
 
 ## Roadmap
 
