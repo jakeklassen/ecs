@@ -68,10 +68,10 @@
   },
   "exclude": [
     "node_modules",
+    "benchmark",
     "dist",
     "examples",
     "test",
-    "pkg",
     "**/*.test.ts",
     "**/webpack.config.ts"
   ],

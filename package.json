@@ -12,7 +12,7 @@
     "postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
     "lint": "tslint --project .",
     "prebuild": "yarn run clean",
-    "build": "yarn run lint && tsc --project tsconfig.tsc.json",
+    "build": "yarn run lint && tsc --project tsconfig.json",
     "build:watch": "nodemon --exec 'yarn run build || exit 1'",
     "test": "jest",
     "pretest:coverage": "yarn run clean",
