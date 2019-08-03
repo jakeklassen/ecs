@@ -6,34 +6,25 @@ import { BitSet } from 'bitset';
 const NUM_FLAGS = 100_000;
 
 function* bitmaskGenerator() {
-  let mask = 0b0001n;
+  let n = 0;
 
   while (true) {
-    // tslint:disable-next-line: no-bitwise
-    mask = mask << 1n;
+    const mask = new BitSet(0);
+    mask.set(n);
+    ++n;
+
     yield mask;
   }
 }
 
 const genny = bitmaskGenerator();
-const [huge1, huge2] = Array.from({ length: NUM_FLAGS }, () => 0)
+const [bs1, bs2] = Array.from({ length: NUM_FLAGS }, () => 0)
   .map(() => genny.next().value)
   .reverse();
-
-const bs1 = new BitSet(huge1.toString(2));
-const bs2 = new BitSet(huge2.toString(2));
 
 const suite = new Benchmark.Suite();
 
 suite
-  .add('BigInt |', () => {
-    // tslint:disable-next-line: no-bitwise no-unused-expression
-    huge1 | huge2;
-  })
-  .add('BigInt &', () => {
-    // tslint:disable-next-line: no-bitwise no-unused-expression
-    huge1 & huge2;
-  })
   .add('BitSet |', () => {
     bs1.or(bs2);
   })

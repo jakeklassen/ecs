@@ -1,23 +1,27 @@
+import { BitSet } from 'bitset';
 import { Constructor } from './world';
 
-function* bitmaskGenerator(): IterableIterator<bigint> {
-  let mask = 0b0001n;
+function* bitmaskGenerator(): IterableIterator<BitSet> {
+  let n = 0;
 
   while (true) {
-    mask = mask << 1n;
+    const mask = new BitSet(0);
+    mask.set(n);
+    ++n;
+
     yield mask;
   }
 }
 
 export interface IComponent {
-  readonly bitmask: bigint;
+  readonly bitmask: BitSet;
 }
 
 export type ComponentConstructor = Constructor<Component> & IComponent;
 
 export abstract class Component {
   protected static readonly _bitmaskGenerator = bitmaskGenerator();
-  protected static _bitmask: bigint | null = null;
+  protected static _bitmask: BitSet | null = null;
 
   // tslint:disable-next-line: variable-name
   protected readonly __component = true;

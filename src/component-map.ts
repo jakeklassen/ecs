@@ -1,8 +1,9 @@
+import { BitSet } from 'bitset';
 import { Component, ComponentConstructor } from './component';
 
 export class ComponentMap {
+  public bitmask: BitSet = new BitSet(0);
   private readonly map = new Map<ComponentConstructor, Component>();
-  private _bitmask: bigint = 0n;
 
   public get<T extends Component>(ctor: ComponentConstructor): T | undefined {
     const component = this.map.get(ctor);
@@ -12,16 +13,14 @@ export class ComponentMap {
 
   public set(component: Component) {
     this.map.set(component.constructor as ComponentConstructor, component);
-    this._bitmask =
-      this._bitmask | (component.constructor as (typeof Component)).bitmask;
+    this.bitmask = this.bitmask.or(
+      (component.constructor as (typeof Component)).bitmask,
+    );
   }
 
   public remove(componentCtor: ComponentConstructor) {
     this.map.delete(componentCtor);
-    this._bitmask = Array.from(this.map.keys()).reduce(
-      (bitmask, ctor) => bitmask | ctor.bitmask,
-      0n,
-    );
+    this.bitmask = this.bitmask.andNot(componentCtor.bitmask);
   }
 
   public has(componentCtor: ComponentConstructor) {
@@ -30,9 +29,5 @@ export class ComponentMap {
 
   get size() {
     return this.map.size;
-  }
-
-  get bitmask() {
-    return this._bitmask;
   }
 }

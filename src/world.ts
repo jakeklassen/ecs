@@ -1,3 +1,4 @@
+import { BitSet } from 'bitset';
 import { Component, ComponentConstructor } from './component';
 import { ComponentMap } from './component-map';
 import { Entity } from './entity';
@@ -108,13 +109,15 @@ export class World {
     ...components: ComponentConstructor[]
   ): Map<Entity, ComponentMap> {
     const entities = new Map<Entity, ComponentMap>();
-    const mask = components.reduce(
-      (bitmask, ctor) => bitmask | ctor.bitmask,
-      0n,
-    );
 
     for (const [entity, entityComponents] of this.entities.entries()) {
-      if (mask & entityComponents.bitmask) {
+      if (entityComponents.size === 0) {
+        continue;
+      }
+
+      const hasAll = components.every(C => entityComponents.get(C) != null);
+
+      if (hasAll) {
         entities.set(entity, entityComponents);
       }
     }
