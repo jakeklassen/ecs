@@ -12,7 +12,7 @@
     "postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
     "lint": "tslint --project .",
     "prebuild": "yarn run clean",
-    "build": "yarn run lint && tsc",
+    "build": "yarn run lint && tsc --project tsconfig.tsc.json",
     "build:watch": "nodemon --exec 'yarn run build || exit 1'",
     "test": "jest",
     "pretest:coverage": "yarn run clean",
@@ -49,10 +49,7 @@
   "@pika/pack": {
     "pipeline": [
       [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "tsconfig": "tsconfig.pkg.json"
-        }
+        "@pika/plugin-ts-standard-pkg"
       ],
       [
         "@pika/plugin-build-node"

@@ -71,6 +71,7 @@
     "dist",
     "examples",
     "test",
+    "pkg",
     "**/*.test.ts",
     "**/webpack.config.ts"
   ],

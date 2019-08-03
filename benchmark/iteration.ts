@@ -30,23 +30,20 @@ suite
       n & 0b0010;
     }
   })
-  .add(`object Array for loop with Objects @ ${NUM_ELEMENTS} elements`, () => {
+  .add(`object Array for loop @ ${NUM_ELEMENTS} elements`, () => {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < objectArray.length; ++i) {
       // tslint:disable-next-line: no-unused-expression
       objectArray[i].key & 0b0010;
     }
   })
-  .add(
-    `object Array for-of loop with Objects @ ${NUM_ELEMENTS} elements`,
-    () => {
-      // tslint:disable-next-line: prefer-for-of
-      for (const pair of objectArray.entries()) {
-        // tslint:disable-next-line: no-unused-expression
-        pair[1].key & 0b0010;
-      }
-    },
-  )
+  .add(`object Array for-of loop @ ${NUM_ELEMENTS} elements`, () => {
+    // tslint:disable-next-line: prefer-for-of
+    for (const pair of objectArray.entries()) {
+      // tslint:disable-next-line: no-unused-expression
+      pair[1].key & 0b0010;
+    }
+  })
   .add(`Map for-of loop Map#entries() @ ${NUM_ELEMENTS} elements`, () => {
     for (const [k, v] of map.entries()) {
       // tslint:disable-next-line: no-unused-expression
