@@ -1,4 +1,3 @@
-import 'jest';
 import { Component } from './component';
 import { World } from './world';
 
