@@ -20,7 +20,7 @@ export class ComponentMap {
 
   public remove(componentCtor: ComponentConstructor) {
     this.map.delete(componentCtor);
-    this.bitmask = this.bitmask.andNot(componentCtor.bitmask);
+    this.bitmask.flip(componentCtor.bitmask.msb());
   }
 
   public has(componentCtor: ComponentConstructor) {
