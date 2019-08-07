@@ -1,6 +1,6 @@
 {
   "name": "@jakeklassen/ecs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Entity Component System",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "test:coverage": "jest --coverage",
     "clean": "rimraf dist",
     "pika": "./node_modules/.bin/pack",
-    "version": "pack build"
+    "version": "pika build"
   },
   "author": "Jake Klassen <jklassendev@gmail.com>",
   "license": "MIT",
