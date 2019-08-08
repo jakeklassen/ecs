@@ -33,6 +33,7 @@
     "@types/lodash": "^4.14.136",
     "@types/node": "^12.7.1",
     "benchmark": "^2.1.4",
+    "husky": "^3.0.2",
     "jest": "^24.8.0",
     "lodash": "^4.17.15",
     "nodemon": "^1.19.0",
@@ -58,5 +59,10 @@
         "@pika/plugin-build-web"
       ]
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn docs && git add docs/*"
+    }
   }
 }
