@@ -7,18 +7,17 @@
     "url": "https://github.com/jakeklassen/ecs.git"
   },
   "scripts": {
-    "benchmark": "ts-node --project tsconfig.benchmark.json benchmark/world-view.ts",
+    "benchmark": "ts-node --project tsconfig.benchmark.json",
     "docs": "typedoc --out docs --exclude \"**/*+(index|.test|.spec|.e2e).ts\" src/",
     "postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
     "lint": "tslint --project .",
     "prebuild": "yarn run clean",
-    "build": "yarn run lint && tsc",
+    "build": "yarn run lint && tsc --project tsconfig.json",
     "build:watch": "nodemon --exec 'yarn run build || exit 1'",
     "test": "jest",
     "pretest:coverage": "yarn run clean",
     "test:coverage": "jest --coverage",
     "clean": "rimraf dist",
-    "pika": "./node_modules/.bin/pack",
     "version": "pika build"
   },
   "author": "Jake Klassen <jklassendev@gmail.com>",
@@ -58,5 +57,8 @@
         "@pika/plugin-build-web"
       ]
     ]
+  },
+  "dependencies": {
+    "bitset": "^5.0.5"
   }
 }

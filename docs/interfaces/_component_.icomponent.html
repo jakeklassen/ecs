@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Entity | @jakeklassen/ecs</title>
+	<title>IComponent | @jakeklassen/ecs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,31 +56,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_entity_.html">&quot;entity&quot;</a>
+					<a href="../modules/_component_.html">&quot;component&quot;</a>
 				</li>
 				<li>
-					<a href="_entity_.entity.html">Entity</a>
+					<a href="_component_.icomponent.html">IComponent</a>
 				</li>
 			</ul>
-			<h1>Class Entity</h1>
+			<h1>Interface IComponent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Representation of a unique entity value within the world</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Entity</span>
+						<span class="target">IComponent</span>
 					</li>
 				</ul>
 			</section>
@@ -89,66 +82,23 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_entity_.entity.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_entity_.entity.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_entity_.entity.html#version" class="tsd-kind-icon">version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_component_.icomponent.html#bitmask" class="tsd-kind-icon">bitmask</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Entity<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../modules/_entity_.html#entityid" class="tsd-signature-type">EntityId</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/52a483e/src/entity.ts#L7">entity.ts:7</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>id: <a href="../modules/_entity_.html#entityid" class="tsd-signature-type">EntityId</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_entity_.entity.html" class="tsd-signature-type">Entity</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <a href="../modules/_entity_.html#entityid" class="tsd-signature-type">EntityId</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="bitmask" class="tsd-anchor"></a>
+					<h3>bitmask</h3>
+					<div class="tsd-signature tsd-kind-icon">bitmask<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BitSet</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/52a483e/src/entity.ts#L9">entity.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="version" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> version</h3>
-					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/52a483e/src/entity.ts#L7">entity.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/52a483e/src/component.ts#L17">component.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,13 +110,13 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_component_.html">"component"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_component_map_.html">"component-<wbr>map"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_entity_.html">"entity"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -179,26 +129,26 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_component_.component.html" class="tsd-kind-icon">Component</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_entity_.entity.html" class="tsd-kind-icon">Entity</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_component_.icomponent.html" class="tsd-kind-icon">IComponent</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_entity_.entity.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_entity_.entity.html#id" class="tsd-kind-icon">id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_entity_.entity.html#version" class="tsd-kind-icon">version</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_component_.icomponent.html#bitmask" class="tsd-kind-icon">bitmask</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_entity_.html#entityid" class="tsd-kind-icon">Entity<wbr>Id</a>
+						<a href="../modules/_component_.html#componentconstructor" class="tsd-kind-icon">Component<wbr>Constructor</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_component_.html#bitmaskgenerator" class="tsd-kind-icon">bitmask<wbr>Generator</a>
 					</li>
 				</ul>
 			</nav>
