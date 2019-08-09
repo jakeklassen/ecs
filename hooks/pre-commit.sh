@@ -7,5 +7,4 @@ git diff --name-only master..HEAD \
   | if grep -Eivq 'src/.*.test.ts'; then \
       yarn docs; \
       git add docs/*; \
-      git commit -m 'updated docs'; \
     fi
