@@ -43,26 +43,60 @@ export class World {
   }
 
   public createEntity(): Entity {
-    return new Entity(this.idGenerator.next().value);
+    const entity = new Entity(this.idGenerator.next().value);
+    this.entities.set(entity, new ComponentMap());
+
+    return entity;
+  }
+
+  public findEntity(
+    ...componentCtors: ComponentConstructor[]
+  ): Entity | undefined {
+    if (componentCtors.length === 0) {
+      return undefined;
+    }
+
+    const targetBitmask = componentCtors.reduce(
+      (bitmask, ctor) => bitmask.or(ctor.bitmask),
+      new BitSet(0),
+    );
+
+    for (const [entity, entityComponents] of this.entities.entries()) {
+      if (entityComponents.size === 0) {
+        continue;
+      }
+
+      if (entityComponents.bitmask.and(targetBitmask).equals(targetBitmask)) {
+        return entity;
+      }
+    }
   }
 
   public addEntityComponent(entity: Entity, component: Component): World {
-    if (this.entities.has(entity) === false) {
-      const components = new ComponentMap();
+    const components = this.entities.get(entity);
+
+    if (components != null) {
       components.set(component);
 
       this.entities.set(entity, components);
     } else {
-      const components = this.entities.get(entity);
-
-      if (components != null) {
-        components.set(component);
-
-        this.entities.set(entity, components);
-      }
+      throw new Error('Entity not found');
     }
 
     return this;
+  }
+
+  public addEntityComponents(
+    entity: Entity,
+    ...components: Component[]
+  ): World {
+    components.forEach(component => this.addEntityComponent(entity, component));
+
+    return this;
+  }
+
+  public getEntityComponents(entity: Entity): ComponentMap | undefined {
+    return this.entities.get(entity);
   }
 
   /**
