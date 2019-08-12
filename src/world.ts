@@ -183,20 +183,6 @@ export class World {
   ): Map<Entity, ComponentMap> {
     const entities = new Map<Entity, ComponentMap>();
 
-    // for (const [entity, entityComponents] of this.entities.entries()) {
-    //   if (entityComponents.size === 0) {
-    //     continue;
-    //   }
-
-    //   const hasAll = components.every(C => entityComponents.get(C) != null);
-
-    //   if (hasAll) {
-    //     entities.set(entity, entityComponents);
-    //   }
-    // }
-
-    // return entities;
-
     if (componentCtors.length === 0) {
       return entities;
     }
