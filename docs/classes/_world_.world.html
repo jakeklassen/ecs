@@ -97,6 +97,7 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_world_.world.html#componententities" class="tsd-kind-icon">component<wbr>Entities</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_world_.world.html#entities" class="tsd-kind-icon">entities</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_world_.world.html#idgenerator" class="tsd-kind-icon">id<wbr>Generator</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_world_.world.html#systems" class="tsd-kind-icon">systems</a></li>
@@ -107,12 +108,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#addentitycomponent" class="tsd-kind-icon">add<wbr>Entity<wbr>Component</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#addentitycomponents" class="tsd-kind-icon">add<wbr>Entity<wbr>Components</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#addsystem" class="tsd-kind-icon">add<wbr>System</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#createentity" class="tsd-kind-icon">create<wbr>Entity</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#findentity" class="tsd-kind-icon">find<wbr>Entity</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#getentitycomponents" class="tsd-kind-icon">get<wbr>Entity<wbr>Components</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#removeentitycomponents" class="tsd-kind-icon">remove<wbr>Entity<wbr>Components</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#removesystem" class="tsd-kind-icon">remove<wbr>System</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#update" class="tsd-kind-icon">update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#updatesystems" class="tsd-kind-icon">update<wbr>Systems</a></li>
@@ -134,7 +135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L27">world.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L27">world.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -161,12 +162,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="componententities" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> component<wbr>Entities</h3>
+					<div class="tsd-signature tsd-kind-icon">component<wbr>Entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L27">world.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="entities" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> entities</h3>
 					<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a><span class="tsd-signature-symbol">, </span><a href="_component_map_.componentmap.html" class="tsd-signature-type">ComponentMap</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L27">world.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L26">world.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +187,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<wbr>Generator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L33">world.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L33">world.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -191,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">systems<span class="tsd-signature-symbol">:</span> <a href="_system_.system.html" class="tsd-signature-type">System</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L24">world.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L23">world.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">systems<wbr>ToAdd<span class="tsd-signature-symbol">:</span> <a href="_system_.system.html" class="tsd-signature-type">System</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L26">world.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L25">world.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -211,39 +222,13 @@
 					<div class="tsd-signature tsd-kind-icon">systems<wbr>ToRemove<span class="tsd-signature-symbol">:</span> <a href="_system_.system.html" class="tsd-signature-type">System</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L25">world.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L24">world.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addentitycomponent" class="tsd-anchor"></a>
-					<h3>add<wbr>Entity<wbr>Component</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Entity<wbr>Component<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a>, component<span class="tsd-signature-symbol">: </span><a href="_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_world_.world.html" class="tsd-signature-type">World</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L75">world.ts:75</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>entity: <a href="_entity_.entity.html" class="tsd-signature-type">Entity</a></h5>
-								</li>
-								<li>
-									<h5>component: <a href="_component_.component.html" class="tsd-signature-type">Component</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_world_.world.html" class="tsd-signature-type">World</a></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="addentitycomponents" class="tsd-anchor"></a>
 					<h3>add<wbr>Entity<wbr>Components</h3>
@@ -254,7 +239,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L89">world.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L94">world.ts:94</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -280,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L106">world.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L145">world.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -311,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L45">world.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L45">world.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_entity_.entity.html" class="tsd-signature-type">Entity</a></h4>
@@ -328,7 +313,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L52">world.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L52">world.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -354,7 +339,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L98">world.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L115">world.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -371,6 +356,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="removeentitycomponents" class="tsd-anchor"></a>
+					<h3>remove<wbr>Entity<wbr>Components</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Entity<wbr>Components<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a>, <span class="tsd-signature-symbol">...</span>components<span class="tsd-signature-symbol">: </span><a href="_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_world_.world.html" class="tsd-signature-type">World</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L119">world.ts:119</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>entity: <a href="_entity_.entity.html" class="tsd-signature-type">Entity</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>components: <a href="_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_world_.world.html" class="tsd-signature-type">World</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="removesystem" class="tsd-anchor"></a>
 					<h3>remove<wbr>System</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -380,7 +391,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L114">world.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L153">world.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -411,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L39">world.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L39">world.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L118">world.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L157">world.ts:157</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -459,19 +470,19 @@
 					<a name="view" class="tsd-anchor"></a>
 					<h3>view</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">view<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>components<span class="tsd-signature-symbol">: </span><a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a><span class="tsd-signature-symbol">, </span><a href="_component_map_.componentmap.html" class="tsd-signature-type">ComponentMap</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">view<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>componentCtors<span class="tsd-signature-symbol">: </span><a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a><span class="tsd-signature-symbol">, </span><a href="_component_map_.componentmap.html" class="tsd-signature-type">ComponentMap</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/1e5ccb3/src/world.ts#L142">world.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/jakeklassen/ecs/blob/fed4628/src/world.ts#L181">world.ts:181</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>components: <a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>componentCtors: <a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a><span class="tsd-signature-symbol">, </span><a href="_component_map_.componentmap.html" class="tsd-signature-type">ComponentMap</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -514,6 +525,9 @@
 								<a href="_world_.world.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_world_.world.html#componententities" class="tsd-kind-icon">component<wbr>Entities</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_world_.world.html#entities" class="tsd-kind-icon">entities</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -529,9 +543,6 @@
 								<a href="_world_.world.html#systemstoremove" class="tsd-kind-icon">systems<wbr>ToRemove</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_world_.world.html#addentitycomponent" class="tsd-kind-icon">add<wbr>Entity<wbr>Component</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_world_.world.html#addentitycomponents" class="tsd-kind-icon">add<wbr>Entity<wbr>Components</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -545,6 +556,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_world_.world.html#getentitycomponents" class="tsd-kind-icon">get<wbr>Entity<wbr>Components</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_world_.world.html#removeentitycomponents" class="tsd-kind-icon">remove<wbr>Entity<wbr>Components</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_world_.world.html#removesystem" class="tsd-kind-icon">remove<wbr>System</a>

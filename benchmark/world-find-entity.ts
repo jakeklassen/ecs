@@ -1,10 +1,11 @@
 import Benchmark, { Event } from 'benchmark';
+import sample from 'lodash/sample';
 import sampleSize from 'lodash/sampleSize';
 import { World } from '../src';
 import { Component } from '../src/component';
 import { memoryUsage } from './lib/memory';
 
-// tslint:disable: max-classes-per-file no-console
+// tslint:disable: no-console
 
 const NUM_COMPONENTS = 1000;
 const COMPONENTS_PER_ENTITY = 100;
@@ -35,10 +36,15 @@ memoryUsage();
 
 suite
   .add(
-    `World#view: ${NUM_ENTITIES} entities with ${COMPONENTS_PER_ENTITY} components each`,
+    `World#findEntity: ${NUM_ENTITIES} entities with ${COMPONENTS_PER_ENTITY} components each`,
     () => {
-      const ctors = sampleSize(components, NUM_COMPONENTS_TO_SEARCH);
-      world.view(...ctors);
+      const entity = sample(entities)!;
+      const entityComponents = world.getEntityComponents(entity)!.keys();
+      const searchedComponents = sampleSize(
+        [...entityComponents],
+        NUM_COMPONENTS_TO_SEARCH,
+      );
+      world.findEntity(...searchedComponents);
     },
   )
   .on('cycle', (event: Event) => {
