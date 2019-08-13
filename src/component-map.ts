@@ -23,6 +23,10 @@ export class ComponentMap {
     this.bitmask.flip(componentCtor.bitmask.msb());
   }
 
+  public keys() {
+    return this.map.keys();
+  }
+
   public has(componentCtor: ComponentConstructor) {
     return this.map.has(componentCtor);
   }

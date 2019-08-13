@@ -25,11 +25,20 @@ const [bs1, bs2] = Array.from({ length: NUM_FLAGS }, () => 0)
 const suite = new Benchmark.Suite();
 
 suite
+  .add('BitSet.toString(2)', () => {
+    bs1.toString(2);
+  })
+  .add('BitSet.toArray', () => {
+    bs1.toArray();
+  })
   .add('BitSet |', () => {
     bs1.or(bs2);
   })
   .add('BitSet &', () => {
     bs1.and(bs2);
+  })
+  .add('BitSet.equals()', () => {
+    bs1.equals(bs2);
   })
   .on('cycle', (event: Event) => {
     console.log(String(event.target));

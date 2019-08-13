@@ -1,4 +1,3 @@
-import { BitSet } from 'bitset';
 import { Component, ComponentConstructor } from './component';
 import { ComponentMap } from './component-map';
 import { Entity } from './entity';
@@ -25,6 +24,7 @@ export class World {
   private systemsToRemove: System[] = [];
   private systemsToAdd: System[] = [];
   private entities: Map<Entity, ComponentMap> = new Map();
+  private componentEntities: Map<ComponentConstructor, Set<Entity>> = new Map();
 
   /**
    * Create a new World instance
@@ -43,23 +43,96 @@ export class World {
   }
 
   public createEntity(): Entity {
-    return new Entity(this.idGenerator.next().value);
+    const entity = new Entity(this.idGenerator.next().value);
+    this.entities.set(entity, new ComponentMap());
+
+    return entity;
   }
 
-  public addEntityComponent(entity: Entity, component: Component): World {
-    if (this.entities.has(entity) === false) {
-      const components = new ComponentMap();
-      components.set(component);
+  public findEntity(
+    ...componentCtors: ComponentConstructor[]
+  ): Entity | undefined {
+    if (componentCtors.length === 0) {
+      return undefined;
+    }
 
-      this.entities.set(entity, components);
-    } else {
-      const components = this.entities.get(entity);
+    const hasAllComponents = componentCtors.every(ctor =>
+      this.componentEntities.has(ctor),
+    );
 
-      if (components != null) {
-        components.set(component);
+    if (hasAllComponents === false) {
+      return undefined;
+    }
 
-        this.entities.set(entity, components);
+    const componentSets = componentCtors.map(
+      ctor => this.componentEntities.get(ctor)!,
+    );
+
+    const smallestComponentSet = componentSets.reduce((smallest, set) => {
+      if (smallest == null) {
+        smallest = set;
+      } else if (set.size < smallest.size) {
+        smallest = set;
       }
+
+      return smallest;
+    });
+
+    const otherComponentSets = componentSets.filter(
+      set => set !== smallestComponentSet,
+    );
+
+    for (const entity of smallestComponentSet.values()) {
+      const hasAll = otherComponentSets.every(set => set.has(entity));
+
+      if (hasAll === true) {
+        return entity;
+      }
+    }
+  }
+
+  public addEntityComponents(
+    entity: Entity,
+    ...components: Component[]
+  ): World {
+    const entityComponents = this.entities.get(entity);
+
+    if (entityComponents != null) {
+      components.forEach(component => entityComponents.set(component));
+
+      for (const componentCtor of entityComponents.keys()) {
+        if (this.componentEntities.has(componentCtor)) {
+          this.componentEntities.get(componentCtor)!.add(entity);
+        } else {
+          this.componentEntities.set(componentCtor, new Set([entity]));
+        }
+      }
+    }
+
+    return this;
+  }
+
+  public getEntityComponents(entity: Entity): ComponentMap | undefined {
+    return this.entities.get(entity);
+  }
+
+  public removeEntityComponents(
+    entity: Entity,
+    ...components: Component[]
+  ): World {
+    const entityComponents = this.entities.get(entity);
+
+    if (entityComponents != null) {
+      components.forEach(component =>
+        entityComponents.remove(component.constructor as ComponentConstructor),
+      );
+
+      components.forEach(component => {
+        const ctor = component.constructor as ComponentConstructor;
+        if (this.componentEntities.has(ctor)) {
+          this.componentEntities.get(ctor)!.delete(entity);
+        }
+      });
     }
 
     return this;
@@ -106,19 +179,41 @@ export class World {
   }
 
   public view(
-    ...components: ComponentConstructor[]
+    ...componentCtors: ComponentConstructor[]
   ): Map<Entity, ComponentMap> {
     const entities = new Map<Entity, ComponentMap>();
 
-    for (const [entity, entityComponents] of this.entities.entries()) {
-      if (entityComponents.size === 0) {
-        continue;
+    if (componentCtors.length === 0) {
+      return entities;
+    }
+
+    const componentSets = componentCtors.map(ctor => {
+      if (this.componentEntities.has(ctor) === false) {
+        throw new Error(`Component ${ctor.name} not found`);
       }
 
-      const hasAll = components.every(C => entityComponents.get(C) != null);
+      return this.componentEntities.get(ctor)!;
+    });
 
-      if (hasAll) {
-        entities.set(entity, entityComponents);
+    const smallestComponentSet = componentSets.reduce((smallest, set) => {
+      if (smallest == null) {
+        smallest = set;
+      } else if (set.size < smallest.size) {
+        smallest = set;
+      }
+
+      return smallest;
+    });
+
+    const otherComponentSets = componentSets.filter(
+      set => set !== smallestComponentSet,
+    );
+
+    for (const entity of smallestComponentSet) {
+      const hasAll = otherComponentSets.every(set => set.has(entity));
+
+      if (hasAll === true) {
+        entities.set(entity, this.getEntityComponents(entity)!);
       }
     }
 

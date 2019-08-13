@@ -7,12 +7,14 @@ class Color extends Component {}
 class Rectangle extends Component {}
 
 describe('ComponentMap', () => {
-  it('should maintain bitmask when adding components', () => {
+  it('should update bitmask when adding components', () => {
     const cm = new ComponentMap();
     cm.set(new Color());
 
-    expect(cm.bitmask.and(Color.bitmask).isEmpty()).toBe(false);
-    expect(cm.bitmask.and(Rectangle.bitmask).isEmpty()).toBe(true);
+    expect(cm.bitmask.and(Color.bitmask).equals(Color.bitmask)).toBe(true);
+    expect(cm.bitmask.and(Rectangle.bitmask).equals(Rectangle.bitmask)).toBe(
+      false,
+    );
 
     cm.set(new Rectangle());
 
@@ -20,17 +22,19 @@ describe('ComponentMap', () => {
       Color.bitmask
         .or(Rectangle.bitmask)
         .and(cm.bitmask)
-        .isEmpty(),
-    ).toBe(false);
+        .equals(cm.bitmask),
+    ).toBe(true);
   });
 
-  it('should maintain bitmask when removing components', () => {
+  it('should update bitmask when removing components', () => {
     const cm = new ComponentMap();
     cm.set(new Color());
     cm.set(new Rectangle());
     cm.remove(Rectangle);
 
-    expect(cm.bitmask.and(Color.bitmask).isEmpty()).toBe(false);
-    expect(cm.bitmask.and(Rectangle.bitmask).isEmpty()).toBe(true);
+    expect(cm.bitmask.and(Color.bitmask).equals(Color.bitmask)).toBe(true);
+    expect(cm.bitmask.and(Rectangle.bitmask).equals(Rectangle.bitmask)).toBe(
+      false,
+    );
   });
 });
