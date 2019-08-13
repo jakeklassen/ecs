@@ -13,7 +13,7 @@ CPU: Intel i7-4710HQ (8) @ 2.494GHz
 Memory: 16GB
 ```
 
-### Node 12.7.0
+### Node 12.8.0
 
 > `World#view()` @ `100_000` entities with `100` components each x `1,213 ops/sec ±0.91%` (89 runs sampled)
 > `World#findEntity()` @ `100_000` entities with `100` components each x `2,119 ops/sec ±1.07%` (85 runs sampled)
