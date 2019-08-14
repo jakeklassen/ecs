@@ -2,7 +2,9 @@
 
 import '@babel/polyfill';
 import * as mainloop from 'mainloop.js';
-import { System, World } from '../../src';
+import { Component } from '../../src/component';
+import { System } from '../../src/system';
+import { World } from '../../src/world';
 import { Color, Rectangle, Transform, Velocity } from '../shared/components';
 import { Vector2 } from '../shared/vector2';
 
@@ -14,47 +16,54 @@ if (ctx == null) {
 }
 
 const world = new World();
-const player = world.createEntity();
+const ball = world.createEntity();
 
-world
-  .addEntityComponent(player, new Transform(new Vector2(10, 10)))
-  .addEntityComponent(player, new Velocity(100, 200))
-  .addEntityComponent(player, new Rectangle(10, 10, 12, 12))
-  .addEntityComponent(player, new Color('red'));
+class BallTag extends Component {}
 
-class PlayerMovementSystem extends System {
+world.addEntityComponents(
+  ball,
+  new BallTag(),
+  new Transform(new Vector2(10, 10)),
+  new Velocity(100, 200),
+  new Rectangle(10, 10, 12, 12),
+  new Color('red'),
+);
+
+class BallMovementSystem extends System {
   constructor(private readonly viewport: Rectangle) {
     super();
   }
 
   public update(world: World, dt: number) {
-    for (const [entity, components] of world.view(
-      Rectangle,
-      Transform,
-      Velocity,
-    )) {
-      const rectangle = components.get(Rectangle) as Rectangle;
-      const transform = components.get(Transform) as Transform;
-      const velocity = components.get(Velocity) as Velocity;
+    const ball = world.findEntity(BallTag);
 
-      transform.position.x += velocity.x * dt;
-      transform.position.y += velocity.y * dt;
+    if (ball == null) {
+      throw new Error('Entity with BallTag not found');
+    }
 
-      if (transform.position.x + rectangle.width > this.viewport.width) {
-        transform.position.x = this.viewport.width - rectangle.width;
-        velocity.flipX();
-      } else if (transform.position.x < 0) {
-        transform.position.x = 0;
-        velocity.flipX();
-      }
+    const components = world.getEntityComponents(ball);
 
-      if (transform.position.y + rectangle.height > this.viewport.height) {
-        transform.position.y = this.viewport.height - rectangle.height;
-        velocity.flipY();
-      } else if (transform.position.y < 0) {
-        transform.position.y = 0;
-        velocity.flipY();
-      }
+    const rectangle = components.get<Rectangle>(Rectangle);
+    const transform = components.get<Transform>(Transform);
+    const velocity = components.get<Velocity>(Velocity);
+
+    transform.position.x += velocity.x * dt;
+    transform.position.y += velocity.y * dt;
+
+    if (transform.position.x + rectangle.width > this.viewport.width) {
+      transform.position.x = this.viewport.width - rectangle.width;
+      velocity.flipX();
+    } else if (transform.position.x < 0) {
+      transform.position.x = 0;
+      velocity.flipX();
+    }
+
+    if (transform.position.y + rectangle.height > this.viewport.height) {
+      transform.position.y = this.viewport.height - rectangle.height;
+      velocity.flipY();
+    } else if (transform.position.y < 0) {
+      transform.position.y = 0;
+      velocity.flipY();
     }
   }
 }
@@ -88,7 +97,7 @@ class RenderingSystem extends System {
 }
 
 world.addSystem(
-  new PlayerMovementSystem(new Rectangle(0, 0, canvas.width, canvas.height)),
+  new BallMovementSystem(new Rectangle(0, 0, canvas.width, canvas.height)),
 );
 world.addSystem(new RenderingSystem(ctx));
 
