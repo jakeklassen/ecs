@@ -98,7 +98,7 @@ export class World {
     const entityComponents = this.entities.get(entity);
 
     if (entityComponents != null) {
-      components.forEach(component => entityComponents.set(component));
+      entityComponents.set(...components);
 
       for (const componentCtor of entityComponents.keys()) {
         if (this.componentEntities.has(componentCtor)) {
@@ -123,8 +123,10 @@ export class World {
     const entityComponents = this.entities.get(entity);
 
     if (entityComponents != null) {
-      components.forEach(component =>
-        entityComponents.remove(component.constructor as ComponentConstructor),
+      entityComponents.remove(
+        ...components.map(
+          component => component.constructor as ComponentConstructor,
+        ),
       );
 
       components.forEach(component => {

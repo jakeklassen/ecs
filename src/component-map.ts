@@ -11,16 +11,34 @@ export class ComponentMap {
     return component != null ? (component as T) : undefined;
   }
 
-  public set(component: Component) {
-    this.map.set(component.constructor as ComponentConstructor, component);
-    this.bitmask = this.bitmask.or(
-      (component.constructor as (typeof Component)).bitmask,
-    );
+  public set(...components: Component[]) {
+    let mask = new BitSet(0);
+
+    for (const component of components) {
+      if (
+        this.map.has(component.constructor as ComponentConstructor) === false
+      ) {
+        mask = mask.or((component.constructor as ComponentConstructor).bitmask);
+      }
+
+      this.map.set(component.constructor as ComponentConstructor, component);
+    }
+
+    this.bitmask = this.bitmask.or(mask);
   }
 
-  public remove(componentCtor: ComponentConstructor) {
-    this.map.delete(componentCtor);
-    this.bitmask.flip(componentCtor.bitmask.msb());
+  public remove(...componentCtors: ComponentConstructor[]) {
+    let mask = new BitSet(0);
+
+    for (const componentCtor of componentCtors) {
+      if (this.map.has(componentCtor)) {
+        mask = mask.or(componentCtor.bitmask);
+      }
+
+      this.map.delete(componentCtor);
+    }
+
+    this.bitmask = this.bitmask.xor(mask);
   }
 
   public keys() {
