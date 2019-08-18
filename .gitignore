@@ -5,4 +5,5 @@ coverage
 # @pika/pack
 pkg
 *.log
-.vscode
+.vscode/*
+!.vscode/launch.json
