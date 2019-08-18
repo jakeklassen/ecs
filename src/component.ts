@@ -1,4 +1,4 @@
-import { BitSet } from 'bitset';
+import { BitSet } from './bitset';
 import { Constructor } from './world';
 
 function* bitmaskGenerator(): IterableIterator<BitSet> {

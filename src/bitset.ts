@@ -266,6 +266,7 @@ export class BitSet {
    * Source code includes a nice pattern to follow if you need to break the for-loop early
    * @param {Function} func the function to pass the next set bit to
    */
+  // tslint:disable-next-line: ban-types
   public forEach(func: Function) {
     for (let i = this.ffs(); i !== -1; i = this.nextSetBit(i + 1)) {
       func(i);
@@ -673,6 +674,7 @@ export class BitSet {
    * @returns {boolean} true if set was successful, else false
    * @private
    */
+  // tslint:disable-next-line: ban-types
   private doRange(from: number, to: number, func: Function): boolean {
     let i;
     let curStart;
@@ -708,6 +710,7 @@ export class BitSet {
    * @returns {BitSet} a new bitset that is the bitwise operation of the two
    * @private
    */
+  // tslint:disable-next-line: ban-types
   private op(bsOrIdx: BitSet | number, func: Function): BitSet {
     let i;
     let arr1;
