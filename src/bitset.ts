@@ -90,7 +90,7 @@ export class BitSet {
    * @param {number} idx the position of a single bit to check
    * @returns {boolean} true if bit is set, else false
    */
-  public get(idx: number) {
+  public get(idx: number): boolean {
     const word = this.getWord(idx);
 
     return word === -1
@@ -105,10 +105,13 @@ export class BitSet {
    */
   public set(idx: number): boolean {
     const word = this.getWord(idx);
+
     if (word === -1) {
       return false;
     }
+
     this.arr[word] |= 1 << idx % BITS_PER_INT;
+
     return true;
   }
 
@@ -118,7 +121,7 @@ export class BitSet {
    * @param {number} to the ending index of the range to set
    * @returns {boolean} true if set was successful, else false
    */
-  public setRange(from: number, to: number) {
+  public setRange(from: number, to: number): boolean {
     return this.doRange(from, to, setFunc);
   }
 
@@ -144,7 +147,7 @@ export class BitSet {
    * @param {number} idx the position of a single bit to toggle
    * @returns {boolean} true if set was successful, else false
    */
-  public toggle(idx: number) {
+  public toggle(idx: number): boolean {
     const word = this.getWord(idx);
 
     if (word === -1) {
@@ -162,7 +165,7 @@ export class BitSet {
    * @param {number} to the ending index of the range to toggle
    * @returns {boolean} true if set was successful, else false
    */
-  public toggleRange(from: number, to: number) {
+  public toggleRange(from: number, to: number): boolean {
     return this.doRange(from, to, toggleFunc);
   }
 
@@ -171,7 +174,7 @@ export class BitSet {
    * Clear an entire bitset
    * @returns {boolean} true
    */
-  public clear() {
+  public clear(): boolean {
     for (let i = 0; i < this.arr.length; i++) {
       this.arr[i] = 0;
     }
@@ -183,7 +186,7 @@ export class BitSet {
    * Clone a bitset
    * @returns {BitSet} an copy (by value) of the calling bitset
    */
-  public clone() {
+  public clone(): BitSet {
     return new BitSet(this.dehydrate());
   }
 
@@ -234,7 +237,7 @@ export class BitSet {
    * @param {BitSet | Number} bsOrIdx a bitset or single index to check (useful for LP, DP problems)
    * @returns {BitSet} a new bitset that is the bitwise AND of the two
    */
-  public and(bsOrIdx: BitSet | number) {
+  public and(bsOrIdx: BitSet | number): BitSet {
     return this.op(bsOrIdx, and);
   }
 
@@ -245,7 +248,7 @@ export class BitSet {
    * @param {BitSet | Number} bsOrIdx a bitset or single index to check (useful for LP, DP problems)
    * @returns {BitSet} a new bitset that is the bitwise OR of the two
    */
-  public or(bsOrIdx: BitSet | number) {
+  public or(bsOrIdx: BitSet | number): BitSet {
     return this.op(bsOrIdx, or);
   }
 
@@ -256,7 +259,7 @@ export class BitSet {
    * @param {BitSet | Number} bsOrIdx a bitset or single index to check (useful for LP, DP problems)
    * @returns {BitSet} a new bitset that is the bitwise XOR of the two
    */
-  public xor(bsOrIdx: BitSet | number) {
+  public xor(bsOrIdx: BitSet | number): BitSet {
     return this.op(bsOrIdx, xor);
   }
 
@@ -279,7 +282,7 @@ export class BitSet {
    * @returns {Bitset} a new bitset that is rotated by the offset
    */
 
-  public circularShift(offset: number) {
+  public circularShift(offset: number): BitSet {
     offset = -offset;
 
     const S = this; // source BitSet (this)
@@ -344,7 +347,7 @@ export class BitSet {
    * Get the cardinality (count of set bits) for the entire bitset
    * @returns {number} cardinality
    */
-  public getCardinality() {
+  public getCardinality(): number {
     let setCount = 0;
 
     for (let i = this.arr.length - 1; i >= 0; i--) {
@@ -361,7 +364,7 @@ export class BitSet {
    * Get the indices of all set bits. Useful for debugging, uses `forEach` internally
    * @returns {Array} Indices of all set bits
    */
-  public getIndices() {
+  public getIndices(): number[] {
     const indices: number[] = [];
 
     this.forEach((i: number) => {
@@ -378,7 +381,7 @@ export class BitSet {
    * @param {BitSet} bs a bitset to check
    * @returns {Boolean} `true` if provided bitset is a subset of this bitset, `false` otherwise
    */
-  public isSubsetOf(bs: BitSet) {
+  public isSubsetOf(bs: BitSet): boolean {
     const arr1 = this.arr;
     const arr2 = bs.arr;
     const len = arr1.length;
@@ -396,7 +399,7 @@ export class BitSet {
    * Quickly determine if a bitset is empty
    * @returns {boolean} true if the entire bitset is empty, else false
    */
-  public isEmpty() {
+  public isEmpty(): boolean {
     let i;
     let arr;
 
@@ -418,7 +421,7 @@ export class BitSet {
    * @param {BitSet} bs
    * @returns {boolean} true if the entire bitset is empty, else false
    */
-  public isEqual(bs: BitSet) {
+  public isEqual(bs: BitSet): boolean {
     let i;
 
     for (i = 0; i < this.arr.length; i++) {
@@ -454,7 +457,7 @@ export class BitSet {
    * @param {number} startWord the word to start with (only used internally by nextSetBit)
    * @returns {number} the index of the first set bit in the bitset, or -1 if not found
    */
-  public ffs(startWord: number = 0) {
+  public ffs(startWord: number = 0): number {
     let setVal;
     let i;
     let fs = -1;
@@ -479,7 +482,7 @@ export class BitSet {
    * @param {number} startWord the word to start with (only used internally by nextUnsetBit)
    * @returns {number} the index of the first unset bit in the bitset, or -1 if not found
    */
-  public ffz(startWord: number) {
+  public ffz(startWord: number): number {
     let i;
     let setVal;
     let fz = -1;
@@ -507,7 +510,7 @@ export class BitSet {
    * @param {number} startWord the word to start with (only used internally by previousSetBit)
    * @returns {number} the index of the last set bit in the bitset, or -1 if not found
    */
-  public fls(startWord: number = this.arr.length - 1) {
+  public fls(startWord: number = this.arr.length - 1): number {
     let i;
     let setVal;
     let ls = -1;
@@ -533,7 +536,7 @@ export class BitSet {
    * @param {number} startWord the word to start with (only used internally by previousUnsetBit)
    * @returns {number} the index of the last unset bit in the bitset, or -1 if not found
    */
-  public flz(startWord: number) {
+  public flz(startWord: number): number {
     let i;
     let setVal;
     let ls = -1;
@@ -569,7 +572,7 @@ export class BitSet {
    * @param {number} idx the starting index for the next set bit
    * @returns {number} the index of the next set bit >= idx, or -1 if not found
    */
-  public nextSetBit(idx: number) {
+  public nextSetBit(idx: number): number {
     const startWord = this.getWord(idx);
 
     if (startWord === -1) {
@@ -593,7 +596,7 @@ export class BitSet {
    * @param {number} idx the starting index for the next unset bit
    * @returns {number} the index of the next unset bit >= idx, or -1 if not found
    */
-  public nextUnsetBit(idx: number) {
+  public nextUnsetBit(idx: number): number {
     const startWord = this.getWord(idx);
 
     if (startWord === -1) {
@@ -615,7 +618,7 @@ export class BitSet {
    * @param {number} idx the starting index for the next unset bit (going in reverse)
    * @returns {number} the index of the next unset bit <= idx, or -1 if not found
    */
-  public previousSetBit(idx: number) {
+  public previousSetBit(idx: number): number {
     const startWord = this.getWord(idx);
 
     if (startWord === -1) {
@@ -637,7 +640,7 @@ export class BitSet {
    * @param {number} idx the starting index for the next unset bit (going in reverse)
    * @returns {number} the index of the next unset bit <= idx, or -1 if not found
    */
-  public previousUnsetBit(idx: number) {
+  public previousUnsetBit(idx: number): number {
     const startWord = this.getWord(idx);
 
     if (startWord === -1) {
@@ -661,7 +664,7 @@ export class BitSet {
    * @returns {number} the word where the index is located, or -1 if out of range
    * @private
    */
-  private getWord(idx: number) {
+  private getWord(idx: number): number {
     return idx < 0 || idx > this.MAX_BIT ? -1 : ~~(idx / BITS_PER_INT);
   }
 
@@ -746,10 +749,8 @@ export class BitSet {
  * Returns the least signifcant bit, or 0 if none set, so a prior check to see if the word > 0 is required
  * @param {number} word the current array
  * @returns {number} the index of the least significant bit in the current array
- * @private
- *
  */
-export function lsb(word: number) {
+export function lsb(word: number): number {
   return multiplyDeBruijnBitPosition[((word & -word) * 0x077cb531) >>> 27];
 }
 
@@ -757,9 +758,8 @@ export function lsb(word: number) {
  * Returns the least signifcant bit, or 0 if none set, so a prior check to see if the word > 0 is required
  * @param word the current array
  * @returns {number} the index of the most significant bit in the current array
- * @private
  */
-export function msb(word: number) {
+export function msb(word: number): number {
   word |= word >> 1;
   word |= word >> 2;
   word |= word >> 4;
