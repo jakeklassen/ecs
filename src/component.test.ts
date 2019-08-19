@@ -7,6 +7,6 @@ class Rectangle extends Component {}
 
 describe('Component', () => {
   test('derived classes should have unique bitmasks', () => {
-    expect(Color.bitmask.equals(Rectangle.bitmask)).toBe(false);
+    expect(Color.bitmask.isEqual(Rectangle.bitmask)).toBe(false);
   });
 });

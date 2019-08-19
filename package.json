@@ -59,9 +59,7 @@
       ]
     ]
   },
-  "dependencies": {
-    "bitset": "^5.0.5"
-  },
+  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "./hooks/pre-commit.sh"

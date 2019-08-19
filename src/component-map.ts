@@ -1,4 +1,4 @@
-import { BitSet } from 'bitset';
+import { BitSet } from './bitset';
 import { Component, ComponentConstructor } from './component';
 
 export class ComponentMap {

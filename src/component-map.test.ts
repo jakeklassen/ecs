@@ -11,8 +11,8 @@ describe('ComponentMap', () => {
     const cm = new ComponentMap();
     cm.set(new Color());
 
-    expect(cm.bitmask.and(Color.bitmask).equals(Color.bitmask)).toBe(true);
-    expect(cm.bitmask.and(Rectangle.bitmask).equals(Rectangle.bitmask)).toBe(
+    expect(cm.bitmask.and(Color.bitmask).isEqual(Color.bitmask)).toBe(true);
+    expect(cm.bitmask.and(Rectangle.bitmask).isEqual(Rectangle.bitmask)).toBe(
       false,
     );
 
@@ -22,7 +22,7 @@ describe('ComponentMap', () => {
       Color.bitmask
         .or(Rectangle.bitmask)
         .and(cm.bitmask)
-        .equals(cm.bitmask),
+        .isEqual(cm.bitmask),
     ).toBe(true);
   });
 
@@ -32,8 +32,8 @@ describe('ComponentMap', () => {
     cm.set(new Rectangle());
     cm.remove(Rectangle);
 
-    expect(cm.bitmask.and(Color.bitmask).equals(Color.bitmask)).toBe(true);
-    expect(cm.bitmask.and(Rectangle.bitmask).equals(Rectangle.bitmask)).toBe(
+    expect(cm.bitmask.and(Color.bitmask).isEqual(Color.bitmask)).toBe(true);
+    expect(cm.bitmask.and(Rectangle.bitmask).isEqual(Rectangle.bitmask)).toBe(
       false,
     );
   });
