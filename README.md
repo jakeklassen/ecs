@@ -1,5 +1,7 @@
 ## ecs
 
+[![Build Status](https://travis-ci.org/jakeklassen/ecs.svg?branch=master)](https://travis-ci.org/jakeklassen/ecs)
+
 TypeScript Entity Component System.
 
 ## Benchmarks
