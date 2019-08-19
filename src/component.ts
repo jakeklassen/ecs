@@ -2,11 +2,11 @@ import { BitSet } from './bitset';
 import { Constructor } from './world';
 
 function* bitmaskGenerator(): IterableIterator<BitSet> {
-  let n = 0;
+  let n = 1;
 
   while (true) {
-    const mask = new BitSet(0);
-    mask.set(n);
+    const mask = new BitSet(n);
+    mask.set(n - 1);
     ++n;
 
     yield mask;

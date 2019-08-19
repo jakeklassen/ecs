@@ -25,7 +25,7 @@ describe('World', () => {
 
       const components = world.getEntityComponents(entity)!;
       expect(
-        components.bitmask.equals(Color.bitmask.or(Rectangle.bitmask)),
+        components.bitmask.isEqual(Color.bitmask.or(Rectangle.bitmask)),
       ).toBe(true);
     });
 

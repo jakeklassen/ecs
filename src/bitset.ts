@@ -40,11 +40,10 @@ export const multiplyDeBruijnBitPosition = [
 ];
 
 export class BitSet {
-  private arr: Uint32Array;
+  private readonly arr: Uint32Array;
   private readonly MAX_BIT: number = 0;
 
   /**
-   *
    * Create a new bitset. Accepts either the maximum number of bits, or a dehydrated bitset
    * @param {number|string} nBitsOrKey - Number of bits in the set or dehydrated bitset.
    * For speed and space concerns, the initial number of bits cannot be increased.
