@@ -111,6 +111,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#addentitycomponents" class="tsd-kind-icon">add<wbr>Entity<wbr>Components</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#addsystem" class="tsd-kind-icon">add<wbr>System</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#createentity" class="tsd-kind-icon">create<wbr>Entity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#deleteentity" class="tsd-kind-icon">delete<wbr>Entity</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#findentity" class="tsd-kind-icon">find<wbr>Entity</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#getentitycomponents" class="tsd-kind-icon">get<wbr>Entity<wbr>Components</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_world_.world.html#removeentitycomponents" class="tsd-kind-icon">remove<wbr>Entity<wbr>Components</a></li>
@@ -239,7 +240,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:94</li>
+									<li>Defined in world.ts:114</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -265,7 +266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:147</li>
+									<li>Defined in world.ts:167</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,6 +305,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deleteentity" class="tsd-anchor"></a>
+					<h3>delete<wbr>Entity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Entity<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><a href="_entity_.entity.html" class="tsd-signature-type">Entity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in world.ts:56</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete and entity from the world.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>entity: <a href="_entity_.entity.html" class="tsd-signature-type">Entity</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Entity to delete</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="findentity" class="tsd-anchor"></a>
 					<h3>find<wbr>Entity</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -313,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:52</li>
+									<li>Defined in world.ts:72</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -339,7 +371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:115</li>
+									<li>Defined in world.ts:135</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -365,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:119</li>
+									<li>Defined in world.ts:139</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -391,7 +423,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:155</li>
+									<li>Defined in world.ts:175</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -453,7 +485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:159</li>
+									<li>Defined in world.ts:179</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -476,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in world.ts:183</li>
+									<li>Defined in world.ts:203</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -553,6 +585,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_world_.world.html#createentity" class="tsd-kind-icon">create<wbr>Entity</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_world_.world.html#deleteentity" class="tsd-kind-icon">delete<wbr>Entity</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_world_.world.html#findentity" class="tsd-kind-icon">find<wbr>Entity</a>

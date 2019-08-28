@@ -17,6 +17,21 @@ describe('World', () => {
     });
   });
 
+  describe('deleteEntity()', () => {
+    it('should delete an entity and return true', () => {
+      const world = new World();
+      const entity = world.createEntity();
+
+      expect(world.deleteEntity(entity)).toBe(true);
+    });
+
+    it('should not delete an entity and return false', () => {
+      const world = new World();
+
+      expect(world.deleteEntity({} as Entity)).toBe(false);
+    });
+  });
+
   describe('addEntityComponents()', () => {
     it('should add components to entity component map', () => {
       const world = new World();

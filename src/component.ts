@@ -21,7 +21,7 @@ export type ComponentConstructor = Constructor<Component> & IComponent;
 
 export abstract class Component {
   protected static readonly _bitmaskGenerator = bitmaskGenerator();
-  protected static _bitmask: BitSet | null = null;
+  protected static _bitmask: BitSet;
 
   // tslint:disable-next-line: variable-name
   protected readonly __component = true;

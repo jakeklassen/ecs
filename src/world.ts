@@ -49,6 +49,26 @@ export class World {
     return entity;
   }
 
+  /**
+   * Delete and entity from the world.
+   * @param entity Entity to delete
+   */
+  public deleteEntity(entity: Entity): boolean {
+    if (this.entities.has(entity)) {
+      const componentMap = this.entities.get(entity)!;
+
+      for (const ctor of componentMap.keys()) {
+        this.componentEntities.get(ctor)!.delete(entity);
+      }
+
+      this.entities.delete(entity);
+
+      return true;
+    }
+
+    return false;
+  }
+
   public findEntity(
     ...componentCtors: ComponentConstructor[]
   ): Entity | undefined {
