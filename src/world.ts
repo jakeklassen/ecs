@@ -24,6 +24,7 @@ export class World {
   private systemsToRemove: System[] = [];
   private systemsToAdd: System[] = [];
   private entities: Map<Entity, ComponentMap> = new Map();
+  private deletedEntities: Set<Entity> = new Set();
   private componentEntities: Map<ComponentConstructor, Set<Entity>> = new Map();
 
   /**
@@ -43,6 +44,13 @@ export class World {
   }
 
   public createEntity(): Entity {
+    if (this.deletedEntities.size > 0) {
+      const entity = this.deletedEntities.values().next().value;
+      this.deletedEntities.delete(entity);
+
+      return entity;
+    }
+
     const entity = new Entity(this.idGenerator.next().value);
     this.entities.set(entity, new ComponentMap());
 
@@ -50,10 +58,15 @@ export class World {
   }
 
   /**
-   * Delete and entity from the world.
+   * Delete an entity from the world. Entities can be recycled so do not rely
+   * on the deleted entity reference after deleting it.
    * @param entity Entity to delete
    */
   public deleteEntity(entity: Entity): boolean {
+    if (this.deletedEntities.has(entity)) {
+      return false;
+    }
+
     if (this.entities.has(entity)) {
       const componentMap = this.entities.get(entity)!;
 
@@ -61,7 +74,8 @@ export class World {
         this.componentEntities.get(ctor)!.delete(entity);
       }
 
-      this.entities.delete(entity);
+      componentMap.clear();
+      this.deletedEntities.add(entity);
 
       return true;
     }
@@ -115,6 +129,10 @@ export class World {
     entity: Entity,
     ...components: Component[]
   ): World {
+    if (this.deletedEntities.has(entity)) {
+      throw new Error('Entity has been deleted');
+    }
+
     const entityComponents = this.entities.get(entity);
 
     if (entityComponents != null) {
@@ -133,6 +151,10 @@ export class World {
   }
 
   public getEntityComponents(entity: Entity): ComponentMap | undefined {
+    if (this.deletedEntities.has(entity)) {
+      return undefined;
+    }
+
     return this.entities.get(entity);
   }
 
@@ -140,6 +162,10 @@ export class World {
     entity: Entity,
     ...components: Component[]
   ): World {
+    if (this.deletedEntities.has(entity)) {
+      throw new Error('Entity has been deleted');
+    }
+
     const entityComponents = this.entities.get(entity);
 
     if (entityComponents != null) {

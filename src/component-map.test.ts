@@ -37,4 +37,14 @@ describe('ComponentMap', () => {
       false,
     );
   });
+
+  it('should support clearing components', () => {
+    const cm = new ComponentMap();
+    cm.set(new Color());
+
+    cm.clear();
+
+    expect(cm.bitmask.isEmpty()).toBe(true);
+    expect(cm.get(Color)).toBeUndefined();
+  });
 });
