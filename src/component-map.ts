@@ -43,7 +43,7 @@ export class ComponentMap {
 
   public clear() {
     this.map.clear();
-    this.bitmask = new BitSet(0);
+    this.bitmask.clear();
   }
 
   public keys() {
