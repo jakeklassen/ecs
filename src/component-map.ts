@@ -41,6 +41,11 @@ export class ComponentMap {
     this.bitmask = this.bitmask.xor(mask);
   }
 
+  public clear() {
+    this.map.clear();
+    this.bitmask.clear();
+  }
+
   public keys() {
     return this.map.keys();
   }

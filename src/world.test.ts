@@ -15,6 +15,17 @@ describe('World', () => {
       const world = new World();
       expect(world.createEntity().id).toBeDefined();
     });
+
+    it('can return a recycled entity', () => {
+      const world = new World();
+      const entity = world.createEntity();
+
+      world.deleteEntity(entity);
+
+      const entity2 = world.createEntity();
+
+      expect(entity).toBe(entity2);
+    });
   });
 
   describe('deleteEntity()', () => {
@@ -29,6 +40,14 @@ describe('World', () => {
       const world = new World();
 
       expect(world.deleteEntity({} as Entity)).toBe(false);
+    });
+
+    it('should return false if the entity has already been deleted', () => {
+      const world = new World();
+      const entity = world.createEntity();
+
+      expect(world.deleteEntity(entity)).toBe(true);
+      expect(world.deleteEntity(entity)).toBe(false);
     });
   });
 
@@ -51,6 +70,16 @@ describe('World', () => {
       expect(world.addEntityComponents(entity, new Color())).toBeInstanceOf(
         World,
       );
+    });
+
+    it('should throw an error if entity has been deleted', () => {
+      const world = new World();
+      const entity = world.createEntity();
+      world.deleteEntity(entity);
+
+      expect(() =>
+        world.addEntityComponents(entity, new Color()),
+      ).toThrowError();
     });
   });
 
@@ -102,6 +131,19 @@ describe('World', () => {
 
       expect(world.findEntity()).toBeUndefined();
     });
+
+    it('should not return a deleted entities', () => {
+      const world = new World();
+      const entity = world.createEntity();
+      world.addEntityComponents(entity, new Color());
+
+      const entity2 = world.createEntity();
+      world.addEntityComponents(entity2, new Color(), new Rectangle());
+
+      world.deleteEntity(entity);
+
+      expect(world.findEntity(Color)).not.toBe(entity);
+    });
   });
 
   describe('getEntityComponents()', () => {
@@ -117,6 +159,14 @@ describe('World', () => {
       const world = new World();
 
       expect(world.getEntityComponents({} as Entity)).toBeUndefined();
+    });
+
+    it('should return undefined if entity has been deleted', () => {
+      const world = new World();
+      const entity = world.createEntity();
+      world.deleteEntity(entity);
+
+      expect(world.getEntityComponents(entity)).toBeUndefined();
     });
   });
 });
