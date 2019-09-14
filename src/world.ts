@@ -38,9 +38,7 @@ export class World {
    * @param dt Delta time
    */
   public update(dt: number) {
-    for (const system of this.systems) {
-      system.update(this, dt);
-    }
+    this.updateSystems(dt);
   }
 
   public createEntity(): Entity {
