@@ -3,17 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@jakeklassen/ecs - v2.3.5</title>
+	<title>ISafeComponentMap | @jakeklassen/ecs - v2.3.5</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">@jakeklassen/ecs - v2.3.5</a>
+					<a href="../index.html" class="title">@jakeklassen/ecs - v2.3.5</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -53,63 +53,133 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_component_map_.html">&quot;component-map&quot;</a>
+				</li>
+				<li>
+					<a href="_component_map_.isafecomponentmap.html">ISafeComponentMap</a>
 				</li>
 			</ul>
-			<h1> @jakeklassen/ecs - v2.3.5</h1>
+			<h1>Interface ISafeComponentMap</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="tsd-signature-type">object</span>
+						<span class="tsd-signature-symbol"> &amp; </span>
+						<span class="tsd-signature-type">object</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ISafeComponentMap</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>External modules</h3>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-external-module"><a href="modules/_bitset_.html" class="tsd-kind-icon">&quot;bitset&quot;</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_component_.html" class="tsd-kind-icon">&quot;component&quot;</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_component_map_.html" class="tsd-kind-icon">&quot;component-<wbr>map&quot;</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_entity_.html" class="tsd-kind-icon">&quot;entity&quot;</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_system_.html" class="tsd-kind-icon">&quot;system&quot;</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_world_.html" class="tsd-kind-icon">&quot;world&quot;</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-inherited"><a href="_component_map_.isafecomponentmap.html#get" class="tsd-kind-icon">get</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-inherited">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get&lt;T&gt;<span class="tsd-signature-symbol">(</span>ctor<span class="tsd-signature-symbol">: </span><a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from __type.get</p>
+								<ul>
+									<li>Defined in component-map.ts:19</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="../classes/_component_.component.html" class="tsd-signature-type">Component</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ctor: <a href="../modules/_component_.html#componentconstructor" class="tsd-signature-type">ComponentConstructor</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals current ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_bitset_.html">&quot;bitset&quot;</a>
+						<a href="../modules/_bitset_.html">&quot;bitset&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_component_.html">&quot;component&quot;</a>
+						<a href="../modules/_component_.html">&quot;component&quot;</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_component_map_.html">&quot;component-<wbr>map&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_component_map_.html">&quot;component-<wbr>map&quot;</a>
+						<a href="../modules/_entity_.html">&quot;entity&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_entity_.html">&quot;entity&quot;</a>
+						<a href="../modules/_system_.html">&quot;system&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_system_.html">&quot;system&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_world_.html">&quot;world&quot;</a>
+						<a href="../modules/_world_.html">&quot;world&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_component_map_.componentmap.html" class="tsd-kind-icon">Component<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_component_map_.icomponentmap.html" class="tsd-kind-icon">IComponent<wbr>Map</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_component_map_.isafecomponentmap.html" class="tsd-kind-icon">ISafe<wbr>Component<wbr>Map</a>
+						<ul>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-inherited">
+								<a href="_component_map_.isafecomponentmap.html#get" class="tsd-kind-icon">get</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="../modules/_component_map_.html#modify" class="tsd-kind-icon">Modify</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -179,7 +249,7 @@
 	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
