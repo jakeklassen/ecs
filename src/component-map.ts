@@ -1,7 +1,26 @@
 import { BitSet } from './bitset';
 import { Component, ComponentConstructor } from './component';
 
-export class ComponentMap {
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+export interface IComponentMap {
+  get<T extends Component>(ctor: ComponentConstructor): T | undefined;
+  set(...components: Component[]): void;
+  remove(...componentCtors: ComponentConstructor[]): void;
+  clear(): void;
+  keys(): IterableIterator<ComponentConstructor>;
+  has(componentCtor: ComponentConstructor): boolean;
+}
+
+export interface ISafeComponentMap
+  extends Modify<
+    IComponentMap,
+    {
+      get<T extends Component>(ctor: ComponentConstructor): T;
+    }
+  > {}
+
+export class ComponentMap implements IComponentMap {
   public bitmask: BitSet = new BitSet(0);
   private readonly map = new Map<ComponentConstructor, Component>();
 

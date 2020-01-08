@@ -1,5 +1,5 @@
 import { Component, ComponentConstructor } from './component';
-import { ComponentMap } from './component-map';
+import { ComponentMap, ISafeComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
 
@@ -226,8 +226,8 @@ export class World {
 
   public view(
     ...componentCtors: ComponentConstructor[]
-  ): Map<Entity, ComponentMap> {
-    const entities = new Map<Entity, ComponentMap>();
+  ): Map<Entity, ISafeComponentMap> {
+    const entities = new Map<Entity, ISafeComponentMap>();
 
     if (componentCtors.length === 0) {
       return entities;
@@ -259,7 +259,10 @@ export class World {
       const hasAll = otherComponentSets.every(set => set.has(entity));
 
       if (hasAll === true) {
-        entities.set(entity, this.getEntityComponents(entity)!);
+        entities.set(
+          entity,
+          this.getEntityComponents(entity) as ISafeComponentMap,
+        );
       }
     }
 
