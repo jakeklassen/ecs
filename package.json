@@ -67,8 +67,6 @@
   },
   "dependencies": {},
   "husky": {
-    "hooks": {
-      "pre-commit": "./hooks/pre-commit.sh"
-    }
+    "hooks": {}
   }
 }
