@@ -29,6 +29,7 @@ jobs:
         run: |
           yarn
           yarn docs
+          git remote set-url origin ${{ secrets.ssh }}
           git add .
           git commit -m 'Auto updating docs'
           git push origin HEAD:master
