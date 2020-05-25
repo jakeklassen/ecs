@@ -29,3 +29,6 @@ jobs:
         run: |
           yarn
           yarn docs
+          git add .
+          git commit -m 'Auto updating docs'
+          git push origin HEAD:master
