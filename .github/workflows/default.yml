@@ -17,19 +17,18 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Basic command
-        run: echo yay
+      - uses: actions/checkout@master
 
       # Runs a set of commands using the runners shell
       - name: Generate docs
         run: |
           yarn
           yarn docs
-          git remote set-url origin ${{ secrets.ssh }}
-          git add .
-          git commit -m 'Auto updating docs'
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git commit -m 'Auto updating docs' -a
           git push origin HEAD:master
+      - name: Push docs
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTION_TOKEN }}
