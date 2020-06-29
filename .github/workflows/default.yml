@@ -26,7 +26,8 @@ jobs:
           yarn docs
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git commit -am 'Auto updating docs'
+          git add docs
+          git commit -m 'Auto updating docs'
           git push origin HEAD:master
       - name: Push docs
         uses: ad-m/github-push-action@master
