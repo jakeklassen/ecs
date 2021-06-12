@@ -17,8 +17,6 @@ export interface IComponent {
   readonly bitmask: BitSet;
 }
 
-export type ComponentConstructor = Constructor<Component> & IComponent;
-
 export abstract class Component {
   protected static readonly _bitmaskGenerator = bitmaskGenerator();
   protected static _bitmask: BitSet;
@@ -34,3 +32,5 @@ export abstract class Component {
     return this._bitmask;
   }
 }
+
+export type ComponentConstructor = Constructor<Component> & IComponent;

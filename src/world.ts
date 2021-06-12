@@ -3,10 +3,7 @@ import { ComponentMap, ISafeComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
 
-export type Constructor<
-  T = unknown,
-  Arguments extends unknown[] = unknown[],
-> = new (...args: Arguments) => T;
+export type Constructor<T> = abstract new (...args: any[]) => T;
 
 export function* entityIdGenerator(): IterableIterator<number> {
   let id = 0;
