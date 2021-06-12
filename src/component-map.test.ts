@@ -19,10 +19,7 @@ describe('ComponentMap', () => {
     cm.set(new Rectangle());
 
     expect(
-      Color.bitmask
-        .or(Rectangle.bitmask)
-        .and(cm.bitmask)
-        .isEqual(cm.bitmask),
+      Color.bitmask.or(Rectangle.bitmask).and(cm.bitmask).isEqual(cm.bitmask),
     ).toBe(true);
   });
 

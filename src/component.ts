@@ -26,7 +26,7 @@ export abstract class Component {
   // tslint:disable-next-line: variable-name
   protected readonly __component = true;
 
-  public static get bitmask() {
+  public static get bitmask(): BitSet {
     if (this._bitmask == null) {
       this._bitmask = this._bitmaskGenerator.next().value;
     }

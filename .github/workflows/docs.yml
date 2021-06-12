@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Default
+name: Docs
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -28,7 +28,7 @@ jobs:
           git config --global user.name "GitHub Action"
           git add docs
           git commit -m 'Auto updating docs'
-          git push origin HEAD:master
+          git push origin HEAD:master || echo 'nothing new to commit'
       - name: Push docs
         uses: ad-m/github-push-action@master
         with:
