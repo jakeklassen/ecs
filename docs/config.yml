@@ -1,0 +1,4 @@
+# Used to configure jekyll for typedoc
+include:
+  - '_*_.html'
+  - '_*_.*.html'
