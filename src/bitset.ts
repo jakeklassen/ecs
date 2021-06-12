@@ -1,3 +1,6 @@
+/**
+ * Rewrite of https://github.com/mattkrick/fast-bitset/blob/master/app/BitSet.js
+ */
 // Matt Krick, matt.krick@gmail.com, MIT License
 
 // each bin holds bits 0 - 30, totaling 31 (sign takes up last bit)
@@ -5,38 +8,8 @@ export const BITS_PER_INT = 31;
 
 // used for ffs of a word in O(1) time. LUTs get a bad wrap, they are fast.
 export const multiplyDeBruijnBitPosition = [
-  0,
-  1,
-  28,
-  2,
-  29,
-  14,
-  24,
-  3,
-  30,
-  22,
-  20,
-  15,
-  25,
-  17,
-  4,
-  8,
-  31,
-  27,
-  13,
-  23,
-  21,
-  19,
-  16,
-  7,
-  26,
-  12,
-  18,
-  6,
-  11,
-  5,
-  10,
-  9,
+  0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21,
+  19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9,
 ];
 
 export class BitSet {
@@ -269,7 +242,7 @@ export class BitSet {
    * @param {Function} func the function to pass the next set bit to
    */
   // tslint:disable-next-line: ban-types
-  public forEach(func: Function) {
+  public forEach(func: (n: number) => void): void {
     for (let i = this.ffs(); i !== -1; i = this.nextSetBit(i + 1)) {
       func(i);
     }
@@ -285,6 +258,8 @@ export class BitSet {
   public circularShift(offset: number): BitSet {
     offset = -offset;
 
+    // TODO: Investigate fixing this
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const S = this; // source BitSet (this)
     const MASK_SIGN = 0x7fffffff;
     const BITS = S.MAX_BIT + 1;
@@ -401,9 +376,8 @@ export class BitSet {
    */
   public isEmpty(): boolean {
     let i;
-    let arr;
 
-    arr = this.arr;
+    const arr = this.arr;
 
     for (i = 0; i < arr.length; i++) {
       if (arr[i]) {
@@ -457,7 +431,7 @@ export class BitSet {
    * @param {number} startWord the word to start with (only used internally by nextSetBit)
    * @returns {number} the index of the first set bit in the bitset, or -1 if not found
    */
-  public ffs(startWord: number = 0): number {
+  public ffs(startWord = 0): number {
     let setVal;
     let i;
     let fs = -1;
@@ -677,7 +651,11 @@ export class BitSet {
    * @private
    */
   // tslint:disable-next-line: ban-types
-  private doRange(from: number, to: number, func: Function): boolean {
+  private doRange(
+    from: number,
+    to: number,
+    func: (...args: any[]) => any,
+  ): boolean {
     let i;
     let curStart;
     let curEnd;
@@ -713,15 +691,14 @@ export class BitSet {
    * @private
    */
   // tslint:disable-next-line: ban-types
-  private op(bsOrIdx: BitSet | number, func: Function): BitSet {
+  private op(bsOrIdx: BitSet | number, func: (...args: any[]) => any): BitSet {
     let i;
-    let arr1;
     let arr2;
     let len;
     let newBS;
     let word;
 
-    arr1 = this.arr;
+    const arr1 = this.arr;
 
     if (typeof bsOrIdx === 'number') {
       word = this.getWord(bsOrIdx);
@@ -770,29 +747,33 @@ export function msb(word: number): number {
   return multiplyDeBruijnBitPosition[(word * 0x077cb531) >>> 27];
 }
 
-export function toggleFunc(word: number, len: number, curStart: number) {
+export function toggleFunc(
+  word: number,
+  len: number,
+  curStart: number,
+): number {
   const mask = ((1 << len) - 1) << curStart;
   return word ^ mask;
 }
 
-export function setFunc(word: number, len: number, curStart: number) {
+export function setFunc(word: number, len: number, curStart: number): number {
   const mask = ((1 << len) - 1) << curStart;
   return word | mask;
 }
 
-export function unsetFunc(word: number, len: number, curStart: number) {
+export function unsetFunc(word: number, len: number, curStart: number): number {
   const mask = 0x7fffffff ^ (((1 << len) - 1) << curStart);
   return word & mask;
 }
 
-export function and(word1: number, word2: number) {
+export function and(word1: number, word2: number): number {
   return word1 & word2;
 }
 
-export function or(word1: number, word2: number) {
+export function or(word1: number, word2: number): number {
   return word1 | word2;
 }
 
-export function xor(word1: number, word2: number) {
+export function xor(word1: number, word2: number): number {
   return word1 ^ word2;
 }

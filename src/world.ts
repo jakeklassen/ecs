@@ -3,9 +3,10 @@ import { ComponentMap, ISafeComponentMap } from './component-map';
 import { Entity } from './entity';
 import { System } from './system';
 
-export type Constructor<T = unknown, Arguments extends any[] = any[]> = new (
-  ...args: Arguments
-) => T;
+export type Constructor<
+  T = unknown,
+  Arguments extends unknown[] = unknown[],
+> = new (...args: Arguments) => T;
 
 export function* entityIdGenerator(): IterableIterator<number> {
   let id = 0;
@@ -37,7 +38,7 @@ export class World {
    * Update all world systems
    * @param dt Delta time
    */
-  public update(dt: number) {
+  public update(dt: number): void {
     this.updateSystems(dt);
   }
 
@@ -88,7 +89,7 @@ export class World {
       return undefined;
     }
 
-    const hasAllComponents = componentCtors.every(ctor =>
+    const hasAllComponents = componentCtors.every((ctor) =>
       this.componentEntities.has(ctor),
     );
 
@@ -97,7 +98,7 @@ export class World {
     }
 
     const componentSets = componentCtors.map(
-      ctor => this.componentEntities.get(ctor)!,
+      (ctor) => this.componentEntities.get(ctor)!,
     );
 
     const smallestComponentSet = componentSets.reduce((smallest, set) => {
@@ -111,11 +112,11 @@ export class World {
     });
 
     const otherComponentSets = componentSets.filter(
-      set => set !== smallestComponentSet,
+      (set) => set !== smallestComponentSet,
     );
 
     for (const entity of smallestComponentSet.values()) {
-      const hasAll = otherComponentSets.every(set => set.has(entity));
+      const hasAll = otherComponentSets.every((set) => set.has(entity));
 
       if (hasAll === true) {
         return entity;
@@ -169,11 +170,11 @@ export class World {
     if (entityComponents != null) {
       entityComponents.remove(
         ...components.map(
-          component => component.constructor as ComponentConstructor,
+          (component) => component.constructor as ComponentConstructor,
         ),
       );
 
-      components.forEach(component => {
+      components.forEach((component) => {
         const ctor = component.constructor as ComponentConstructor;
         if (this.componentEntities.has(ctor)) {
           this.componentEntities.get(ctor)!.delete(entity);
@@ -188,7 +189,7 @@ export class World {
    * Register a system for addition. Systems are executed linearly in the order added.
    * @param system System
    */
-  public addSystem(system: System) {
+  public addSystem(system: System): void {
     this.systemsToAdd.push(system);
   }
 
@@ -196,13 +197,13 @@ export class World {
    * Register a system for removal.
    * @param system System
    */
-  public removeSystem(system: System) {
+  public removeSystem(system: System): void {
     this.systemsToRemove.push(system);
   }
 
-  public updateSystems(dt: number) {
+  public updateSystems(dt: number): void {
     if (this.systemsToRemove.length > 0) {
-      this.systems = this.systems.filter(existing =>
+      this.systems = this.systems.filter((existing) =>
         this.systemsToRemove.includes(existing),
       );
 
@@ -210,7 +211,7 @@ export class World {
     }
 
     if (this.systemsToAdd.length > 0) {
-      this.systemsToAdd.forEach(newSystem => {
+      this.systemsToAdd.forEach((newSystem) => {
         if (this.systems.includes(newSystem) === false) {
           this.systems.push(newSystem);
         }
@@ -233,7 +234,7 @@ export class World {
       return entities;
     }
 
-    const componentSets = componentCtors.map(ctor => {
+    const componentSets = componentCtors.map((ctor) => {
       if (this.componentEntities.has(ctor) === false) {
         throw new Error(`Component ${ctor.name} not found`);
       }
@@ -252,11 +253,11 @@ export class World {
     });
 
     const otherComponentSets = componentSets.filter(
-      set => set !== smallestComponentSet,
+      (set) => set !== smallestComponentSet,
     );
 
     for (const entity of smallestComponentSet) {
-      const hasAll = otherComponentSets.every(set => set.has(entity));
+      const hasAll = otherComponentSets.every((set) => set.has(entity));
 
       if (hasAll === true) {
         entities.set(

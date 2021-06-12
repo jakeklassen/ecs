@@ -12,13 +12,12 @@ export interface IComponentMap {
   has(componentCtor: ComponentConstructor): boolean;
 }
 
-export interface ISafeComponentMap
-  extends Modify<
-    IComponentMap,
-    {
-      get<T extends Component>(ctor: ComponentConstructor): T;
-    }
-  > {}
+export type ISafeComponentMap = Modify<
+  IComponentMap,
+  {
+    get<T extends Component>(ctor: ComponentConstructor): T;
+  }
+>;
 
 export class ComponentMap implements IComponentMap {
   public bitmask: BitSet = new BitSet(0);
@@ -30,7 +29,7 @@ export class ComponentMap implements IComponentMap {
     return component != null ? (component as T) : undefined;
   }
 
-  public set(...components: Component[]) {
+  public set(...components: Component[]): void {
     let mask = new BitSet(0);
 
     for (const component of components) {
@@ -46,7 +45,7 @@ export class ComponentMap implements IComponentMap {
     this.bitmask = this.bitmask.or(mask);
   }
 
-  public remove(...componentCtors: ComponentConstructor[]) {
+  public remove(...componentCtors: ComponentConstructor[]): void {
     let mask = new BitSet(0);
 
     for (const componentCtor of componentCtors) {
@@ -60,20 +59,20 @@ export class ComponentMap implements IComponentMap {
     this.bitmask = this.bitmask.xor(mask);
   }
 
-  public clear() {
+  public clear(): void {
     this.map.clear();
     this.bitmask.clear();
   }
 
-  public keys() {
+  public keys(): IterableIterator<ComponentConstructor> {
     return this.map.keys();
   }
 
-  public has(componentCtor: ComponentConstructor) {
+  public has(componentCtor: ComponentConstructor): boolean {
     return this.map.has(componentCtor);
   }
 
-  get size() {
+  get size(): number {
     return this.map.size;
   }
 }
