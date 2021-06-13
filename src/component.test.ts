@@ -1,4 +1,4 @@
-import { Component } from './component';
+import { Component } from './component.js';
 
 // tslint:disable: max-classes-per-file
 

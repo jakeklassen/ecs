@@ -1,4 +1,4 @@
-import { World } from './world';
+import { World } from './world.js';
 
 /**
  * Class for all Systems to derive from

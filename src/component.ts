@@ -1,5 +1,5 @@
-import { BitSet } from './bitset';
-import { Constructor } from './world';
+import { BitSet } from './bitset.js';
+import { Constructor } from './world.js';
 
 function* bitmaskGenerator(): IterableIterator<BitSet> {
   let n = 1;

@@ -1,5 +1,5 @@
-import { BitSet } from './bitset';
-import { Component, ComponentConstructor } from './component';
+import { BitSet } from './bitset.js';
+import { Component, ComponentConstructor } from './component.js';
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
