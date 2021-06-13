@@ -1,7 +1,7 @@
-import { Component, ComponentConstructor } from './component';
-import { ComponentMap, ISafeComponentMap } from './component-map';
-import { Entity } from './entity';
-import { System } from './system';
+import { Component, ComponentConstructor } from './component.js';
+import { ComponentMap, ISafeComponentMap } from './component-map.js';
+import { Entity } from './entity.js';
+import { System } from './system.js';
 
 export type Constructor<T> = abstract new (...args: any[]) => T;
 

@@ -1,7 +1,7 @@
-import { Component } from './component';
-import { ComponentMap } from './component-map';
-import { Entity } from './entity';
-import { World } from './world';
+import { Component } from './component.js';
+import { ComponentMap } from './component-map.js';
+import { Entity } from './entity.js';
+import { World } from './world.js';
 
 // tslint:disable: max-classes-per-file
 

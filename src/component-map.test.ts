@@ -1,5 +1,5 @@
-import { Component } from './component';
-import { ComponentMap } from './component-map';
+import { ComponentMap } from './component-map.js';
+import { Component } from './component.js';
 
 // tslint:disable: max-classes-per-file
 
