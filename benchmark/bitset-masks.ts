@@ -19,7 +19,7 @@ function* bitmaskGenerator() {
 
 const genny = bitmaskGenerator();
 const [bs1, bs2] = Array.from({ length: NUM_FLAGS }, () => 0)
-  .map(() => genny.next().value)
+  .map(() => genny.next().value as BitSet)
   .reverse();
 
 const suite = new Benchmark.Suite();

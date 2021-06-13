@@ -8,7 +8,7 @@ const plainArray = Array.from({ length: NUM_ELEMENTS }, (_, n) => n);
 const objectArray = Array.from({ length: NUM_ELEMENTS }, (_, n) => ({
   key: n,
 }));
-const map = new Map(plainArray.map(n => [n, n]));
+const map = new Map(plainArray.map((n) => [n, n]));
 const lookup: { [key: number]: number } = plainArray.reduce(
   (acc, n) => ({ ...acc, n }),
   {},
@@ -51,7 +51,7 @@ suite
     }
   })
   .add(`Map#forEach @ ${NUM_ELEMENTS} elements`, () => {
-    map.forEach(v => v & 0b0010);
+    map.forEach((v) => v & 0b0010);
   })
   .add(`plain Array for loop with Map#get @ ${NUM_ELEMENTS} elements`, () => {
     // tslint:disable-next-line: prefer-for-of

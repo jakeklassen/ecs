@@ -15,7 +15,7 @@
     "url": "https://github.com/jakeklassen/ecs.git"
   },
   "scripts": {
-    "benchmark": "ts-node --project tsconfig.benchmark.json",
+    "benchmark": "node --loader ts-node/esm --experimental-specifier-resolution=node",
     "docs": "typedoc --out docs --exclude \"**/*+(index|.test|.spec|.e2e).ts\" src/",
     "postdocs": "cp jekyll.config.yml docs/config.yml && touch docs/.nojekyll",
     "lint": "eslint src --ext .js,.ts --config .eslintrc.cjs",
@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "benchmark": "^2.1.4",
+    "bitset": "^5.1.1",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",

@@ -1,4 +1,4 @@
-import sampleSize = require('lodash/sampleSize');
+import sampleSize from 'lodash/sampleSize';
 import { Component, ComponentConstructor } from '../src/component';
 import { ComponentMap } from '../src/component-map';
 import { memoryUsage } from './lib/memory';
@@ -17,7 +17,7 @@ const Components: ComponentConstructor[] = Array.from(
   () => class extends Component {},
 );
 
-Components.forEach(C => C.bitmask);
+Components.forEach((C) => C.bitmask);
 
 console.log(`Usage after creating ${NUM_COMPONENTS} Component classes`);
 memoryUsage();
@@ -27,7 +27,7 @@ const map = new ComponentMap();
 
 const componentSample = sampleSize(Components, COMPONENTS_PER_MAP);
 
-componentSample.forEach(ctor => map.set(new ctor()));
+componentSample.forEach((ctor) => map.set(new ctor()));
 
 console.log(
   `Usage after setting ${COMPONENTS_PER_MAP} component in component map`,

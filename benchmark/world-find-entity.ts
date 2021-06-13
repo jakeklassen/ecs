@@ -27,7 +27,7 @@ const entities = Array.from({ length: NUM_ENTITIES }, () =>
 for (const entity of entities) {
   world.addEntityComponents(
     entity,
-    ...sampleSize(components, COMPONENTS_PER_ENTITY).map(ctor => new ctor()),
+    ...sampleSize(components, COMPONENTS_PER_ENTITY).map((ctor) => new ctor()),
   );
 }
 

@@ -1,4 +1,6 @@
-export const time = (fn: () => void, iterations = 10) => {
+import { performance } from 'perf_hooks';
+
+export const time = (fn: () => void, iterations = 10): number => {
   const times: number[] = [];
 
   Array.from({ length: iterations }).forEach(() => {
