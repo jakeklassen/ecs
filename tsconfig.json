@@ -52,15 +52,6 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "exclude": [
-    "node_modules",
-    "benchmark",
-    "coverage",
-    "docs",
-    "dist",
-    "examples",
-    "test",
-    "**/*.test.ts",
-    "**/webpack.config.ts"
-  ]
+  "include": ["src/**/*", ".eslintrc.cjs"],
+  "exclude": ["node_modules", "coverage", "dist", "test"]
 }

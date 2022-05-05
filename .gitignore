@@ -2,8 +2,6 @@
 node_modules
 dist
 coverage
-# @pika/pack
-pkg
 *.log
 .vscode/*
 !.vscode/launch.json

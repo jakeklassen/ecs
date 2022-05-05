@@ -1,32 +1,28 @@
+/** @type {import('eslint').ESLint.Options} */
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  env: {
-    es2020: true,
-    jest: true,
-    node: true,
-  },
   parserOptions: {
-    ecmaVersion: 2020,
+    project: ['./tsconfig.json'],
     sourceType: 'module',
   },
-  globals: {
-    globalThis: true,
+  plugins: ['@typescript-eslint'],
+  extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
+  env: {
+    node: true,
   },
-  plugins: ['@typescript-eslint', 'prettier'],
-  extends: [
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
   rules: {
-    'prettier/prettier': [
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'error',
+    // note you must disable the base rule as it can report incorrect errors
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
       'error',
-      {
-        semi: true,
-        singleQuote: true,
-        trailingComma: 'all',
-      },
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
   },
 };

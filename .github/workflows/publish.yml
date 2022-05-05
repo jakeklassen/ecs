@@ -8,14 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: yarn
-      - run: yarn build
-      - run: yarn version --new-version "${GITHUB_REF:11}" --no-git-tag-version
-      - run: yarn publish --access public
+      - run: npm install
+      - run: npm run build
+      - run: npm version --new-version "${GITHUB_REF:11}" --no-git-tag-version
+      - run: npm run publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

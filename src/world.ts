@@ -1,9 +1,11 @@
-import { Component, ComponentConstructor } from './component.js';
-import { ComponentMap, ISafeComponentMap } from './component-map.js';
-import { Entity } from './entity.js';
+import { ComponentMap, SafeComponentMap } from './component-map.js';
+import { Component } from './component.js';
+import { EntityId } from './entity.js';
 import { System } from './system.js';
 
-export type Constructor<T> = abstract new (...args: any[]) => T;
+export type ComponentConstructor<T extends Component = Component> = new (
+  ...args: any[]
+) => T;
 
 export function* entityIdGenerator(): IterableIterator<number> {
   let id = 0;
@@ -21,9 +23,10 @@ export class World {
   private systems: System[] = [];
   private systemsToRemove: System[] = [];
   private systemsToAdd: System[] = [];
-  private entities: Map<Entity, ComponentMap> = new Map();
-  private deletedEntities: Set<Entity> = new Set();
-  private componentEntities: Map<ComponentConstructor, Set<Entity>> = new Map();
+  private entities: Map<EntityId, ComponentMap> = new Map();
+  private deletedEntities: Set<EntityId> = new Set();
+  private componentEntities: Map<ComponentConstructor, Set<EntityId>> =
+    new Map();
 
   /**
    * Create a new World instance
@@ -39,7 +42,7 @@ export class World {
     this.updateSystems(dt);
   }
 
-  public createEntity(): Entity {
+  public createEntity(): EntityId {
     if (this.deletedEntities.size > 0) {
       const entity = this.deletedEntities.values().next().value;
       this.deletedEntities.delete(entity);
@@ -47,7 +50,7 @@ export class World {
       return entity;
     }
 
-    const entity = new Entity(this.idGenerator.next().value);
+    const entity = this.idGenerator.next().value;
     this.entities.set(entity, new ComponentMap());
 
     return entity;
@@ -58,32 +61,32 @@ export class World {
    * on the deleted entity reference after deleting it.
    * @param entity Entity to delete
    */
-  public deleteEntity(entity: Entity): boolean {
+  public deleteEntity(entity: EntityId): boolean {
     if (this.deletedEntities.has(entity)) {
       return false;
     }
 
-    if (this.entities.has(entity)) {
-      const componentMap = this.entities.get(entity)!;
+    const componentMap = this.entities.get(entity);
 
-      for (const ctor of componentMap.keys()) {
-        this.componentEntities.get(ctor)!.delete(entity);
-      }
-
-      componentMap.clear();
-      this.deletedEntities.add(entity);
-
-      return true;
+    if (componentMap == null) {
+      return false;
     }
 
-    return false;
+    for (const ctor of componentMap.keys()) {
+      this.componentEntities.get(ctor)?.delete(entity);
+    }
+
+    componentMap.clear();
+    this.deletedEntities.add(entity);
+
+    return true;
   }
 
   public findEntity(
     ...componentCtors: ComponentConstructor[]
-  ): Entity | undefined {
+  ): EntityId | undefined {
     if (componentCtors.length === 0) {
-      return undefined;
+      return;
     }
 
     const hasAllComponents = componentCtors.every((ctor) =>
@@ -91,12 +94,14 @@ export class World {
     );
 
     if (hasAllComponents === false) {
-      return undefined;
+      return;
     }
 
-    const componentSets = componentCtors.map(
-      (ctor) => this.componentEntities.get(ctor)!,
-    );
+    const componentSets = componentCtors
+      .map((ctor) => {
+        return this.componentEntities.get(ctor);
+      })
+      .filter((entitySet): entitySet is Set<EntityId> => entitySet != null);
 
     const smallestComponentSet = componentSets.reduce((smallest, set) => {
       if (smallest == null) {
@@ -122,7 +127,7 @@ export class World {
   }
 
   public addEntityComponents(
-    entity: Entity,
+    entity: EntityId,
     ...components: Component[]
   ): World {
     if (this.deletedEntities.has(entity)) {
@@ -132,11 +137,11 @@ export class World {
     const entityComponents = this.entities.get(entity);
 
     if (entityComponents != null) {
-      entityComponents.set(...components);
+      entityComponents.add(...components);
 
       for (const componentCtor of entityComponents.keys()) {
         if (this.componentEntities.has(componentCtor)) {
-          this.componentEntities.get(componentCtor)!.add(entity);
+          this.componentEntities.get(componentCtor)?.add(entity);
         } else {
           this.componentEntities.set(componentCtor, new Set([entity]));
         }
@@ -146,7 +151,7 @@ export class World {
     return this;
   }
 
-  public getEntityComponents(entity: Entity): ComponentMap | undefined {
+  public getEntityComponents(entity: EntityId): ComponentMap | undefined {
     if (this.deletedEntities.has(entity)) {
       return undefined;
     }
@@ -155,7 +160,7 @@ export class World {
   }
 
   public removeEntityComponents(
-    entity: Entity,
+    entity: EntityId,
     ...components: Component[]
   ): World {
     if (this.deletedEntities.has(entity)) {
@@ -165,7 +170,7 @@ export class World {
     const entityComponents = this.entities.get(entity);
 
     if (entityComponents != null) {
-      entityComponents.remove(
+      entityComponents.delete(
         ...components.map(
           (component) => component.constructor as ComponentConstructor,
         ),
@@ -174,7 +179,7 @@ export class World {
       components.forEach((component) => {
         const ctor = component.constructor as ComponentConstructor;
         if (this.componentEntities.has(ctor)) {
-          this.componentEntities.get(ctor)!.delete(entity);
+          this.componentEntities.get(ctor)?.delete(entity);
         }
       });
     }
@@ -222,22 +227,25 @@ export class World {
     }
   }
 
-  public view(
-    ...componentCtors: ComponentConstructor[]
-  ): Map<Entity, ISafeComponentMap> {
-    const entities = new Map<Entity, ISafeComponentMap>();
+  public view<CC extends ComponentConstructor[]>(
+    ...componentCtors: CC
+  ): Array<[EntityId, SafeComponentMap<CC>]> {
+    const entities: Array<[EntityId, SafeComponentMap<CC>]> = [];
 
     if (componentCtors.length === 0) {
       return entities;
     }
 
-    const componentSets = componentCtors.map((ctor) => {
-      if (this.componentEntities.has(ctor) === false) {
-        throw new Error(`Component ${ctor.name} not found`);
-      }
+    const componentSets = componentCtors
+      .map((ctor) => {
+        return this.componentEntities.get(ctor);
+      })
+      .filter((entitySet): entitySet is Set<EntityId> => entitySet != null);
 
-      return this.componentEntities.get(ctor)!;
-    });
+    // Make sure we even have record of all the component constructors
+    if (componentSets.length !== componentCtors.length) {
+      return entities;
+    }
 
     const smallestComponentSet = componentSets.reduce((smallest, set) => {
       if (smallest == null) {
@@ -257,10 +265,10 @@ export class World {
       const hasAll = otherComponentSets.every((set) => set.has(entity));
 
       if (hasAll === true) {
-        entities.set(
+        entities.push([
           entity,
-          this.getEntityComponents(entity) as ISafeComponentMap,
-        );
+          this.getEntityComponents(entity) as SafeComponentMap<CC>,
+        ]);
       }
     }
 

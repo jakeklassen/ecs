@@ -1,19 +1,33 @@
-import { Component } from './component.js';
+import { describe, expect, it } from 'vitest';
 import { ComponentMap } from './component-map.js';
-import { Entity } from './entity.js';
+import { Component } from './component.js';
 import { World } from './world.js';
 
-// tslint:disable: max-classes-per-file
+class Color extends Component {
+  protected __component = Color.name;
+}
 
-class Color extends Component {}
-class Rectangle extends Component {}
-class Transform extends Component {}
+class Rectangle extends Component {
+  protected __component = Rectangle.name;
+}
+
+class Transform extends Component {
+  protected __component = Transform.name;
+}
+
+class Position extends Component {
+  protected __component = Position.name;
+
+  constructor(public x = 0, public y = 0) {
+    super();
+  }
+}
 
 describe('World', () => {
   describe('createEntity()', () => {
     it('returns a new entity', () => {
       const world = new World();
-      expect(world.createEntity().id).toBeDefined();
+      expect(world.createEntity()).toBeDefined();
     });
 
     it('can return a recycled entity', () => {
@@ -39,7 +53,7 @@ describe('World', () => {
     it('should not delete an entity and return false', () => {
       const world = new World();
 
-      expect(world.deleteEntity({} as Entity)).toBe(false);
+      expect(world.deleteEntity(Number.MAX_SAFE_INTEGER)).toBe(false);
     });
 
     it('should return false if the entity has already been deleted', () => {
@@ -57,10 +71,9 @@ describe('World', () => {
       const entity = world.createEntity();
       world.addEntityComponents(entity, new Color(), new Rectangle());
 
-      const components = world.getEntityComponents(entity)!;
-      expect(
-        components.bitmask.isEqual(Color.bitmask.or(Rectangle.bitmask)),
-      ).toBe(true);
+      const components = world.getEntityComponents(entity);
+
+      expect(components?.has(Color, Rectangle)).toBe(true);
     });
 
     it('should return `World` instance for chaining', () => {
@@ -158,7 +171,9 @@ describe('World', () => {
     it('should return undefined for non-existing entity', () => {
       const world = new World();
 
-      expect(world.getEntityComponents({} as Entity)).toBeUndefined();
+      expect(
+        world.getEntityComponents(Number.MAX_SAFE_INTEGER),
+      ).toBeUndefined();
     });
 
     it('should return undefined if entity has been deleted', () => {
@@ -167,6 +182,21 @@ describe('World', () => {
       world.deleteEntity(entity);
 
       expect(world.getEntityComponents(entity)).toBeUndefined();
+    });
+  });
+
+  describe('view()', () => {
+    it('should return the correct views', () => {
+      const world = new World();
+      const entityId = world.createEntity();
+      const testPosition = new Position();
+
+      world.addEntityComponents(entityId, testPosition);
+      expect(world.view(Position)).toEqual([
+        [entityId, world.getEntityComponents(entityId)],
+      ]);
+
+      expect(world.view(Position, Color)).toEqual([]);
     });
   });
 });

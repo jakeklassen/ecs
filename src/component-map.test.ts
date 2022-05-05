@@ -1,47 +1,52 @@
+import { describe, expect, it } from 'vitest';
 import { ComponentMap } from './component-map.js';
 import { Component } from './component.js';
 
-// tslint:disable: max-classes-per-file
+class Color extends Component {
+  protected __component = Color.name;
 
-class Color extends Component {}
-class Rectangle extends Component {}
+  constructor(public color = 'black') {
+    super();
+  }
+}
+
+class Position extends Component {
+  protected __component = Position.name;
+
+  constructor(public x = 0, public y = 0) {
+    super();
+  }
+}
 
 describe('ComponentMap', () => {
-  it('should update bitmask when adding components', () => {
-    const cm = new ComponentMap();
-    cm.set(new Color());
+  it('should support adding components', () => {
+    const componentMap = new ComponentMap();
+    const red = new Color('red');
+    const startingPosition = new Position();
 
-    expect(cm.bitmask.and(Color.bitmask).isEqual(Color.bitmask)).toBe(true);
-    expect(cm.bitmask.and(Rectangle.bitmask).isEqual(Rectangle.bitmask)).toBe(
-      false,
-    );
+    componentMap.add(red, startingPosition);
 
-    cm.set(new Rectangle());
-
-    expect(
-      Color.bitmask.or(Rectangle.bitmask).and(cm.bitmask).isEqual(cm.bitmask),
-    ).toBe(true);
+    expect(componentMap.get(Color)).toEqual(red);
+    expect(componentMap.get(Position)).toEqual(startingPosition);
   });
 
-  it('should update bitmask when removing components', () => {
-    const cm = new ComponentMap();
-    cm.set(new Color());
-    cm.set(new Rectangle());
-    cm.remove(Rectangle);
+  it('should support removing components', () => {
+    const componentMap = new ComponentMap();
 
-    expect(cm.bitmask.and(Color.bitmask).isEqual(Color.bitmask)).toBe(true);
-    expect(cm.bitmask.and(Rectangle.bitmask).isEqual(Rectangle.bitmask)).toBe(
-      false,
-    );
+    componentMap.add(new Color(), new Position());
+    componentMap.delete(Color, Position);
+
+    expect(componentMap.has(Color)).toEqual(false);
+    expect(componentMap.has(Position)).toEqual(false);
   });
 
-  it('should support clearing components', () => {
-    const cm = new ComponentMap();
-    cm.set(new Color());
+  it('should support checking multiple components', () => {
+    const componentMap = new ComponentMap();
+    const red = new Color('red');
+    const startingPosition = new Position();
 
-    cm.clear();
+    componentMap.add(red, startingPosition);
 
-    expect(cm.bitmask.isEmpty()).toBe(true);
-    expect(cm.get(Color)).toBeUndefined();
+    expect(componentMap.has(Color, Position)).toEqual(true);
   });
 });
