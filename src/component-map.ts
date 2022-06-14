@@ -1,6 +1,9 @@
 import { Component } from './component.js';
 import { ComponentConstructor } from './world.js';
 
+/**
+ * A ComponentMap with a guaranteed set of Components.
+ */
 export type SafeComponentMap<T extends ComponentConstructor[]> = {
   // ComponentMap['get'] overload for specific component constructors
   get<C extends T[number]>(ctor: C): InstanceType<C>;

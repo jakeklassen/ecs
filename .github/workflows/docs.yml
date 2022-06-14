@@ -22,8 +22,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Generate docs
         run: |
-          yarn
-          yarn docs
+          npm i
+          npm run docs
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add docs

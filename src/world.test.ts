@@ -4,20 +4,24 @@ import { Component } from './component.js';
 import { World } from './world.js';
 
 class Color extends Component {
-  protected __component = Color.name;
+  constructor(public value = 'black') {
+    super();
+  }
 }
 
 class Rectangle extends Component {
-  protected __component = Rectangle.name;
+  constructor(public width = 0, public height = 0) {
+    super();
+  }
 }
 
 class Transform extends Component {
-  protected __component = Transform.name;
+  constructor(public position = new Position()) {
+    super();
+  }
 }
 
 class Position extends Component {
-  protected __component = Position.name;
-
   constructor(public x = 0, public y = 0) {
     super();
   }
