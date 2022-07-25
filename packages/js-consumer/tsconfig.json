@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2021", "DOM"],
+    "moduleResolution": "node",
+    "module": "Node16",
+    "declarationDir": "types",
+    "declaration": true,
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "#app/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.mjs", "src/**/*.js", "src/**/*.d.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "name": "✨ root",
+      "path": "."
+    },
+    {
+      "name": "📦 ecs",
+      "path": "packages/ecs"
+    },
+    {
+      "name": "📦 js-consumer",
+      "path": "packages/js-consumer"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.importModuleSpecifierEnding": "js"
+  }
+}

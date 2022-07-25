@@ -3,16 +3,12 @@ import { ComponentMap } from './component-map.js';
 import { Component } from './component.js';
 
 class Color extends Component {
-  protected __component = Color.name;
-
   constructor(public color = 'black') {
     super();
   }
 }
 
 class Position extends Component {
-  protected __component = Position.name;
-
   constructor(public x = 0, public y = 0) {
     super();
   }
