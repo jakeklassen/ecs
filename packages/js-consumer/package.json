@@ -30,6 +30,6 @@
     "typescript": "4.7.4"
   },
   "dependencies": {
-    "@jakeklassen/ecs": "workspace:3.0.0"
+    "@jakeklassen/ecs": "workspace:^3.0.0"
   }
 }
