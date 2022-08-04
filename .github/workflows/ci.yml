@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '3.0'
+
+  pull_request:
+    branches:
+      - '3.0'
+
+jobs:
+  build:
+    name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['16.x', '18.x']
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - name: Lint
+        run: nr -C packages/ecs lint
+
+      - name: Build
+        run: nr -C packages/ecs build
+
+      - name: Test
+        run: nr -C packages/ecs test --run
