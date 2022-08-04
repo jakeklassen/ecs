@@ -19,7 +19,7 @@ world.addEntityComponents(
   new BallTag(),
   new Transform(new Vector2d(10, 10)),
   new Velocity(100, 200),
-  new Rectangle(10, 10, 12, 12),
+  new Rectangle(12, 12),
   new Color('red'),
 );
 
@@ -91,7 +91,7 @@ class RenderingSystem extends System {
 }
 
 world.addSystem(
-  new BallMovementSystem(new Rectangle(0, 0, canvas.width, canvas.height)),
+  new BallMovementSystem(new Rectangle(canvas.width, canvas.height)),
 );
 world.addSystem(new RenderingSystem(ctx));
 
