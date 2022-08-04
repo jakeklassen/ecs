@@ -21,6 +21,7 @@ export default defineConfig({
         ...demoInputs,
       },
     },
+    target: 'esnext',
   },
   resolve: {
     // https://github.com/vitejs/vite/issues/88#issuecomment-784441588
