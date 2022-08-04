@@ -9,6 +9,10 @@
       "path": "packages/ecs"
     },
     {
+      "name": "📦 examples",
+      "path": "packages/examples"
+    },
+    {
       "name": "📦 js-consumer",
       "path": "packages/js-consumer"
     }

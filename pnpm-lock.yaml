@@ -21,7 +21,7 @@ importers:
       typedoc: ^0.23.10
       typescript: ^4.7.4
       vite: 3.0.4
-      vitest: ^0.20.2
+      vitest: ^0.20.3
     dependencies:
       tsup: 6.2.1_6oasmw356qmm23djlsjgkwvrtm
       type-fest: 2.18.0
@@ -41,7 +41,18 @@ importers:
       typedoc: 0.23.10_typescript@4.7.4
       typescript: 4.7.4
       vite: 3.0.4
-      vitest: 0.20.2
+      vitest: 0.20.3
+
+  packages/examples:
+    specifiers:
+      '@jakeklassen/ecs': workspace:3.0.0
+      typescript: ^4.6.4
+      vite: ^3.0.0
+    dependencies:
+      '@jakeklassen/ecs': link:../ecs
+    devDependencies:
+      typescript: 4.7.4
+      vite: 3.0.4
 
   packages/js-consumer:
     specifiers:
@@ -2288,8 +2299,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.20.2:
-    resolution: {integrity: sha512-AFXTHrwG4d2OO6SAL8WP5ZkOwLtgeF4tlrHfXFqrHc+5chNegeR53pge0lv/C4316SqJ2DbYaUBH8vh3CdF+BQ==}
+  /vitest/0.20.3:
+    resolution: {integrity: sha512-cXMjTbZxBBUUuIF3PUzEGPLJWtIMeURBDXVxckSHpk7xss4JxkiiWh5cnIlfGyfJne2Ii3QpbiRuFL5dMJtljw==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
