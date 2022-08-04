@@ -7,6 +7,10 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         basic: resolve(__dirname, 'src/demos/basic/index.html'),
+        bouncyRectangles: resolve(
+          __dirname,
+          'src/demos/bouncy-rectangles/index.html',
+        ),
       },
     },
   },
