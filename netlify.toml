@@ -1,0 +1,4 @@
+[build]
+  publish = "packages/examples/dist"
+
+  command = "npm i -g pnpm @antfu/ni && nci && nr -C packages/ecs build && nr -C packages/examples build"
