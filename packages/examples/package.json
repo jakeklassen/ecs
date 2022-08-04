@@ -13,6 +13,7 @@
     "vite": "^3.0.0"
   },
   "dependencies": {
-    "@jakeklassen/ecs": "workspace:3.0.0"
+    "@jakeklassen/ecs": "workspace:^3.0.0",
+    "just-safe-set": "4.0.2"
   }
 }
