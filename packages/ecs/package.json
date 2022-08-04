@@ -52,6 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "benchmark": "^2.1.4",
+    "bumpp": "8.2.1",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.3.0",
     "nodemon": "^2.0.19",
