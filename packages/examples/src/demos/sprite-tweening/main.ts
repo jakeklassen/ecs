@@ -19,6 +19,8 @@ if (ctx == null) {
   throw new Error('failed to obtain canvas 2d context');
 }
 
+ctx.imageSmoothingEnabled = false;
+
 const world = new World();
 
 world.addEntityComponents(
@@ -35,6 +37,24 @@ world.addEntityComponents(
       easing: Easing.Linear,
       from: 1,
       to: 0,
+      yoyo: true,
+    }),
+    new Tween({
+      component: Transform,
+      property: 'scale.x',
+      duration: 1000,
+      easing: Easing.Linear,
+      from: 1,
+      to: 2,
+      yoyo: true,
+    }),
+    new Tween({
+      component: Transform,
+      property: 'scale.y',
+      duration: 1000,
+      easing: Easing.Linear,
+      from: 1,
+      to: 2,
       yoyo: true,
     }),
     new Tween({
@@ -72,6 +92,7 @@ class RenderingSystem extends System {
 
       this.context.globalAlpha = sprite.opacity;
       this.context.translate(transform.position.x, transform.position.y);
+      this.context.scale(transform.scale.x, transform.scale.y);
       this.context.rotate(transform.rotation);
 
       this.context.drawImage(
