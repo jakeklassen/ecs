@@ -46,12 +46,16 @@ importers:
   packages/examples:
     specifiers:
       '@jakeklassen/ecs': workspace:^3.0.0
+      '@tweakpane/core': 1.1.0
       just-safe-set: 4.1.1
+      tweakpane: 3.1.0
       typescript: ^4.6.4
       vite: ^3.0.5
     dependencies:
       '@jakeklassen/ecs': link:../ecs
+      '@tweakpane/core': 1.1.0
       just-safe-set: 4.1.1
+      tweakpane: 3.1.0
     devDependencies:
       typescript: 4.7.4
       vite: 3.0.5
@@ -243,6 +247,10 @@ packages:
 
   /@tsconfig/node16/1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
+
+  /@tweakpane/core/1.1.0:
+    resolution: {integrity: sha512-vbbiQb+aoFI13lIbE7DJvhHZVE1YlUpGoaAamSpU6wLp2jA3VowS1wfRJBBB8IBCYm7nF6ULl7zfJKxl1XdyfA==}
+    dev: false
 
   /@types/benchmark/2.1.1:
     resolution: {integrity: sha512-XmdNOarpSSxnb3DE2rRFOFsEyoqXLUL+7H8nSGS25vs+JS0018bd+cW5Ma9vdlkPmoTHSQ6e8EUFMFMxeE4l+g==}
@@ -2482,6 +2490,10 @@ packages:
       tslib: 1.14.1
       typescript: 4.7.4
     dev: true
+
+  /tweakpane/3.1.0:
+    resolution: {integrity: sha512-PGAp/LPQdHwzL7/iAW4lV1p9iPQTti7YMjMWO48CoYjvZRS59RmgQnhEGzKzqST1JnmOYmQUjTe8bdhlZRJs5A==}
+    dev: false
 
   /type-check/0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
