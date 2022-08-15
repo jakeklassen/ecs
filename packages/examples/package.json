@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "typescript": "^4.6.4",
-    "vite": "^3.0.6"
+    "vite": "^3.0.7"
   },
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^3.0.0",
