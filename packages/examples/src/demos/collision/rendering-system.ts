@@ -2,7 +2,6 @@ import { Color } from '#/shared/components/color';
 import { Position } from '#/shared/components/position';
 import { Rectangle } from '#/shared/components/rectangle';
 import { System, World } from '@jakeklassen/ecs';
-import { canvas } from './main';
 
 // Rendering system
 export class RenderingSystem extends System {
@@ -11,7 +10,7 @@ export class RenderingSystem extends System {
   }
 
   public update(world: World, _dt: number): void {
-    this.context.clearRect(0, 0, canvas.width, canvas.height);
+    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
     for (const [, componentMap] of world.view(Position, Color, Rectangle)) {
       const { color } = componentMap.get(Color);
