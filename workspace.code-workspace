@@ -18,6 +18,7 @@
     }
   ],
   "settings": {
-    "typescript.preferences.importModuleSpecifierEnding": "js"
+    "typescript.preferences.importModuleSpecifierEnding": "js",
+    "typescript.tsdk": "📦 ecs/node_modules/typescript/lib"
   }
 }
