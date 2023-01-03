@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.RELEASER_TOKEN}}
 
       - run: pnpm i
-      - run: pnpm build
+      - run: pnpm --filter @jakeklassen/ecs build
       - run: pnpm publish --no-git-checks --access public --filter @jakeklassen/ecs
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
