@@ -164,7 +164,7 @@ export class World {
 
   public removeEntityComponents(
     entity: EntityId,
-    ...components: Component[]
+    ...components: ComponentConstructor[]
   ): World {
     if (this.#deletedEntities.has(entity)) {
       throw new Error('Entity has been deleted');
@@ -173,18 +173,11 @@ export class World {
     const entityComponents = this.#entities.get(entity);
 
     if (entityComponents != null) {
-      entityComponents.delete(
-        ...components.map(
-          (component) => component.constructor as ComponentConstructor,
-        ),
-      );
+      entityComponents.delete(...components);
 
-      components.forEach((component) => {
-        const ctor = component.constructor as ComponentConstructor;
-        if (this.#componentEntities.has(ctor)) {
-          this.#componentEntities.get(ctor)?.delete(entity);
-        }
-      });
+      for (const component of components) {
+        this.#componentEntities.get(component)?.delete(entity);
+      }
     }
 
     return this;

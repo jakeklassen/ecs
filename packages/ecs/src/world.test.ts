@@ -116,6 +116,49 @@ describe('World', () => {
     });
   });
 
+  describe('removeEntityComponents()', () => {
+    it('should remove entity components', () => {
+      const world = new World();
+      const entity = world.createEntity();
+      world.addEntityComponents(entity, new Color(), new Rectangle());
+
+      let components = world.getEntityComponents(entity);
+
+      expect(components?.has(Color, Rectangle)).toBe(true);
+
+      world.removeEntityComponents(entity, Color);
+
+      components = world.getEntityComponents(entity);
+
+      expect(components?.has(Color)).toBe(false);
+      expect(components?.has(Rectangle)).toBe(true);
+    });
+
+    it('should not error if entity does not have components', () => {
+      const world = new World();
+      const entity = world.createEntity();
+      world.addEntityComponents(entity, new Color());
+
+      expect(() =>
+        world.removeEntityComponents(entity, Rectangle),
+      ).not.toThrow();
+    });
+
+    it('should not throw if entity does not exist and is not deleted', () => {
+      const world = new World();
+
+      expect(() => world.removeEntityComponents(1, Color)).not.toThrowError();
+    });
+
+    it('should throw if entity has been mark for deletion', () => {
+      const world = new World();
+      const entity = world.createEntity();
+      world.deleteEntity(entity);
+
+      expect(() => world.removeEntityComponents(entity, Color)).toThrowError();
+    });
+  });
+
   describe('findEntity()', () => {
     it('should return the entity', () => {
       const world = new World();
