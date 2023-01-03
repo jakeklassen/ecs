@@ -28,6 +28,22 @@ class Position extends Component {
 }
 
 describe('World', () => {
+  describe('get entities()', () => {
+    it('returns a readonly map of entites', () => {
+      const world = new World();
+
+      world.createEntity();
+      world.createEntity();
+
+      expect(world.entities).toBeInstanceOf(Map);
+
+      for (const [entity, components] of world.entities) {
+        expect(entity).toBeGreaterThan(0);
+        expect(components).toBeInstanceOf(ComponentMap);
+      }
+    });
+  });
+
   describe('createEntity()', () => {
     it('returns a new entity', () => {
       const world = new World();

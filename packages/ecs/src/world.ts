@@ -20,19 +20,22 @@ export function* entityIdGenerator(): IterableIterator<number> {
  * Container for Systems and Entities
  */
 export class World {
-  private systems: System[] = [];
-  private systemsToRemove: System[] = [];
-  private systemsToAdd: System[] = [];
-  private entities: Map<EntityId, ComponentMap> = new Map();
-  private deletedEntities: Set<EntityId> = new Set();
-  private componentEntities: Map<ComponentConstructor, Set<EntityId>> =
-    new Map();
+  #systems: System[] = [];
+  #systemsToRemove: System[] = [];
+  #systemsToAdd: System[] = [];
+  #entities: Map<EntityId, ComponentMap> = new Map();
+  #deletedEntities: Set<EntityId> = new Set();
+  #componentEntities: Map<ComponentConstructor, Set<EntityId>> = new Map();
 
   /**
    * Create a new World instance
    * @param idGenerator Unique entity id generator
    */
   constructor(private readonly idGenerator = entityIdGenerator()) {}
+
+  public get entities(): ReadonlyMap<EntityId, ComponentMap> {
+    return this.#entities;
+  }
 
   /**
    * Update all world systems
@@ -43,15 +46,15 @@ export class World {
   }
 
   public createEntity(): EntityId {
-    if (this.deletedEntities.size > 0) {
-      const entity = this.deletedEntities.values().next().value;
-      this.deletedEntities.delete(entity);
+    if (this.#deletedEntities.size > 0) {
+      const entity = this.#deletedEntities.values().next().value;
+      this.#deletedEntities.delete(entity);
 
       return entity;
     }
 
     const entity = this.idGenerator.next().value;
-    this.entities.set(entity, new ComponentMap());
+    this.#entities.set(entity, new ComponentMap());
 
     return entity;
   }
@@ -62,22 +65,22 @@ export class World {
    * @param entity Entity to delete
    */
   public deleteEntity(entity: EntityId): boolean {
-    if (this.deletedEntities.has(entity)) {
+    if (this.#deletedEntities.has(entity)) {
       return false;
     }
 
-    const componentMap = this.entities.get(entity);
+    const componentMap = this.#entities.get(entity);
 
     if (componentMap == null) {
       return false;
     }
 
     for (const ctor of componentMap.keys()) {
-      this.componentEntities.get(ctor)?.delete(entity);
+      this.#componentEntities.get(ctor)?.delete(entity);
     }
 
     componentMap.clear();
-    this.deletedEntities.add(entity);
+    this.#deletedEntities.add(entity);
 
     return true;
   }
@@ -90,7 +93,7 @@ export class World {
     }
 
     const hasAllComponents = componentCtors.every((ctor) =>
-      this.componentEntities.has(ctor),
+      this.#componentEntities.has(ctor),
     );
 
     if (hasAllComponents === false) {
@@ -99,7 +102,7 @@ export class World {
 
     const componentSets = componentCtors
       .map((ctor) => {
-        return this.componentEntities.get(ctor);
+        return this.#componentEntities.get(ctor);
       })
       .filter((entitySet): entitySet is Set<EntityId> => entitySet != null);
 
@@ -130,20 +133,20 @@ export class World {
     entity: EntityId,
     ...components: Component[]
   ): World {
-    if (this.deletedEntities.has(entity)) {
+    if (this.#deletedEntities.has(entity)) {
       throw new Error('Entity has been deleted');
     }
 
-    const entityComponents = this.entities.get(entity);
+    const entityComponents = this.#entities.get(entity);
 
     if (entityComponents != null) {
       entityComponents.add(...components);
 
       for (const componentCtor of entityComponents.keys()) {
-        if (this.componentEntities.has(componentCtor)) {
-          this.componentEntities.get(componentCtor)?.add(entity);
+        if (this.#componentEntities.has(componentCtor)) {
+          this.#componentEntities.get(componentCtor)?.add(entity);
         } else {
-          this.componentEntities.set(componentCtor, new Set([entity]));
+          this.#componentEntities.set(componentCtor, new Set([entity]));
         }
       }
     }
@@ -152,22 +155,22 @@ export class World {
   }
 
   public getEntityComponents(entity: EntityId): ComponentMap | undefined {
-    if (this.deletedEntities.has(entity)) {
+    if (this.#deletedEntities.has(entity)) {
       return undefined;
     }
 
-    return this.entities.get(entity);
+    return this.#entities.get(entity);
   }
 
   public removeEntityComponents(
     entity: EntityId,
     ...components: Component[]
   ): World {
-    if (this.deletedEntities.has(entity)) {
+    if (this.#deletedEntities.has(entity)) {
       throw new Error('Entity has been deleted');
     }
 
-    const entityComponents = this.entities.get(entity);
+    const entityComponents = this.#entities.get(entity);
 
     if (entityComponents != null) {
       entityComponents.delete(
@@ -178,8 +181,8 @@ export class World {
 
       components.forEach((component) => {
         const ctor = component.constructor as ComponentConstructor;
-        if (this.componentEntities.has(ctor)) {
-          this.componentEntities.get(ctor)?.delete(entity);
+        if (this.#componentEntities.has(ctor)) {
+          this.#componentEntities.get(ctor)?.delete(entity);
         }
       });
     }
@@ -192,7 +195,7 @@ export class World {
    * @param system System
    */
   public addSystem(system: System): void {
-    this.systemsToAdd.push(system);
+    this.#systemsToAdd.push(system);
   }
 
   /**
@@ -200,29 +203,29 @@ export class World {
    * @param system System
    */
   public removeSystem(system: System): void {
-    this.systemsToRemove.push(system);
+    this.#systemsToRemove.push(system);
   }
 
   public updateSystems(dt: number): void {
-    if (this.systemsToRemove.length > 0) {
-      this.systems = this.systems.filter((existing) =>
-        this.systemsToRemove.includes(existing),
+    if (this.#systemsToRemove.length > 0) {
+      this.#systems = this.#systems.filter((existing) =>
+        this.#systemsToRemove.includes(existing),
       );
 
-      this.systemsToRemove = [];
+      this.#systemsToRemove = [];
     }
 
-    if (this.systemsToAdd.length > 0) {
-      this.systemsToAdd.forEach((newSystem) => {
-        if (this.systems.includes(newSystem) === false) {
-          this.systems.push(newSystem);
+    if (this.#systemsToAdd.length > 0) {
+      this.#systemsToAdd.forEach((newSystem) => {
+        if (this.#systems.includes(newSystem) === false) {
+          this.#systems.push(newSystem);
         }
       });
 
-      this.systemsToAdd = [];
+      this.#systemsToAdd = [];
     }
 
-    for (const system of this.systems) {
+    for (const system of this.#systems) {
       system.update(this, dt);
     }
   }
@@ -238,7 +241,7 @@ export class World {
 
     const componentSets = componentCtors
       .map((ctor) => {
-        return this.componentEntities.get(ctor);
+        return this.#componentEntities.get(ctor);
       })
       .filter((entitySet): entitySet is Set<EntityId> => entitySet != null);
 
