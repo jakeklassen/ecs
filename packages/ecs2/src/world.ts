@@ -20,7 +20,7 @@ type ArchetypeQuery<Entity extends JsonObject> = { with: Array<keyof Entity> };
  */
 export class World<Entity extends JsonObject = JsonObject> {
   #archetypes = new Map<ArchetypeQuery<Entity>, Archetype<Entity>>();
-  #entities = new Map<Entity, Entity>();
+  #entities = new Set<Entity>();
   #componentMasks = new Map<keyof Entity, bigint>();
 
   #bitmaskStarter = 0n;
@@ -37,12 +37,12 @@ export class World<Entity extends JsonObject = JsonObject> {
     return mask;
   }
 
-  public get entities(): ReadonlyMap<Entity, Entity> {
+  public get entities(): Readonly<Set<Entity>> {
     return this.#entities;
   }
 
-  public archetype<Component extends keyof Entity>(
-    ...components: Component[]
+  public archetype(
+    ...components: Array<keyof Entity>
   ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
       const matchesArchetype = components.every((component) => {
@@ -62,7 +62,7 @@ export class World<Entity extends JsonObject = JsonObject> {
 
     const entities = new Set<Entity>();
 
-    for (const entity of this.#entities.values()) {
+    for (const entity of this.#entities) {
       const matchesArchetype = components.every((component) => {
         return component in entity;
       });
@@ -90,8 +90,8 @@ export class World<Entity extends JsonObject = JsonObject> {
     >;
   }
 
-  public createEntity(entity: Entity): Entity {
-    this.#entities.set(entity, entity);
+  public createEntity(entity: Entity = {} as Entity): Entity {
+    this.#entities.add(entity);
 
     for (const [query, archetype] of this.#archetypes) {
       const matchesArchetype = query.with.every((component) => {
@@ -118,10 +118,10 @@ export class World<Entity extends JsonObject = JsonObject> {
     entity: Entity,
     component: Component,
     value: NonNullable<Entity[Component]>,
-  ): void {
-    const existingEntity = this.#entities.get(entity);
+  ): World<Entity> {
+    const existingEntity = this.#entities.has(entity);
 
-    if (existingEntity == null) {
+    if (existingEntity === false) {
       throw new Error(`Entity ${entity} does not exist`);
     }
 
@@ -137,20 +137,18 @@ export class World<Entity extends JsonObject = JsonObject> {
         archetype.entities.add(entity);
       }
     }
+
+    return this;
   }
 
   public removeEntityComponents(
     entity: Entity,
     ...components: Array<keyof Entity>
   ) {
-    const currentEntity = this.#entities.get(entity);
-
-    if (currentEntity != null) {
+    if (this.#entities.has(entity)) {
       for (const component of components) {
-        delete currentEntity[component];
+        delete entity[component];
       }
-
-      this.#entities.set(currentEntity, currentEntity);
 
       for (const [query, archetype] of this.#archetypes) {
         const matchesArchetype = query.with.every((component) => {
@@ -164,7 +162,5 @@ export class World<Entity extends JsonObject = JsonObject> {
         }
       }
     }
-
-    return currentEntity;
   }
 }

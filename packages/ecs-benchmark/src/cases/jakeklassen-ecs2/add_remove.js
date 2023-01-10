@@ -16,11 +16,11 @@ export default async (count) => {
   }
 
   return () => {
-    for (const [entity] of ecs.entities) {
+    for (const entity of ecs.entities) {
       ecs.addEntityComponents(entity, "B", true);
     }
 
-    for (const [entity] of ecs.entities) {
+    for (const entity of ecs.entities) {
       ecs.removeEntityComponents(entity, "B");
     }
   };
