@@ -1,3 +1,4 @@
+// @ts-check
 import { World } from "miniplex";
 
 export default (count) => {

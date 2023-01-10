@@ -1,3 +1,4 @@
+// @ts-check
 import { World } from "miniplex";
 
 export default async (count) => {
@@ -9,7 +10,7 @@ export default async (count) => {
 
   return () => {
     for (const entity of ecs.entities) {
-      ecs.addComponent(entity, { B: true });
+      ecs.addComponent(entity, "B", true);
     }
 
     for (const entity of ecs.entities) {
