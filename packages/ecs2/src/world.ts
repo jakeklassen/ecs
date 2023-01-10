@@ -11,7 +11,7 @@ type ReadonlyArchetype<Entity extends JsonObject> = {
 type SafeEntity<
   Entity extends JsonObject,
   Components extends keyof Entity,
-> = Omit<Entity, Components> & Required<Pick<Entity, Components>>;
+> = Entity & Required<Pick<Entity, Components>>;
 
 type ArchetypeQuery<Entity extends JsonObject> = { with: Array<keyof Entity> };
 
@@ -21,28 +21,13 @@ type ArchetypeQuery<Entity extends JsonObject> = { with: Array<keyof Entity> };
 export class World<Entity extends JsonObject = JsonObject> {
   #archetypes = new Map<ArchetypeQuery<Entity>, Archetype<Entity>>();
   #entities = new Set<Entity>();
-  #componentMasks = new Map<keyof Entity, bigint>();
-
-  #bitmaskStarter = 0n;
-
-  private resolveComponentMask(component: keyof Entity): bigint {
-    if (this.#componentMasks.has(component)) {
-      return this.#componentMasks.get(component) as bigint;
-    }
-
-    const mask = 1n << this.#bitmaskStarter++;
-
-    this.#componentMasks.set(component, mask);
-
-    return mask;
-  }
 
   public get entities(): Readonly<Set<Entity>> {
     return this.#entities;
   }
 
-  public archetype(
-    ...components: Array<keyof Entity>
+  public archetype<Component extends keyof Entity>(
+    components: Component[],
   ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
       const matchesArchetype = components.every((component) => {

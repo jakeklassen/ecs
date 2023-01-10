@@ -144,17 +144,17 @@ describe('World', () => {
       const testTransform = { position: { x: 0, y: 0 } };
 
       world.addEntityComponents(entity, 'transform', testTransform);
-      expect(world.archetype('transform')).toEqual({
+      expect(world.archetype(['transform'])).toEqual({
         entities: new Set([entity]),
       });
 
-      expect(world.archetype('color')).toEqual({ entities: new Set() });
+      expect(world.archetype(['color'])).toEqual({ entities: new Set() });
     });
 
     it('should be updated correctly via removeEntityComponents()', () => {
       const world = new World<Entity>();
       const entity = world.createEntity();
-      const moving = world.archetype('transform', 'velocity');
+      const moving = world.archetype(['transform', 'velocity']);
 
       expect(moving).toEqual({ entities: new Set() });
 

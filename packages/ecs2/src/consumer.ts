@@ -15,11 +15,12 @@ const e = world.createEntity({
 
 world.addEntityComponents(e, 'color', 'red');
 
-const moving = world.archetype('position', 'velocity');
+const moving = world.archetype(['position', 'velocity']);
 
 function physicsSystem(dt: number) {
-  for (const { position, velocity } of moving.entities) {
-    position.x += velocity.x * dt;
+  for (const entity of moving.entities) {
+    entity.color?.toLocaleLowerCase();
+    entity.position.x += entity.velocity.x * dt;
   }
 }
 

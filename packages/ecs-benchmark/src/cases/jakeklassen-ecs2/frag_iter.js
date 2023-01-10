@@ -16,8 +16,8 @@ export default (count) => {
     }
   });
 
-  const withZ = ecs.archetype("Z");
-  const withData = ecs.archetype("Data");
+  const withZ = ecs.archetype(["Z"]);
+  const withData = ecs.archetype(["Data"]);
 
   return () => {
     for (const entity of withZ.entities) {
