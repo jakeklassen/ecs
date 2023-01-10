@@ -1,0 +1,10 @@
+{
+  "ignore": [
+    "./dist/", 
+    "./README.md"
+  ],
+  "watch": [
+    "./src/"
+  ],
+  "ext": "js,json,ts,tsx"
+}

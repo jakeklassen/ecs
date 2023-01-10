@@ -11,17 +11,17 @@ export type SafeComponentMap<T extends ComponentConstructor[]> = {
 
 export class ComponentMap extends Map<ComponentConstructor, Component> {
   public add(...components: Component[]): void {
-    components.forEach((component) => {
+    for (const component of components) {
       this.set(component.constructor as ComponentConstructor, component);
-    });
+    }
   }
 
   public override delete(
     ...componentConstructors: ComponentConstructor[]
   ): boolean {
-    componentConstructors.forEach((componentConstructor) => {
+    for (const componentConstructor of componentConstructors) {
       super.delete(componentConstructor);
-    });
+    }
 
     return true;
   }

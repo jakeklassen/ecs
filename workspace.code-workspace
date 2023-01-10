@@ -5,8 +5,16 @@
       "path": "."
     },
     {
+      "name": "📦 ecs-benchmark",
+      "path": "packages/ecs-benchmark"
+    },
+    {
       "name": "📦 ecs",
       "path": "packages/ecs"
+    },
+    {
+      "name": "📦 ecs2",
+      "path": "packages/ecs2"
     },
     {
       "name": "📦 examples",

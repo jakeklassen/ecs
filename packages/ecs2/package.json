@@ -1,6 +1,6 @@
 {
-  "name": "@jakeklassen/ecs",
-  "version": "4.0.0",
+  "name": "@jakeklassen/ecs2",
+  "version": "1.0.0",
   "description": "Entity Component System",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -64,6 +64,8 @@
     "vitest": "^0.27.0"
   },
   "dependencies": {
+    "just-omit": "2.2.0",
+    "ts-toolbelt": "9.6.0",
     "tsup": "^6.5.0",
     "type-fest": "3.5.1"
   }
