@@ -15,7 +15,7 @@ const e = world.createEntity({
 
 world.addEntityComponents(e, 'color', 'red');
 
-const moving = world.archetype(['position', 'velocity']);
+const moving = world.archetype('position', 'velocity');
 
 function physicsSystem(dt: number) {
   for (const entity of moving.entities) {

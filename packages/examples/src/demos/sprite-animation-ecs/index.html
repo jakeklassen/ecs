@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demos - Sprite Animation ECS</title>
+
+    <style>
+      canvas {
+        background-color: black;
+        width: calc(180px * 3);
+        height: calc(128px * 3);
+        image-rendering: pixelated;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <a href="/">Back</a> |
+        <a
+          href="https://github.com/jakeklassen/ecs/tree/main/packages/examples/src/demos/sprite-animation"
+          >Source</a
+        >
+      </div>
+
+      <canvas id="canvas" width="180" height="128"></canvas>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

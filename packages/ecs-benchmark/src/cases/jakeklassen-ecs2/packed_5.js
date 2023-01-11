@@ -19,11 +19,11 @@ export default (count) => {
     ecs.createEntity({ A: 1, B: 1, C: 1, D: 1, E: 1 });
   }
 
-  const withA = ecs.archetype(["A"]);
-  const withB = ecs.archetype(["B"]);
-  const withC = ecs.archetype(["C"]);
-  const withD = ecs.archetype(["D"]);
-  const withE = ecs.archetype(["E"]);
+  const withA = ecs.archetype("A");
+  const withB = ecs.archetype("B");
+  const withC = ecs.archetype("C");
+  const withD = ecs.archetype("D");
+  const withE = ecs.archetype("E");
 
   return () => {
     for (const entity of withA.entities) {

@@ -26,8 +26,8 @@ export class World<Entity extends JsonObject = JsonObject> {
     return this.#entities;
   }
 
-  public archetype<Component extends keyof Entity>(
-    components: Component[],
+  public archetype<Components extends Array<keyof Entity>>(
+    ...components: Components
   ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
       const matchesArchetype = components.every((component) => {
