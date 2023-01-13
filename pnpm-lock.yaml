@@ -49,7 +49,7 @@ importers:
       '@jakeklassen/ecs2': workspace:1.0.0
       '@javelin/ecs': 0.22.0
       '@lastolivegames/becsy': 0.8.4
-      '@types/node': ^16.9.1
+      '@types/node': ^18.11.18
       bitecs: 0.3.34
       ecsy: 0.4.2
       geotic: 4.1.6
@@ -81,7 +81,7 @@ importers:
       uecs: 0.4.2
       wolf-ecs: 2.1.2
     devDependencies:
-      '@types/node': 16.9.1
+      '@types/node': 18.11.18
       prettier: 2.8.2
 
   packages/ecs2:
@@ -144,6 +144,29 @@ importers:
       '@tweakpane/core': 1.1.1
       just-safe-set: 4.2.0
       tweakpane: 3.1.1
+    devDependencies:
+      typescript: 4.9.4
+      vite: 4.0.4
+
+  packages/examples2:
+    specifiers:
+      '@jakeklassen/ecs2': workspace:1.0.0
+      '@tweakpane/core': 1.1.1
+      just-safe-get: 4.2.0
+      just-safe-set: 4.2.0
+      ts-toolbelt: 9.6.0
+      tweakpane: 3.1.1
+      type-fest: 3.5.1
+      typescript: ^4.9.4
+      vite: ^4.0.4
+    dependencies:
+      '@jakeklassen/ecs2': link:../ecs2
+      '@tweakpane/core': 1.1.1
+      just-safe-get: 4.2.0
+      just-safe-set: 4.2.0
+      ts-toolbelt: 9.6.0
+      tweakpane: 3.1.1
+      type-fest: 3.5.1
     devDependencies:
       typescript: 4.9.4
       vite: 4.0.4
@@ -608,10 +631,6 @@ packages:
 
   /@types/mocha/10.0.1:
     resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==}
-    dev: true
-
-  /@types/node/16.9.1:
-    resolution: {integrity: sha512-QpLcX9ZSsq3YYUUnD3nFDY8H7wctAhQj/TFKL8Ya8v5fMm3CFXxo8zStsLAl780ltoYoo1WvKUVGBQK+1ifr7g==}
     dev: true
 
   /@types/node/18.11.18:
@@ -1944,6 +1963,10 @@ packages:
 
   /just-omit/2.2.0:
     resolution: {integrity: sha512-Js7+HxDOGcB3RhI38Mird/RgyMf3t0DAJFda1QWqqlAKTa36NeSYIufJXxrZUbysFTRcTOFcoMCiFK5FwCoI7Q==}
+    dev: false
+
+  /just-safe-get/4.2.0:
+    resolution: {integrity: sha512-+tS4Bvgr/FnmYxOGbwziJ8I2BFk+cP1gQHm6rm7zo61w1SbxBwWGEq/Ryy9Gb6bvnloPq6pz7Bmm4a0rjTNlXA==}
     dev: false
 
   /just-safe-set/4.2.0:

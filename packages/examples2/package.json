@@ -1,0 +1,24 @@
+{
+  "name": "examples2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "@jakeklassen/ecs2": "workspace:1.0.0",
+    "@tweakpane/core": "1.1.1",
+    "just-safe-get": "4.2.0",
+    "just-safe-set": "4.2.0",
+    "ts-toolbelt": "9.6.0",
+    "tweakpane": "3.1.1",
+    "type-fest": "3.5.1"
+  }
+}

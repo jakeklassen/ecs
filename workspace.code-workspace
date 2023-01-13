@@ -21,6 +21,10 @@
       "path": "packages/examples"
     },
     {
+      "name": "📦 examples2",
+      "path": "packages/examples2"
+    },
+    {
       "name": "📦 js-consumer",
       "path": "packages/js-consumer"
     }
