@@ -4,42 +4,18 @@ type Vector2d = {
 };
 
 export type Entity = {
-  transform?: {
+  color?: string;
+  empty?: boolean;
+  moved?: boolean;
+  node?: {
+    north: Entity | null;
+    south: Entity | null;
+    east: Entity | null;
+    west: Entity | null;
+  };
+  transform: {
     position: Vector2d;
     scale: Vector2d;
     rotation: number;
-  };
-  sprite?: {
-    frame: {
-      sourceX: number;
-      sourceY: number;
-      width: number;
-      height: number;
-    };
-    opacity: number;
-  };
-  spriteAnimation?: {
-    delta: number;
-    durationMs: number;
-    frameRate: number;
-    currentFrame: number;
-    finished: boolean;
-    loop: boolean;
-    frames: {
-      sourceX: number;
-      sourceY: number;
-      width: number;
-      height: number;
-    }[];
-    frameSequence: number[];
-    animationDetails: {
-      name: string;
-      sourceX: number;
-      sourceY: number;
-      width: number;
-      height: number;
-      frameWidth: number;
-      frameHeight: number;
-    };
   };
 };

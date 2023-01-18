@@ -1,61 +1,196 @@
-import gabeRunImageUrl from '#/assets/image/gabe-idle-run.png';
-import { loadImage } from '#/lib/asset-loader';
 import { obtainCanvasAndContext2d } from '#/lib/dom';
+import { transformFactory } from '#/shared/components/transform.js';
 import { World } from '@jakeklassen/ecs2';
+import canvasRecord from 'canvas-record';
 import '../../style.css';
-import { spriteAnimationFactory } from './components/sprite-animation.js';
 import { Entity } from './entity.js';
-import { SpriteSheet } from './spritesheet';
+import { varyColor } from './lib/color.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
-import { spriteAnimationSystemFactory } from './systems/sprite-animation-system.js';
 
-const gabeImage = await loadImage(gabeRunImageUrl);
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const SAND_COLOR = '#dcb159';
 
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
 
 context.imageSmoothingEnabled = false;
 
+const canvasRecorder = canvasRecord(canvas, {
+  download: true,
+  filename: 'recording.mp4',
+  frameRate: 120,
+});
+
+type Mouse = {
+  down: boolean;
+  position: {
+    x: number;
+    y: number;
+  };
+};
+
+const mouse = {
+  down: false,
+  position: { x: 0, y: 0 },
+};
+
+canvas.addEventListener('mousedown', (e: MouseEvent) => {
+  e.preventDefault();
+  mouse.down = true;
+});
+
+canvas.addEventListener('mouseup', (e: MouseEvent) => {
+  e.preventDefault();
+  mouse.down = false;
+});
+
+canvas.addEventListener('touchstart', (e) => e.preventDefault());
+canvas.addEventListener('touchend', (e) => e.preventDefault());
+canvas.addEventListener('touchmove', (e) => e.preventDefault());
+
+canvas.addEventListener('mousemove', (e: MouseEvent) => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.position.x = (e.clientX - rect.left) * (canvas.width / rect.width);
+  mouse.position.y = (e.clientY - rect.top) * (canvas.height / rect.height);
+});
+
 const world = new World<Entity>();
 
-world.createEntity({
-  transform: {
-    position: {
-      x: canvas.width / 2 - SpriteSheet.gabe.animations.run.frameWidth / 2,
-      y: canvas.height / 2 - SpriteSheet.gabe.animations.run.frameHeight / 2,
+const entityGrid: Array<Entity> = new Array(canvas.width * canvas.height).fill(
+  null,
+);
+
+for (let index = 0; index < entityGrid.length; index++) {
+  const x = index % canvas.width;
+  const y = Math.floor(index / canvas.width);
+
+  const gridIndex = x + y * canvas.width;
+
+  const entity = world.createEntity({
+    color: 'black',
+    empty: true,
+    moved: false,
+    node: {
+      north: entityGrid[gridIndex - canvas.width] ?? null,
+      south: entityGrid[gridIndex + canvas.width] ?? null,
+      east: entityGrid[gridIndex + 1] ?? null,
+      west: entityGrid[gridIndex - 1] ?? null,
     },
-    rotation: 0,
-    scale: {
-      x: 1,
-      y: 1,
-    },
-  },
-  sprite: {
-    frame: {
-      sourceX: SpriteSheet.gabe.animations.run.sourceX,
-      sourceY: SpriteSheet.gabe.animations.run.sourceY,
-      width: SpriteSheet.gabe.animations.run.frameWidth,
-      height: SpriteSheet.gabe.animations.run.frameHeight,
-    },
-    opacity: 1,
-  },
-  spriteAnimation: spriteAnimationFactory(
-    {
-      name: 'gabe-run',
-      sourceX: SpriteSheet.gabe.animations.run.sourceX,
-      sourceY: SpriteSheet.gabe.animations.run.sourceY,
-      width: SpriteSheet.gabe.animations.run.width,
-      height: SpriteSheet.gabe.animations.run.height,
-      frameWidth: SpriteSheet.gabe.animations.run.frameWidth,
-      frameHeight: SpriteSheet.gabe.animations.run.frameHeight,
-    },
-    1_000,
-  ),
-});
+    transform: transformFactory({
+      x,
+      y,
+    }),
+  });
+
+  entityGrid[index] = entity;
+}
+
+for (let index = 0; index < entityGrid.length; index++) {
+  const entity = entityGrid[index];
+
+  const x = index % canvas.width;
+  const y = Math.floor(index / canvas.width);
+  const gridIndex = x + y * canvas.width;
+
+  entity.node = {
+    north: entityGrid[gridIndex - canvas.width] ?? null,
+    south: entityGrid[gridIndex + canvas.width] ?? null,
+    east: entityGrid[gridIndex + 1] ?? null,
+    west: entityGrid[gridIndex - 1] ?? null,
+  };
+}
+
+console.log(entityGrid);
+
+entityGrid[20].empty = false;
+entityGrid[20].color = SAND_COLOR;
 
 let last = performance.now();
 
-const spriteAnimationSystem = spriteAnimationSystemFactory(world);
 const renderingSystem = renderingSystemFactory(world);
+
+function mouseSystemFactory(mouse: Mouse, entityGrid: Entity[]) {
+  const positionWithVariance = (
+    x: number,
+    y: number,
+    radius = 2,
+    probability = 1.0,
+  ) => {
+    let radiusSq = radius * radius;
+
+    for (let y1 = -radius; y1 <= radius; y1++) {
+      for (let x1 = -radius; x1 <= radius; x1++) {
+        if (x1 * x1 + y1 * y1 <= radiusSq && Math.random() < probability) {
+          return {
+            x: x + x1,
+            y: y + y1,
+            color: varyColor(SAND_COLOR).toString(),
+          };
+        }
+      }
+    }
+  };
+
+  return () => {
+    if (!mouse.down) {
+      return;
+    }
+
+    const x = Math.floor(mouse.position.x);
+    const y = Math.floor(mouse.position.y);
+
+    const data = positionWithVariance(x, y, 3, 0.5);
+
+    const index = data!.x + data!.y * canvas.width;
+
+    const entity = entityGrid[index];
+    if (entity == null) {
+      return;
+    }
+
+    if (entity.empty === true) {
+      entity.color = varyColor(SAND_COLOR).toString();
+      entity.empty = false;
+    }
+  };
+}
+
+function movementSystemFactory(entityGrid: Entity[]) {
+  const swap = (a: number, b: number) => {
+    [entityGrid[a], entityGrid[b]] = [entityGrid[b], entityGrid[a]];
+    [entityGrid[a].transform.position, entityGrid[b].transform.position] = [
+      entityGrid[b].transform.position,
+      entityGrid[a].transform.position,
+    ];
+  };
+
+  const isEmpty = (index: number) => entityGrid[index]?.empty === true;
+
+  return () => {
+    for (let index = entityGrid.length - 1; index >= 0; index--) {
+      const entity = entityGrid[index];
+
+      if (entity.empty === true) {
+        continue;
+      }
+
+      const below = index + canvas.width;
+      const belowLeft = below - 1;
+      const belowRight = below + 1;
+
+      if (isEmpty(below)) {
+        swap(index, below);
+      } else if (isEmpty(belowLeft)) {
+        swap(index, belowLeft);
+      } else if (isEmpty(belowRight)) {
+        swap(index, belowRight);
+      }
+    }
+  };
+}
+
+const movementSystem = movementSystemFactory(entityGrid);
+const mouseSystem = mouseSystemFactory(mouse, entityGrid);
 
 /**
  * The game loop.
@@ -63,8 +198,24 @@ const renderingSystem = renderingSystemFactory(world);
 const frame = (hrt: DOMHighResTimeStamp) => {
   const dt = Math.min(1000, hrt - last) / 1000;
 
-  spriteAnimationSystem(dt);
-  renderingSystem(context, gabeImage, dt);
+  context.fillStyle = 'black';
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  mouseSystem();
+  movementSystem();
+  renderingSystem(context, dt);
+
+  context.fillStyle = SAND_COLOR;
+  context.beginPath();
+  context.arc(
+    Math.floor(mouse.position.x),
+    Math.floor(mouse.position.y),
+    3,
+    0,
+    2 * Math.PI,
+  );
+
+  context.fill();
 
   last = hrt;
 
@@ -73,3 +224,8 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 
 // Start the game loop.
 requestAnimationFrame(frame);
+
+canvasRecorder.start();
+await sleep(10_000);
+canvasRecorder.stop();
+canvasRecorder.dispose();
