@@ -7,8 +7,6 @@ import { Entity } from './entity.js';
 import { varyColor } from './lib/color.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 const SAND_COLOR = '#dcb159';
 
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
@@ -20,6 +18,11 @@ const canvasRecorder = canvasRecord(canvas, {
   filename: 'recording.mp4',
   frameRate: 120,
 });
+
+const recorder = {
+  recording: false,
+  canvasRecorder,
+};
 
 type Mouse = {
   down: boolean;
@@ -54,11 +57,22 @@ canvas.addEventListener('mousemove', (e: MouseEvent) => {
   mouse.position.y = (e.clientY - rect.top) * (canvas.height / rect.height);
 });
 
+window.addEventListener('keypress', (e: KeyboardEvent) => {
+  if (e.key === 'r') {
+    if (recorder.recording) {
+      recorder.canvasRecorder.stop();
+      // recorder.canvasRecorder.dispose();
+      recorder.recording = false;
+    } else {
+      recorder.canvasRecorder.start();
+      recorder.recording = true;
+    }
+  }
+});
+
 const world = new World<Entity>();
 
-const entityGrid: Array<Entity> = new Array(canvas.width * canvas.height).fill(
-  null,
-);
+const entityGrid: Entity[] = new Array(canvas.width * canvas.height).fill(null);
 
 for (let index = 0; index < entityGrid.length; index++) {
   const x = index % canvas.width;
@@ -100,10 +114,8 @@ for (let index = 0; index < entityGrid.length; index++) {
   };
 }
 
-console.log(entityGrid);
-
-entityGrid[20].empty = false;
-entityGrid[20].color = SAND_COLOR;
+// entityGrid[20].empty = false;
+// entityGrid[20].color = SAND_COLOR;
 
 let last = performance.now();
 
@@ -224,8 +236,3 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 
 // Start the game loop.
 requestAnimationFrame(frame);
-
-canvasRecorder.start();
-await sleep(10_000);
-canvasRecorder.stop();
-canvasRecorder.dispose();

@@ -15,7 +15,7 @@ importers:
       eslint-config-prettier: ^8.6.0
       nodemon: ^2.0.20
       prettier: ^2.8.3
-      rimraf: ^4.1.0
+      rimraf: ^4.1.1
       ts-node: ^10.9.1
       tsup: ^6.5.0
       type-fest: 3.5.2
@@ -37,7 +37,7 @@ importers:
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       nodemon: 2.0.20
       prettier: 2.8.3
-      rimraf: 4.1.0
+      rimraf: 4.1.1
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typescript: 4.9.4
       vite: 4.0.4_@types+node@18.11.18
@@ -98,7 +98,7 @@ importers:
       just-omit: 2.2.0
       nodemon: ^2.0.20
       prettier: ^2.8.3
-      rimraf: ^4.1.0
+      rimraf: ^4.1.1
       ts-node: ^10.9.1
       ts-toolbelt: 9.6.0
       tsup: ^6.5.0
@@ -123,7 +123,7 @@ importers:
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       nodemon: 2.0.20
       prettier: 2.8.3
-      rimraf: 4.1.0
+      rimraf: 4.1.1
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typescript: 4.9.4
       vite: 4.0.4_@types+node@18.11.18
@@ -156,6 +156,7 @@ importers:
       canvas-capture: 2.0.6
       canvas-record: 3.1.0
       color: 4.2.3
+      just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
       just-safe-set: 4.2.0
@@ -170,6 +171,7 @@ importers:
       canvas-capture: 2.0.6
       canvas-record: 3.1.0
       color: 4.2.3
+      just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
       just-safe-set: 4.2.0
@@ -2082,6 +2084,10 @@ packages:
     resolution: {integrity: sha512-MfabwcY+RQNCVCmZZkTYDpk/AT315+7Rkoj59+abzYxgUOiSdoZ4G5hbK/4VZqdHScu95Wnd+1MqxyUETM6xuQ==}
     dev: false
 
+  /just-random/3.2.0:
+    resolution: {integrity: sha512-RMf8vbtCfLIbAEHvIPu2FwMkpB/JudGyk/VPfqPItcRgt7k8QnV+Aa7s7kRFPo+bavQkUi8Yg1x/ooW6Ttyb9A==}
+    dev: false
+
   /just-safe-get/4.2.0:
     resolution: {integrity: sha512-+tS4Bvgr/FnmYxOGbwziJ8I2BFk+cP1gQHm6rm7zo61w1SbxBwWGEq/Ryy9Gb6bvnloPq6pz7Bmm4a0rjTNlXA==}
     dev: false
@@ -2624,8 +2630,8 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rimraf/4.1.0:
-    resolution: {integrity: sha512-ZJdkUR5/dRrRJHdcSKJLrpRn6tVjl9ALxd4yrTCxFsMpjQNzwHF6GLqMsuEzEYIXxHlFPDSk21Vr8VPuFBEz0g==}
+  /rimraf/4.1.1:
+    resolution: {integrity: sha512-Z4Y81w8atcvaJuJuBB88VpADRH66okZAuEm+Jtaufa+s7rZmIz+Hik2G53kGaNytE7lsfXyWktTmfVz0H9xuDg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
