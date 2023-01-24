@@ -4,9 +4,7 @@ type Archetype<Entity extends JsonObject> = {
   entities: Set<Entity>;
 };
 
-type ReadonlyArchetype<Entity extends JsonObject> = {
-  entities: ReadonlySet<Entity>;
-};
+type ReadonlyArchetype<Entity extends JsonObject> = Readonly<Archetype<Entity>>;
 
 type SafeEntity<
   Entity extends JsonObject,
@@ -30,12 +28,12 @@ export class World<Entity extends JsonObject = JsonObject> {
     ...components: Components
   ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
-      const matchesArchetype = components.every((component) => {
-        return query.with.includes(component);
-      });
+      const matchesArchetype = components.every((component) =>
+        query.with.includes(component),
+      );
 
       if (matchesArchetype === true) {
-        return archetype as unknown as ReadonlyArchetype<
+        return archetype as ReadonlyArchetype<
           SafeEntity<Entity, (typeof components)[number]>
         >;
       }
@@ -63,14 +61,7 @@ export class World<Entity extends JsonObject = JsonObject> {
 
     this.#archetypes.set(key, archetype);
 
-    // This is a hack to get around the fact that Set does not allow
-    // for the type to be narrowed down to the type of the set. This is
-    // because Set is a generic type and the type of the set is not known
-    // until runtime. This is a limitation of TypeScript and there is no
-    // way to get around it. The only way to get around this is to use
-    // a custom Set implementation that allows for the type to be narrowed
-    // down to the type of the set.
-    return archetype as unknown as ReadonlyArchetype<
+    return archetype as ReadonlyArchetype<
       SafeEntity<Entity, (typeof components)[number]>
     >;
   }
