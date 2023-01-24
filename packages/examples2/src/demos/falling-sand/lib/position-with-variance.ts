@@ -16,4 +16,9 @@ export const positionWithVariance = (
       }
     }
   }
+
+  return {
+    x,
+    y,
+  };
 };

@@ -5,17 +5,18 @@ type Vector2d = {
 
 export type Entity = {
   color?: string;
-  empty?: boolean;
-  moved?: boolean;
-  node?: {
+  empty?: true;
+  rerender?: true;
+  moving?: true;
+  node: {
     north: Entity | null;
     south: Entity | null;
     east: Entity | null;
     west: Entity | null;
   };
-  transform: {
-    position: Vector2d;
-    scale: Vector2d;
-    rotation: number;
+  swap?: {
+    direction: 'north' | 'south' | 'southeast' | 'southwest' | 'east' | 'west';
   };
+  // previousPosition: Vector2d;
+  position: Vector2d;
 };

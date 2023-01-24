@@ -1,29 +1,32 @@
 import { obtainCanvasAndContext2d } from '#/lib/dom';
-import { transformFactory } from '#/shared/components/transform.js';
 import { World } from '@jakeklassen/ecs2';
-import canvasRecord from 'canvas-record';
 import '../../style.css';
 import { Entity } from './entity.js';
 import { varyColor } from './lib/color.js';
-import { positionWithVariance } from './lib/position-with-variance.js';
+import { removeRerenderSystemFactory } from './systems/remove-rerender-system.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
+import { swapSystemFactory } from './systems/swap-system.js';
+
+const logOnceFactory = () => {
+  const seen = new Set<string>();
+
+  return (message: string) => {
+    if (seen.has(message)) {
+      return;
+    }
+
+    seen.add(message);
+    console.log(message);
+  };
+};
+
+const logOnce = logOnceFactory();
 
 const SAND_COLOR = '#dcb159';
 
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
 
 context.imageSmoothingEnabled = false;
-
-const canvasRecorder = canvasRecord(canvas, {
-  download: true,
-  filename: 'recording.mp4',
-  frameRate: 120,
-});
-
-const recorder = {
-  recording: false,
-  canvasRecorder,
-};
 
 type Mouse = {
   down: boolean;
@@ -52,23 +55,14 @@ canvas.addEventListener('touchstart', (e) => e.preventDefault());
 canvas.addEventListener('touchend', (e) => e.preventDefault());
 canvas.addEventListener('touchmove', (e) => e.preventDefault());
 
+canvas.addEventListener('mouseleave', () => {
+  mouse.down = false;
+});
+
 canvas.addEventListener('mousemove', (e: MouseEvent) => {
   const rect = canvas.getBoundingClientRect();
   mouse.position.x = (e.clientX - rect.left) * (canvas.width / rect.width);
   mouse.position.y = (e.clientY - rect.top) * (canvas.height / rect.height);
-});
-
-window.addEventListener('keypress', (e: KeyboardEvent) => {
-  if (e.key === 'r') {
-    if (recorder.recording) {
-      recorder.canvasRecorder.stop();
-      // recorder.canvasRecorder.dispose();
-      recorder.recording = false;
-    } else {
-      recorder.canvasRecorder.start();
-      recorder.recording = true;
-    }
-  }
 });
 
 const world = new World<Entity>();
@@ -84,17 +78,16 @@ for (let index = 0; index < entityGrid.length; index++) {
   const entity = world.createEntity({
     color: 'black',
     empty: true,
-    moved: false,
     node: {
       north: entityGrid[gridIndex - canvas.width] ?? null,
       south: entityGrid[gridIndex + canvas.width] ?? null,
       east: entityGrid[gridIndex + 1] ?? null,
       west: entityGrid[gridIndex - 1] ?? null,
     },
-    transform: transformFactory({
+    position: {
       x,
       y,
-    }),
+    },
   });
 
   entityGrid[index] = entity;
@@ -115,99 +108,248 @@ for (let index = 0; index < entityGrid.length; index++) {
   };
 }
 
-// entityGrid[20].empty = false;
-// entityGrid[20].color = SAND_COLOR;
+console.log(world.entities);
 
-let last = performance.now();
+function mouseSystemFactory(world: World<Entity>, mouse: Mouse) {
+  const safeToPick = world.archetype('empty');
 
-const renderingSystem = renderingSystemFactory(world);
+  // TODO: Grab the center entity instead of the first entity,
+  // and support going either left or right, and up or down.
+  // This way we can potentially search faster.
+  const firstEntity: Entity = safeToPick.entities.values().next().value;
 
-function mouseSystemFactory(mouse: Mouse, entityGrid: Entity[]) {
+  const getEntityFromXY = (x: number, y: number) => {
+    if (x < 0 || y < 0) {
+      return null;
+    }
+
+    if (x >= canvas.width || y >= canvas.height) {
+      return null;
+    }
+
+    let entity = firstEntity;
+    let xFound = false;
+
+    while (!xFound) {
+      if (entity.position.x === x) {
+        xFound = true;
+      } else if (entity.node.east != null) {
+        entity = entity.node.east;
+      }
+    }
+
+    let yFound = false;
+
+    while (!yFound) {
+      if (entity.position.y === y) {
+        yFound = true;
+      } else if (entity.node.south != null) {
+        entity = entity.node.south;
+      }
+    }
+
+    return entity;
+  };
+
+  const alreadyPlaced = new Map<string, boolean>();
+
   return () => {
     if (!mouse.down) {
       return;
     }
 
+    alreadyPlaced.clear();
+
     const x = Math.floor(mouse.position.x);
     const y = Math.floor(mouse.position.y);
 
-    const data = positionWithVariance(x, y, 3, 0.5);
+    const radius = 3;
+    const probability = 0.5;
+    const radiusSq = radius * radius;
 
-    const index = data!.x + data!.y * canvas.width;
+    for (let y1 = -radius; y1 <= radius; y1++) {
+      for (let x1 = -radius; x1 <= radius; x1++) {
+        if (x1 * x1 + y1 * y1 <= radiusSq && Math.random() < probability) {
+          const xx = x + x1;
+          const yy = y + y1;
+          const key = `${xx},${yy}`;
 
-    const entity = entityGrid[index];
-    if (entity == null) {
-      return;
-    }
+          const entity = getEntityFromXY(xx, yy);
 
-    if (entity.empty === true) {
-      entity.color = varyColor(SAND_COLOR).toString();
-      entity.empty = false;
+          if (entity?.empty == null || alreadyPlaced.has(key)) {
+            continue;
+          }
+
+          entity.color = varyColor(SAND_COLOR).toString();
+          entity.position.x = xx;
+          entity.position.y = yy;
+
+          world.removeEntityComponents(entity, 'empty');
+          world.addEntityComponents(entity, 'moving', true);
+          alreadyPlaced.set(key, true);
+        }
+      }
     }
   };
 }
 
-function movementSystemFactory(entityGrid: Entity[]) {
-  const swap = (a: number, b: number) => {
-    [entityGrid[a], entityGrid[b]] = [entityGrid[b], entityGrid[a]];
-    [entityGrid[a].transform.position, entityGrid[b].transform.position] = [
-      entityGrid[b].transform.position,
-      entityGrid[a].transform.position,
-    ];
-  };
-
-  const isEmpty = (index: number) => entityGrid[index]?.empty === true;
+function movementSystemFactory(world: World<Entity>) {
+  const moveable = world.archetype('moving', 'position');
+  const processed = new Set<Entity>();
 
   return () => {
-    for (let index = entityGrid.length - 1; index >= 0; index--) {
-      const entity = entityGrid[index];
+    // logOnce(`moveable.entities: ${moveable.entities.size}`);
+    processed.clear();
 
-      if (entity.empty === true) {
+    for (const entity of moveable.entities) {
+      if (processed.has(entity)) {
         continue;
       }
 
-      const below = index + canvas.width;
-      const belowLeft = below - 1;
-      const belowRight = below + 1;
+      if (entity.node.south?.empty === true) {
+        world.addEntityComponents(entity, 'swap', {
+          direction: 'south',
+        });
 
-      if (isEmpty(below)) {
-        swap(index, below);
-      } else if (isEmpty(belowLeft)) {
-        swap(index, belowLeft);
-      } else if (isEmpty(belowRight)) {
-        swap(index, belowRight);
+        processed.add(entity);
+        processed.add(entity.node.south);
+      } else if (entity.node.south?.node.west?.empty === true) {
+        world.addEntityComponents(entity, 'swap', {
+          direction: 'southwest',
+        });
+
+        processed.add(entity);
+        processed.add(entity.node.south.node.west);
+      } else if (entity.node.south?.node.east?.empty === true) {
+        world.addEntityComponents(entity, 'swap', {
+          direction: 'southeast',
+        });
+
+        processed.add(entity);
+        processed.add(entity.node.south.node.east);
       }
     }
   };
 }
 
-const movementSystem = movementSystemFactory(entityGrid);
-const mouseSystem = mouseSystemFactory(mouse, entityGrid);
+const spawnSystem = ((world: World<Entity>) => {
+  let accumulator = 0;
+  const SPAWN_TIME = 0.001;
+  const firstEntity: Entity = world.entities.values().next().value;
+
+  const getEntityFromXY = (x: number, y: number) => {
+    let entity = firstEntity;
+    let xFound = false;
+
+    while (!xFound) {
+      if (entity.position.x === x) {
+        xFound = true;
+      } else if (entity.node.east != null) {
+        entity = entity.node.east;
+      }
+    }
+
+    let yFound = false;
+
+    while (!yFound) {
+      if (entity.position.y === y) {
+        yFound = true;
+      } else if (entity.node.south != null) {
+        entity = entity.node.south;
+      }
+    }
+
+    return entity;
+  };
+
+  const generatedEntities = new Set<Entity>();
+
+  return (dt: number) => {
+    accumulator += dt;
+    generatedEntities.clear();
+
+    while (accumulator >= SPAWN_TIME) {
+      accumulator -= SPAWN_TIME;
+
+      const entity = getEntityFromXY(canvas.width / 2, 0);
+
+      if (entity.empty !== true) {
+        return;
+      }
+
+      entity.color = varyColor(SAND_COLOR).toString();
+      world.removeEntityComponents(entity, 'empty');
+      world.addEntityComponents(entity, 'moving', true);
+      generatedEntities.add(entity);
+
+      const leftEntity = getEntityFromXY(canvas.width / 4, 0);
+
+      if (leftEntity.empty !== true) {
+        return;
+      }
+
+      leftEntity.color = varyColor(SAND_COLOR).toString();
+      world.removeEntityComponents(leftEntity, 'empty');
+      world.addEntityComponents(leftEntity, 'moving', true);
+      generatedEntities.add(leftEntity);
+
+      const rightEntity = getEntityFromXY(canvas.width * 0.75, 0);
+
+      if (rightEntity.empty !== true) {
+        return;
+      }
+
+      rightEntity.color = varyColor(SAND_COLOR).toString();
+      world.removeEntityComponents(rightEntity, 'empty');
+      world.addEntityComponents(rightEntity, 'moving', true);
+      generatedEntities.add(rightEntity);
+    }
+  };
+})(world);
+
+const movementSystem = movementSystemFactory(world);
+const renderingSystem = renderingSystemFactory(world);
+const removeRerenderSystem = removeRerenderSystemFactory(world);
+const swapSystem = swapSystemFactory(world);
+const mouseSystem = mouseSystemFactory(world, mouse);
+
+const TARGET_FPS = 60;
+const STEP = 1000 / TARGET_FPS;
+const dt = STEP / 1000;
+let last = performance.now();
+let deltaTimeAccumulator = 0;
 
 /**
  * The game loop.
  */
 const frame = (hrt: DOMHighResTimeStamp) => {
   const dt = Math.min(1000, hrt - last) / 1000;
+  // deltaTimeAccumulator += Math.min(1000, hrt - last);
 
-  context.fillStyle = 'black';
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  // while (deltaTimeAccumulator >= STEP) {
 
-  mouseSystem();
+  //   deltaTimeAccumulator -= STEP;
+  // }
+
+  removeRerenderSystem();
   movementSystem();
+  swapSystem();
+  spawnSystem(dt);
+  mouseSystem();
+
   renderingSystem(context, dt);
 
-  context.fillStyle = SAND_COLOR;
-  context.beginPath();
-  context.arc(
-    Math.floor(mouse.position.x),
-    Math.floor(mouse.position.y),
-    3,
-    0,
-    2 * Math.PI,
-  );
+  // context.fillStyle = SAND_COLOR;
+  // context.beginPath();
+  // context.arc(
+  //   Math.floor(mouse.position.x),
+  //   Math.floor(mouse.position.y),
+  //   3,
+  //   0,
+  //   2 * Math.PI,
+  // );
 
-  context.fill();
+  // context.fill();
 
   last = hrt;
 

@@ -169,5 +169,67 @@ describe('World', () => {
 
       expect(moving).toEqual({ entities: new Set() });
     });
+
+    it('should update correctly within systems', () => {
+      const world = new World<Entity>();
+      const entity = world.createEntity({
+        color: 'red',
+        transform: { position: { x: 0, y: 0 } },
+      });
+
+      world.createEntity({
+        color: 'blue',
+        transform: { position: { x: 1, y: 1 } },
+      });
+
+      const renderSystemFactory = (world: World<Entity>) => {
+        const renderables = world.archetype('color', 'transform');
+        expect(renderables.entities.size).toBe(2);
+
+        let count = 0;
+
+        return () => {
+          if (count === 0) {
+            const iterator = renderables.entities.values();
+
+            {
+              const entity = iterator.next().value;
+              expect(entity.color).toBe('red');
+              expect(entity.transform).toEqual({
+                position: { x: 0, y: 0 },
+              });
+            }
+
+            {
+              const entity = iterator.next().value;
+              expect(entity.color).toBe('blue');
+              expect(entity.transform).toEqual({
+                position: { x: 1, y: 1 },
+              });
+            }
+
+            count++;
+          } else {
+            expect(count).toBeGreaterThan(0);
+            expect(renderables.entities.size).toBe(1);
+
+            const iterator = renderables.entities.values();
+            const entity = iterator.next().value;
+            expect(entity.color).toBe('blue');
+            expect(entity.transform).toEqual({
+              position: { x: 1, y: 1 },
+            });
+          }
+        };
+      };
+
+      const renderSystem = renderSystemFactory(world);
+
+      renderSystem();
+
+      world.removeEntityComponents(entity, 'color');
+
+      renderSystem();
+    });
   });
 });

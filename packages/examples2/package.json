@@ -16,8 +16,6 @@
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
     "@tweakpane/core": "1.1.2",
-    "canvas-capture": "2.0.6",
-    "canvas-record": "3.1.0",
     "color": "4.2.3",
     "just-random": "3.2.0",
     "just-random-integer": "4.2.0",
