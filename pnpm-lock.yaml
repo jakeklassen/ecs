@@ -154,10 +154,12 @@ importers:
       '@tweakpane/core': 1.1.2
       '@types/color': 3.0.3
       color: 4.2.3
+      just-group-by: 2.2.0
       just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
       just-safe-set: 4.2.0
+      just-shuffle: 4.2.0
       ts-toolbelt: 9.6.0
       tweakpane: 3.1.2
       type-fest: 3.5.3
@@ -167,10 +169,12 @@ importers:
       '@jakeklassen/ecs2': link:../ecs2
       '@tweakpane/core': 1.1.2
       color: 4.2.3
+      just-group-by: 2.2.0
       just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
       just-safe-set: 4.2.0
+      just-shuffle: 4.2.0
       ts-toolbelt: 9.6.0
       tweakpane: 3.1.2
       type-fest: 3.5.3
@@ -2076,6 +2080,10 @@ packages:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
 
+  /just-group-by/2.2.0:
+    resolution: {integrity: sha512-brZocDSmkvDYc+FOr07GiTar4cp7K6OB9huVOrj5LX+iXfCe3hTvn2KGM811LE/SBQkCzuYDDEcG8HA/dKDrnw==}
+    dev: false
+
   /just-omit/2.2.0:
     resolution: {integrity: sha512-Js7+HxDOGcB3RhI38Mird/RgyMf3t0DAJFda1QWqqlAKTa36NeSYIufJXxrZUbysFTRcTOFcoMCiFK5FwCoI7Q==}
     dev: false
@@ -2094,6 +2102,10 @@ packages:
 
   /just-safe-set/4.2.0:
     resolution: {integrity: sha512-109CZyFYcRAgR5hT/aA6V6ZKUfxItJYrZvtTikfIJ4sEewAE86fQARiF9BFzZlSn0gTLVGIMuZC7le2qQ+JJKw==}
+    dev: false
+
+  /just-shuffle/4.2.0:
+    resolution: {integrity: sha512-/dDmNseAWLf3XkFY9xf3/BdQoiy27LNUy/7uG4zdSAX526nIHMYPYeJ4pN4lT1/pgNEX8XCXPtUB6gJqTpBEng==}
     dev: false
 
   /kleur/3.0.3:
