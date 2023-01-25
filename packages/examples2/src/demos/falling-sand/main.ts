@@ -7,21 +7,6 @@ import { removeRerenderSystemFactory } from './systems/remove-rerender-system.js
 import { renderingSystemFactory } from './systems/rendering-system.js';
 import { swapSystemFactory } from './systems/swap-system.js';
 
-const logOnceFactory = () => {
-  const seen = new Set<string>();
-
-  return (message: string) => {
-    if (seen.has(message)) {
-      return;
-    }
-
-    seen.add(message);
-    console.log(message);
-  };
-};
-
-const logOnce = logOnceFactory();
-
 const SAND_COLOR = '#dcb159';
 
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
