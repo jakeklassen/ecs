@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
-    "@tweakpane/core": "1.1.2",
+    "@tweakpane/core": "1.1.4",
     "color": "4.2.3",
     "just-group-by": "2.2.0",
     "just-random": "3.2.0",
@@ -24,7 +24,7 @@
     "just-safe-set": "4.2.0",
     "just-shuffle": "4.2.0",
     "ts-toolbelt": "9.6.0",
-    "tweakpane": "3.1.2",
+    "tweakpane": "3.1.4",
     "type-fest": "3.5.3"
   }
 }

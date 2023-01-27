@@ -2,24 +2,14 @@ import { obtainCanvasAndContext2d } from '#/lib/dom';
 import { World } from '@jakeklassen/ecs2';
 import '../../style.css';
 import { Entity } from './entity.js';
-import { varyColor } from './lib/color.js';
+import { mouseSystemFactory } from './systems/mouse-system-factory.js';
 import { removeRenderSystemFactory } from './systems/remove-render-system.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
 import { swapSystemFactory } from './systems/swap-system.js';
 
-const SAND_COLOR = '#dcb159';
-
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
 
 context.imageSmoothingEnabled = false;
-
-type Mouse = {
-  down: boolean;
-  position: {
-    x: number;
-    y: number;
-  };
-};
 
 const mouse = {
   down: false,
@@ -71,50 +61,10 @@ for (let index = entityGrid.length - 1; index >= 0; index--) {
   entityGrid[index] = entity;
 }
 
-console.log(world.entities);
-
-function mouseSystemFactory(world: World<Entity>, mouse: Mouse) {
-  return () => {
-    if (!mouse.down) {
-      return;
-    }
-
-    const x = Math.floor(mouse.position.x);
-    const y = Math.floor(mouse.position.y);
-
-    const radius = 3;
-    const probability = 0.5;
-    const radiusSq = radius * radius;
-
-    for (let y1 = -radius; y1 <= radius; y1++) {
-      for (let x1 = -radius; x1 <= radius; x1++) {
-        if (x1 * x1 + y1 * y1 <= radiusSq && Math.random() < probability) {
-          const xx = x + x1;
-          const yy = y + y1;
-
-          if (xx < 0 || xx >= canvas.width || yy < 0 || yy >= canvas.height) {
-            continue;
-          }
-
-          const gridIndex = xx + yy * canvas.width;
-          const entity = entityGrid.at(gridIndex);
-
-          if (entity?.empty !== true) {
-            continue;
-          }
-
-          entity.color = varyColor(SAND_COLOR).toString();
-          world.removeEntityComponents(entity, 'empty');
-          world.addEntityComponents(entity, 'render', true);
-          world.addEntityComponents(entity, 'moving', true);
-        }
-      }
-    }
-  };
-}
-
 function movementSystemFactory(world: World<Entity>) {
-  const moveable = world.archetype('moving');
+  const width = canvas.width;
+  const rowCount = Math.floor(entityGrid.length / width);
+  const modified = new Set<number>();
 
   function swap(entityA: Entity, entityB: Entity) {
     // Move the entities on the grid BEFORE swapping their gridIndex
@@ -130,41 +80,63 @@ function movementSystemFactory(world: World<Entity>) {
   }
 
   return () => {
-    // TODO: Solve left bias
-    // ! HACK: We want the entities to be sorted by their gridIndex
-    const entities = Array.from(moveable.entities).sort(
-      (a, b) => b.gridIndex - a.gridIndex,
-    );
+    modified.clear();
 
-    for (const entity of entities) {
-      const below = entity.gridIndex + canvas.width;
-      const belowLeft = below - 1;
-      const belowRight = below + 1;
+    for (let row = rowCount - 1; row >= 0; row--) {
+      const rowOffset = row * width;
+      const leftToRight = Math.random() > 0.5;
 
-      const belowEntity = entityGrid[below];
-      const belowLeftEntity = entityGrid[belowLeft];
-      const belowRightEntity = entityGrid[belowRight];
+      for (let i = 0; i < width; i++) {
+        let index = leftToRight ? rowOffset + i : rowOffset + width - i;
 
-      const isBelowLeftAvailable = belowLeftEntity?.empty === true;
-      const isBelowRightAvailable = belowRightEntity?.empty === true;
+        const entity = entityGrid[index];
 
-      if (belowEntity?.empty === true && below < entityGrid.length) {
-        swap(entity, belowEntity);
+        if (entity?.empty === true) {
+          continue;
+        }
 
-        world.addEntityComponents(entity, 'render', true);
-        world.addEntityComponents(belowEntity, 'render', true);
-      } else if (isBelowLeftAvailable) {
-        swap(entity, belowLeftEntity);
+        const below = index + width;
+        const belowLeft = below - 1;
+        const belowRight = below + 1;
 
-        world.addEntityComponents(entity, 'render', true);
-        world.addEntityComponents(belowLeftEntity, 'render', true);
-      } else if (isBelowRightAvailable) {
-        swap(entity, belowRightEntity);
+        const belowEntity = entityGrid[below];
+        const belowLeftEntity = entityGrid[belowLeft];
+        const belowRightEntity = entityGrid[belowRight];
+        const column = index % width;
+        let newIndex = index;
 
-        world.addEntityComponents(entity, 'render', true);
-        world.addEntityComponents(belowRightEntity, 'render', true);
-      } else {
-        world.removeEntityComponents(entity, 'moving');
+        if (belowEntity?.empty === true) {
+          swap(entity, belowEntity);
+          newIndex = below;
+
+          world.addEntityComponents(entity, 'render', true);
+          world.addEntityComponents(belowEntity, 'render', true);
+        } else if (
+          belowLeftEntity?.empty === true &&
+          belowLeft % width < column
+        ) {
+          swap(entity, belowLeftEntity);
+          newIndex = belowLeft;
+
+          world.addEntityComponents(entity, 'render', true);
+          world.addEntityComponents(belowLeftEntity, 'render', true);
+        } else if (
+          belowRightEntity?.empty === true &&
+          belowRight % width > column
+        ) {
+          swap(entity, belowRightEntity);
+          newIndex = belowRight;
+
+          world.addEntityComponents(entity, 'render', true);
+          world.addEntityComponents(belowRightEntity, 'render', true);
+        }
+
+        if (newIndex !== index) {
+          modified.add(index);
+          modified.add(newIndex);
+
+          index = newIndex;
+        }
       }
     }
   };
@@ -174,7 +146,7 @@ const movementSystem = movementSystemFactory(world);
 const renderingSystem = renderingSystemFactory(world);
 const removeRenderSystem = removeRenderSystemFactory(world);
 const swapSystem = swapSystemFactory(world, entityGrid);
-const mouseSystem = mouseSystemFactory(world, mouse);
+const mouseSystem = mouseSystemFactory(world, mouse, canvas, entityGrid);
 
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
