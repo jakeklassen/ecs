@@ -17,7 +17,7 @@ export function mouseSystemFactory(
   world: World<Entity>,
   mouse: Mouse,
   canvas: HTMLCanvasElement,
-  entityGrid: Entity[],
+  entityGrid: ReadonlyArray<Entity>,
 ) {
   /**
    * Radius within which to replace entities.
@@ -29,6 +29,7 @@ export function mouseSystemFactory(
   let colors: string[] = [];
   const uniqueColors = new Set<string>();
 
+  // Cache some colors to avoid having to generate them at runtime.
   while (uniqueColors.size < 100) {
     uniqueColors.add(varyColor(SAND_COLOR).toString());
   }
@@ -54,7 +55,7 @@ export function mouseSystemFactory(
           }
 
           const gridIndex = xx + yy * canvas.width;
-          const entity = entityGrid.at(gridIndex);
+          const entity = entityGrid[gridIndex];
 
           if (entity?.empty !== true) {
             continue;

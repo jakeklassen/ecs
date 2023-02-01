@@ -18,7 +18,7 @@ export function swapSystemFactory(world: World<Entity>, entityGrid: Entity[]) {
         entity.gridIndex,
       ];
 
-      world.addEntityComponents(entity, 'rerender', true);
+      world.addEntityComponents(entity, 'render', true);
       world.removeEntityComponents(entity, 'swap');
     }
   };
