@@ -100,7 +100,6 @@ importers:
       prettier: ^2.8.3
       rimraf: ^4.1.2
       ts-node: ^10.9.1
-      ts-toolbelt: 9.6.0
       tsup: ^6.5.0
       type-fest: 3.5.4
       typescript: ^4.9.5
@@ -108,7 +107,6 @@ importers:
       vitest: ^0.28.4
     dependencies:
       just-omit: 2.2.0
-      ts-toolbelt: 9.6.0
       tsup: 6.5.0_6qtx7vkbdhwvdm4crzlegk4mvi
       type-fest: 3.5.4
     devDependencies:
@@ -161,7 +159,6 @@ importers:
       just-safe-get: 4.2.0
       just-safe-set: 4.2.0
       just-shuffle: 4.2.0
-      ts-toolbelt: 9.6.0
       tweakpane: 3.1.4
       type-fest: 3.5.4
       typescript: 5.0.0-beta
@@ -177,7 +174,6 @@ importers:
       just-safe-get: 4.2.0
       just-safe-set: 4.2.0
       just-shuffle: 4.2.0
-      ts-toolbelt: 9.6.0
       tweakpane: 3.1.4
       type-fest: 3.5.4
     devDependencies:
@@ -2936,10 +2932,6 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-
-  /ts-toolbelt/9.6.0:
-    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
-    dev: false
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}

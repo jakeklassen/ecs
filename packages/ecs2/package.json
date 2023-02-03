@@ -65,7 +65,6 @@
   },
   "dependencies": {
     "just-omit": "2.2.0",
-    "ts-toolbelt": "9.6.0",
     "tsup": "^6.5.0",
     "type-fest": "3.5.4"
   }
