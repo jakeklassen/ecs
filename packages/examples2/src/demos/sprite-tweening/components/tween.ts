@@ -1,10 +1,14 @@
-import { DottedPaths } from '#/lib/types/dotted-paths';
-import { Entity, Tween, TweenOptions } from '../entity.js';
+import {
+  Tween,
+  TweenableEntity,
+  TweenablePaths,
+  TweenOptions,
+} from '../entity.js';
 
-export function tweenFactory(
-  property: DottedPaths<Required<Entity>>,
+export function tweenFactory<P extends TweenablePaths>(
+  property: P,
   options: TweenOptions,
-): Tween<Entity> {
+): Tween<TweenableEntity, P> {
   return {
     completed: false,
     progress: 0,

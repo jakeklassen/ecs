@@ -1,6 +1,5 @@
 import { Easing } from '#/lib/tween';
-import { DottedPaths } from '#/lib/types/dotted-paths';
-import { JsonObject } from 'type-fest';
+import { Path, PathValue } from 'dot-path-value';
 
 type AnimationDetails = {
   name: string;
@@ -58,8 +57,14 @@ export interface TweenOptions {
   onComplete?: 'remove' | undefined;
 }
 
-export type Tween<T> = {
+export type Tween<E extends TweenableEntity, P extends Path<E>> = {
+  /**
+   * descriminator
+   */
+  property: P;
+
   completed: boolean;
+  duration: number;
   progress: number;
   iterations: number;
   maxIterations: number;
@@ -67,16 +72,27 @@ export type Tween<T> = {
   start: number;
   end: number;
   change: number;
-  duration: number;
   from: number;
   to: number;
   easing: (typeof Easing)[keyof typeof Easing];
   yoyo: boolean;
   onComplete?: string;
-
-  // TODO: Anything better to use here? Look into ts-toolbelt, etc.
-  property: DottedPaths<Required<T>>;
 };
+
+/**
+ * A type excluding `tweens` to avoid circular references.
+ */
+export type TweenableEntity = Omit<Required<Entity>, 'tweens'>;
+
+export type TweenablePaths = {
+  [P in Path<TweenableEntity>]: PathValue<TweenableEntity, P> extends number
+    ? P
+    : never;
+}[Path<TweenableEntity>];
+
+type Tweens = {
+  [P in TweenablePaths]: Tween<TweenableEntity, P>;
+}[TweenablePaths];
 
 export type Entity = {
   sprite?: {
@@ -89,5 +105,5 @@ export type Entity = {
     scale: Vector2d;
     rotation: number;
   };
-  tweens?: Tween<Required<JsonObject>>[];
+  tweens?: Tweens[];
 };
