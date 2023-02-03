@@ -1,4 +1,7 @@
-import { Vector2d } from '#/shared/vector2d.js';
+type Vector2d = {
+  x: number;
+  y: number;
+};
 
 type AABB = {
   position: Vector2d;
