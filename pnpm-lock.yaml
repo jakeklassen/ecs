@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@types/benchmark': ^2.1.2
       '@types/eslint': ^8.21.0
-      '@types/node': ^18.11.18
+      '@types/node': ^18.11.19
       '@typescript-eslint/eslint-plugin': ^5.50.0
       '@typescript-eslint/parser': ^5.50.0
       benchmark: ^2.1.4
@@ -28,7 +28,7 @@ importers:
     devDependencies:
       '@types/benchmark': 2.1.2
       '@types/eslint': 8.21.0
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       '@typescript-eslint/eslint-plugin': 5.50.0_go4drrxstycfikanvu45pi4vgq
       '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
       benchmark: 2.1.4
@@ -38,9 +38,9 @@ importers:
       nodemon: 2.0.20
       prettier: 2.8.3
       rimraf: 4.1.2
-      ts-node: 10.9.1_bdgp3l2zgaopogaavxusmetvge
+      ts-node: 10.9.1_qqdszkrtcshgbphghj7vnvrrby
       typescript: 4.9.5
-      vite: 4.1.1_@types+node@18.11.18
+      vite: 4.1.1_@types+node@18.11.19
       vitest: 0.28.4
 
   packages/ecs-benchmark:
@@ -49,7 +49,7 @@ importers:
       '@jakeklassen/ecs2': workspace:1.0.0
       '@javelin/ecs': 0.22.0
       '@lastolivegames/becsy': 0.8.4
-      '@types/node': ^18.11.18
+      '@types/node': ^18.11.19
       bitecs: 0.3.38
       ecsy: 0.4.2
       geotic: 4.3.2
@@ -81,14 +81,14 @@ importers:
       uecs: 0.4.2
       wolf-ecs: 2.1.2
     devDependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       prettier: 2.8.3
 
   packages/ecs2:
     specifiers:
       '@types/benchmark': ^2.1.2
       '@types/eslint': ^8.21.0
-      '@types/node': ^18.11.18
+      '@types/node': ^18.11.19
       '@typescript-eslint/eslint-plugin': ^5.50.0
       '@typescript-eslint/parser': ^5.50.0
       benchmark: ^2.1.4
@@ -112,7 +112,7 @@ importers:
     devDependencies:
       '@types/benchmark': 2.1.2
       '@types/eslint': 8.21.0
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       '@typescript-eslint/eslint-plugin': 5.50.0_go4drrxstycfikanvu45pi4vgq
       '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
       benchmark: 2.1.4
@@ -122,9 +122,9 @@ importers:
       nodemon: 2.0.20
       prettier: 2.8.3
       rimraf: 4.1.2
-      ts-node: 10.9.1_bdgp3l2zgaopogaavxusmetvge
+      ts-node: 10.9.1_qqdszkrtcshgbphghj7vnvrrby
       typescript: 4.9.5
-      vite: 4.1.1_@types+node@18.11.18
+      vite: 4.1.1_@types+node@18.11.19
       vitest: 0.28.4
 
   packages/examples:
@@ -132,7 +132,7 @@ importers:
       '@jakeklassen/ecs': workspace:^4.0.0
       '@jakeklassen/ecs2': workspace:1.0.0
       '@tweakpane/core': 1.1.4
-      just-safe-set: 4.2.0
+      just-safe-set: 4.2.1
       tweakpane: 3.1.4
       typescript: ^4.9.5
       vite: ^4.1.1
@@ -140,7 +140,7 @@ importers:
       '@jakeklassen/ecs': link:../ecs
       '@jakeklassen/ecs2': link:../ecs2
       '@tweakpane/core': 1.1.4
-      just-safe-set: 4.2.0
+      just-safe-set: 4.2.1
       tweakpane: 3.1.4
     devDependencies:
       typescript: 4.9.5
@@ -157,7 +157,7 @@ importers:
       just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
-      just-safe-set: 4.2.0
+      just-safe-set: 4.2.1
       just-shuffle: 4.2.0
       tweakpane: 3.1.4
       type-fest: 3.5.5
@@ -172,7 +172,7 @@ importers:
       just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
-      just-safe-set: 4.2.0
+      just-safe-set: 4.2.1
       just-shuffle: 4.2.0
       tweakpane: 3.1.4
       type-fest: 3.5.5
@@ -185,7 +185,7 @@ importers:
     specifiers:
       '@jakeklassen/ecs': workspace:^4.0.0
       '@types/mocha': ^10.0.1
-      '@types/node': ^18.11.18
+      '@types/node': ^18.11.19
       '@typescript-eslint/eslint-plugin': 5.50.0
       '@typescript-eslint/parser': 5.50.0
       eslint: 8.33.0
@@ -200,7 +200,7 @@ importers:
       '@jakeklassen/ecs': link:../ecs
     devDependencies:
       '@types/mocha': 10.0.1
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       '@typescript-eslint/eslint-plugin': 5.50.0_go4drrxstycfikanvu45pi4vgq
       '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
       eslint: 8.33.0
@@ -523,7 +523,7 @@ packages:
       '@jest/schemas': 29.4.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       '@types/yargs': 17.0.20
       chalk: 4.1.2
     dev: true
@@ -659,8 +659,8 @@ packages:
     resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==}
     dev: true
 
-  /@types/node/18.11.18:
-    resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
+  /@types/node/18.11.19:
+    resolution: {integrity: sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw==}
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
@@ -2037,7 +2037,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.4.1
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       chalk: 4.1.2
       ci-info: 3.7.1
       graceful-fs: 4.2.10
@@ -2096,8 +2096,8 @@ packages:
     resolution: {integrity: sha512-+tS4Bvgr/FnmYxOGbwziJ8I2BFk+cP1gQHm6rm7zo61w1SbxBwWGEq/Ryy9Gb6bvnloPq6pz7Bmm4a0rjTNlXA==}
     dev: false
 
-  /just-safe-set/4.2.0:
-    resolution: {integrity: sha512-109CZyFYcRAgR5hT/aA6V6ZKUfxItJYrZvtTikfIJ4sEewAE86fQARiF9BFzZlSn0gTLVGIMuZC7le2qQ+JJKw==}
+  /just-safe-set/4.2.1:
+    resolution: {integrity: sha512-La5CP41Ycv52+E4g7w1sRV8XXk7Sp8a/TwWQAYQKn6RsQz1FD4Z/rDRRmqV3wJznS1MDF3YxK7BCudX1J8FxLg==}
     dev: false
 
   /just-shuffle/4.2.0:
@@ -2465,7 +2465,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.0.6
-      ts-node: 10.9.1_bdgp3l2zgaopogaavxusmetvge
+      ts-node: 10.9.1_qqdszkrtcshgbphghj7vnvrrby
       yaml: 1.10.2
     dev: false
 
@@ -2897,7 +2897,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: false
 
-  /ts-node/10.9.1_bdgp3l2zgaopogaavxusmetvge:
+  /ts-node/10.9.1_qqdszkrtcshgbphghj7vnvrrby:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -2916,7 +2916,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       acorn: 8.7.1
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -3039,7 +3039,7 @@ packages:
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
-  /vite-node/0.28.4_@types+node@18.11.18:
+  /vite-node/0.28.4_@types+node@18.11.19:
     resolution: {integrity: sha512-KM0Q0uSG/xHHKOJvVHc5xDBabgt0l70y7/lWTR7Q0pR5/MrYxadT+y32cJOE65FfjGmJgxpVEEY+69btJgcXOQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -3051,7 +3051,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.1.1_@types+node@18.11.18
+      vite: 4.1.1_@types+node@18.11.19
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3095,7 +3095,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/4.1.1_@types+node@18.11.18:
+  /vite/4.1.1_@types+node@18.11.19:
     resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3120,7 +3120,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       esbuild: 0.16.17
       postcss: 8.4.21
       resolve: 1.22.1
@@ -3153,7 +3153,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.4
       '@types/chai-subset': 1.3.3
-      '@types/node': 18.11.18
+      '@types/node': 18.11.19
       '@vitest/expect': 0.28.4
       '@vitest/runner': 0.28.4
       '@vitest/spy': 0.28.4
@@ -3172,8 +3172,8 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.1
       tinyspy: 1.0.2
-      vite: 4.1.1_@types+node@18.11.18
-      vite-node: 0.28.4_@types+node@18.11.18
+      vite: 4.1.1_@types+node@18.11.19
+      vite-node: 0.28.4_@types+node@18.11.19
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
