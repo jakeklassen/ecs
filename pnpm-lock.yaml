@@ -152,7 +152,7 @@ importers:
       '@tweakpane/core': 1.1.4
       '@types/color': 3.0.3
       color: 4.2.3
-      dot-path-value: 0.0.4
+      dot-path-value: 0.0.5
       just-group-by: 2.2.0
       just-random: 3.2.0
       just-random-integer: 4.2.0
@@ -167,7 +167,7 @@ importers:
       '@jakeklassen/ecs2': link:../ecs2
       '@tweakpane/core': 1.1.4
       color: 4.2.3
-      dot-path-value: 0.0.4
+      dot-path-value: 0.0.5
       just-group-by: 2.2.0
       just-random: 3.2.0
       just-random-integer: 4.2.0
@@ -1233,8 +1233,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dot-path-value/0.0.4:
-    resolution: {integrity: sha512-9NcaDM0Pw+bTjfqVdJl5GzjBsNZqgMIVVuTabCDJkMbXncPglBkno6ffhjusMeWpQLC48dqKBpSuCZQVUAQijQ==}
+  /dot-path-value/0.0.5:
+    resolution: {integrity: sha512-SduF/Sks4ynzXkErwREP4g2BOu7I/8NXVyZp/MWAct8ogNe9BdSXUyuMFvTVA8TbaU9mys1bdbIGdygWI9XOhA==}
     dev: false
 
   /eastasianwidth/0.2.0:

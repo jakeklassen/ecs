@@ -17,7 +17,7 @@
     "@jakeklassen/ecs2": "workspace:1.0.0",
     "@tweakpane/core": "1.1.4",
     "color": "4.2.3",
-    "dot-path-value": "0.0.4",
+    "dot-path-value": "0.0.5",
     "just-group-by": "2.2.0",
     "just-random": "3.2.0",
     "just-random-integer": "4.2.0",
