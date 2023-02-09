@@ -18,13 +18,13 @@ importers:
       rimraf: ^4.1.2
       ts-node: ^10.9.1
       tsup: ^6.6.0
-      type-fest: 3.5.6
+      type-fest: 3.5.7
       typescript: ^4.9.5
       vite: 4.1.1
       vitest: ^0.28.4
     dependencies:
       tsup: 6.6.0_6qtx7vkbdhwvdm4crzlegk4mvi
-      type-fest: 3.5.6
+      type-fest: 3.5.7
     devDependencies:
       '@types/benchmark': 2.1.2
       '@types/eslint': 8.21.0
@@ -101,14 +101,14 @@ importers:
       rimraf: ^4.1.2
       ts-node: ^10.9.1
       tsup: ^6.6.0
-      type-fest: 3.5.6
+      type-fest: 3.5.7
       typescript: ^4.9.5
       vite: 4.1.1
       vitest: ^0.28.4
     dependencies:
       just-omit: 2.2.0
       tsup: 6.6.0_6qtx7vkbdhwvdm4crzlegk4mvi
-      type-fest: 3.5.6
+      type-fest: 3.5.7
     devDependencies:
       '@types/benchmark': 2.1.2
       '@types/eslint': 8.21.0
@@ -160,7 +160,7 @@ importers:
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
       tweakpane: 3.1.4
-      type-fest: 3.5.6
+      type-fest: 3.5.7
       typescript: 5.0.0-beta
       vite: ^4.1.1
     dependencies:
@@ -175,7 +175,7 @@ importers:
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
       tweakpane: 3.1.4
-      type-fest: 3.5.6
+      type-fest: 3.5.7
     devDependencies:
       '@types/color': 3.0.3
       typescript: 5.0.0-beta
@@ -2992,8 +2992,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /type-fest/3.5.6:
-    resolution: {integrity: sha512-6bd2bflx8ed7c99tc6zSTIzHr1/QG29bQoK4Qh8MYGnlPbODUzGxklLShjwc/xWQQFHgIci+y5Arv7Rbb0LjXw==}
+  /type-fest/3.5.7:
+    resolution: {integrity: sha512-6J4bYzb4sdkcLBty4XW7F18VPI66M4boXNE+CY40532oq2OJe6AVMB5NmjOp6skt/jw5mRjz/hLRpuglz0U+FA==}
     engines: {node: '>=14.16'}
     dev: false
 
