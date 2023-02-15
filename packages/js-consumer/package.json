@@ -23,7 +23,7 @@
     "eslint": "8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "expect": "29.4.2",
+    "expect": "29.4.3",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.20",
     "prettier": "2.8.4",
