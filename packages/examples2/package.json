@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/color": "3.0.3",
     "typescript": "5.0.0-beta",
-    "vite": "^4.1.1"
+    "vite": "^4.1.4"
   },
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
@@ -25,6 +25,6 @@
     "just-safe-set": "4.2.1",
     "just-shuffle": "4.2.0",
     "tweakpane": "3.1.4",
-    "type-fest": "3.5.7"
+    "type-fest": "3.6.0"
   }
 }
