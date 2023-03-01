@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
-    "@tweakpane/core": "1.1.4",
+    "@tweakpane/core": "1.1.5",
     "color": "4.2.3",
-    "dot-path-value": "0.0.6",
+    "dot-path-value": "0.0.8",
     "just-group-by": "2.2.0",
     "just-random": "3.2.0",
     "just-random-integer": "4.2.0",
     "just-safe-get": "4.2.0",
     "just-safe-set": "4.2.1",
     "just-shuffle": "4.2.0",
-    "tweakpane": "3.1.4",
+    "tweakpane": "3.1.5",
     "type-fest": "3.6.1"
   }
 }

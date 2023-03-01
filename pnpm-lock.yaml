@@ -131,17 +131,17 @@ importers:
     specifiers:
       '@jakeklassen/ecs': workspace:^4.0.0
       '@jakeklassen/ecs2': workspace:1.0.0
-      '@tweakpane/core': 1.1.4
+      '@tweakpane/core': 1.1.5
       just-safe-set: 4.2.1
-      tweakpane: 3.1.4
+      tweakpane: 3.1.5
       typescript: ^4.9.5
       vite: ^4.1.4
     dependencies:
       '@jakeklassen/ecs': link:../ecs
       '@jakeklassen/ecs2': link:../ecs2
-      '@tweakpane/core': 1.1.4
+      '@tweakpane/core': 1.1.5
       just-safe-set: 4.2.1
-      tweakpane: 3.1.4
+      tweakpane: 3.1.5
     devDependencies:
       typescript: 4.9.5
       vite: 4.1.4
@@ -149,32 +149,32 @@ importers:
   packages/examples2:
     specifiers:
       '@jakeklassen/ecs2': workspace:1.0.0
-      '@tweakpane/core': 1.1.4
+      '@tweakpane/core': 1.1.5
       '@types/color': 3.0.3
       color: 4.2.3
-      dot-path-value: 0.0.6
+      dot-path-value: 0.0.8
       just-group-by: 2.2.0
       just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
-      tweakpane: 3.1.4
+      tweakpane: 3.1.5
       type-fest: 3.6.1
       typescript: 5.0.0-beta
       vite: ^4.1.4
     dependencies:
       '@jakeklassen/ecs2': link:../ecs2
-      '@tweakpane/core': 1.1.4
+      '@tweakpane/core': 1.1.5
       color: 4.2.3
-      dot-path-value: 0.0.6
+      dot-path-value: 0.0.8
       just-group-by: 2.2.0
       just-random: 3.2.0
       just-random-integer: 4.2.0
       just-safe-get: 4.2.0
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
-      tweakpane: 3.1.4
+      tweakpane: 3.1.5
       type-fest: 3.6.1
     devDependencies:
       '@types/color': 3.0.3
@@ -775,8 +775,8 @@ packages:
   /@tsconfig/node16/1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
 
-  /@tweakpane/core/1.1.4:
-    resolution: {integrity: sha512-Z0l5U7IYnLjSzK6PWohEaxqZDV99saa3dymXd5ymw9zrVuVvVzcvK/2TzgyN+suWOIH0DaMzOeLU935qBmUV+w==}
+  /@tweakpane/core/1.1.5:
+    resolution: {integrity: sha512-qbIMNLLZOxiMs59+V+1F8xRe9yHGhBl/zEHPTf2k4/GOYImy03tyovVcjeNTfa/f5OEGyeQlItH6pLdm1ANfOw==}
     dev: false
 
   /@types/benchmark/2.1.2:
@@ -1413,8 +1413,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dot-path-value/0.0.6:
-    resolution: {integrity: sha512-wEX9cKqD9imTD23ZwcwXA+Im54V2dCd8KvCwZCqSNQGVUyNhg3V/eXpM6XBUP/hwMEA6JD0hd2tc81P1e1O6Sg==}
+  /dot-path-value/0.0.8:
+    resolution: {integrity: sha512-tc5psypOhl6VfpLv8ZQm3hOo5suEhV/QYw5MicR87RynMR4sEoGSIbuMSHi9fXUkMHqL/egzFCzM9RhqTjuANA==}
     dev: false
 
   /eastasianwidth/0.2.0:
@@ -2960,8 +2960,8 @@ packages:
       typescript: 4.9.5
     dev: true
 
-  /tweakpane/3.1.4:
-    resolution: {integrity: sha512-YCEU6wn3uGMYlD63Lkh7Ahhiw1BzlKX4LOQKRGopHL8YEhOBbjiPVY95wXC1TwgoBpBhRGcfRwtbCRA8fkdO2A==}
+  /tweakpane/3.1.5:
+    resolution: {integrity: sha512-8wzM3ZfLi/rX/8yfUXSqSGLHtA5qZVldG688Ly5cFiH0RWnkcc30ty5CdVJ0fCNFpfwbwZrsY3BvS4Efc01Qzw==}
     dev: false
 
   /type-check/0.4.0:
