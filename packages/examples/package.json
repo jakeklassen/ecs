@@ -17,6 +17,6 @@
     "@jakeklassen/ecs2": "workspace:1.0.0",
     "@tweakpane/core": "1.1.5",
     "just-safe-set": "4.2.1",
-    "tweakpane": "3.1.5"
+    "tweakpane": "3.1.6"
   }
 }
