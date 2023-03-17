@@ -28,6 +28,10 @@ export class World<Entity extends JsonObject = JsonObject> {
     ...components: Components
   ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
+      if (query.with.length !== components.length) {
+        continue;
+      }
+
       const matchesArchetype = components.every((component) =>
         query.with.includes(component),
       );
