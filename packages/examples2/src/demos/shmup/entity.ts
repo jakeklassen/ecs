@@ -15,6 +15,11 @@ export type Frame = {
   height: number;
 };
 
+type Sprite = {
+  frame: Frame;
+  opacity: number;
+};
+
 type SpriteAnimation = {
   delta: number;
   durationMs: number;
@@ -48,15 +53,18 @@ type BoxCollider = {
 export type Entity = {
   boxCollider?: BoxCollider;
   direction?: Vector2d;
-  bulletTag?: true;
-  playerTag?: true;
-  sprite?: {
-    frame: Frame;
-    opacity: number;
+  muzzleFlash?: {
+    duration: number;
+    durationMs: number;
+    initialSize: number;
+    offset: Vector2d;
+    size: number;
   };
+  sprite?: Sprite;
   spriteAnimation?: SpriteAnimation;
-  target?: {
-    transform: Transform;
+  tagBullet?: true;
+  tagPlayer?: true;
+  trackPlayer?: {
     offset?: Vector2d;
   };
   transform?: Transform;

@@ -1,8 +1,8 @@
+import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
 import { Control } from 'contro/dist/core/control.js';
 import { Entity } from '../entity.js';
 import { SpriteSheet } from '../spritesheet.js';
-import { AudioManager } from '#/lib/audio-manager.js';
 
 export function playerSystemFactory(
   world: World<Entity>,
@@ -14,8 +14,8 @@ export function playerSystemFactory(
   const players = world.archetype(
     'boxCollider',
     'direction',
-    'playerTag',
     'sprite',
+    'tagPlayer',
     'transform',
     'velocity',
   );

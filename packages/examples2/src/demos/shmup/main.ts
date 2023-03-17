@@ -1,21 +1,21 @@
 import { loadImage } from '#/lib/asset-loader';
+import { AudioManager, AudioMangerEvent } from '#/lib/audio-manager.js';
 import { obtainCanvasAndContext2d } from '#/lib/dom';
 import { World } from '@jakeklassen/ecs2';
 import { Gamepad, Keyboard, or } from 'contro';
 import '../../style.css';
-import shmupImageUrl from './assets/image/shmup.png';
 import shootWavUrl from './assets/audio/shoot.wav';
+import shmupImageUrl from './assets/image/shmup.png';
+import { spriteAnimationFactory } from './components/sprite-animation.js';
 import { Entity } from './entity.js';
 import { SpriteSheet } from './spritesheet';
+import { animationDetailsFactory } from './structures/animation-details.js';
 import { debugRenderingSystemFactory } from './systems/debug-rendering-system.js';
 import { movementSystemFactory } from './systems/movement-system.js';
 import { playerSystemFactory } from './systems/player-system.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from './systems/sprite-animation-system.js';
-import { spriteAnimationFactory } from './components/sprite-animation.js';
-import { animationDetailsFactory } from './structures/animation-details.js';
-import { followSystemFactory } from './systems/follow-system.js';
-import { AudioManager, AudioMangerEvent } from '#/lib/audio-manager.js';
+import { trackPlayerSystemFactory } from './systems/track-player-system.js';
 
 const audioManager = new AudioManager();
 
@@ -51,17 +51,17 @@ const viewport = {
 const world = new World<Entity>();
 
 /**
- * ! The entity returned by world.createEntity() is not strongly typed.
- * ! It should reflect the components it was initialized with?
+ * ! The entity returned by world.createEntity() is not accurately typed.
+ * ! Should it reflect the components it was created with at this point in time?
  * ! Not a bad idea, but maybe also document that this reference could go stale.
  */
-const player = world.createEntity({
+world.createEntity({
   boxCollider: SpriteSheet.player.boxCollider,
   direction: {
     x: 0,
     y: 0,
   },
-  playerTag: true,
+  tagPlayer: true,
   transform: {
     position: {
       x: canvas.width / 2 - SpriteSheet.player.idle.frameWidth / 2,
@@ -89,8 +89,7 @@ const player = world.createEntity({
 });
 
 world.createEntity({
-  target: {
-    transform: player.transform!,
+  trackPlayer: {
     offset: {
       x: 0,
       y: SpriteSheet.player.idle.frameHeight,
@@ -156,7 +155,7 @@ const debugRenderingSystem = debugRenderingSystemFactory(
 );
 
 const movementSystem = movementSystemFactory(world);
-const followSystem = followSystemFactory(world);
+const trackPlayerSystem = trackPlayerSystemFactory(world);
 
 /**
  * The game loop.
@@ -171,7 +170,7 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 
     playerSystem(dt);
     movementSystem(dt);
-    followSystem(dt);
+    trackPlayerSystem(dt);
     spriteAnimationSystem(dt);
 
     deltaTimeAccumulator -= STEP;

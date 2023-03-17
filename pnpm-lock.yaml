@@ -131,17 +131,17 @@ importers:
     specifiers:
       '@jakeklassen/ecs': workspace:^4.0.0
       '@jakeklassen/ecs2': workspace:1.0.0
-      '@tweakpane/core': 1.1.5
+      '@tweakpane/core': 1.1.6
       just-safe-set: 4.2.1
-      tweakpane: 3.1.6
+      tweakpane: 3.1.7
       typescript: ^5.0.2
       vite: ^4.2.0
     dependencies:
       '@jakeklassen/ecs': link:../ecs
       '@jakeklassen/ecs2': link:../ecs2
-      '@tweakpane/core': 1.1.5
+      '@tweakpane/core': 1.1.6
       just-safe-set: 4.2.1
-      tweakpane: 3.1.6
+      tweakpane: 3.1.7
     devDependencies:
       typescript: 5.0.2
       vite: 4.2.0
@@ -149,7 +149,7 @@ importers:
   packages/examples2:
     specifiers:
       '@jakeklassen/ecs2': workspace:1.0.0
-      '@tweakpane/core': 1.1.5
+      '@tweakpane/core': 1.1.6
       '@types/color': 3.0.3
       color: 4.2.3
       contro: 2.2.0
@@ -160,13 +160,13 @@ importers:
       just-safe-get: 4.2.0
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
-      tweakpane: 3.1.6
+      tweakpane: 3.1.7
       type-fest: 3.6.1
       typescript: 5.0.2
       vite: ^4.2.0
     dependencies:
       '@jakeklassen/ecs2': link:../ecs2
-      '@tweakpane/core': 1.1.5
+      '@tweakpane/core': 1.1.6
       color: 4.2.3
       contro: 2.2.0
       dot-path-value: 0.0.8
@@ -176,7 +176,7 @@ importers:
       just-safe-get: 4.2.0
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
-      tweakpane: 3.1.6
+      tweakpane: 3.1.7
       type-fest: 3.6.1
     devDependencies:
       '@types/color': 3.0.3
@@ -792,8 +792,8 @@ packages:
   /@tsconfig/node16/1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
 
-  /@tweakpane/core/1.1.5:
-    resolution: {integrity: sha512-qbIMNLLZOxiMs59+V+1F8xRe9yHGhBl/zEHPTf2k4/GOYImy03tyovVcjeNTfa/f5OEGyeQlItH6pLdm1ANfOw==}
+  /@tweakpane/core/1.1.6:
+    resolution: {integrity: sha512-/pDdbdXHI1xv2763K/45sVJ2IrwUDZ5rklbfgb70EZ4wjnAMrWNoYJ20Z3QDS6N13IEkde50FKokFre35rSW1Q==}
     dev: false
 
   /@types/benchmark/2.1.2:
@@ -2997,8 +2997,8 @@ packages:
       typescript: 5.0.2
     dev: true
 
-  /tweakpane/3.1.6:
-    resolution: {integrity: sha512-A67JCgWyovee5AF5W5PclXGx6VSJxJ6uWykVTVrr4XzhANGuZhe9szPbeuBQ3r6begaw5i0WDAXmK7EafgM+mQ==}
+  /tweakpane/3.1.7:
+    resolution: {integrity: sha512-8JF0Ri3cPTv/tUwrb28FBalB6XTW+m3pm2BUMz8gXkvppMjSQ89RMOF/jLdaWhrkRnSayPp5WX9lTDXNqRgK5Q==}
     dev: false
 
   /type-check/0.4.0:
