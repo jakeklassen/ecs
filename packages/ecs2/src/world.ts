@@ -28,6 +28,7 @@ export class World<Entity extends JsonObject = JsonObject> {
     ...components: Components
   ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
+      // TODO: Add a test to capture this issue
       if (query.with.length !== components.length) {
         continue;
       }
