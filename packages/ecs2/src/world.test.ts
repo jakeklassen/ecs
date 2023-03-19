@@ -170,7 +170,7 @@ describe('World', () => {
       expect(moving).toEqual({ entities: new Set() });
     });
 
-    it.only('should not return an archetype on partial component match', () => {
+    it('should not return an archetype on partial component match', () => {
       const world = new World<Entity>();
 
       world.createEntity({
