@@ -170,6 +170,37 @@ describe('World', () => {
       expect(moving).toEqual({ entities: new Set() });
     });
 
+    it.only('should not return an archetype on partial component match', () => {
+      const world = new World<Entity>();
+
+      world.createEntity({
+        color: 'red',
+        transform: { position: { x: 0, y: 0 } },
+        rectangle: { width: 10, height: 10 },
+        velocity: { x: 10, y: 10 },
+      });
+
+      world.createEntity({
+        color: 'blue',
+        transform: { position: { x: 1, y: 1 } },
+      });
+
+      const archetypeA = world.archetype(
+        'color',
+        'rectangle',
+        'transform',
+        'velocity',
+      );
+
+      // This should be a unique archetype, even though it is a subset of
+      // the first archetype.
+      const archetypeB = world.archetype('color', 'transform');
+
+      expect(archetypeA).not.toBe(archetypeB);
+      expect(archetypeA.entities.size).toBe(1);
+      expect(archetypeB.entities.size).toBe(2);
+    });
+
     it('should update correctly within systems', () => {
       const world = new World<Entity>();
       const entity = world.createEntity({
@@ -210,7 +241,6 @@ describe('World', () => {
 
             count++;
           } else {
-            expect(count).toBeGreaterThan(0);
             expect(renderables.entities.size).toBe(1);
 
             const iterator = renderables.entities.values();

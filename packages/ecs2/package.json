@@ -30,6 +30,7 @@
     "lint": "eslint src --ext .js,.ts --config .eslintrc.cjs",
     "prebuild": "npm run clean",
     "build": "npm run lint && tsup src --format cjs,esm --dts-resolve",
+    "build:only": "tsup ./src/index.ts --format cjs,esm",
     "build:watch": "nodemon --exec 'npm run build || exit 1'",
     "test": "vitest",
     "pretest:coverage": "npm run clean",
@@ -58,14 +59,13 @@
     "nodemon": "^2.0.21",
     "prettier": "^2.8.4",
     "rimraf": "^4.4.0",
-    "ts-node": "^10.9.1",
+    "tsup": "^6.7.0",
     "typescript": "^5.0.2",
     "vite": "4.2.0",
     "vitest": "^0.29.3"
   },
   "dependencies": {
     "just-omit": "2.2.0",
-    "tsup": "^6.7.0",
     "type-fest": "3.6.1"
   }
 }
