@@ -11,14 +11,14 @@
   "devDependencies": {
     "@types/color": "3.0.3",
     "typescript": "5.0.2",
-    "vite": "^4.2.0"
+    "vite": "^4.2.1"
   },
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
     "@tweakpane/core": "1.1.6",
     "color": "4.2.3",
     "contro": "2.2.0",
-    "dot-path-value": "0.0.8",
+    "dot-path-value": "0.0.9",
     "just-group-by": "2.2.0",
     "just-random": "3.2.0",
     "just-random-integer": "4.2.0",

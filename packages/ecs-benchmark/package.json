@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.15.3",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.5"
   }
 }
