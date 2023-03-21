@@ -214,7 +214,10 @@ describe('World', () => {
       });
 
       const renderSystemFactory = (world: World<Entity>) => {
-        const renderables = world.archetype('color', 'transform');
+        const renderables = world.archetype({
+          with: ['color', 'transform'],
+          without: ['rectangle'],
+        });
         expect(renderables.entities.size).toBe(2);
 
         let count = 0;

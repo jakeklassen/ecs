@@ -11,7 +11,32 @@ type SafeEntity<
   Components extends keyof Entity,
 > = Entity & Required<Pick<Entity, Components>>;
 
-type ArchetypeQuery<Entity extends JsonObject> = { with: Array<keyof Entity> };
+type ArchetypeQuery<Entity extends JsonObject> = {
+  with: Array<keyof Entity>;
+  without?: Array<keyof Entity>;
+};
+
+function without<
+  Entity extends JsonObject,
+  Components extends Array<keyof Entity>,
+>(this: ReadonlyArchetype<Entity>, ...components: Components) {
+  const entitiesWithout = new Set<Entity>();
+
+  for (const entity of this.entities) {
+    for (const component of components) {
+      if (component in entity) {
+        break;
+      }
+    }
+
+    entitiesWithout.add(entity);
+  }
+
+  return {
+    entities: entitiesWithout,
+    without,
+  };
+}
 
 /**
  * Container for Entities
@@ -20,13 +45,23 @@ export class World<Entity extends JsonObject = JsonObject> {
   #archetypes = new Map<ArchetypeQuery<Entity>, Archetype<Entity>>();
   #entities = new Set<Entity>();
 
+  public get archetypes(): Readonly<
+    Map<ArchetypeQuery<Entity>, Archetype<Entity>>
+  > {
+    return this.#archetypes;
+  }
+
   public get entities(): Readonly<Set<Entity>> {
     return this.#entities;
   }
 
-  public archetype<Components extends Array<keyof Entity>>(
-    ...components: Components
-  ): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
+  public archetype<Components extends Array<keyof Entity>>({
+    with: components,
+    without,
+  }: {
+    with: Components;
+    without?: Array<Exclude<keyof Entity, (typeof components)[number]>>;
+  }): ReadonlyArchetype<SafeEntity<Entity, (typeof components)[number]>> {
     for (const [query, archetype] of this.#archetypes) {
       if (query.with.length !== components.length) {
         continue;
@@ -37,9 +72,13 @@ export class World<Entity extends JsonObject = JsonObject> {
       );
 
       if (matchesArchetype === true) {
-        return archetype as ReadonlyArchetype<
-          SafeEntity<Entity, (typeof components)[number]>
-        >;
+        if (without == null) {
+          return archetype as ReadonlyArchetype<
+            SafeEntity<Entity, (typeof components)[number]>
+          >;
+        }
+
+        // We need to factor in the `without` query
       }
     }
 
