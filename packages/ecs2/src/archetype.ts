@@ -79,43 +79,65 @@ type SafeEntity<
   Components extends keyof Entity,
 > = Entity & Required<Pick<Entity, Components>>;
 
-export class Archetype<Entity extends JsonObject> {
+export class Archetype<
+  Entity extends JsonObject,
+  Components extends Array<keyof Entity>,
+> {
   #entities: Set<Entity> = new Set();
   #world: World<Entity>;
+  #components: Components;
 
-  constructor(world: World<Entity>) {
+  constructor(world: World<Entity>, ...components: Components) {
     this.#world = world;
+    this.#components = components;
+
+    for (const entity of this.#entities) {
+      const matchesArchetype = components.every((component) => {
+        return component in entity;
+      });
+
+      if (matchesArchetype === true) {
+        this.#entities.add(entity);
+      }
+    }
   }
 
-  public get entities(): Readonly<Set<Entity>> {
+  public get entities(): Set<SafeEntity<Entity, Components[number]>> {
     return this.#entities;
   }
 
-  with<Components extends Array<keyof Entity>>(
-    ...components: Components
-  ): Archetype<SafeEntity<Entity, (typeof components)[number]>> & {
-    without<
-      Without extends Array<Exclude<keyof Entity, (typeof components)[number]>>,
-    >(
-      ...components: Without
-    ): Archetype<SafeEntity<Entity, (typeof components)[number]>>;
-  } {
-    return {} as any;
+  public get components(): Readonly<Components> {
+    return this.#components;
   }
 
-  // without<const Without extends Array<keyof Entity>>(
-  //   ...components: Without
-  // ): Archetype<SafeEntity<Entity, (typeof components)[number]>> {
-  //   return {} as any;
-  // }
+  without<Without extends Array<Exclude<keyof Entity, Components[number]>>>(
+    ...components: Without
+  ): Archetype<
+    SafeEntity<
+      Omit<Entity, Without[number]>,
+      Exclude<Components[number], (typeof components)[number]>
+    >,
+    Array<Exclude<Components[number], Without[number]>>
+  > {
+    return {} as any;
+  }
 }
 
-const _arc = new Archetype<Entity>(new World<Entity>())
-  .with('boxCollider')
-  .without('direction');
+const _arc = new Archetype(new World<Entity>(), 'boxCollider', 'direction');
+const _arc2 = _arc.without('tagPlayer');
 
-// .without('boxCollider');
+for (const entity of _arc.entities) {
+  entity.boxCollider.height;
+  entity.direction.x;
 
-// for (const entity of a.entities) {
-//   entity.boxCollider.height;
-// }
+  entity.velocity?.x;
+}
+
+for (const entity of _arc2.entities) {
+  entity.boxCollider;
+  //        ^?
+  entity.direction;
+  //        ^?
+  entity.tagPlayer;
+  //        ^?
+}

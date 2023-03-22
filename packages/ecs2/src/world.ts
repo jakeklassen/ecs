@@ -16,28 +16,6 @@ type ArchetypeQuery<Entity extends JsonObject> = {
   without?: Array<keyof Entity>;
 };
 
-function without<
-  Entity extends JsonObject,
-  Components extends Array<keyof Entity>,
->(this: ReadonlyArchetype<Entity>, ...components: Components) {
-  const entitiesWithout = new Set<Entity>();
-
-  for (const entity of this.entities) {
-    for (const component of components) {
-      if (component in entity) {
-        break;
-      }
-    }
-
-    entitiesWithout.add(entity);
-  }
-
-  return {
-    entities: entitiesWithout,
-    without,
-  };
-}
-
 /**
  * Container for Entities
  */
