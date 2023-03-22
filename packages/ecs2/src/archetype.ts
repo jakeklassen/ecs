@@ -1,5 +1,4 @@
 import { JsonObject } from 'type-fest';
-import { World } from './world.js';
 
 type AnimationDetails = {
   name: string;
@@ -79,37 +78,37 @@ type SafeEntity<
   Components extends keyof Entity,
 > = Entity & Required<Pick<Entity, Components>>;
 
+/**
+ * An archetype is a collection of entities that share the same components.
+ * Archetypes should not be constructed directly, but rather through the
+ * `World` class using the `archetype` method.
+ */
 export class Archetype<
   Entity extends JsonObject,
   Components extends Array<keyof Entity>,
 > {
-  #entities: Set<Entity> = new Set();
-  #world: World<Entity>;
+  #entities: Set<SafeEntity<Entity, Components[number]>> = new Set();
   #components: Components;
 
-  constructor(world: World<Entity>, ...components: Components) {
-    this.#world = world;
+  constructor(entities: Set<Entity>, ...components: Components) {
+    this.#entities = entities as any;
     this.#components = components;
-
-    for (const entity of this.#entities) {
-      const matchesArchetype = components.every((component) => {
-        return component in entity;
-      });
-
-      if (matchesArchetype === true) {
-        this.#entities.add(entity);
-      }
-    }
   }
 
   public get entities(): Set<SafeEntity<Entity, Components[number]>> {
-    return this.#entities;
+    return this.#entities as any;
   }
 
   public get components(): Readonly<Components> {
     return this.#components;
   }
 
+  /**
+   * Returns a new archetype based on the current archetype, but excludes the
+   * specified components.
+   * @param components Components that should **not** be present on the entity
+   * @returns
+   */
   without<Without extends Array<Exclude<keyof Entity, Components[number]>>>(
     ...components: Without
   ): Archetype<
@@ -123,7 +122,7 @@ export class Archetype<
   }
 }
 
-const _arc = new Archetype(new World<Entity>(), 'boxCollider', 'direction');
+const _arc = new Archetype(new Set<Entity>(), 'boxCollider', 'direction');
 const _arc2 = _arc.without('tagPlayer');
 
 for (const entity of _arc.entities) {
@@ -131,6 +130,7 @@ for (const entity of _arc.entities) {
   entity.direction.x;
 
   entity.velocity?.x;
+  entity.tagPlayer;
 }
 
 for (const entity of _arc2.entities) {
