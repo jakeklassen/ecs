@@ -7,7 +7,6 @@ import { SpriteSheet } from '../spritesheet.js';
 export function playerSystemFactory(
   world: World<Entity>,
   controls: Record<string, Control<any>>,
-  viewport: { width: number; height: number },
   spritesheet: SpriteSheet,
   audioManager: AudioManager,
 ) {
@@ -67,13 +66,46 @@ export function playerSystemFactory(
         if (bulletTimer <= 0) {
           bulletTimer = initialBulletTime * dt;
 
+          world.createEntity({
+            muzzleFlash: {
+              color: 'white',
+              durationMs: 0.1,
+              elapsed: 0,
+              initialSize: 5,
+              size: 5,
+            },
+            transform: {
+              position: {
+                x:
+                  entity.transform.position.x +
+                  spritesheet.bullet.frame.frameWidth / 4,
+                y:
+                  entity.transform.position.y -
+                  spritesheet.bullet.frame.frameHeight,
+              },
+              rotation: 0,
+              scale: {
+                x: 1,
+                y: 1,
+              },
+            },
+            trackPlayer: {
+              offset: {
+                x: 4,
+                y: -2,
+              },
+            },
+          });
+
           // Spawn a bullet
           world.createEntity({
             boxCollider: spritesheet.bullet.boxCollider,
+            destroyOnViewportExit: true,
             direction: {
               x: 0,
               y: -1,
             },
+            tagBullet: true,
             transform: {
               position: {
                 x:
@@ -108,37 +140,6 @@ export function playerSystemFactory(
             loop: false,
           });
         }
-      }
-
-      entity.transform.position.x +=
-        entity.velocity.x * entity.direction.x * dt;
-
-      entity.transform.position.y +=
-        entity.velocity.y * entity.direction.y * dt;
-
-      // Clamp the player to the viewport
-      if (
-        entity.transform.position.x + entity.boxCollider.offsetX >
-        viewport.width - entity.boxCollider.width
-      ) {
-        entity.transform.position.x =
-          viewport.width -
-          entity.boxCollider.width -
-          entity.boxCollider.offsetX;
-      } else if (entity.transform.position.x + entity.boxCollider.offsetX < 0) {
-        entity.transform.position.x = -entity.boxCollider.offsetX;
-      }
-
-      if (
-        entity.transform.position.y + entity.boxCollider.offsetY >
-        viewport.height - entity.boxCollider.height
-      ) {
-        entity.transform.position.y =
-          viewport.height -
-          entity.boxCollider.height -
-          entity.boxCollider.offsetY;
-      } else if (entity.transform.position.y + entity.boxCollider.offsetY < 0) {
-        entity.transform.position.y = -entity.boxCollider.offsetY;
       }
     }
   };

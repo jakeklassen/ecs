@@ -10,12 +10,16 @@ import { spriteAnimationFactory } from './components/sprite-animation.js';
 import { Entity } from './entity.js';
 import { SpriteSheet } from './spritesheet';
 import { animationDetailsFactory } from './structures/animation-details.js';
+import { boundToViewportSystemFactory } from './systems/bound-to-viewport-system.js';
 import { debugRenderingSystemFactory } from './systems/debug-rendering-system.js';
+import { destroyOnViewportExitSystemFactory } from './systems/destroy-on-viewport-exit-system.js';
 import { movementSystemFactory } from './systems/movement-system.js';
 import { playerSystemFactory } from './systems/player-system.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from './systems/sprite-animation-system.js';
 import { trackPlayerSystemFactory } from './systems/track-player-system.js';
+import { muzzleFlashSystemFactory } from './systems/muzzle-flash-system.js';
+import { muzzleFlashRenderingSystemFactory } from './systems/muzzle-flash-rendering-system.js';
 
 const audioManager = new AudioManager();
 
@@ -50,12 +54,8 @@ const viewport = {
 
 const world = new World<Entity>();
 
-/**
- * ! The entity returned by world.createEntity() is not accurately typed.
- * ! Should it reflect the components it was created with at this point in time?
- * ! Not a bad idea, but maybe also document that this reference could go stale.
- */
-world.createEntity({
+const player = world.createEntity({
+  boundToViewport: true,
   boxCollider: SpriteSheet.player.boxCollider,
   direction: {
     x: 0,
@@ -97,8 +97,8 @@ world.createEntity({
   },
   transform: {
     position: {
-      x: canvas.width / 2 - SpriteSheet.player.idle.frameWidth / 2,
-      y: canvas.height * 0.9 - SpriteSheet.player.idle.frameHeight / 2,
+      x: player.transform.position.x,
+      y: player.transform.position.y,
     },
     rotation: 0,
     scale: {
@@ -142,19 +142,25 @@ const config = {
 const playerSystem = playerSystemFactory(
   world,
   controls,
-  viewport,
   SpriteSheet,
   audioManager,
 );
 const spriteAnimationSystem = spriteAnimationSystemFactory(world);
 const renderingSystem = renderingSystemFactory(world);
+const muzzleFlashRenderingSystem = muzzleFlashRenderingSystemFactory(world);
 const debugRenderingSystem = debugRenderingSystemFactory(
   world,
   context,
   config,
 );
 
+const muzzleFlashSystem = muzzleFlashSystemFactory(world);
 const movementSystem = movementSystemFactory(world);
+const boundToViewportSystem = boundToViewportSystemFactory(world, viewport);
+const destroyOnViewportExitSystem = destroyOnViewportExitSystemFactory(
+  world,
+  viewport,
+);
 const trackPlayerSystem = trackPlayerSystemFactory(world);
 
 /**
@@ -171,12 +177,16 @@ const frame = (hrt: DOMHighResTimeStamp) => {
     playerSystem(dt);
     movementSystem(dt);
     trackPlayerSystem(dt);
+    boundToViewportSystem(dt);
+    destroyOnViewportExitSystem(dt);
+    muzzleFlashSystem(dt);
     spriteAnimationSystem(dt);
 
     deltaTimeAccumulator -= STEP;
   }
 
   renderingSystem(context, shmupImage, dt);
+  muzzleFlashRenderingSystem(context);
   debugRenderingSystem(dt);
 
   last = hrt;

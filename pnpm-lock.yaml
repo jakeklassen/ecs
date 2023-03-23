@@ -13,18 +13,18 @@ importers:
       bumpp: 9.0.0
       eslint: ^8.36.0
       eslint-config-prettier: ^8.8.0
-      nodemon: ^2.0.21
+      nodemon: ^2.0.22
       prettier: ^2.8.6
-      rimraf: ^4.4.0
+      rimraf: ^4.4.1
       ts-node: ^10.9.1
       tsup: ^6.7.0
-      type-fest: 3.6.1
+      type-fest: 3.7.0
       typescript: ^5.0.2
       vite: 4.2.1
       vitest: ^0.29.7
     dependencies:
       tsup: 6.7.0_b3krtfsdr4o54pb3ito5mirk64
-      type-fest: 3.6.1
+      type-fest: 3.7.0
     devDependencies:
       '@types/benchmark': 2.1.2
       '@types/eslint': 8.21.3
@@ -35,9 +35,9 @@ importers:
       bumpp: 9.0.0
       eslint: 8.36.0
       eslint-config-prettier: 8.8.0_eslint@8.36.0
-      nodemon: 2.0.21
+      nodemon: 2.0.22
       prettier: 2.8.6
-      rimraf: 4.4.0
+      rimraf: 4.4.1
       ts-node: 10.9.1_zlbzrxdj56n2qhafx752nt3nlm
       typescript: 5.0.2
       vite: 4.2.1_@types+node@18.15.5
@@ -96,17 +96,17 @@ importers:
       eslint: ^8.36.0
       eslint-config-prettier: ^8.8.0
       just-omit: 2.2.0
-      nodemon: ^2.0.21
+      nodemon: ^2.0.22
       prettier: ^2.8.6
-      rimraf: ^4.4.0
+      rimraf: ^4.4.1
       tsup: ^6.7.0
-      type-fest: 3.6.1
+      type-fest: 3.7.0
       typescript: ^5.0.2
       vite: 4.2.1
       vitest: ^0.29.7
     dependencies:
       just-omit: 2.2.0
-      type-fest: 3.6.1
+      type-fest: 3.7.0
     devDependencies:
       '@types/benchmark': 2.1.2
       '@types/eslint': 8.21.3
@@ -117,9 +117,9 @@ importers:
       bumpp: 9.0.0
       eslint: 8.36.0
       eslint-config-prettier: 8.8.0_eslint@8.36.0
-      nodemon: 2.0.21
+      nodemon: 2.0.22
       prettier: 2.8.6
-      rimraf: 4.4.0
+      rimraf: 4.4.1
       tsup: 6.7.0_typescript@5.0.2
       typescript: 5.0.2
       vite: 4.2.1_@types+node@18.15.5
@@ -159,7 +159,7 @@ importers:
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
       tweakpane: 3.1.7
-      type-fest: 3.6.1
+      type-fest: 3.7.0
       typescript: 5.0.2
       vite: ^4.2.1
     dependencies:
@@ -175,7 +175,7 @@ importers:
       just-safe-set: 4.2.1
       just-shuffle: 4.2.0
       tweakpane: 3.1.7
-      type-fest: 3.6.1
+      type-fest: 3.7.0
     devDependencies:
       '@types/color': 3.0.3
       typescript: 5.0.2
@@ -193,7 +193,7 @@ importers:
       eslint-plugin-prettier: ^4.2.1
       expect: 29.5.0
       mocha: ^10.2.0
-      nodemon: ^2.0.21
+      nodemon: ^2.0.22
       prettier: 2.8.6
       typescript: 5.0.2
     dependencies:
@@ -208,7 +208,7 @@ importers:
       eslint-plugin-prettier: 4.2.1_ose2zoovovx4ulolhifz3tfzx4
       expect: 29.5.0
       mocha: 10.2.0
-      nodemon: 2.0.21
+      nodemon: 2.0.22
       prettier: 2.8.6
       typescript: 5.0.2
 
@@ -1583,14 +1583,14 @@ packages:
       path-is-absolute: 1.0.1
     dev: true
 
-  /glob/9.3.0:
-    resolution: {integrity: sha512-EAZejC7JvnQINayvB/7BJbpZpNOJ8Lrw2OZNEvQxe0vaLn1SuwMcfV7/MNaX8L/T0wmptBFI4YMtDvSBxYDc7w==}
+  /glob/9.3.2:
+    resolution: {integrity: sha512-BTv/JhKXFEHsErMte/AnfiSv8yYOLLiyH2lTg8vn02O21zWFgHPTfxtgn1QRe7NRgggUhC8hacR2Re94svHqeA==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       fs.realpath: 1.0.0
-      minimatch: 7.4.2
+      minimatch: 7.4.3
       minipass: 4.2.5
-      path-scurry: 1.6.1
+      path-scurry: 1.6.3
     dev: true
 
   /globals/13.20.0:
@@ -1964,8 +1964,8 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
-  /minimatch/7.4.2:
-    resolution: {integrity: sha512-xy4q7wou3vUoC9k1xGTXc+awNdGaGVHtFUaey8tiX4H1QRc04DZ/rmDFwNm2EBsuYEhAZ6SgMmYf3InGY6OauA==}
+  /minimatch/7.4.3:
+    resolution: {integrity: sha512-5UB4yYusDtkRPbRiy1cqZ1IpGNcJCGlEMG17RKzPddpyiPKoCdwohbED8g4QXT0ewCt8LTkQXuljsUfQ3FKM4A==}
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
@@ -2053,8 +2053,8 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /nodemon/2.0.21:
-    resolution: {integrity: sha512-djN/n2549DUtY33S7o1djRCd7dEm0kBnj9c7S9XVXqRUbuggN1MZH/Nqa+5RFQr63Fbefq37nFXAE9VU86yL1A==}
+  /nodemon/2.0.22:
+    resolution: {integrity: sha512-B8YqaKMmyuCO7BowF1Z1/mkPqLk6cs/l63Ojtd6otKjMx47Dq1utxfRxcavH1I7VSaL8n5BUaoutadnsX3AAVQ==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     dependencies:
@@ -2159,9 +2159,9 @@ packages:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
     dev: true
 
-  /path-scurry/1.6.1:
-    resolution: {integrity: sha512-OW+5s+7cw6253Q4E+8qQ/u1fVvcJQCJo/VFD8pje+dbJCF1n5ZRMV2AEHbGp+5Q7jxQIYJxkHopnj6nzdGeZLA==}
-    engines: {node: '>=14'}
+  /path-scurry/1.6.3:
+    resolution: {integrity: sha512-RAmB+n30SlN+HnNx6EbcpoDy9nwdpcGPnEKrJnu6GZoDWBdIjo1UQMVtW2ybtC7LC2oKLcMq8y5g8WnKLiod9g==}
+    engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       lru-cache: 7.18.3
       minipass: 4.2.5
@@ -2366,12 +2366,12 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rimraf/4.4.0:
-    resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
+  /rimraf/4.4.1:
+    resolution: {integrity: sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
-      glob: 9.3.0
+      glob: 9.3.2
     dev: true
 
   /rollup/3.19.1:
@@ -2786,8 +2786,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /type-fest/3.6.1:
-    resolution: {integrity: sha512-htXWckxlT6U4+ilVgweNliPqlsVSSucbxVexRYllyMVJDtf5rTjv6kF/s+qAd4QSL1BZcnJPEJavYBPQiWuZDA==}
+  /type-fest/3.7.0:
+    resolution: {integrity: sha512-A2qUJ/j8vkKIT+UorxayZjFJoEdNkIPZkjOJSWezoAbRQd7QEhnz2iJlfVy4Or0GuEnCXts5cNorQNUvdLkaSQ==}
     engines: {node: '>=14.16'}
     dev: false
 

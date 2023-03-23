@@ -7,6 +7,7 @@ type Entity = {
     width: number;
     height: number;
   };
+  tagPlayer?: true;
   transform?: {
     position: {
       x: number;
@@ -28,7 +29,7 @@ describe('World', () => {
       world.createEntity({ color: 'blue' });
 
       expect(world.entities).toBeInstanceOf(Object);
-      expectTypeOf(world.entities).toEqualTypeOf<Readonly<Set<Entity>>>();
+      expectTypeOf(world.entities).toEqualTypeOf<ReadonlySet<Entity>>();
     });
   });
 
@@ -45,8 +46,8 @@ describe('World', () => {
     it('should support initial empty entities as unique', () => {
       const world = new World<Entity>();
 
-      const entityA = world.createEntity({});
-      const entityB = world.createEntity({});
+      const entityA = world.createEntity();
+      const entityB = world.createEntity();
 
       expect(entityA).not.toBe(entityB);
 
@@ -144,11 +145,9 @@ describe('World', () => {
       const testTransform = { position: { x: 0, y: 0 } };
 
       world.addEntityComponents(entity, 'transform', testTransform);
-      expect(world.archetype('transform')).toEqual({
-        entities: new Set([entity]),
-      });
+      expect(world.archetype('transform').entities).toEqual(new Set([entity]));
 
-      expect(world.archetype('color')).toEqual({ entities: new Set() });
+      expect(world.archetype('color').entities).toEqual(new Set());
     });
 
     it('should be updated correctly via removeEntityComponents()', () => {
@@ -156,18 +155,18 @@ describe('World', () => {
       const entity = world.createEntity();
       const moving = world.archetype('transform', 'velocity');
 
-      expect(moving).toEqual({ entities: new Set() });
+      expect(moving.entities).toEqual(new Set());
 
       world.addEntityComponents(entity, 'transform', {
         position: { x: 0, y: 0 },
       });
       world.addEntityComponents(entity, 'velocity', { x: 10, y: 10 });
 
-      expect(moving).toEqual({ entities: new Set([entity]) });
+      expect(moving.entities).toEqual(new Set([entity]));
 
       world.removeEntityComponents(entity, 'transform');
 
-      expect(moving).toEqual({ entities: new Set() });
+      expect(moving.entities).toEqual(new Set());
     });
 
     it('should not return an archetype on partial component match', () => {
@@ -214,10 +213,7 @@ describe('World', () => {
       });
 
       const renderSystemFactory = (world: World<Entity>) => {
-        const renderables = world.archetype({
-          with: ['color', 'transform'],
-          without: ['rectangle'],
-        });
+        const renderables = world.archetype('color', 'transform');
         expect(renderables.entities.size).toBe(2);
 
         let count = 0;

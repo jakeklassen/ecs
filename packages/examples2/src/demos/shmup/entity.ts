@@ -51,13 +51,15 @@ type BoxCollider = {
 };
 
 export type Entity = {
+  boundToViewport?: true;
   boxCollider?: BoxCollider;
+  destroyOnViewportExit?: true;
   direction?: Vector2d;
   muzzleFlash?: {
-    duration: number;
+    color: string;
     durationMs: number;
+    elapsed: number;
     initialSize: number;
-    offset: Vector2d;
     size: number;
   };
   sprite?: Sprite;

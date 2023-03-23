@@ -56,9 +56,9 @@
     "bumpp": "9.0.0",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
-    "nodemon": "^2.0.21",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.6",
-    "rimraf": "^4.4.0",
+    "rimraf": "^4.4.1",
     "tsup": "^6.7.0",
     "typescript": "^5.0.2",
     "vite": "4.2.1",
@@ -66,6 +66,6 @@
   },
   "dependencies": {
     "just-omit": "2.2.0",
-    "type-fest": "3.6.1"
+    "type-fest": "3.7.0"
   }
 }

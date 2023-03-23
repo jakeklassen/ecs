@@ -6,11 +6,6 @@ export function movementSystemFactory(world: World<Entity>) {
 
   return (dt: number) => {
     for (const entity of movables.entities) {
-      // ! Ewww, we need to be able to exclude entities from archetypes.
-      if (entity.tagPlayer != null) {
-        continue;
-      }
-
       entity.transform.position.x +=
         entity.velocity.x * entity.direction.x * dt;
 
