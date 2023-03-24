@@ -25,8 +25,12 @@ const audioManager = new AudioManager();
 
 await audioManager.loadTrack('shoot', shootWavUrl);
 
-audioManager.on(AudioMangerEvent.Ready, () => {
-  console.log('audio ready');
+await new Promise<void>((resolve) => {
+  audioManager.on(AudioMangerEvent.Ready, () => {
+    console.log('audio ready');
+
+    resolve();
+  });
 });
 
 const keyboard = new Keyboard();
