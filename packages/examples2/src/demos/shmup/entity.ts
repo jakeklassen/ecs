@@ -65,7 +65,9 @@ export type Entity = {
   sprite?: Sprite;
   spriteAnimation?: SpriteAnimation;
   tagBullet?: true;
+  tagHud?: true;
   tagPlayer?: true;
+  tagText?: true;
   trackPlayer?: {
     offset?: Vector2d;
   };

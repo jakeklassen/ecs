@@ -16,3 +16,20 @@ export const obtainCanvasAndContext2d = (id?: string) => {
     context,
   };
 };
+
+/**
+ * Helper to safely return a canvas rendering 2d context.
+ * @param canvas canvas element
+ * @returns
+ */
+export const obtainCanvas2dContext = (
+  canvas: HTMLCanvasElement,
+): CanvasRenderingContext2D => {
+  const context = canvas.getContext('2d');
+
+  if (context === null) {
+    throw new Error('Could not obtain 2d context');
+  }
+
+  return context;
+};

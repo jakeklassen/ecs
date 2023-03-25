@@ -7,19 +7,22 @@ import '../../style.css';
 import shootWavUrl from './assets/audio/shoot.wav';
 import shmupImageUrl from './assets/image/shmup.png';
 import { spriteAnimationFactory } from './components/sprite-animation.js';
+import { Content } from './content.js';
 import { Entity } from './entity.js';
+import { input } from './input.js';
 import { SpriteSheet } from './spritesheet';
 import { animationDetailsFactory } from './structures/animation-details.js';
 import { boundToViewportSystemFactory } from './systems/bound-to-viewport-system.js';
 import { debugRenderingSystemFactory } from './systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from './systems/destroy-on-viewport-exit-system.js';
+import { hudRenderingSystemFactory } from './systems/hud-rendering-system.js';
 import { movementSystemFactory } from './systems/movement-system.js';
+import { muzzleFlashRenderingSystemFactory } from './systems/muzzle-flash-rendering-system.js';
+import { muzzleFlashSystemFactory } from './systems/muzzle-flash-system.js';
 import { playerSystemFactory } from './systems/player-system.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from './systems/sprite-animation-system.js';
 import { trackPlayerSystemFactory } from './systems/track-player-system.js';
-import { muzzleFlashSystemFactory } from './systems/muzzle-flash-system.js';
-import { muzzleFlashRenderingSystemFactory } from './systems/muzzle-flash-rendering-system.js';
 
 const audioManager = new AudioManager();
 
@@ -27,11 +30,21 @@ await audioManager.loadTrack('shoot', shootWavUrl);
 
 await new Promise<void>((resolve) => {
   audioManager.on(AudioMangerEvent.Ready, () => {
-    console.log('audio ready');
+    console.log('audio ready - click to play');
 
     resolve();
   });
 });
+
+const game = {
+  cherries: 0,
+  lives: [1, 1, 1, 1],
+  score: 0,
+};
+
+export type Game = typeof game;
+
+const content = await Content.load(shmupImageUrl);
 
 const keyboard = new Keyboard();
 const gamepad = new Gamepad();
@@ -68,8 +81,8 @@ const player = world.createEntity({
   tagPlayer: true,
   transform: {
     position: {
-      x: canvas.width / 2 - SpriteSheet.player.idle.frameWidth / 2,
-      y: canvas.height * 0.9 - SpriteSheet.player.idle.frameHeight / 2,
+      x: canvas.width / 2 - SpriteSheet.player.idle.width / 2,
+      y: canvas.height * 0.9 - SpriteSheet.player.idle.height / 2,
     },
     rotation: 0,
     scale: {
@@ -81,8 +94,8 @@ const player = world.createEntity({
     frame: {
       sourceX: SpriteSheet.player.idle.sourceX,
       sourceY: SpriteSheet.player.idle.sourceY,
-      width: SpriteSheet.player.idle.frameWidth,
-      height: SpriteSheet.player.idle.frameHeight,
+      width: SpriteSheet.player.idle.width,
+      height: SpriteSheet.player.idle.height,
     },
     opacity: 1,
   },
@@ -96,7 +109,7 @@ world.createEntity({
   trackPlayer: {
     offset: {
       x: 0,
-      y: SpriteSheet.player.idle.frameHeight,
+      y: SpriteSheet.player.idle.height,
     },
   },
   transform: {
@@ -114,8 +127,8 @@ world.createEntity({
     frame: {
       sourceX: SpriteSheet.player.thruster.sourceX,
       sourceY: SpriteSheet.player.thruster.sourceY,
-      width: SpriteSheet.player.thruster.frameWidth,
-      height: SpriteSheet.player.thruster.frameHeight,
+      width: SpriteSheet.player.thruster.width,
+      height: SpriteSheet.player.thruster.height,
     },
     opacity: 1,
   },
@@ -152,6 +165,7 @@ const playerSystem = playerSystemFactory(
 const spriteAnimationSystem = spriteAnimationSystemFactory(world);
 const renderingSystem = renderingSystemFactory(world);
 const muzzleFlashRenderingSystem = muzzleFlashRenderingSystemFactory(world);
+const hudRenderingSystem = hudRenderingSystemFactory(world, game, content);
 const debugRenderingSystem = debugRenderingSystemFactory(
   world,
   context,
@@ -174,7 +188,7 @@ const frame = (hrt: DOMHighResTimeStamp) => {
   deltaTimeAccumulator += Math.min(1000, hrt - last);
 
   while (deltaTimeAccumulator >= STEP) {
-    if (controls.debug.query()) {
+    if (input.debug.query()) {
       config.debug = !config.debug;
     }
 
@@ -191,6 +205,7 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 
   renderingSystem(context, shmupImage, dt);
   muzzleFlashRenderingSystem(context);
+  hudRenderingSystem(context, dt);
   debugRenderingSystem(dt);
 
   last = hrt;

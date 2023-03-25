@@ -4,7 +4,7 @@ type KeyOptions = {
 };
 
 /**
- * Represents an input event, bound to a key, which trigger once support.
+ * Represents an input event, bound to a key, with trigger once support.
  * @param key Should be a valid KeyboardEvent.code
  * @param triggerOnce
  * @returns
@@ -59,12 +59,12 @@ const Key = (
 };
 
 export const input = {
-  debug: Key('KeyD', { toggle: true }),
+  debug: Key('KeyD', { triggerOnce: true }),
   left: Key('ArrowLeft'),
   right: Key('ArrowRight'),
   up: Key('ArrowUp'),
   down: Key('ArrowDown'),
-  shoot: Key('KeyZ'),
+  fire: Key('KeyZ'),
   confirm: Key('KeyX', { triggerOnce: true }),
 };
 

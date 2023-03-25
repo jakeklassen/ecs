@@ -3,6 +3,14 @@ import { Entity } from '../entity.js';
 
 export function renderingSystemFactory(world: World<Entity>) {
   const renderables = world.archetype('sprite', 'transform');
+  const textCanvas = document.createElement('canvas');
+  const textContext = textCanvas.getContext('2d');
+
+  if (textContext == null) {
+    throw new Error('Unable to create text canvas');
+  }
+
+  textContext.imageSmoothingEnabled = false;
 
   return (
     context: CanvasRenderingContext2D,

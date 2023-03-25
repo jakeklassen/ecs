@@ -31,8 +31,8 @@ export function playerSystemFactory(
       entity.sprite.frame = {
         sourceX: spritesheet.player.idle.sourceX,
         sourceY: spritesheet.player.idle.sourceY,
-        width: spritesheet.player.idle.frameWidth,
-        height: spritesheet.player.idle.frameHeight,
+        width: spritesheet.player.idle.width,
+        height: spritesheet.player.idle.height,
       };
 
       entity.direction.x = 0;
@@ -43,16 +43,16 @@ export function playerSystemFactory(
         entity.sprite.frame = {
           sourceX: spritesheet.player.bankLeft.sourceX,
           sourceY: spritesheet.player.bankLeft.sourceY,
-          width: spritesheet.player.bankLeft.frameWidth,
-          height: spritesheet.player.bankLeft.frameHeight,
+          width: spritesheet.player.bankLeft.width,
+          height: spritesheet.player.bankLeft.height,
         };
       } else if (controls.right.query()) {
         entity.direction.x = 1;
         entity.sprite.frame = {
           sourceX: spritesheet.player.bankRight.sourceX,
           sourceY: spritesheet.player.bankRight.sourceY,
-          width: spritesheet.player.bankRight.frameWidth,
-          height: spritesheet.player.bankRight.frameHeight,
+          width: spritesheet.player.bankRight.width,
+          height: spritesheet.player.bankRight.height,
         };
       }
 
@@ -78,10 +78,9 @@ export function playerSystemFactory(
               position: {
                 x:
                   entity.transform.position.x +
-                  spritesheet.bullet.frame.frameWidth / 4,
+                  spritesheet.bullet.frame.width / 4,
                 y:
-                  entity.transform.position.y -
-                  spritesheet.bullet.frame.frameHeight,
+                  entity.transform.position.y - spritesheet.bullet.frame.height,
               },
               rotation: 0,
               scale: {
@@ -110,10 +109,9 @@ export function playerSystemFactory(
               position: {
                 x:
                   entity.transform.position.x +
-                  spritesheet.bullet.frame.frameWidth / 4,
+                  spritesheet.bullet.frame.width / 4,
                 y:
-                  entity.transform.position.y -
-                  spritesheet.bullet.frame.frameHeight,
+                  entity.transform.position.y - spritesheet.bullet.frame.height,
               },
               rotation: 0,
               scale: {
@@ -125,8 +123,8 @@ export function playerSystemFactory(
               frame: {
                 sourceX: spritesheet.bullet.frame.sourceX,
                 sourceY: spritesheet.bullet.frame.sourceY,
-                width: spritesheet.bullet.frame.frameWidth,
-                height: spritesheet.bullet.frame.frameHeight,
+                width: spritesheet.bullet.frame.width,
+                height: spritesheet.bullet.frame.height,
               },
               opacity: 1,
             },
