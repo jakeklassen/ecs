@@ -17,9 +17,7 @@ export function renderingSystemFactory(world: World<Entity>) {
     spriteSheet: HTMLImageElement,
     _dt: number,
   ) => {
-    const canvas = context.canvas;
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    // context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const { sprite, transform } of renderables.entities) {
       context.globalAlpha = sprite.opacity;

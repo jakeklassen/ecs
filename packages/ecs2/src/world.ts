@@ -1,4 +1,4 @@
-import { Exact, JsonObject } from 'type-fest';
+import { JsonObject } from 'type-fest';
 import { Archetype } from './archetype.js';
 
 export type SafeEntity<
@@ -51,17 +51,17 @@ export class World<Entity extends JsonObject> {
     >;
   }
 
-  public createEntity(): Entity;
+  public createEntity(): Omit<Entity, keyof Entity>;
   /**
    * Create an entity with the given components. This is a type-safe version
    * __but__ it is of a point in time. When the entity is created. So don't
    * rely on it to be type-safe in the future when used within systems.
    */
-  public createEntity<T extends Exact<Entity, T>>(
+  public createEntity<T extends Entity>(
     entity: T,
   ): keyof typeof entity extends never
     ? never
-    : SafeEntity<Entity & T, keyof typeof entity>;
+    : Pick<Entity & T, keyof typeof entity>;
   public createEntity(entity?: Entity) {
     const _entity = entity ?? ({} as Entity);
 
@@ -71,7 +71,8 @@ export class World<Entity extends JsonObject> {
       archetype.addEntity(_entity);
     }
 
-    return _entity as SafeEntity<Entity, keyof typeof entity>;
+    // return _entity as SafeEntity<Entity, keyof typeof entity>;
+    return _entity;
   }
 
   public deleteEntity(entity: Entity): boolean {
@@ -82,11 +83,11 @@ export class World<Entity extends JsonObject> {
     return this.#entities.delete(entity);
   }
 
-  public addEntityComponents<Component extends keyof Entity>(
-    entity: Entity,
+  public addEntityComponents<T extends Entity, Component extends keyof Entity>(
+    entity: T,
     component: Component,
     value: NonNullable<Entity[Component]>,
-  ): World<Entity> {
+  ): asserts entity is T & Record<typeof component, typeof value> {
     const existingEntity = this.#entities.has(entity);
 
     if (existingEntity === false) {
@@ -94,6 +95,8 @@ export class World<Entity extends JsonObject> {
     }
 
     // This will update the key and value in the map
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     entity[component] = value;
 
     for (const archetype of this.#archetypes) {
@@ -105,14 +108,16 @@ export class World<Entity extends JsonObject> {
         archetype.addEntity(entity);
       }
     }
-
-    return this;
   }
 
-  public removeEntityComponents(
-    entity: Entity,
-    ...components: Array<keyof Entity>
-  ) {
+  public removeEntityComponents<
+    T extends Entity,
+    Component extends keyof Entity,
+  >(
+    entity: T,
+    ...components: Array<Component>
+  ): asserts entity is typeof entity &
+    Omit<typeof entity, (typeof components)[number]> {
     if (this.#entities.has(entity)) {
       for (const component of components) {
         delete entity[component];

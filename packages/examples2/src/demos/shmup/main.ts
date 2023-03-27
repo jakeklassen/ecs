@@ -23,6 +23,10 @@ import { playerSystemFactory } from './systems/player-system.js';
 import { renderingSystemFactory } from './systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from './systems/sprite-animation-system.js';
 import { trackPlayerSystemFactory } from './systems/track-player-system.js';
+import { starfieldRenderingSystemFactory } from './systems/starfield-rendering-system.js';
+import { rndInt } from '#/lib/math.js';
+import { starfieldSystemFactory } from './systems/starfield-system.js';
+import { rndFromList } from '#/lib/array.js';
 
 const audioManager = new AudioManager();
 
@@ -146,11 +150,38 @@ world.createEntity({
   ),
 });
 
-const TARGET_FPS = 60;
-const STEP = 1000 / TARGET_FPS;
-const dt = STEP / 1000;
-let last = performance.now();
-let deltaTimeAccumulator = 0;
+for (let i = 0; i < 100; i++) {
+  const entity = world.createEntity({
+    direction: {
+      x: 0,
+      y: 1,
+    },
+    star: {
+      color: 'white',
+    },
+    transform: {
+      position: {
+        x: rndInt(canvas.width - 1, 1),
+        y: rndInt(canvas.height - 1, 1),
+      },
+      rotation: 0,
+      scale: {
+        x: 1,
+        y: 1,
+      },
+    },
+    velocity: {
+      x: 0,
+      y: rndFromList([60, 30, 20]),
+    },
+  });
+
+  if (entity.velocity.y < 30) {
+    entity.star.color = '#1d2b53';
+  } else if (entity.velocity.y < 60) {
+    entity.star.color = '#83769b';
+  }
+}
 
 const config = {
   debug: false,
@@ -164,6 +195,7 @@ const playerSystem = playerSystemFactory(
 );
 const spriteAnimationSystem = spriteAnimationSystemFactory(world);
 const renderingSystem = renderingSystemFactory(world);
+const starfieldRenderingSystem = starfieldRenderingSystemFactory(world);
 const muzzleFlashRenderingSystem = muzzleFlashRenderingSystemFactory(world);
 const hudRenderingSystem = hudRenderingSystemFactory(world, game, content);
 const debugRenderingSystem = debugRenderingSystemFactory(
@@ -174,12 +206,19 @@ const debugRenderingSystem = debugRenderingSystemFactory(
 
 const muzzleFlashSystem = muzzleFlashSystemFactory(world);
 const movementSystem = movementSystemFactory(world);
+const starfieldSystem = starfieldSystemFactory(world);
 const boundToViewportSystem = boundToViewportSystemFactory(world, viewport);
 const destroyOnViewportExitSystem = destroyOnViewportExitSystemFactory(
   world,
   viewport,
 );
 const trackPlayerSystem = trackPlayerSystemFactory(world);
+
+const TARGET_FPS = 60;
+const STEP = 1000 / TARGET_FPS;
+const dt = STEP / 1000;
+let last = performance.now();
+let deltaTimeAccumulator = 0;
 
 /**
  * The game loop.
@@ -197,12 +236,16 @@ const frame = (hrt: DOMHighResTimeStamp) => {
     trackPlayerSystem(dt);
     boundToViewportSystem(dt);
     destroyOnViewportExitSystem(dt);
+    starfieldSystem(dt);
     muzzleFlashSystem(dt);
     spriteAnimationSystem(dt);
 
     deltaTimeAccumulator -= STEP;
   }
 
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  starfieldRenderingSystem(context, dt);
   renderingSystem(context, shmupImage, dt);
   muzzleFlashRenderingSystem(context);
   hudRenderingSystem(context, dt);

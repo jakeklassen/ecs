@@ -64,6 +64,9 @@ export type Entity = {
   };
   sprite?: Sprite;
   spriteAnimation?: SpriteAnimation;
+  star?: {
+    color: string;
+  };
   tagBullet?: true;
   tagHud?: true;
   tagPlayer?: true;

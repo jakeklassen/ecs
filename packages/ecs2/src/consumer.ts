@@ -1,3 +1,4 @@
+import { Except, JsonObject, Merge, SetOptional, Spread } from 'type-fest';
 import { Archetype } from './archetype.js';
 import { World } from './world.js';
 
@@ -75,12 +76,22 @@ export type Entity = {
   transform?: Transform;
   velocity?: Vector2d;
 };
-const world = new World<Entity>();
+const world: World<Entity> = new World<Entity>();
+
+// @ts-expect-error - you should not be able to assign _any_ property to an entity
+// that it was not created with.
+world.createEntity().color = 'red';
 
 const e = world.createEntity({
+  color: 'red',
   position: { x: 0, y: 0 },
   velocity: { x: 1, y: 1 },
 });
+
+e.color = 'blue';
+
+// @ts-expect-error - you should not be able to assign non-existent properties
+e.nonExistentProperty = true;
 
 const o = {} as const;
 declare const _ok: keyof typeof o extends never ? true : false;
@@ -88,7 +99,15 @@ declare const _ok: keyof typeof o extends never ? true : false;
 
 e.position.x += e.velocity.x;
 
-world.addEntityComponents(e, 'color', 'red');
+world.addEntityComponents(e, 'color', 'blue');
+
+e.color;
+//  ^?
+
+world.addEntityComponents(e, 'tagPlayer', true);
+
+e.tagPlayer;
+//    ^?
 
 const moving = world.archetype('position', 'velocity');
 
@@ -134,3 +153,45 @@ for (const entity of _arc2.entities) {
   entity.tagPlayer;
   //        ^?
 }
+
+// Bug to report?
+// const narrow = <T extends Exact<Entity, T>>(entity: T) => entity;
+// narrow({ color: 'red' }).color = 'blue';
+
+function addEntityComponents<T extends Entity, Component extends keyof Entity>(
+  entity: T,
+  component: Component,
+  value: NonNullable<Entity[Component]>,
+): asserts entity is T & Record<typeof component, typeof value> {
+  // This will update the key and value in the map
+  // entity[component] = value;
+}
+
+function removeEntityComponents<
+  T extends Entity,
+  Component extends keyof Entity,
+>(
+  entity: T,
+  component: Component,
+): asserts entity is Spread<
+  typeof entity,
+  Record<typeof component, undefined>
+> {
+  // This will update the key and value in the map
+  // entity[component] = undefined;
+}
+
+const e2 = world.createEntity();
+addEntityComponents(e2, 'color', 'blue');
+e2.color;
+//   ^?
+
+addEntityComponents(e2, 'tagPlayer', true);
+e2.tagPlayer;
+//   ^?
+
+removeEntityComponents(e2, 'color');
+e2.color;
+//   ^?
+e2.tagPlayer;
+//   ^?
