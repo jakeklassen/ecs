@@ -1,7 +1,5 @@
 import { obtainCanvas2dContext } from '#/lib/dom.js';
-import { World } from '@jakeklassen/ecs2';
 import { LoadedContent } from '../content.js';
-import { Entity } from '../entity.js';
 import { Game } from '../main.js';
 
 function convertNumberToImageSourceFactory() {
@@ -161,9 +159,9 @@ function convertNumberToImageSourceFactory() {
 }
 
 export function hudRenderingSystemFactory(
-  world: World<Entity>,
   game: Game,
   content: LoadedContent,
+  context: CanvasRenderingContext2D,
 ) {
   const scoreCanvas = document.createElement('canvas');
   const scoreContext = obtainCanvas2dContext(scoreCanvas);
@@ -192,7 +190,7 @@ export function hudRenderingSystemFactory(
     tintColor: '#29adff',
   });
 
-  return (context: CanvasRenderingContext2D, _dt: number) => {
+  return (_dt: number) => {
     for (const [index, life] of game.lives.entries()) {
       if (life === 1) {
         context.drawImage(content.sprite.hud.heartFull, (index + 1) * 9 - 8, 1);

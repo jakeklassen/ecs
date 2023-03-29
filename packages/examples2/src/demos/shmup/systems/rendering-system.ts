@@ -1,7 +1,11 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function renderingSystemFactory(world: World<Entity>) {
+export function renderingSystemFactory(
+  world: World<Entity>,
+  context: CanvasRenderingContext2D,
+  spriteSheet: HTMLImageElement,
+) {
   const renderables = world.archetype('sprite', 'transform');
   const textCanvas = document.createElement('canvas');
   const textContext = textCanvas.getContext('2d');
@@ -12,11 +16,7 @@ export function renderingSystemFactory(world: World<Entity>) {
 
   textContext.imageSmoothingEnabled = false;
 
-  return (
-    context: CanvasRenderingContext2D,
-    spriteSheet: HTMLImageElement,
-    _dt: number,
-  ) => {
+  return (_dt: number) => {
     // context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const { sprite, transform } of renderables.entities) {

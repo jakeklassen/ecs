@@ -51,7 +51,7 @@ export class World<Entity extends JsonObject> {
     >;
   }
 
-  public createEntity(): Omit<Entity, keyof Entity>;
+  public createEntity(): Entity;
   /**
    * Create an entity with the given components. This is a type-safe version
    * __but__ it is of a point in time. When the entity is created. So don't
@@ -62,8 +62,8 @@ export class World<Entity extends JsonObject> {
   ): keyof typeof entity extends never
     ? never
     : Pick<Entity & T, keyof typeof entity>;
-  public createEntity(entity?: Entity) {
-    const _entity = entity ?? ({} as Entity);
+  public createEntity<T extends Entity>(entity?: T) {
+    const _entity = entity ?? ({} as T);
 
     this.#entities.add(_entity);
 
@@ -71,8 +71,7 @@ export class World<Entity extends JsonObject> {
       archetype.addEntity(_entity);
     }
 
-    // return _entity as SafeEntity<Entity, keyof typeof entity>;
-    return _entity;
+    return _entity as SafeEntity<Entity, keyof typeof entity>;
   }
 
   public deleteEntity(entity: Entity): boolean {
@@ -87,7 +86,7 @@ export class World<Entity extends JsonObject> {
     entity: T,
     component: Component,
     value: NonNullable<Entity[Component]>,
-  ): asserts entity is T & Record<typeof component, typeof value> {
+  ): T & Record<typeof component, typeof value> {
     const existingEntity = this.#entities.has(entity);
 
     if (existingEntity === false) {
@@ -108,16 +107,14 @@ export class World<Entity extends JsonObject> {
         archetype.addEntity(entity);
       }
     }
+
+    return entity as T & Record<typeof component, typeof value>;
   }
 
   public removeEntityComponents<
     T extends Entity,
     Component extends keyof Entity,
-  >(
-    entity: T,
-    ...components: Array<Component>
-  ): asserts entity is typeof entity &
-    Omit<typeof entity, (typeof components)[number]> {
+  >(entity: T, ...components: Array<Component>): void {
     if (this.#entities.has(entity)) {
       for (const component of components) {
         delete entity[component];

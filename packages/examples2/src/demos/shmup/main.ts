@@ -28,6 +28,9 @@ import { rndInt } from '#/lib/math.js';
 import { starfieldSystemFactory } from './systems/starfield-system.js';
 import { rndFromList } from '#/lib/array.js';
 
+type Mode = 'start' | 'playing' | 'game-over';
+const mode: Mode = 'playing';
+
 const audioManager = new AudioManager();
 
 await audioManager.loadTrack('shoot', shootWavUrl);
@@ -194,10 +197,16 @@ const playerSystem = playerSystemFactory(
   audioManager,
 );
 const spriteAnimationSystem = spriteAnimationSystemFactory(world);
-const renderingSystem = renderingSystemFactory(world);
-const starfieldRenderingSystem = starfieldRenderingSystemFactory(world);
-const muzzleFlashRenderingSystem = muzzleFlashRenderingSystemFactory(world);
-const hudRenderingSystem = hudRenderingSystemFactory(world, game, content);
+const renderingSystem = renderingSystemFactory(world, context, shmupImage);
+const starfieldRenderingSystem = starfieldRenderingSystemFactory(
+  world,
+  context,
+);
+const muzzleFlashRenderingSystem = muzzleFlashRenderingSystemFactory(
+  world,
+  context,
+);
+const hudRenderingSystem = hudRenderingSystemFactory(game, content, context);
 const debugRenderingSystem = debugRenderingSystemFactory(
   world,
   context,
@@ -245,10 +254,10 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  starfieldRenderingSystem(context, dt);
-  renderingSystem(context, shmupImage, dt);
-  muzzleFlashRenderingSystem(context);
-  hudRenderingSystem(context, dt);
+  starfieldRenderingSystem(dt);
+  renderingSystem(dt);
+  muzzleFlashRenderingSystem(dt);
+  hudRenderingSystem(dt);
   debugRenderingSystem(dt);
 
   last = hrt;

@@ -1,6 +1,8 @@
-import { Except, JsonObject, Merge, SetOptional, Spread } from 'type-fest';
 import { Archetype } from './archetype.js';
 import { World } from './world.js';
+
+// Playground link to the good times with `asserts`
+// https://tsplay.dev/WG8z0w
 
 type AnimationDetails = {
   name: string;
@@ -78,8 +80,6 @@ export type Entity = {
 };
 const world: World<Entity> = new World<Entity>();
 
-// @ts-expect-error - you should not be able to assign _any_ property to an entity
-// that it was not created with.
 world.createEntity().color = 'red';
 
 const e = world.createEntity({
@@ -106,6 +106,7 @@ e.color;
 
 world.addEntityComponents(e, 'tagPlayer', true);
 
+// @ts-expect-error - we didn't store the updated return type from addEntityComponents
 e.tagPlayer;
 //    ^?
 
@@ -157,41 +158,3 @@ for (const entity of _arc2.entities) {
 // Bug to report?
 // const narrow = <T extends Exact<Entity, T>>(entity: T) => entity;
 // narrow({ color: 'red' }).color = 'blue';
-
-function addEntityComponents<T extends Entity, Component extends keyof Entity>(
-  entity: T,
-  component: Component,
-  value: NonNullable<Entity[Component]>,
-): asserts entity is T & Record<typeof component, typeof value> {
-  // This will update the key and value in the map
-  // entity[component] = value;
-}
-
-function removeEntityComponents<
-  T extends Entity,
-  Component extends keyof Entity,
->(
-  entity: T,
-  component: Component,
-): asserts entity is Spread<
-  typeof entity,
-  Record<typeof component, undefined>
-> {
-  // This will update the key and value in the map
-  // entity[component] = undefined;
-}
-
-const e2 = world.createEntity();
-addEntityComponents(e2, 'color', 'blue');
-e2.color;
-//   ^?
-
-addEntityComponents(e2, 'tagPlayer', true);
-e2.tagPlayer;
-//   ^?
-
-removeEntityComponents(e2, 'color');
-e2.color;
-//   ^?
-e2.tagPlayer;
-//   ^?

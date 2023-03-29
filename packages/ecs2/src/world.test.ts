@@ -23,7 +23,7 @@ type Entity = {
 describe('World', () => {
   describe('get entities()', () => {
     it('returns an entity iterator', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
 
       world.createEntity({ color: 'red' });
       world.createEntity({ color: 'blue' });
@@ -35,7 +35,7 @@ describe('World', () => {
 
   describe('createEntity()', () => {
     it('returns a new entity', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
 
       const entityA = world.createEntity({ color: 'red' });
 
@@ -44,7 +44,7 @@ describe('World', () => {
     });
 
     it('should support initial empty entities as unique', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
 
       const entityA = world.createEntity();
       const entityB = world.createEntity();
@@ -54,7 +54,6 @@ describe('World', () => {
       world.addEntityComponents(entityA, 'color', 'red');
 
       expect(entityA.color).toBe('red');
-      // @ts-expect-error - `color` is not known to entityA yet
       expect(entityB.color).toBeUndefined();
       expect(entityA).not.toBe(entityB);
     });
@@ -62,7 +61,7 @@ describe('World', () => {
 
   describe('deleteEntity()', () => {
     it('should delete an entity and return true', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
 
       const entity = world.createEntity({});
 
@@ -70,13 +69,13 @@ describe('World', () => {
     });
 
     it('should not delete an entity and return false', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
 
       expect(world.deleteEntity({})).toBe(false);
     });
 
     it('should return false if the entity has already been deleted', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity({});
 
       expect(world.deleteEntity(entity)).toBe(true);
@@ -86,7 +85,7 @@ describe('World', () => {
 
   describe('addEntityComponents()', () => {
     it('should add components to entity', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity();
       world.addEntityComponents(entity, 'color', 'red');
       world.addEntityComponents(entity, 'rectangle', { width: 10, height: 10 });
@@ -98,7 +97,7 @@ describe('World', () => {
 
   describe('removeEntityComponents()', () => {
     it('should remove entity components', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity();
       world.addEntityComponents(entity, 'color', 'red');
       world.addEntityComponents(entity, 'rectangle', {
@@ -113,7 +112,7 @@ describe('World', () => {
     });
 
     it('should not error if entity does not have components', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity();
       world.addEntityComponents(entity, 'color', 'red');
 
@@ -135,7 +134,7 @@ describe('World', () => {
 
   describe('archetype()', () => {
     it('should return the correct archetype', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity();
       const testTransform = { position: { x: 0, y: 0 } };
 
@@ -146,7 +145,7 @@ describe('World', () => {
     });
 
     it('should be updated correctly via removeEntityComponents()', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity();
       const moving = world.archetype('transform', 'velocity');
 
@@ -196,7 +195,7 @@ describe('World', () => {
     });
 
     it('should update correctly within systems', () => {
-      const world: World<Entity> = new World<Entity>();
+      const world = new World<Entity>();
       const entity = world.createEntity({
         color: 'red',
         transform: { position: { x: 0, y: 0 } },
