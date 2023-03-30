@@ -7,14 +7,6 @@ export function renderingSystemFactory(
   spriteSheet: HTMLImageElement,
 ) {
   const renderables = world.archetype('sprite', 'transform');
-  const textCanvas = document.createElement('canvas');
-  const textContext = textCanvas.getContext('2d');
-
-  if (textContext == null) {
-    throw new Error('Unable to create text canvas');
-  }
-
-  textContext.imageSmoothingEnabled = false;
 
   return (_dt: number) => {
     // context.clearRect(0, 0, canvas.width, canvas.height);

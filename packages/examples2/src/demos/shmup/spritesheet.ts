@@ -170,6 +170,14 @@ export const SpriteSheet = {
       width: 51,
       height: 5,
     },
+    pressAnyKeyToStart: {
+      frame: {
+        sourceX: 0,
+        sourceY: 160,
+        width: 74,
+        height: 5,
+      },
+    },
   },
 } as const;
 

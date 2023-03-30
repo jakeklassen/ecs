@@ -1,30 +1,31 @@
 import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
-import { Control } from 'contro/dist/core/control.js';
 import { Config } from './config.js';
 import { LoadedContent } from './content.js';
+import { Controls } from './controls.js';
+import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { GameState } from './game-state.js';
+import { SpriteSheet } from './spritesheet.js';
 
-type Controls = Record<string, Control<any>>;
+type System = (dt: number) => void;
 
-type GameLoop = (dt: number) => void;
-
-interface SceneConstructorProps {
+export interface SceneConstructorProps {
   audioManager: AudioManager;
   canvas: HTMLCanvasElement;
   config: Config;
   content: LoadedContent;
   context: CanvasRenderingContext2D;
-  gameLoop: GameLoop;
   gameState: GameState;
   input: Controls;
+  spriteSheet: SpriteSheet;
 }
 
 type SceneEventListener = () => void;
 
 export class Scene {
-  world = new World();
+  world = new World<Entity>();
+  systems: System[] = [];
 
   protected input: Controls;
   protected content: LoadedContent;
@@ -33,7 +34,7 @@ export class Scene {
   protected canvas: HTMLCanvasElement;
   protected context: CanvasRenderingContext2D;
   protected gameState: GameState;
-  protected gameLoop: GameLoop;
+  protected spriteSheet: SpriteSheet;
 
   private listeners = new Map<GameEvent, Array<SceneEventListener>>();
 
@@ -45,7 +46,7 @@ export class Scene {
     this.canvas = props.canvas;
     this.context = props.context;
     this.gameState = props.gameState;
-    this.gameLoop = props.gameLoop;
+    this.spriteSheet = props.spriteSheet;
 
     this.initialize();
   }
@@ -67,7 +68,9 @@ export class Scene {
   }
 
   public update(delta: number) {
-    this.gameLoop(delta);
+    for (const system of this.systems) {
+      system(delta);
+    }
   }
 
   public on(event: GameEvent, listener: SceneEventListener) {

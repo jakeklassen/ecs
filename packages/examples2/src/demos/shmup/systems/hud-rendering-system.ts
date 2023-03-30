@@ -1,6 +1,6 @@
 import { obtainCanvas2dContext } from '#/lib/dom.js';
 import { LoadedContent } from '../content.js';
-import { Game } from '../main.js';
+import { GameState } from '../game-state.js';
 
 function convertNumberToImageSourceFactory() {
   const textCanvas = document.createElement('canvas');
@@ -159,7 +159,7 @@ function convertNumberToImageSourceFactory() {
 }
 
 export function hudRenderingSystemFactory(
-  game: Game,
+  gameState: GameState,
   content: LoadedContent,
   context: CanvasRenderingContext2D,
 ) {
@@ -167,7 +167,7 @@ export function hudRenderingSystemFactory(
   const scoreContext = obtainCanvas2dContext(scoreCanvas);
   const cherriesCanvas = document.createElement('canvas');
   const cherriesContext = obtainCanvas2dContext(cherriesCanvas);
-  const previousState = structuredClone(game);
+  const previousState = structuredClone(gameState);
 
   scoreCanvas.style.imageRendering = 'pixelated';
   scoreContext.imageSmoothingEnabled = false;
@@ -176,14 +176,14 @@ export function hudRenderingSystemFactory(
 
   const convertNumberToImageSource = convertNumberToImageSourceFactory();
 
-  convertNumberToImageSource(game.score, {
+  convertNumberToImageSource(gameState.score, {
     characterPadding: 1,
     context: scoreContext,
     content,
     tintColor: '#29adff',
   });
 
-  convertNumberToImageSource(game.cherries, {
+  convertNumberToImageSource(gameState.cherries, {
     characterPadding: 1,
     context: cherriesContext,
     content,
@@ -191,7 +191,7 @@ export function hudRenderingSystemFactory(
   });
 
   return (_dt: number) => {
-    for (const [index, life] of game.lives.entries()) {
+    for (const [index, life] of gameState.lives.entries()) {
       if (life === 1) {
         context.drawImage(content.sprite.hud.heartFull, (index + 1) * 9 - 8, 1);
       } else {
@@ -203,15 +203,15 @@ export function hudRenderingSystemFactory(
       }
     }
 
-    if (game.score !== previousState.score) {
-      convertNumberToImageSource(game.score, {
+    if (gameState.score !== previousState.score) {
+      convertNumberToImageSource(gameState.score, {
         characterPadding: 1,
         content,
         context: scoreContext,
         tintColor: '#29adff',
       });
 
-      previousState.score = game.score;
+      previousState.score = gameState.score;
     }
 
     context.drawImage(
@@ -220,8 +220,8 @@ export function hudRenderingSystemFactory(
       1,
     );
 
-    if (game.cherries !== previousState.cherries) {
-      convertNumberToImageSource(game.cherries, {
+    if (gameState.cherries !== previousState.cherries) {
+      convertNumberToImageSource(gameState.cherries, {
         characterPadding: 1,
         content,
         context: cherriesContext,

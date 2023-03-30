@@ -1,4 +1,6 @@
 export const config = {
+  debug: false,
+
   /**
    * In pixels
    */
