@@ -78,6 +78,10 @@ export class Archetype<
     return this;
   }
 
+  clearEntities() {
+    this.#entities.clear();
+  }
+
   /**
    * Returns a new archetype based on the current archetype, but excludes the
    * specified components.

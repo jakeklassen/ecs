@@ -1,3 +1,5 @@
+import { rndFromList } from '#/lib/array.js';
+import { rndInt } from '#/lib/math.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
@@ -7,16 +9,17 @@ import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
 
 export class TitleScreen extends Scene {
+  #areaWidth: number;
+  #areaHeight: number;
+
   constructor(props: SceneConstructorProps) {
     super(props);
 
+    this.#areaWidth = this.config.gameWidth - 1;
+    this.#areaHeight = this.config.gameHeight - 1;
+
     this.systems.push(
-      starfieldSystemFactory(
-        this.world,
-        this.canvas.width - 1,
-        this.canvas.height - 1,
-        100,
-      ),
+      starfieldSystemFactory(this.world),
       startGameSystemFactory(this.input, this),
       movementSystemFactory(this.world),
       starfieldRenderingSystemFactory(this.world, this.context),
@@ -28,7 +31,46 @@ export class TitleScreen extends Scene {
     );
   }
 
+  private createStars(starCount = 100) {
+    for (let i = 0; i < starCount; i++) {
+      const entity = this.world.createEntity({
+        direction: {
+          x: 0,
+          y: 1,
+        },
+        star: {
+          color: 'white',
+        },
+        transform: {
+          position: {
+            x: rndInt(this.#areaWidth, 1),
+            y: rndInt(this.#areaHeight, 1),
+          },
+          rotation: 0,
+          scale: {
+            x: 1,
+            y: 1,
+          },
+        },
+        velocity: {
+          x: 0,
+          y: rndFromList([60, 30, 20]),
+        },
+      });
+
+      if (entity.velocity.y < 30) {
+        entity.star.color = '#1d2b53';
+      } else if (entity.velocity.y < 60) {
+        entity.star.color = '#83769b';
+      }
+    }
+  }
+
   public override initialize(): void {
+    resetGameState(this.gameState);
+
+    this.createStars(100);
+
     this.world.createEntity({
       sprite: {
         frame: {
@@ -56,7 +98,9 @@ export class TitleScreen extends Scene {
   }
 
   public override enter(): void {
-    resetGameState(this.gameState);
+    super.enter();
+
+    this.initialize();
   }
 
   public override update(delta: number): void {

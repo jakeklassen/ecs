@@ -1,3 +1,5 @@
+import { rndFromList } from '#/lib/array.js';
+import { rndInt } from '#/lib/math.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
@@ -16,10 +18,17 @@ import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
+import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
 
 export class GameplayScreen extends Scene {
+  #areaWidth: number;
+  #areaHeight: number;
+
   constructor(props: SceneConstructorProps) {
     super(props);
+
+    this.#areaWidth = this.config.gameWidth - 1;
+    this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
       playerSystemFactory(
@@ -38,12 +47,7 @@ export class GameplayScreen extends Scene {
         width: this.config.gameWidth,
         height: this.config.gameHeight,
       }),
-      starfieldSystemFactory(
-        this.world,
-        this.canvas.width - 1,
-        this.canvas.height - 1,
-        100,
-      ),
+      starfieldSystemFactory(this.world),
       muzzleFlashSystemFactory(this.world),
       spriteAnimationSystemFactory(this.world),
       starfieldRenderingSystemFactory(this.world, this.context),
@@ -55,10 +59,51 @@ export class GameplayScreen extends Scene {
       muzzleFlashRenderingSystemFactory(this.world, this.context),
       hudRenderingSystemFactory(this.gameState, this.content, this.context),
       debugRenderingSystemFactory(this.world, this.context, this.config),
+      triggerGameOverSystemFactory(this.input, this),
     );
   }
 
+  private createStars(starCount = 100) {
+    for (let i = 0; i < starCount; i++) {
+      const entity = this.world.createEntity({
+        direction: {
+          x: 0,
+          y: 1,
+        },
+        star: {
+          color: 'white',
+        },
+        transform: {
+          position: {
+            x: rndInt(this.#areaWidth, 1),
+            y: rndInt(this.#areaHeight, 1),
+          },
+          rotation: 0,
+          scale: {
+            x: 1,
+            y: 1,
+          },
+        },
+        velocity: {
+          x: 0,
+          y: rndFromList([60, 30, 20]),
+        },
+      });
+
+      if (entity.velocity.y < 30) {
+        entity.star.color = '#1d2b53';
+      } else if (entity.velocity.y < 60) {
+        entity.star.color = '#83769b';
+      }
+    }
+  }
+
   public override initialize(): void {
+    this.world.clearEntities();
+    resetGameState(this.gameState);
+
+    this.createStars(100);
+
     const player = this.world.createEntity({
       boundToViewport: true,
       boxCollider: SpriteSheet.player.boxCollider,
@@ -136,7 +181,13 @@ export class GameplayScreen extends Scene {
   }
 
   public override enter(): void {
-    resetGameState(this.gameState);
+    super.enter();
+
+    this.initialize();
+  }
+
+  public override exit(): void {
+    super.exit();
   }
 
   public override update(delta: number): void {

@@ -170,6 +170,14 @@ export const SpriteSheet = {
       width: 51,
       height: 5,
     },
+    gameOver: {
+      frame: {
+        sourceX: 0,
+        sourceY: 168,
+        width: 43,
+        height: 5,
+      },
+    },
     pressAnyKeyToStart: {
       frame: {
         sourceX: 0,

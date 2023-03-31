@@ -27,7 +27,7 @@
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "prettier": "2.8.7",
-    "typescript": "5.0.2"
+    "typescript": "5.0.3"
   },
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^4.0.0"

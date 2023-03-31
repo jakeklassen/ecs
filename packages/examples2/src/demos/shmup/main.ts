@@ -1,38 +1,19 @@
-import { rndFromList } from '#/lib/array.js';
-import { loadImage } from '#/lib/asset-loader';
 import { AudioManager, AudioMangerEvent } from '#/lib/audio-manager.js';
 import { obtainCanvasAndContext2d } from '#/lib/dom';
-import { rndInt } from '#/lib/math.js';
-import { World } from '@jakeklassen/ecs2';
 import '../../style.css';
 import shootWavUrl from './assets/audio/shoot.wav';
 import shmupImageUrl from './assets/image/shmup.png';
-import { spriteAnimationFactory } from './components/sprite-animation.js';
 import { config } from './config.js';
 import { Content } from './content.js';
 import { controls } from './controls.js';
-import { Entity } from './entity.js';
+import { GameEvent } from './game-events.js';
 import { gameState } from './game-state.js';
 import { input } from './input.js';
+import { Scene } from './scene.js';
+import { GameOverScreen } from './scenes/game-over-screen.js';
+import { GameplayScreen } from './scenes/gameplay-screen.js';
 import { TitleScreen } from './scenes/title-screen.js';
 import { SpriteSheet } from './spritesheet';
-import { animationDetailsFactory } from './structures/animation-details.js';
-import { boundToViewportSystemFactory } from './systems/bound-to-viewport-system.js';
-import { debugRenderingSystemFactory } from './systems/debug-rendering-system.js';
-import { destroyOnViewportExitSystemFactory } from './systems/destroy-on-viewport-exit-system.js';
-import { hudRenderingSystemFactory } from './systems/hud-rendering-system.js';
-import { movementSystemFactory } from './systems/movement-system.js';
-import { muzzleFlashRenderingSystemFactory } from './systems/muzzle-flash-rendering-system.js';
-import { muzzleFlashSystemFactory } from './systems/muzzle-flash-system.js';
-import { playerSystemFactory } from './systems/player-system.js';
-import { renderingSystemFactory } from './systems/rendering-system.js';
-import { spriteAnimationSystemFactory } from './systems/sprite-animation-system.js';
-import { starfieldRenderingSystemFactory } from './systems/starfield-rendering-system.js';
-import { starfieldSystemFactory } from './systems/starfield-system.js';
-import { trackPlayerSystemFactory } from './systems/track-player-system.js';
-import { GameplayScreen } from './scenes/gameplay-screen.js';
-import { Scene } from './scene.js';
-import { GameEvent } from './game-events.js';
 
 const audioManager = new AudioManager();
 
@@ -47,126 +28,10 @@ await new Promise<void>((resolve) => {
 });
 
 const content = await Content.load(shmupImageUrl);
-const shmupImage = await loadImage(shmupImageUrl);
 
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
 
 context.imageSmoothingEnabled = false;
-
-const viewport = {
-  width: canvas.width,
-  height: canvas.height,
-};
-
-const world = new World<Entity>();
-
-const player = world.createEntity({
-  boundToViewport: true,
-  boxCollider: SpriteSheet.player.boxCollider,
-  direction: {
-    x: 0,
-    y: 0,
-  },
-  tagPlayer: true,
-  transform: {
-    position: {
-      x: canvas.width / 2 - SpriteSheet.player.idle.width / 2,
-      y: canvas.height * 0.9 - SpriteSheet.player.idle.height / 2,
-    },
-    rotation: 0,
-    scale: {
-      x: 1,
-      y: 1,
-    },
-  },
-  sprite: {
-    frame: {
-      sourceX: SpriteSheet.player.idle.sourceX,
-      sourceY: SpriteSheet.player.idle.sourceY,
-      width: SpriteSheet.player.idle.width,
-      height: SpriteSheet.player.idle.height,
-    },
-    opacity: 1,
-  },
-  velocity: {
-    x: 60,
-    y: 60,
-  },
-});
-
-world.createEntity({
-  trackPlayer: {
-    offset: {
-      x: 0,
-      y: SpriteSheet.player.idle.height,
-    },
-  },
-  transform: {
-    position: {
-      x: player.transform.position.x,
-      y: player.transform.position.y,
-    },
-    rotation: 0,
-    scale: {
-      x: 1,
-      y: 1,
-    },
-  },
-  sprite: {
-    frame: {
-      sourceX: SpriteSheet.player.thruster.sourceX,
-      sourceY: SpriteSheet.player.thruster.sourceY,
-      width: SpriteSheet.player.thruster.width,
-      height: SpriteSheet.player.thruster.height,
-    },
-    opacity: 1,
-  },
-  spriteAnimation: spriteAnimationFactory(
-    animationDetailsFactory(
-      'player-thruster',
-      SpriteSheet.player.thruster.animations.thrust.sourceX,
-      SpriteSheet.player.thruster.animations.thrust.sourceY,
-      SpriteSheet.player.thruster.animations.thrust.width,
-      SpriteSheet.player.thruster.animations.thrust.height,
-      SpriteSheet.player.thruster.animations.thrust.frameWidth,
-      SpriteSheet.player.thruster.animations.thrust.frameHeight,
-    ),
-    100,
-  ),
-});
-
-// for (let i = 0; i < 100; i++) {
-//   const entity = world.createEntity({
-//     direction: {
-//       x: 0,
-//       y: 1,
-//     },
-//     star: {
-//       color: 'white',
-//     },
-//     transform: {
-//       position: {
-//         x: rndInt(canvas.width - 1, 1),
-//         y: rndInt(canvas.height - 1, 1),
-//       },
-//       rotation: 0,
-//       scale: {
-//         x: 1,
-//         y: 1,
-//       },
-//     },
-//     velocity: {
-//       x: 0,
-//       y: rndFromList([60, 30, 20]),
-//     },
-//   });
-
-//   if (entity.velocity.y < 30) {
-//     entity.star.color = '#1d2b53';
-//   } else if (entity.velocity.y < 60) {
-//     entity.star.color = '#83769b';
-//   }
-// }
 
 const titleScreenScene = new TitleScreen({
   audioManager,
@@ -192,50 +57,26 @@ const gameplayScene = new GameplayScreen({
   gameState,
   spriteSheet: SpriteSheet,
 });
+gameplayScene.on(GameEvent.GameOver, () => {
+  activeScene = activeScene.switchTo(gameoverScene);
+});
+
+const gameoverScene = new GameOverScreen({
+  audioManager,
+  canvas,
+  config,
+  context,
+  content,
+  input: controls,
+  gameState,
+  spriteSheet: SpriteSheet,
+});
+gameoverScene.on(GameEvent.StartGame, () => {
+  activeScene = activeScene.switchTo(titleScreenScene);
+});
 
 let activeScene: Scene = titleScreenScene;
-
-const playerSystem = playerSystemFactory(
-  world,
-  controls,
-  SpriteSheet,
-  audioManager,
-);
-const spriteAnimationSystem = spriteAnimationSystemFactory(world);
-const renderingSystem = renderingSystemFactory(world, context, shmupImage);
-const starfieldRenderingSystem = starfieldRenderingSystemFactory(
-  world,
-  context,
-);
-const muzzleFlashRenderingSystem = muzzleFlashRenderingSystemFactory(
-  world,
-  context,
-);
-const hudRenderingSystem = hudRenderingSystemFactory(
-  gameState,
-  content,
-  context,
-);
-const debugRenderingSystem = debugRenderingSystemFactory(
-  world,
-  context,
-  config,
-);
-
-const muzzleFlashSystem = muzzleFlashSystemFactory(world);
-const movementSystem = movementSystemFactory(world);
-const starfieldSystem = starfieldSystemFactory(
-  world,
-  canvas.width - 1,
-  canvas.height - 1,
-  100,
-);
-const boundToViewportSystem = boundToViewportSystemFactory(world, viewport);
-const destroyOnViewportExitSystem = destroyOnViewportExitSystemFactory(
-  world,
-  viewport,
-);
-const trackPlayerSystem = trackPlayerSystemFactory(world);
+activeScene.enter();
 
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
@@ -256,27 +97,10 @@ const frame = (hrt: DOMHighResTimeStamp) => {
       config.debug = !config.debug;
     }
 
-    // playerSystem(dt);
-    // movementSystem(dt);
-    // trackPlayerSystem(dt);
-    // boundToViewportSystem(dt);
-    // destroyOnViewportExitSystem(dt);
-    // starfieldSystem(dt);
-    // muzzleFlashSystem(dt);
-    // spriteAnimationSystem(dt);
+    activeScene.update(dt);
 
     deltaTimeAccumulator -= STEP;
   }
-
-  activeScene.update(variableDt);
-
-  // context.clearRect(0, 0, canvas.width, canvas.height);
-
-  // starfieldRenderingSystem(dt);
-  // renderingSystem(dt);
-  // muzzleFlashRenderingSystem(dt);
-  // hudRenderingSystem(dt);
-  // debugRenderingSystem(dt);
 
   last = hrt;
 

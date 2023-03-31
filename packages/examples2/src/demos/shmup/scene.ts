@@ -47,18 +47,24 @@ export class Scene {
     this.context = props.context;
     this.gameState = props.gameState;
     this.spriteSheet = props.spriteSheet;
-
-    this.initialize();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected initialize() {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public enter() {}
+  protected clearSystems() {
+    this.systems = [];
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public exit() {}
+  public enter() {
+    console.info('entering scene', this.constructor.name);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public exit() {
+    console.info('exiting scene', this.constructor.name);
+  }
 
   public switchTo(nextScene: Scene) {
     this.exit();

@@ -33,6 +33,29 @@ describe('World', () => {
     });
   });
 
+  describe('clearEntities()', () => {
+    it('should clear all entities in the world and archetypes', () => {
+      const world = new World<Entity>();
+
+      world.createEntity({ color: 'red' });
+      world.createEntity({ color: 'blue' });
+
+      world.archetype('color');
+
+      expect(world.entities.size).toBe(2);
+      expect(world.archetypes.size).toBe(1);
+
+      world.clearEntities();
+
+      expect(world.entities.size).toBe(0);
+      expect(world.archetypes.size).toBe(1);
+
+      for (const archetype of world.archetypes) {
+        expect(archetype.entities.size).toBe(0);
+      }
+    });
+  });
+
   describe('createEntity()', () => {
     it('returns a new entity', () => {
       const world = new World<Entity>();

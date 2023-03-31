@@ -21,6 +21,14 @@ export class World<Entity extends JsonObject> {
     return this.#entities;
   }
 
+  public clearEntities() {
+    this.#entities.clear();
+
+    for (const archetype of this.#archetypes) {
+      archetype.clearEntities();
+    }
+  }
+
   public archetype<Components extends Array<keyof Entity>>(
     ...components: Components
   ): Archetype<
