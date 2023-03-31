@@ -81,6 +81,25 @@ export const SpriteSheet = {
       },
     },
   },
+  titleLogo: {
+    frame: {
+      sourceX: 32,
+      sourceY: 104,
+      width: 95,
+      height: 14,
+    },
+  },
+
+  enemies: {
+    greenAlien: {
+      frame: {
+        sourceX: 40,
+        sourceY: 8,
+        width: 8,
+        height: 8,
+      },
+    },
+  },
 
   text: {
     zero: {
@@ -173,16 +192,42 @@ export const SpriteSheet = {
     gameOver: {
       frame: {
         sourceX: 0,
-        sourceY: 168,
+        sourceY: 184,
         width: 43,
         height: 5,
       },
     },
-    pressAnyKeyToStart: {
+    shortShwaveShmup: {
+      frame: {
+        sourceX: 0,
+        sourceY: 176,
+        width: 88,
+        height: 5,
+      },
+    },
+    pressXToStart: {
       frame: {
         sourceX: 0,
         sourceY: 160,
         width: 74,
+        height: 5,
+      },
+      animations: {
+        blink: {
+          sourceX: 0,
+          sourceY: 160,
+          width: 74,
+          height: 15,
+          frameWidth: 74,
+          frameHeight: 5,
+        },
+      },
+    },
+    v1: {
+      frame: {
+        sourceX: 48,
+        sourceY: 184,
+        width: 9,
         height: 5,
       },
     },

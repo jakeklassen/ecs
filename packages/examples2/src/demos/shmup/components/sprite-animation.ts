@@ -23,11 +23,11 @@ export function spriteAnimationFactory(
   const verticalFrames = animationDetails.height / animationDetails.frameHeight;
 
   for (let i = 0; i < verticalFrames; i++) {
-    const sourceY = animationDetails.sourceY + i * animationDetails.frameWidth;
+    const sourceY = animationDetails.sourceY + i * animationDetails.frameHeight;
 
     for (let j = 0; j < horizontalFrames; j++) {
       const sourceX =
-        animationDetails.sourceX + j * animationDetails.frameHeight;
+        animationDetails.sourceX + j * animationDetails.frameWidth;
 
       frames.push({
         sourceX,
