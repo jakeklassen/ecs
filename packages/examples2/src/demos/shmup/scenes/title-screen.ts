@@ -1,15 +1,20 @@
 import { rndFromList } from '#/lib/array.js';
 import { rndInt } from '#/lib/math.js';
+import { Easing } from '#/lib/tween.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { transformFactory } from '../components/transform.js';
+import { tweenFactory } from '../components/tween.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
+import { eventSystemFactory } from '../systems/event-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
+import { tweenSystemFactory } from '../systems/tweens-system.js';
 
 export class TitleScreen extends Scene {
   #areaWidth: number;
@@ -22,10 +27,12 @@ export class TitleScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
+      tweenSystemFactory(this.world),
       starfieldSystemFactory(this.world),
       startGameSystemFactory(this.input, this),
       movementSystemFactory(this.world),
       spriteAnimationSystemFactory(this.world),
+      eventSystemFactory(this.world),
       starfieldRenderingSystemFactory(this.world, this.context),
       renderingSystemFactory(
         this.world,
@@ -45,17 +52,12 @@ export class TitleScreen extends Scene {
         star: {
           color: 'white',
         },
-        transform: {
+        transform: transformFactory({
           position: {
             x: rndInt(this.#areaWidth, 1),
             y: rndInt(this.#areaHeight, 1),
           },
-          rotation: 0,
-          scale: {
-            x: 1,
-            y: 1,
-          },
-        },
+        }),
         velocity: {
           x: 0,
           y: rndFromList([60, 30, 20]),
@@ -72,6 +74,7 @@ export class TitleScreen extends Scene {
 
   public override initialize(): void {
     resetGameState(this.gameState);
+    this.world.clearEntities();
 
     this.createStars(100);
 
@@ -86,17 +89,12 @@ export class TitleScreen extends Scene {
         },
         opacity: 1,
       },
-      transform: {
+      transform: transformFactory({
         position: {
           x: 1,
           y: 1,
         },
-        rotation: 0,
-        scale: {
-          x: 1,
-          y: 1,
-        },
-      },
+      }),
     });
 
     // Little green alien
@@ -110,19 +108,27 @@ export class TitleScreen extends Scene {
         },
         opacity: 1,
       },
-      transform: {
+      transform: transformFactory({
         position: {
           x:
             this.canvas.width / 2 -
             this.spriteSheet.enemies.greenAlien.frame.width / 2,
-          y: 12,
+          y: 31,
         },
-        rotation: 0,
-        scale: {
-          x: 1,
-          y: 1,
-        },
-      },
+      }),
+      tweens: [
+        tweenFactory('transform.position.y', {
+          duration: 1800,
+          easing: Easing.Linear,
+          from: 31,
+          to: 24,
+          yoyo: true,
+          // Interested in the end of the tween so we can randomize the x
+          // position before it repeats.
+          events: ['end'],
+        }),
+      ],
+      tagStartScreenGreenAlien: true,
     });
 
     // Cherry Bomb logo
@@ -136,17 +142,12 @@ export class TitleScreen extends Scene {
         },
         opacity: 1,
       },
-      transform: {
+      transform: transformFactory({
         position: {
           x: this.canvas.width / 2 - this.spriteSheet.titleLogo.frame.width / 2,
           y: 30,
         },
-        rotation: 0,
-        scale: {
-          x: 1,
-          y: 1,
-        },
-      },
+      }),
     });
 
     // Short Shwave Shmup text
@@ -160,19 +161,14 @@ export class TitleScreen extends Scene {
         },
         opacity: 1,
       },
-      transform: {
+      transform: transformFactory({
         position: {
           x:
             this.canvas.width / 2 -
             this.spriteSheet.text.shortShwaveShmup.frame.width / 2,
           y: 45,
         },
-        rotation: 0,
-        scale: {
-          x: 1,
-          y: 1,
-        },
-      },
+      }),
     });
 
     // Press X to start text
@@ -200,19 +196,14 @@ export class TitleScreen extends Scene {
         true,
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
       ),
-      transform: {
+      transform: transformFactory({
         position: {
           x:
             this.canvas.width / 2 -
             this.spriteSheet.text.pressXToStart.frame.width / 2,
           y: 90,
         },
-        rotation: 0,
-        scale: {
-          x: 1,
-          y: 1,
-        },
-      },
+      }),
     });
   }
 

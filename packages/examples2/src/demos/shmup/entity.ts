@@ -1,3 +1,6 @@
+import { Easing } from '#/lib/tween.js';
+import { Path, PathValue } from 'dot-path-value';
+
 type AnimationDetails = {
   name: string;
   sourceX: number;
@@ -50,11 +53,77 @@ type BoxCollider = {
   height: number;
 };
 
+export interface TweenOptions {
+  /**
+   * The duration of the tween in milliseconds.
+   */
+  duration: number;
+  easing: (typeof Easing)[keyof typeof Easing];
+  from: number;
+  to: number;
+
+  /**
+   * Defaults to Infinity and only applies to yoyo tweens.
+   */
+  maxIterations?: number;
+
+  /**
+   * Defaults to false.
+   */
+  yoyo?: boolean;
+
+  events?: Array<'start' | 'end' | 'yoyo'>;
+
+  onComplete?: 'remove' | undefined;
+}
+
+export type Tween<E extends TweenableEntity, P extends Path<E>> = {
+  /**
+   * descriminator
+   */
+  property: P;
+
+  completed: boolean;
+  duration: number;
+  progress: number;
+  iterations: number;
+  maxIterations: number;
+  time: number;
+  start: number;
+  end: number;
+  change: number;
+  from: number;
+  to: number;
+  easing: (typeof Easing)[keyof typeof Easing];
+  yoyo: boolean;
+  events: Array<'start' | 'end' | 'yoyo'>;
+  onComplete?: string;
+};
+
+/**
+ * A type excluding `tweens` to avoid circular references.
+ */
+export type TweenableEntity = Omit<Required<Entity>, 'event' | 'tweens'>;
+
+export type TweenablePaths = {
+  [P in Path<TweenableEntity>]: PathValue<TweenableEntity, P> extends number
+    ? P
+    : never;
+}[Path<TweenableEntity>];
+
+type Tweens = {
+  [P in TweenablePaths]: Tween<TweenableEntity, P>;
+}[TweenablePaths];
+
 export type Entity = {
   boundToViewport?: true;
   boxCollider?: BoxCollider;
   destroyOnViewportExit?: true;
   direction?: Vector2d;
+  event?: {
+    type: 'TweenEnd';
+    entity: Entity;
+  };
   muzzleFlash?: {
     color: string;
     durationMs: number;
@@ -70,10 +139,12 @@ export type Entity = {
   tagBullet?: true;
   tagHud?: true;
   tagPlayer?: true;
+  tagStartScreenGreenAlien?: true;
   tagText?: true;
   trackPlayer?: {
     offset?: Vector2d;
   };
   transform?: Transform;
+  tweens?: Tweens[];
   velocity?: Vector2d;
 };

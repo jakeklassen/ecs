@@ -6,27 +6,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demos - Shmup</title>
 
+    <script src="/js/feather.min.js"></script>
+
     <style>
+      html,
+      body {
+        background-color: #1a1d21;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #container {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #wrapper {
+        position: relative;
+        margin: auto;
+      }
+
       canvas {
         background-color: black;
+        margin: auto;
+        padding: 0;
+        display: block;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: pixelated;
         width: calc(128px * 4);
         height: calc(128px * 4);
-        image-rendering: pixelated;
+      }
+
+      #status {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 1em;
+        /* common monospace font */
+        font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        /* pleasing off white color */
+        color: #cacaca;
+        z-index: 2;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      a {
+        color: #cacaca;
+      }
+
+      a:hover {
+        color: #fff;
+      }
+
+      a:active {
+        color: #fff;
       }
     </style>
   </head>
   <body>
-    <div id="app">
-      <div>
-        <a href="/">Back</a> |
-        <a
-          href="https://github.com/jakeklassen/ecs/tree/main/packages/examples/src/demos/shmup"
-          >Source</a
-        >
+    <div id="container">
+      <div id="status">
+        <span data-feather="video" class="hidden" id="recording-on"></span>
+        <span data-feather="video-off" id="recording-off"></span>
       </div>
 
-      <canvas id="canvas" width="128" height="128"></canvas>
+      <div id="wrapper">
+        <canvas id="canvas" width="128" height="128"></canvas>
+      </div>
     </div>
+
+    <script>
+      feather.replace();
+    </script>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>

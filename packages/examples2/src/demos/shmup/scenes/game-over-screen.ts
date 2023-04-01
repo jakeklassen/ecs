@@ -14,6 +14,8 @@ export class GameOverScreen extends Scene {
       this.canvas.height,
     );
 
+    this.world.clearEntities();
+
     this.world.createEntity({
       sprite: {
         frame: {

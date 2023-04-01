@@ -1,4 +1,5 @@
 import { AudioManager, AudioMangerEvent } from '#/lib/audio-manager.js';
+import { CanvasRecorder } from '#/lib/canvas-recorder.js';
 import { obtainCanvasAndContext2d } from '#/lib/dom';
 import '../../style.css';
 import shootWavUrl from './assets/audio/shoot.wav';
@@ -78,6 +79,33 @@ gameoverScene.on(GameEvent.StartGame, () => {
 let activeScene: Scene = titleScreenScene;
 activeScene.enter();
 
+const canvasRecorder = new CanvasRecorder({
+  canvases: [canvas],
+  width: config.gameWidth,
+  height: config.gameHeight,
+  filename: 'shmup.webm',
+  frameRate: 60,
+  download: true,
+});
+
+window.addEventListener('keypress', (e: KeyboardEvent) => {
+  if (e.key === 'r') {
+    if (canvasRecorder.recording) {
+      canvasRecorder.stop();
+    } else {
+      canvasRecorder.start();
+    }
+
+    document
+      .querySelector<HTMLSpanElement>('#recording-on')
+      ?.classList.toggle('hidden');
+
+    document
+      .querySelector<HTMLSpanElement>('#recording-off')
+      ?.classList.toggle('hidden');
+  }
+});
+
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
 const dt = STEP / 1000;
@@ -102,6 +130,7 @@ const frame = (hrt: DOMHighResTimeStamp) => {
     deltaTimeAccumulator -= STEP;
   }
 
+  canvasRecorder.frame();
   last = hrt;
 
   requestAnimationFrame(frame);
