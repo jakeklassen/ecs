@@ -192,6 +192,8 @@ export class GameplayScreen extends Scene {
 
   public override update(delta: number): void {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillStyle = 'black';
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     super.update(delta);
   }

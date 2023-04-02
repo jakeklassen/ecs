@@ -1,6 +1,7 @@
 import { AudioManager, AudioMangerEvent } from '#/lib/audio-manager.js';
-import { CanvasRecorder } from '#/lib/canvas-recorder.js';
 import { obtainCanvasAndContext2d } from '#/lib/dom';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 import '../../style.css';
 import shootWavUrl from './assets/audio/shoot.wav';
 import shmupImageUrl from './assets/image/shmup.png';
@@ -15,6 +16,13 @@ import { GameOverScreen } from './scenes/game-over-screen.js';
 import { GameplayScreen } from './scenes/gameplay-screen.js';
 import { TitleScreen } from './scenes/title-screen.js';
 import { SpriteSheet } from './spritesheet';
+
+const zip = new JSZip();
+
+const recorder = {
+  frames: zip.folder('frames'),
+  recording: false,
+};
 
 const audioManager = new AudioManager();
 
@@ -79,22 +87,15 @@ gameoverScene.on(GameEvent.StartGame, () => {
 let activeScene: Scene = titleScreenScene;
 activeScene.enter();
 
-const canvasRecorder = new CanvasRecorder({
-  canvases: [canvas],
-  width: config.gameWidth,
-  height: config.gameHeight,
-  filename: 'shmup.webm',
-  frameRate: 60,
-  download: true,
-});
-
 window.addEventListener('keypress', (e: KeyboardEvent) => {
   if (e.key === 'r') {
-    if (canvasRecorder.recording) {
-      canvasRecorder.stop();
-    } else {
-      canvasRecorder.start();
+    if (recorder.recording) {
+      recorder.frames?.generateAsync({ type: 'blob' }).then((content) => {
+        saveAs(content, 'shmup.zip');
+      });
     }
+
+    recorder.recording = !recorder.recording;
 
     document
       .querySelector<HTMLSpanElement>('#recording-on')
@@ -113,6 +114,8 @@ let variableDt = 0;
 let last = performance.now();
 let deltaTimeAccumulator = 0;
 
+let frameCount = 0;
+
 /**
  * The game loop.
  */
@@ -130,7 +133,14 @@ const frame = (hrt: DOMHighResTimeStamp) => {
     deltaTimeAccumulator -= STEP;
   }
 
-  canvasRecorder.frame();
+  if (recorder.recording) {
+    recorder.frames?.file(
+      `frame-${frameCount++}.png`,
+      canvas.toDataURL('image/png').split(',')[1],
+      { base64: true },
+    );
+  }
+
   last = hrt;
 
   requestAnimationFrame(frame);
