@@ -11,6 +11,7 @@
   "devDependencies": {
     "@types/color": "3.0.3",
     "@types/file-saver": "2.0.5",
+    "@types/wicg-file-system-access": "2020.9.5",
     "typescript": "5.0.3",
     "vite": "^4.2.1"
   },

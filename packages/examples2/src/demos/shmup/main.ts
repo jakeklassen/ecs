@@ -123,6 +123,18 @@ const frame = (hrt: DOMHighResTimeStamp) => {
   deltaTimeAccumulator += Math.min(1000, hrt - last);
   variableDt = (hrt - last) / 1000;
 
+  if (controls.capture.query()) {
+    if (recorder.recording) {
+      recorder.frames?.generateAsync({ type: 'blob' }).then((content) => {
+        saveAs(content, `shmup-${Date.now()}.zip`);
+
+        frameCount = 0;
+      });
+    }
+
+    recorder.recording = !recorder.recording;
+  }
+
   while (deltaTimeAccumulator >= STEP) {
     if (input.debug.query()) {
       config.debug = !config.debug;

@@ -18,6 +18,7 @@
     "noImplicitOverride": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "types": ["@types/wicg-file-system-access"],
     "paths": {
       "#/*": ["src/*"],
       "#/assets/*": ["assets/*"]
