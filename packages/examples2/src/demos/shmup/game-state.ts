@@ -1,7 +1,8 @@
 export const gameState = {
   cherries: 0,
   score: 0,
-  lives: [1, 1, 1, 1],
+  lives: 4,
+  maxLives: 4,
   paused: false,
   gameOver: false,
 };
@@ -9,7 +10,7 @@ export const gameState = {
 export const resetGameState = (gameState: GameState) => {
   gameState.cherries = 0;
   gameState.score = 0;
-  gameState.lives = [1, 1, 1, 1];
+  gameState.lives = gameState.maxLives;
   gameState.paused = false;
   gameState.gameOver = false;
 };

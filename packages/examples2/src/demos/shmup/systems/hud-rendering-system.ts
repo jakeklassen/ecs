@@ -191,15 +191,11 @@ export function hudRenderingSystemFactory(
   });
 
   return (_dt: number) => {
-    for (const [index, life] of gameState.lives.entries()) {
-      if (life === 1) {
-        context.drawImage(content.sprite.hud.heartFull, (index + 1) * 9 - 8, 1);
+    for (let i = 0; i < gameState.maxLives; i++) {
+      if (i < gameState.lives) {
+        context.drawImage(content.sprite.hud.heartFull, (i + 1) * 9 - 8, 1);
       } else {
-        context.drawImage(
-          content.sprite.hud.heartEmpty,
-          (index + 1) * 9 - 8,
-          1,
-        );
+        context.drawImage(content.sprite.hud.heartEmpty, (i + 1) * 9 - 8, 1);
       }
     }
 

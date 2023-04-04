@@ -56,7 +56,9 @@ export class GameplayScreen extends Scene {
       playerEnemyCollisionEventSystemFactory(
         this.world,
         this.audioManager,
+        this.config,
         this.gameState,
+        this,
       ),
       playerProjectileCollisionEventSystemFactory(
         this.world,
