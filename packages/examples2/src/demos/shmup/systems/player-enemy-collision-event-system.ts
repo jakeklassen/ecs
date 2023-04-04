@@ -32,8 +32,6 @@ export function playerEnemyCollisionEventSystemFactory({
     for (const entity of events.entities) {
       const { eventPlayerEnemyCollision: event } = entity;
 
-      world.deleteEntity(event.enemy);
-
       audioManager.play('player-death', {
         loop: false,
       });
@@ -56,7 +54,7 @@ export function playerEnemyCollisionEventSystemFactory({
           player.transform.position.y = config.entities.player.spawnPosition.y;
 
           world.addEntityComponents(player, 'invulnerable', {
-            durationMs: 1000,
+            durationMs: 2000,
             elapsedMs: 0,
           });
 

@@ -14,6 +14,10 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
     const handledEntities = new Set<Entity>();
 
     for (const entity of collidables.entities) {
+      if (handledEntities.has(entity)) {
+        continue;
+      }
+
       const { boxCollider, transform } = entity;
 
       for (const otherEntity of collidables.entities) {
@@ -59,32 +63,49 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           height: otherBoxCollider.height,
         };
 
-        if (intersects(aabb, otherAabb)) {
-          if (
-            (entity.tagBullet && otherEntity.tagEnemy) ||
-            (entity.tagEnemy && otherEntity.tagBullet)
-          ) {
-            world.createEntity({
-              eventPlayerProjectileEnemyCollision: {
-                projectile: entity.tagBullet ? entity : otherEntity,
-                enemy: entity.tagBullet ? otherEntity : entity,
-              },
-            });
-          } else if (
-            (entity.tagPlayer && otherEntity.tagEnemy) ||
-            (entity.tagEnemy && otherEntity.tagPlayer)
-          ) {
-            world.createEntity({
-              eventPlayerEnemyCollision: {
-                player: entity.tagPlayer ? entity : otherEntity,
-                enemy: entity.tagPlayer ? otherEntity : entity,
-              },
-            });
-          }
+        if (intersects(aabb, otherAabb) === false) {
+          continue;
         }
-      }
 
-      handledEntities.add(entity);
+        // Determine if either entity is the player
+        const player = entity.tagPlayer
+          ? entity
+          : otherEntity.tagPlayer
+          ? otherEntity
+          : null;
+
+        const enemy = entity.tagEnemy
+          ? entity
+          : otherEntity.tagEnemy
+          ? otherEntity
+          : null;
+
+        if (
+          (entity.tagBullet && otherEntity.tagEnemy) ||
+          (entity.tagEnemy && otherEntity.tagBullet)
+        ) {
+          world.createEntity({
+            eventPlayerProjectileEnemyCollision: {
+              projectile: entity.tagBullet ? entity : otherEntity,
+              enemy: entity.tagBullet ? otherEntity : entity,
+            },
+          });
+        } else if (
+          player != null &&
+          enemy != null &&
+          player.invulnerable == null
+        ) {
+          world.createEntity({
+            eventPlayerEnemyCollision: {
+              player,
+              enemy,
+            },
+          });
+        }
+
+        handledEntities.add(entity);
+        handledEntities.add(otherEntity);
+      }
     }
   };
 }

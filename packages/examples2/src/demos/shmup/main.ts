@@ -151,6 +151,8 @@ const frame = (hrt: DOMHighResTimeStamp) => {
 
     activeScene.update(dt);
 
+    // console.log(Math.sin(hrt / 60));
+
     deltaTimeAccumulator -= STEP;
   }
 
