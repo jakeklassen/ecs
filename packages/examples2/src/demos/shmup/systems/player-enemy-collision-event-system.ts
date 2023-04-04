@@ -59,7 +59,9 @@ export function playerEnemyCollisionEventSystemFactory({
             durationMs: 1000,
             elapsedMs: 0,
           });
+
           world.addEntityComponents(player, 'tweens', [
+            ...(player.tweens ?? []),
             tweenFactory('sprite.opacity', {
               duration: 100,
               easing: Easing.Linear,
