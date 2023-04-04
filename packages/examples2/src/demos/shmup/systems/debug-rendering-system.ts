@@ -1,11 +1,15 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function debugRenderingSystemFactory(
-  world: World<Entity>,
-  context: CanvasRenderingContext2D,
-  config: Readonly<{ debug: boolean }>,
-) {
+export function debugRenderingSystemFactory({
+  world,
+  context,
+  config,
+}: {
+  world: World<Entity>;
+  context: CanvasRenderingContext2D;
+  config: Readonly<{ debug: boolean }>;
+}) {
   const debuggables = world.archetype('boxCollider', 'transform');
 
   return (_dt: number) => {

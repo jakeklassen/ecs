@@ -1,10 +1,13 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function starfieldRenderingSystemFactory(
-  world: World<Entity>,
-  context: CanvasRenderingContext2D,
-) {
+export function starfieldRenderingSystemFactory({
+  world,
+  context,
+}: {
+  world: World<Entity>;
+  context: CanvasRenderingContext2D;
+}) {
   const stars = world.archetype('star', 'transform');
 
   return (_dt: number) => {

@@ -36,47 +36,68 @@ export class GameplayScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
-      playerSystemFactory(
-        this.world,
-        this.input,
-        SpriteSheet,
-        this.audioManager,
-      ),
-      movementSystemFactory(this.world),
-      trackPlayerSystemFactory(this.world),
-      boundToViewportSystemFactory(this.world, {
-        width: this.config.gameWidth,
-        height: this.config.gameHeight,
+      playerSystemFactory({
+        world: this.world,
+        controls: this.input,
+        spritesheet: SpriteSheet,
+        audioManager: this.audioManager,
       }),
-      destroyOnViewportExitSystemFactory(this.world, {
-        width: this.config.gameWidth,
-        height: this.config.gameHeight,
+      movementSystemFactory({ world: this.world }),
+      trackPlayerSystemFactory({ world: this.world }),
+      boundToViewportSystemFactory({
+        world: this.world,
+        viewport: {
+          width: this.config.gameWidth,
+          height: this.config.gameHeight,
+        },
       }),
-      collisionSystemFactory(this.world),
-      playerEnemyCollisionEventSystemFactory(
-        this.world,
-        this.audioManager,
-        this.config,
-        this.gameState,
-        this,
-      ),
-      playerProjectileCollisionEventSystemFactory(
-        this.world,
-        this.audioManager,
-      ),
-      starfieldSystemFactory(this.world),
-      muzzleFlashSystemFactory(this.world),
-      spriteAnimationSystemFactory(this.world),
-      starfieldRenderingSystemFactory(this.world, this.context),
-      renderingSystemFactory(
-        this.world,
-        this.context,
-        this.content.spritesheet,
-      ),
-      muzzleFlashRenderingSystemFactory(this.world, this.context),
-      hudRenderingSystemFactory(this.gameState, this.content, this.context),
-      debugRenderingSystemFactory(this.world, this.context, this.config),
-      triggerGameOverSystemFactory(this.input, this),
+      destroyOnViewportExitSystemFactory({
+        world: this.world,
+        viewport: {
+          width: this.config.gameWidth,
+          height: this.config.gameHeight,
+        },
+      }),
+      collisionSystemFactory({ world: this.world }),
+      playerEnemyCollisionEventSystemFactory({
+        world: this.world,
+        audioManager: this.audioManager,
+        config: this.config,
+        gameState: this.gameState,
+        scene: this,
+      }),
+      playerProjectileCollisionEventSystemFactory({
+        world: this.world,
+        audioManager: this.audioManager,
+        gameState: this.gameState,
+      }),
+      starfieldSystemFactory({ world: this.world }),
+      muzzleFlashSystemFactory({ world: this.world }),
+      spriteAnimationSystemFactory({ world: this.world }),
+      starfieldRenderingSystemFactory({
+        world: this.world,
+        context: this.context,
+      }),
+      renderingSystemFactory({
+        world: this.world,
+        context: this.context,
+        spriteSheet: this.content.spritesheet,
+      }),
+      muzzleFlashRenderingSystemFactory({
+        world: this.world,
+        context: this.context,
+      }),
+      hudRenderingSystemFactory({
+        gameState: this.gameState,
+        content: this.content,
+        context: this.context,
+      }),
+      debugRenderingSystemFactory({
+        world: this.world,
+        context: this.context,
+        config: this.config,
+      }),
+      triggerGameOverSystemFactory({ input: this.input, scene: this }),
     );
   }
 
@@ -200,45 +221,48 @@ export class GameplayScreen extends Scene {
       tagPlayerThruster: true,
     });
 
-    for (let i = 0; i < 10; i++) {
-      if (i % 2 === 0) {
-        continue;
-      }
+    for (let y = 0; y < 6; y++) {
+      for (let i = 0; i < 10; i++) {
+        if (i % 2 === 0) {
+          continue;
+        }
 
-      this.world.createEntity({
-        boxCollider: SpriteSheet.enemies.greenAlien.boxCollider,
-        transform: transformFactory({
-          position: {
-            x: 16 + i * 8 + 4,
-            y: 16,
+        this.world.createEntity({
+          boxCollider: SpriteSheet.enemies.greenAlien.boxCollider,
+          transform: transformFactory({
+            position: {
+              x: 16 + i * 8 + 4,
+              y: 16 + y * 8 + 4,
+            },
+          }),
+          collisionLayer: CollisionMasks.Enemy,
+          collisionMask:
+            CollisionMasks.PlayerProjectile | CollisionMasks.Player,
+          sprite: {
+            frame: {
+              sourceX: SpriteSheet.enemies.greenAlien.frame.sourceX,
+              sourceY: SpriteSheet.enemies.greenAlien.frame.sourceY,
+              width: SpriteSheet.enemies.greenAlien.frame.width,
+              height: SpriteSheet.enemies.greenAlien.frame.height,
+            },
+            opacity: 1,
           },
-        }),
-        collisionLayer: CollisionMasks.Enemy,
-        collisionMask: CollisionMasks.PlayerProjectile | CollisionMasks.Player,
-        sprite: {
-          frame: {
-            sourceX: SpriteSheet.enemies.greenAlien.frame.sourceX,
-            sourceY: SpriteSheet.enemies.greenAlien.frame.sourceY,
-            width: SpriteSheet.enemies.greenAlien.frame.width,
-            height: SpriteSheet.enemies.greenAlien.frame.height,
-          },
-          opacity: 1,
-        },
-        spriteAnimation: spriteAnimationFactory(
-          animationDetailsFactory(
-            'alien-idle',
-            this.spriteSheet.enemies.greenAlien.animations.idle.sourceX,
-            this.spriteSheet.enemies.greenAlien.animations.idle.sourceY,
-            this.spriteSheet.enemies.greenAlien.animations.idle.width,
-            this.spriteSheet.enemies.greenAlien.animations.idle.height,
-            this.spriteSheet.enemies.greenAlien.animations.idle.frameWidth,
-            this.spriteSheet.enemies.greenAlien.animations.idle.frameHeight,
+          spriteAnimation: spriteAnimationFactory(
+            animationDetailsFactory(
+              'alien-idle',
+              this.spriteSheet.enemies.greenAlien.animations.idle.sourceX,
+              this.spriteSheet.enemies.greenAlien.animations.idle.sourceY,
+              this.spriteSheet.enemies.greenAlien.animations.idle.width,
+              this.spriteSheet.enemies.greenAlien.animations.idle.height,
+              this.spriteSheet.enemies.greenAlien.animations.idle.frameWidth,
+              this.spriteSheet.enemies.greenAlien.animations.idle.frameHeight,
+            ),
+            400,
+            true,
           ),
-          400,
-          true,
-        ),
-        tagEnemy: true,
-      });
+          tagEnemy: true,
+        });
+      }
     }
   }
 

@@ -4,7 +4,7 @@ import justSafeGet from 'just-safe-get';
 import justSafeSet from 'just-safe-set';
 import { Entity } from '../entity.js';
 
-export function tweenSystemFactory(world: World<Entity>) {
+export function tweenSystemFactory({ world }: { world: World<Entity> }) {
   const tweened = world.archetype('tweens');
 
   return (dt: number) => {

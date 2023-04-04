@@ -1,10 +1,13 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function destroyOnViewportExitSystemFactory(
-  world: World<Entity>,
-  viewport: { width: number; height: number },
-) {
+export function destroyOnViewportExitSystemFactory({
+  world,
+  viewport,
+}: {
+  world: World<Entity>;
+  viewport: { width: number; height: number };
+}) {
   const boundToViewport = world.archetype(
     'boxCollider',
     'destroyOnViewportExit',

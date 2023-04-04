@@ -27,18 +27,21 @@ export class TitleScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
-      tweenSystemFactory(this.world),
-      starfieldSystemFactory(this.world),
-      startGameSystemFactory(this.input, this),
-      movementSystemFactory(this.world),
-      spriteAnimationSystemFactory(this.world),
-      eventSystemFactory(this.world),
-      starfieldRenderingSystemFactory(this.world, this.context),
-      renderingSystemFactory(
-        this.world,
-        this.context,
-        this.content.spritesheet,
-      ),
+      tweenSystemFactory({ world: this.world }),
+      starfieldSystemFactory({ world: this.world }),
+      startGameSystemFactory({ controls: this.input, scene: this }),
+      movementSystemFactory({ world: this.world }),
+      spriteAnimationSystemFactory({ world: this.world }),
+      eventSystemFactory({ world: this.world }),
+      starfieldRenderingSystemFactory({
+        world: this.world,
+        context: this.context,
+      }),
+      renderingSystemFactory({
+        world: this.world,
+        context: this.context,
+        spriteSheet: this.content.spritesheet,
+      }),
     );
   }
 

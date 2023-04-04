@@ -1,10 +1,13 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function boundToViewportSystemFactory(
-  world: World<Entity>,
-  viewport: { width: number; height: number },
-) {
+export function boundToViewportSystemFactory({
+  world,
+  viewport,
+}: {
+  world: World<Entity>;
+  viewport: { width: number; height: number };
+}) {
   const boundToViewport = world.archetype(
     'boundToViewport',
     'boxCollider',

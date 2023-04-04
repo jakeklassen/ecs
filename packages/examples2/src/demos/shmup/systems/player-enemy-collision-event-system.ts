@@ -6,13 +6,19 @@ import { GameEvent } from '../game-events.js';
 import { GameState } from '../game-state.js';
 import { Scene } from '../scene.js';
 
-export function playerEnemyCollisionEventSystemFactory(
-  world: World<Entity>,
-  audioManager: AudioManager,
-  config: Config,
-  gameState: GameState,
-  scene: Scene,
-) {
+export function playerEnemyCollisionEventSystemFactory({
+  world,
+  audioManager,
+  config,
+  gameState,
+  scene,
+}: {
+  world: World<Entity>;
+  audioManager: AudioManager;
+  config: Config;
+  gameState: GameState;
+  scene: Scene;
+}) {
   const events = world.archetype('eventPlayerEnemyCollision');
   const players = world.archetype('tagPlayer', 'transform');
   const playerThrusters = world.archetype('tagPlayerThruster', 'transform');

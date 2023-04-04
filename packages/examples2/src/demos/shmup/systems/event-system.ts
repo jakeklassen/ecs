@@ -2,7 +2,7 @@ import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 import { rndInt } from '#/lib/math.js';
 
-export function eventSystemFactory(world: World<Entity>) {
+export function eventSystemFactory({ world }: { world: World<Entity> }) {
   const events = world.archetype('event');
 
   return () => {

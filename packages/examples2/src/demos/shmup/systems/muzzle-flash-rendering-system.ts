@@ -1,10 +1,13 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export const muzzleFlashRenderingSystemFactory = (
-  world: World<Entity>,
-  context: CanvasRenderingContext2D,
-) => {
+export function muzzleFlashRenderingSystemFactory({
+  world,
+  context,
+}: {
+  world: World<Entity>;
+  context: CanvasRenderingContext2D;
+}) {
   const muzzleFlashes = world.archetype('muzzleFlash', 'transform');
 
   return (_dt: number) => {
@@ -23,4 +26,4 @@ export const muzzleFlashRenderingSystemFactory = (
       context.resetTransform();
     }
   };
-};
+}

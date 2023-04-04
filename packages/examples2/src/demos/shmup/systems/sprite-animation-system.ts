@@ -1,7 +1,11 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function spriteAnimationSystemFactory(world: World<Entity>) {
+export function spriteAnimationSystemFactory({
+  world,
+}: {
+  world: World<Entity>;
+}) {
   const spriteAnimatables = world.archetype('spriteAnimation', 'sprite');
 
   return (dt: number) => {

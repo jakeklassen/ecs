@@ -47,13 +47,16 @@ export class GameOverScreen extends Scene {
     this.clearSystems();
 
     this.systems.push(
-      startGameSystemFactory(this.input, this),
-      gameOverSystemFactory(this.context, gameplayBuffer),
-      renderingSystemFactory(
-        this.world,
-        this.context,
-        this.content.spritesheet,
-      ),
+      startGameSystemFactory({ controls: this.input, scene: this }),
+      gameOverSystemFactory({
+        context: this.context,
+        imageData: gameplayBuffer,
+      }),
+      renderingSystemFactory({
+        world: this.world,
+        context: this.context,
+        spriteSheet: this.content.spritesheet,
+      }),
     );
   }
 

@@ -5,12 +5,17 @@ import { Entity } from '../entity.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { CollisionMasks } from '../bitmasks.js';
 
-export function playerSystemFactory(
-  world: World<Entity>,
-  controls: Record<string, Control<any>>,
-  spritesheet: SpriteSheet,
-  audioManager: AudioManager,
-) {
+export function playerSystemFactory({
+  world,
+  controls,
+  spritesheet,
+  audioManager,
+}: {
+  world: World<Entity>;
+  controls: Record<string, Control<any>>;
+  spritesheet: SpriteSheet;
+  audioManager: AudioManager;
+}) {
   const players = world.archetype(
     'boxCollider',
     'direction',

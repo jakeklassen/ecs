@@ -2,7 +2,7 @@ import { intersects } from '#/lib/collision/aabb.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function collisionSystemFactory(world: World<Entity>) {
+export function collisionSystemFactory({ world }: { world: World<Entity> }) {
   const collidables = world.archetype(
     'boxCollider',
     'collisionLayer',

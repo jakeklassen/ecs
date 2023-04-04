@@ -158,11 +158,15 @@ function convertNumberToImageSourceFactory() {
   };
 }
 
-export function hudRenderingSystemFactory(
-  gameState: GameState,
-  content: LoadedContent,
-  context: CanvasRenderingContext2D,
-) {
+export function hudRenderingSystemFactory({
+  gameState,
+  content,
+  context,
+}: {
+  gameState: GameState;
+  content: LoadedContent;
+  context: CanvasRenderingContext2D;
+}) {
   const scoreCanvas = document.createElement('canvas');
   const scoreContext = obtainCanvas2dContext(scoreCanvas);
   const cherriesCanvas = document.createElement('canvas');

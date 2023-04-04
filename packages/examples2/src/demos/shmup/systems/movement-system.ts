@@ -1,7 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function movementSystemFactory(world: World<Entity>) {
+export function movementSystemFactory({ world }: { world: World<Entity> }) {
   const movables = world.archetype('direction', 'transform', 'velocity');
 
   return (dt: number) => {

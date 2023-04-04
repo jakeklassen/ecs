@@ -2,7 +2,7 @@ import { rndInt } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function starfieldSystemFactory(world: World<Entity>) {
+export function starfieldSystemFactory({ world }: { world: World<Entity> }) {
   const stars = world.archetype('star', 'transform');
 
   return (_dt: number) => {

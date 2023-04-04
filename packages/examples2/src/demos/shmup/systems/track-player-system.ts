@@ -1,7 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function trackPlayerSystemFactory(world: World<Entity>) {
+export function trackPlayerSystemFactory({ world }: { world: World<Entity> }) {
   const movables = world.archetype('trackPlayer', 'transform');
   const players = world.archetype('tagPlayer', 'transform');
 

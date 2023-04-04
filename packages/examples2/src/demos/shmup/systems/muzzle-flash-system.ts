@@ -1,7 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export const muzzleFlashSystemFactory = (world: World<Entity>) => {
+export function muzzleFlashSystemFactory({ world }: { world: World<Entity> }) {
   const muzzleFlashes = world.archetype('muzzleFlash');
 
   return (dt: number) => {
@@ -17,4 +17,4 @@ export const muzzleFlashSystemFactory = (world: World<Entity>) => {
       }
     }
   };
-};
+}
