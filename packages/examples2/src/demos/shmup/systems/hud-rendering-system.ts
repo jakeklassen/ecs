@@ -216,7 +216,7 @@ export function hudRenderingSystemFactory({
 
     context.drawImage(
       scoreCanvas,
-      context.canvas.width / 2 - scoreCanvas.width / 2,
+      Math.floor(context.canvas.width / 2 - scoreCanvas.width / 2),
       1,
     );
 
