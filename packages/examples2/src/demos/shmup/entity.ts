@@ -101,15 +101,10 @@ export type Tween<E extends TweenableEntity, P extends Path<E>> = {
 };
 
 /**
- * A type excluding `tweens` to avoid circular references.
+ * A type to denote the tweenable properties specifically.
+ * We want to avoid types that have circular references.
  */
-export type TweenableEntity = Omit<
-  Required<Entity>,
-  | 'event'
-  | 'eventPlayerEnemyCollision'
-  | 'eventPlayerProjectileEnemyCollision'
-  | 'tweens'
->;
+export type TweenableEntity = Pick<Required<Entity>, 'transform' | 'sprite'>;
 
 export type TweenablePaths = {
   [P in Path<TweenableEntity>]: PathValue<TweenableEntity, P> extends number
@@ -151,6 +146,10 @@ export type Entity = {
   eventPlayerProjectileEnemyCollision?: {
     projectile: Entity;
     enemy: Entity;
+  };
+  invulnerable?: {
+    durationMs: number;
+    elapsedMs: number;
   };
   muzzleFlash?: {
     color: string;

@@ -12,10 +12,13 @@ import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { hudRenderingSystemFactory } from '../systems/hud-rendering-system.js';
+import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
 import { muzzleFlashSystemFactory } from '../systems/muzzle-flash-system.js';
+import { playerEnemyCollisionEventCleanupSystemFactory } from '../systems/player-enemy-collision-event-cleanup-system.js';
 import { playerEnemyCollisionEventSystemFactory } from '../systems/player-enemy-collision-event-system.js';
+import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/player-projectile-collision-event-cleanup-system.js';
 import { playerProjectileCollisionEventSystemFactory } from '../systems/player-projectile-collision-event-system.js';
 import { playerSystemFactory } from '../systems/player-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
@@ -24,6 +27,7 @@ import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
 import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
+import { tweenSystemFactory } from '../systems/tweens-system.js';
 
 export class GameplayScreen extends Scene {
   #areaWidth: number;
@@ -71,6 +75,8 @@ export class GameplayScreen extends Scene {
         audioManager: this.audioManager,
         gameState: this.gameState,
       }),
+      tweenSystemFactory({ world: this.world }),
+      invulnerableSystemFactory({ world: this.world }),
       starfieldSystemFactory({ world: this.world }),
       muzzleFlashSystemFactory({ world: this.world }),
       spriteAnimationSystemFactory({ world: this.world }),
@@ -98,6 +104,8 @@ export class GameplayScreen extends Scene {
         config: this.config,
       }),
       triggerGameOverSystemFactory({ input: this.input, scene: this }),
+      playerProjectileCollisionEventCleanupSystemFactory({ world: this.world }),
+      playerEnemyCollisionEventCleanupSystemFactory({ world: this.world }),
     );
   }
 

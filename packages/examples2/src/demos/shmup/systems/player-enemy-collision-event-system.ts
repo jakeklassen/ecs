@@ -1,5 +1,7 @@
 import { AudioManager } from '#/lib/audio-manager.js';
+import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
+import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
 import { Entity } from '../entity.js';
 import { GameEvent } from '../game-events.js';
@@ -24,8 +26,6 @@ export function playerEnemyCollisionEventSystemFactory({
   const playerThrusters = world.archetype('tagPlayerThruster', 'transform');
 
   return () => {
-    const handled = new Set<Entity>();
-
     const [player] = players.entities;
     const [playerThruster] = playerThrusters.entities;
 
@@ -54,6 +54,21 @@ export function playerEnemyCollisionEventSystemFactory({
         if (player != null) {
           player.transform.position.x = config.entities.player.spawnPosition.x;
           player.transform.position.y = config.entities.player.spawnPosition.y;
+
+          world.addEntityComponents(player, 'invulnerable', {
+            durationMs: 1000,
+            elapsedMs: 0,
+          });
+          world.addEntityComponents(player, 'tweens', [
+            tweenFactory('sprite.opacity', {
+              duration: 100,
+              easing: Easing.Linear,
+              from: 1,
+              to: 0,
+              maxIterations: 20,
+              yoyo: true,
+            }),
+          ]);
         }
 
         if (playerThruster != null) {
@@ -63,12 +78,6 @@ export function playerEnemyCollisionEventSystemFactory({
             config.entities.player.spawnPosition.y;
         }
       }
-
-      handled.add(entity);
-    }
-
-    for (const entity of handled) {
-      world.deleteEntity(entity);
     }
   };
 }

@@ -15,8 +15,6 @@ export function playerProjectileCollisionEventSystemFactory({
   const events = world.archetype('eventPlayerProjectileEnemyCollision');
 
   return () => {
-    const handled = new Set<Entity>();
-
     for (const entity of events.entities) {
       const { eventPlayerProjectileEnemyCollision: event } = entity;
 
@@ -28,12 +26,6 @@ export function playerProjectileCollisionEventSystemFactory({
       });
 
       gameState.score += 100;
-
-      handled.add(entity);
-    }
-
-    for (const entity of handled) {
-      world.deleteEntity(entity);
     }
   };
 }
