@@ -103,7 +103,13 @@ export type Tween<E extends TweenableEntity, P extends Path<E>> = {
 /**
  * A type excluding `tweens` to avoid circular references.
  */
-export type TweenableEntity = Omit<Required<Entity>, 'event' | 'tweens'>;
+export type TweenableEntity = Omit<
+  Required<Entity>,
+  | 'event'
+  | 'eventPlayerEnemyCollision'
+  | 'eventPlayerProjectileEnemyCollision'
+  | 'tweens'
+>;
 
 export type TweenablePaths = {
   [P in Path<TweenableEntity>]: PathValue<TweenableEntity, P> extends number
@@ -118,11 +124,33 @@ type Tweens = {
 export type Entity = {
   boundToViewport?: true;
   boxCollider?: BoxCollider;
+
+  /**
+   * The collision layer of the entity.
+   */
+  collisionLayer?: number;
+
+  /**
+   * The layers that this entity collides with.
+   * @example ```ts
+   * CollisionMasks.Enemy | CollisionMasks.EnemyProjectile
+   * ```
+   */
+  collisionMask?: number;
+
   destroyOnViewportExit?: true;
   direction?: Vector2d;
   event?: {
     type: 'TweenEnd';
     entity: Entity;
+  };
+  eventPlayerEnemyCollision?: {
+    player: Entity;
+    enemy: Entity;
+  };
+  eventPlayerProjectileEnemyCollision?: {
+    projectile: Entity;
+    enemy: Entity;
   };
   muzzleFlash?: {
     color: string;
@@ -137,8 +165,10 @@ export type Entity = {
     color: string;
   };
   tagBullet?: true;
+  tagEnemy?: true;
   tagHud?: true;
   tagPlayer?: true;
+  tagPlayerThruster?: true;
   tagStartScreenGreenAlien?: true;
   tagText?: true;
   trackPlayer?: {

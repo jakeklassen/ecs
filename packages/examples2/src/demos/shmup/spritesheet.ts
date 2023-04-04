@@ -92,11 +92,27 @@ export const SpriteSheet = {
 
   enemies: {
     greenAlien: {
+      boxCollider: {
+        offsetX: 0,
+        offsetY: 0,
+        width: 8,
+        height: 8,
+      },
       frame: {
         sourceX: 40,
         sourceY: 8,
         width: 8,
         height: 8,
+      },
+      animations: {
+        idle: {
+          sourceX: 40,
+          sourceY: 8,
+          width: 32,
+          height: 8,
+          frameWidth: 8,
+          frameHeight: 8,
+        },
       },
     },
   },

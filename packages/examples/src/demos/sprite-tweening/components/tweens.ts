@@ -1,8 +1,7 @@
-import { easeLinear, Easing } from '#/lib/tween';
+import { Easing } from '#/lib/tween';
 import { DottedPaths } from '#/lib/types/dotted-paths';
 import { Transform } from '#/shared/components/transform';
-import { Component, ComponentConstructor, World } from '@jakeklassen/ecs';
-import justSafeSet from 'just-safe-set';
+import { Component, ComponentConstructor } from '@jakeklassen/ecs';
 import { Sprite } from './sprite';
 
 /**
@@ -98,28 +97,3 @@ new Tweens([
     to: 100,
   }),
 ]);
-
-// ============================================================================
-// Usage
-// ============================================================================
-
-const world = new World();
-
-const view = world.view(Tweens);
-
-for (const [_entity, components] of view) {
-  const { tweens } = components.get(Tweens);
-
-  for (const tween of tweens) {
-    const component = tween.component;
-
-    const change = easeLinear(
-      tween.time,
-      tween.from,
-      tween.change,
-      tween.duration,
-    );
-
-    justSafeSet(component, tween.property, change);
-  }
-}

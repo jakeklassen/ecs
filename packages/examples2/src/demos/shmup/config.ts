@@ -1,6 +1,15 @@
 export const config = {
   debug: false,
 
+  entities: {
+    player: {
+      spawnPosition: {
+        x: 60,
+        y: 110,
+      },
+    },
+  },
+
   /**
    * In pixels
    */

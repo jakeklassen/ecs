@@ -4,6 +4,8 @@ import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import '../../style.css';
 import shootWavUrl from './assets/audio/shoot.wav';
+import playerDeathWavUrl from './assets/audio/player-death.wav';
+import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav';
 import shmupImageUrl from './assets/image/shmup.png';
 import { config } from './config.js';
 import { Content } from './content.js';
@@ -27,6 +29,11 @@ const recorder = {
 const audioManager = new AudioManager();
 
 await audioManager.loadTrack('shoot', shootWavUrl);
+await audioManager.loadTrack('player-death', playerDeathWavUrl);
+await audioManager.loadTrack(
+  'player-projectile-hit',
+  playerProjectileHitWavUrl,
+);
 
 await new Promise<void>((resolve) => {
   audioManager.on(AudioMangerEvent.Ready, () => {
@@ -91,7 +98,9 @@ window.addEventListener('keypress', (e: KeyboardEvent) => {
   if (e.key === 'r') {
     if (recorder.recording) {
       recorder.frames?.generateAsync({ type: 'blob' }).then((content) => {
-        saveAs(content, 'shmup.zip');
+        saveAs(content, `shmup-${Date.now()}.zip`);
+
+        frameCount = 0;
       });
     }
 
