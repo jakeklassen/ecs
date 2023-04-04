@@ -78,6 +78,18 @@ export function playerEnemyCollisionEventSystemFactory({
             config.entities.player.spawnPosition.x;
           playerThruster.transform.position.y =
             config.entities.player.spawnPosition.y;
+
+          world.addEntityComponents(playerThruster, 'tweens', [
+            ...(playerThruster.tweens ?? []),
+            tweenFactory('sprite.opacity', {
+              duration: 100,
+              easing: Easing.Linear,
+              from: 1,
+              to: 0,
+              maxIterations: 20,
+              yoyo: true,
+            }),
+          ]);
         }
       }
     }
