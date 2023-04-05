@@ -2,6 +2,11 @@ export const config = {
   debug: false,
 
   entities: {
+    enemies: {
+      greenAlien: {
+        startingHealth: 3,
+      },
+    },
     player: {
       spawnPosition: {
         x: 60,

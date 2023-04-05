@@ -41,6 +41,37 @@ describe('Archetype', () => {
     });
   });
 
+  describe('matches()', () => {
+    it('should correctly check if an entity matches the archetype', () => {
+      const world = new World<Entity>();
+      const archetype = new Archetype({
+        world,
+        entities: new Set<Entity>(),
+        components: ['color'],
+      });
+
+      const entity = world.createEntity({ color: 'red' });
+
+      expect(archetype.matches(entity)).toBe(true);
+    });
+
+    it('should correctly check if an entity does not match the archetype', () => {
+      const world = new World<Entity>();
+      const archetype = new Archetype({
+        world,
+        entities: new Set<Entity>(),
+        components: ['color'],
+        without: ['tagPlayer'],
+      });
+
+      const entity = world.createEntity();
+      const entity2 = world.createEntity({ color: 'red', tagPlayer: true });
+
+      expect(archetype.matches(entity)).toBe(false);
+      expect(archetype.matches(entity2)).toBe(false);
+    });
+  });
+
   describe('without()', () => {
     it('should correctly create a new archetype ignoring entities with components', () => {
       const world = new World<Entity>();
@@ -53,7 +84,7 @@ describe('Archetype', () => {
       });
 
       const entity2 = world.createEntity({
-        color: 'red',
+        color: 'blue',
         rectangle: { width: 10, height: 10 },
         transform: { position: { x: 0, y: 0 } },
       });
@@ -75,6 +106,11 @@ describe('Archetype', () => {
       expect(nonPlayerRenderables.entities.size).toBe(1);
       expect(nonPlayerRenderables.entities.has(entity)).toBe(false);
       expect(nonPlayerRenderables.entities.has(entity2)).toBe(true);
+
+      world.addEntityComponents(entity2, 'tagPlayer', true);
+
+      expect(renderables.entities.size).toBe(2);
+      expect(nonPlayerRenderables.entities.size).toBe(0);
     });
   });
 });

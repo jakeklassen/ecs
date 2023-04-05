@@ -11,6 +11,7 @@ import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-syste
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
+import { flashSystemFactory } from '../systems/flash-system.js';
 import { hudRenderingSystemFactory } from '../systems/hud-rendering-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
@@ -83,6 +84,11 @@ export class GameplayScreen extends Scene {
       starfieldRenderingSystemFactory({
         world: this.world,
         context: this.context,
+      }),
+      flashSystemFactory({
+        world: this.world,
+        context: this.context,
+        spriteSheet: this.content.spritesheet,
       }),
       renderingSystemFactory({
         world: this.world,
@@ -237,15 +243,10 @@ export class GameplayScreen extends Scene {
 
         this.world.createEntity({
           boxCollider: SpriteSheet.enemies.greenAlien.boxCollider,
-          transform: transformFactory({
-            position: {
-              x: 16 + i * 8 + 4,
-              y: 16 + y * 8 + 4,
-            },
-          }),
           collisionLayer: CollisionMasks.Enemy,
           collisionMask:
             CollisionMasks.PlayerProjectile | CollisionMasks.Player,
+          health: this.config.entities.enemies.greenAlien.startingHealth,
           sprite: {
             frame: {
               sourceX: SpriteSheet.enemies.greenAlien.frame.sourceX,
@@ -269,6 +270,12 @@ export class GameplayScreen extends Scene {
             true,
           ),
           tagEnemy: true,
+          transform: transformFactory({
+            position: {
+              x: 16 + i * 8 + 4,
+              y: 16 + y * 8 + 4,
+            },
+          }),
         });
       }
     }

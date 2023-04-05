@@ -107,12 +107,10 @@ export class World<Entity extends JsonObject> {
     entity[component] = value;
 
     for (const archetype of this.#archetypes) {
-      const matchesArchetype = archetype.components.every((component) => {
-        return component in entity;
-      });
-
-      if (matchesArchetype === true) {
+      if (archetype.matches(entity)) {
         archetype.addEntity(entity);
+      } else {
+        archetype.removeEntity(entity);
       }
     }
 
@@ -129,11 +127,7 @@ export class World<Entity extends JsonObject> {
       }
 
       for (const archetype of this.#archetypes) {
-        const matchesArchetype = archetype.components.every((component) => {
-          return component in entity;
-        });
-
-        if (matchesArchetype === true) {
+        if (archetype.matches(entity)) {
           archetype.addEntity(entity);
         } else {
           archetype.removeEntity(entity);

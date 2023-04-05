@@ -10,12 +10,12 @@ export function renderingSystemFactory({
   context: CanvasRenderingContext2D;
   spriteSheet: HTMLImageElement;
 }) {
-  const renderables = world.archetype('sprite', 'transform');
+  const renderables = world.archetype('sprite', 'transform').without('flash');
 
   return (_dt: number) => {
-    // context.clearRect(0, 0, canvas.width, canvas.height);
+    for (const entity of renderables.entities) {
+      const { sprite, transform } = entity;
 
-    for (const { sprite, transform } of renderables.entities) {
       context.globalAlpha = sprite.opacity;
 
       context.translate(transform.position.x | 0, transform.position.y | 0);

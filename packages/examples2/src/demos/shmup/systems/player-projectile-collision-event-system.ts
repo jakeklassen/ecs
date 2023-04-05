@@ -19,13 +19,25 @@ export function playerProjectileCollisionEventSystemFactory({
       const { eventPlayerProjectileEnemyCollision: event } = entity;
 
       world.deleteEntity(event.projectile);
-      world.deleteEntity(event.enemy);
+
+      if (event.enemy.health != null) {
+        event.enemy.health -= 1;
+
+        world.addEntityComponents(event.enemy, 'flash', {
+          color: '#ffffff',
+          durationMs: 100,
+          elapsedMs: 0,
+        });
+
+        if (event.enemy.health <= 0) {
+          world.deleteEntity(event.enemy);
+          gameState.score += 100;
+        }
+      }
 
       audioManager.play('player-projectile-hit', {
         loop: false,
       });
-
-      gameState.score += 100;
     }
   };
 }

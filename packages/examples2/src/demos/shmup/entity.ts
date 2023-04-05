@@ -53,6 +53,8 @@ type BoxCollider = {
   height: number;
 };
 
+type HexColor = `#${string}`;
+
 export interface TweenOptions {
   /**
    * The duration of the tween in milliseconds.
@@ -147,6 +149,12 @@ export type Entity = {
     projectile: Entity;
     enemy: Entity;
   };
+  flash?: {
+    color: HexColor;
+    durationMs: number;
+    elapsedMs: number;
+  };
+  health?: number;
   invulnerable?: {
     durationMs: number;
     elapsedMs: number;

@@ -24,6 +24,7 @@ export class Archetype<
     entities,
     world,
     components,
+    without,
   }: {
     world: World<Entity>;
     entities: Set<Entity>;
@@ -33,6 +34,7 @@ export class Archetype<
     this.#world = world;
     this.#entities = entities as Set<SafeEntity<Entity, Components[number]>>;
     this.#components = components;
+    this.#excluding = without;
 
     world.archetypes.add(this as any);
   }
@@ -51,21 +53,25 @@ export class Archetype<
     return this.#excluding ?? [];
   }
 
-  public addEntity(entity: Entity): Archetype<Entity, Components> {
-    if (this.#entities.has(entity as any)) {
-      return this;
-    }
-
+  public matches(entity: Entity): boolean {
     const matchesArchetype = this.#components.every((component) => {
       return component in entity;
     });
 
     const matchesExcluding =
-      this.#excluding?.every((component) => {
+      this.#excluding?.some((component) => {
         return component in entity;
       }) ?? false;
 
-    if (!matchesExcluding && matchesArchetype) {
+    return matchesArchetype && !matchesExcluding;
+  }
+
+  public addEntity(entity: Entity): Archetype<Entity, Components> {
+    if (this.#entities.has(entity as any)) {
+      return this;
+    }
+
+    if (this.matches(entity)) {
       this.#entities.add(entity as any);
     }
 
