@@ -1,4 +1,4 @@
 [build]
-  publish = "packages/examples/dist"
+  publish = "packages/examples2/dist"
 
-  command = "npm i -g pnpm @antfu/ni && nci && nr -C packages/ecs build && nr -C packages/examples build"
+  command = "npm i -g pnpm @antfu/ni && nci && nr -C packages/ecs2 build && nr -C packages/examples2 build"
