@@ -68,8 +68,10 @@ const mouseSystem = mouseSystemFactory(world, mouse, canvas, entityGrid);
 
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
+// @ts-ignore
 const dt = STEP / 1000;
 let last = performance.now();
+// @ts-ignore
 let deltaTimeAccumulator = 0;
 
 /**

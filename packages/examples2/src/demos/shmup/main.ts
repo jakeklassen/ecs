@@ -119,6 +119,7 @@ window.addEventListener('keypress', (e: KeyboardEvent) => {
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
 const dt = STEP / 1000;
+// @ts-ignore
 let variableDt = 0;
 let last = performance.now();
 let deltaTimeAccumulator = 0;
