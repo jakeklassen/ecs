@@ -46,15 +46,13 @@ export function flashSystemFactory({
       flash.elapsedMs += dt * 1000;
 
       // Calculate the alpha value based on the flashing duration
-      const alpha =
-        (Math.sin((performance.now() / flash.durationMs) * Math.PI * 2) + 1) /
-        2; // oscillate between 0 and 1
+      flash.alpha -= dt * 2;
 
       // Convert the color from hex to RGBA
       const red = parseInt(flash.color.substring(1, 3), 16);
       const green = parseInt(flash.color.substring(3, 5), 16);
       const blue = parseInt(flash.color.substring(5, 7), 16);
-      const rgba = `rgba(${red},${green},${blue},${alpha})`;
+      const rgba = `rgba(${red},${green},${blue},${flash.alpha})`;
 
       tintContext.translate(transform.position.x | 0, transform.position.y | 0);
       tintContext.rotate(transform.rotation);
@@ -87,7 +85,7 @@ export function flashSystemFactory({
       tintContext.resetTransform();
       bufferContext.resetTransform();
 
-      if (flash.elapsedMs >= flash.durationMs) {
+      if (flash.elapsedMs >= flash.durationMs || flash.alpha <= 0) {
         world.removeEntityComponents(entity, 'flash');
       }
     }

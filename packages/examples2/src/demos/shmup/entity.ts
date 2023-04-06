@@ -55,6 +55,16 @@ type BoxCollider = {
 
 type HexColor = `#${string}`;
 
+type Particle = {
+  age: number;
+  maxAge: number;
+  color: string;
+  isBlue?: boolean;
+  radius: number;
+  shape: 'circle';
+  spark?: boolean;
+};
+
 export interface TweenOptions {
   /**
    * The duration of the tween in milliseconds.
@@ -150,6 +160,7 @@ export type Entity = {
     enemy: Entity;
   };
   flash?: {
+    alpha: number;
     color: HexColor;
     durationMs: number;
     elapsedMs: number;
@@ -166,6 +177,7 @@ export type Entity = {
     initialSize: number;
     size: number;
   };
+  particle?: Particle;
   sprite?: Sprite;
   spriteAnimation?: SpriteAnimation;
   star?: {

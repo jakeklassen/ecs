@@ -17,6 +17,7 @@ import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
 import { muzzleFlashSystemFactory } from '../systems/muzzle-flash-system.js';
+import { particleRenderingSystemFactory } from '../systems/particle-rendering-system.js';
 import { playerEnemyCollisionEventCleanupSystemFactory } from '../systems/player-enemy-collision-event-cleanup-system.js';
 import { playerEnemyCollisionEventSystemFactory } from '../systems/player-enemy-collision-event-system.js';
 import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/player-projectile-collision-event-cleanup-system.js';
@@ -94,6 +95,10 @@ export class GameplayScreen extends Scene {
         world: this.world,
         context: this.context,
         spriteSheet: this.content.spritesheet,
+      }),
+      particleRenderingSystemFactory({
+        world: this.world,
+        context: this.context,
       }),
       muzzleFlashRenderingSystemFactory({
         world: this.world,
@@ -235,7 +240,7 @@ export class GameplayScreen extends Scene {
       tagPlayerThruster: true,
     });
 
-    for (let y = 0; y < 6; y++) {
+    for (let y = 0; y < 5; y++) {
       for (let i = 0; i < 10; i++) {
         if (i % 2 === 0) {
           continue;
@@ -273,7 +278,7 @@ export class GameplayScreen extends Scene {
           transform: transformFactory({
             position: {
               x: 16 + i * 8 + 4,
-              y: 16 + y * 8 + 4,
+              y: 16 + y * 2 + y * 8 + 4,
             },
           }),
         });

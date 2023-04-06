@@ -29,6 +29,7 @@
     "just-safe-get": "4.2.0",
     "just-safe-set": "4.2.1",
     "just-shuffle": "4.2.0",
+    "sharp": "0.32.0",
     "tweakpane": "3.1.7",
     "type-fest": "3.7.2"
   }

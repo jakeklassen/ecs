@@ -12,7 +12,6 @@ export const controls = {
   debug: or(gamepad.button('RB').trigger, keyboard.key('D').trigger),
   confirm: or(gamepad.button('B').trigger, keyboard.key('X').trigger),
   quit: or(gamepad.button('Start').trigger, keyboard.key('Escape').trigger),
-  capture: keyboard.key('C').trigger,
 };
 
 export type Controls = typeof controls;
