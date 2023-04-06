@@ -65,6 +65,13 @@ type Particle = {
   spark?: boolean;
 };
 
+type Shockwave = {
+  radius: number;
+  targetRadius: number;
+  color: HexColor;
+  speed: number;
+};
+
 export interface TweenOptions {
   /**
    * The duration of the tween in milliseconds.
@@ -178,6 +185,7 @@ export type Entity = {
     size: number;
   };
   particle?: Particle;
+  shockwave?: Shockwave;
   sprite?: Sprite;
   spriteAnimation?: SpriteAnimation;
   star?: {

@@ -48,19 +48,20 @@ export function fillCircle(
  * @param context
  * @param x
  * @param y
- * @param r
+ * @param radius
  * @param color
  */
 export function circ(
   context: CanvasRenderingContext2D,
   x: number,
   y: number,
-  r: number,
+  radius: number,
   color: string,
 ) {
   let x1 = 0;
-  let y1 = r;
-  let d = 3 - 2 * r;
+  let y1 = radius;
+  let diameter = 3 - 2 * radius;
+
   while (x1 <= y1) {
     // Plot points along the circumference of the circle
     context.fillStyle = color;
@@ -72,12 +73,14 @@ export function circ(
     context.fillRect(x - y1, y + x1, 1, 1);
     context.fillRect(x + y1, y - x1, 1, 1);
     context.fillRect(x - y1, y - x1, 1, 1);
-    if (d < 0) {
-      d = d + 4 * x1 + 6;
+
+    if (diameter < 0) {
+      diameter = diameter + 4 * x1 + 6;
     } else {
-      d = d + 4 * (x1 - y1) + 10;
+      diameter = diameter + 4 * (x1 - y1) + 10;
       y1--;
     }
+
     x1++;
   }
 }

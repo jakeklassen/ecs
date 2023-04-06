@@ -4,6 +4,7 @@ import { World } from '@jakeklassen/ecs2';
 import { transformFactory } from '../components/transform.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
+import { Pico8Colors } from '../constants.js';
 
 export function playerProjectileCollisionEventSystemFactory({
   world,
@@ -22,6 +23,27 @@ export function playerProjectileCollisionEventSystemFactory({
 
       world.deleteEntity(event.projectile);
 
+      // Spawn a shockwave
+      world.createEntity({
+        destroyOnViewportExit: true,
+        shockwave: {
+          radius: 3,
+          targetRadius: 6,
+          color: Pico8Colors.Color9,
+          speed: 30,
+        },
+        transform: transformFactory({
+          position: {
+            x:
+              (event.projectile.transform?.position.x ?? 0) +
+              (event.projectile.sprite?.frame.width ?? 0) / 2,
+            y:
+              (event.projectile.transform?.position.y ?? 0) +
+              (event.projectile.sprite?.frame.height ?? 0) / 2,
+          },
+        }),
+      });
+
       if (event.enemy.health != null) {
         event.enemy.health -= 1;
 
@@ -32,7 +54,29 @@ export function playerProjectileCollisionEventSystemFactory({
           elapsedMs: 0,
         });
 
+        // Enemy is dead
         if (event.enemy.health <= 0) {
+          // Shockwave
+          world.createEntity({
+            destroyOnViewportExit: true,
+            shockwave: {
+              radius: 3,
+              targetRadius: 25,
+              color: Pico8Colors.Color7,
+              speed: 105,
+            },
+            transform: transformFactory({
+              position: {
+                x:
+                  (event.projectile.transform?.position.x ?? 0) +
+                  (event.projectile.sprite?.frame.width ?? 0) / 2,
+                y:
+                  (event.projectile.transform?.position.y ?? 0) +
+                  (event.projectile.sprite?.frame.height ?? 0) / 2,
+              },
+            }),
+          });
+
           // Initial flash of the explosion
           world.createEntity({
             destroyOnViewportExit: true,

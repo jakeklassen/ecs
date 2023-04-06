@@ -25,6 +25,8 @@ import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/p
 import { playerProjectileCollisionEventSystemFactory } from '../systems/player-projectile-collision-event-system.js';
 import { playerSystemFactory } from '../systems/player-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
+import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-system.js';
+import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
@@ -51,6 +53,7 @@ export class GameplayScreen extends Scene {
       }),
       movementSystemFactory({ world: this.world }),
       particleSystemFactory({ world: this.world }),
+      shockwaveSystemFactory({ world: this.world }),
       trackPlayerSystemFactory({ world: this.world }),
       boundToViewportSystemFactory({
         world: this.world,
@@ -97,6 +100,10 @@ export class GameplayScreen extends Scene {
         world: this.world,
         context: this.context,
         spriteSheet: this.content.spritesheet,
+      }),
+      shockwaveRenderingSystemFactory({
+        context: this.context,
+        world: this.world,
       }),
       particleRenderingSystemFactory({
         world: this.world,
