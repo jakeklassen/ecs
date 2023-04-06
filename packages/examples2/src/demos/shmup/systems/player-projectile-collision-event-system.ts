@@ -112,7 +112,7 @@ export function playerProjectileCollisionEventSystemFactory({
               },
               particle: {
                 age: rnd(2),
-                maxAge: 10 + rnd(20),
+                maxAge: 10 + rnd(10),
                 color: '#ffffff',
                 radius: 1 + rnd(4),
                 shape: 'circle',
