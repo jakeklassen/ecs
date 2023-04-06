@@ -21,7 +21,7 @@ export function particleRenderingSystemFactory({
       context.scale(transform.scale.x, transform.scale.y);
 
       if (particle.spark === true) {
-        context.fillStyle = Pico8Colors.Colour7;
+        context.fillStyle = Pico8Colors.Color7;
         context.fillRect(0, 0, 1, 1);
       } else if (particle.shape === 'circle') {
         fillCircle(context, 0, 0, particle.radius | 0, particle.color);

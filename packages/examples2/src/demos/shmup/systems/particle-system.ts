@@ -1,5 +1,55 @@
 import { World } from '@jakeklassen/ecs2';
+import { Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
+
+function determineParticlColorFromAge(
+  particle: NonNullable<Entity['particle']>,
+  bias: 'red' | 'blue',
+) {
+  if (bias === 'red') {
+    if (particle.age > 15) {
+      return Pico8Colors.Color5;
+    }
+
+    if (particle.age > 12) {
+      return Pico8Colors.Color2;
+    }
+
+    if (particle.age > 10) {
+      return Pico8Colors.Color8;
+    }
+
+    if (particle.age > 7) {
+      return Pico8Colors.Color9;
+    }
+
+    if (particle.age > 5) {
+      return Pico8Colors.Color10;
+    }
+  } else if (bias === 'blue') {
+    if (particle.age > 15) {
+      particle.color = Pico8Colors.Color1;
+    }
+
+    if (particle.age > 12) {
+      particle.color = Pico8Colors.Color1;
+    }
+
+    if (particle.age > 10) {
+      particle.color = Pico8Colors.Color13;
+    }
+
+    if (particle.age > 7) {
+      particle.color = Pico8Colors.Color12;
+    }
+
+    if (particle.age > 5) {
+      particle.color = Pico8Colors.Color6;
+    }
+  }
+
+  return particle.color;
+}
 
 export function particleSystemFactory({ world }: { world: World<Entity> }) {
   const renderables = world.archetype('particle', 'velocity');
@@ -21,49 +71,9 @@ export function particleSystemFactory({ world }: { world: World<Entity> }) {
         }
       }
 
-      particle.color = '#FFF1E8';
-
-      if (particle.isBlue == null) {
-        if (particle.age > 5) {
-          particle.color = '#FFEC27';
-        }
-
-        if (particle.age > 7) {
-          particle.color = '#FFA300';
-        }
-
-        if (particle.age > 10) {
-          particle.color = '#FF004D';
-        }
-
-        if (particle.age > 12) {
-          particle.color = '#7E2553';
-        }
-
-        if (particle.age > 15) {
-          particle.color = '#5F574F';
-        }
-      } else {
-        if (particle.age > 5) {
-          particle.color = '#C2C3C7';
-        }
-
-        if (particle.age > 7) {
-          particle.color = '#FFA300';
-        }
-
-        if (particle.age > 10) {
-          particle.color = '#FF004D';
-        }
-
-        if (particle.age > 12) {
-          particle.color = '#7E2553';
-        }
-
-        if (particle.age > 15) {
-          particle.color = '#5F574F';
-        }
-      }
+      particle.color = particle.isBlue
+        ? determineParticlColorFromAge(particle, 'blue')
+        : determineParticlColorFromAge(particle, 'red');
     }
   };
 }

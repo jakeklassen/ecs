@@ -1,9 +1,9 @@
 import { AudioManager } from '#/lib/audio-manager.js';
+import { rnd } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
+import { transformFactory } from '../components/transform.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
-import { transformFactory } from '../components/transform.js';
-import { rnd, rndInt } from '#/lib/math.js';
 
 export function playerProjectileCollisionEventSystemFactory({
   world,
@@ -45,8 +45,12 @@ export function playerProjectileCollisionEventSystemFactory({
             },
             transform: transformFactory({
               position: {
-                x: (event.enemy.transform?.position.x ?? 0) + 4,
-                y: (event.enemy.transform?.position.y ?? 0) + 4,
+                x:
+                  (event.enemy.transform?.position.x ?? 0) +
+                  (event.enemy.sprite?.frame.width ?? 0 / 2),
+                y:
+                  (event.enemy.transform?.position.y ?? 0) +
+                  (event.enemy.sprite?.frame.height ?? 0 / 2),
               },
             }),
             velocity: {
