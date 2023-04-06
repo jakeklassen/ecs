@@ -33,6 +33,28 @@ export function playerProjectileCollisionEventSystemFactory({
         });
 
         if (event.enemy.health <= 0) {
+          // Initial flash of the explosion
+          world.createEntity({
+            destroyOnViewportExit: true,
+            particle: {
+              age: 0,
+              maxAge: 0,
+              color: '#ffffff',
+              radius: 10,
+              shape: 'circle',
+            },
+            transform: transformFactory({
+              position: {
+                x: (event.enemy.transform?.position.x ?? 0) + 4,
+                y: (event.enemy.transform?.position.y ?? 0) + 4,
+              },
+            }),
+            velocity: {
+              x: 0,
+              y: 0,
+            },
+          });
+
           for (let i = 0; i < 30; i++) {
             world.createEntity({
               destroyOnViewportExit: true,

@@ -18,6 +18,7 @@ import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
 import { muzzleFlashSystemFactory } from '../systems/muzzle-flash-system.js';
 import { particleRenderingSystemFactory } from '../systems/particle-rendering-system.js';
+import { particleSystemFactory } from '../systems/particle-system.js';
 import { playerEnemyCollisionEventCleanupSystemFactory } from '../systems/player-enemy-collision-event-cleanup-system.js';
 import { playerEnemyCollisionEventSystemFactory } from '../systems/player-enemy-collision-event-system.js';
 import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/player-projectile-collision-event-cleanup-system.js';
@@ -49,6 +50,7 @@ export class GameplayScreen extends Scene {
         audioManager: this.audioManager,
       }),
       movementSystemFactory({ world: this.world }),
+      particleSystemFactory({ world: this.world }),
       trackPlayerSystemFactory({ world: this.world }),
       boundToViewportSystemFactory({
         world: this.world,
