@@ -28,23 +28,23 @@ function determineParticlColorFromAge(
     }
   } else if (bias === 'blue') {
     if (particle.age > 15) {
-      particle.color = Pico8Colors.Color1;
+      return Pico8Colors.Color1;
     }
 
     if (particle.age > 12) {
-      particle.color = Pico8Colors.Color1;
+      return Pico8Colors.Color1;
     }
 
     if (particle.age > 10) {
-      particle.color = Pico8Colors.Color13;
+      return Pico8Colors.Color13;
     }
 
     if (particle.age > 7) {
-      particle.color = Pico8Colors.Color12;
+      return Pico8Colors.Color12;
     }
 
     if (particle.age > 5) {
-      particle.color = Pico8Colors.Color6;
+      return Pico8Colors.Color6;
     }
   }
 

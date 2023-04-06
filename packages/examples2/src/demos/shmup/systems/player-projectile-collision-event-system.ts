@@ -47,10 +47,10 @@ export function playerProjectileCollisionEventSystemFactory({
               position: {
                 x:
                   (event.enemy.transform?.position.x ?? 0) +
-                  (event.enemy.sprite?.frame.width ?? 0 / 2),
+                  (event.enemy.sprite?.frame.width ?? 0) / 2,
                 y:
                   (event.enemy.transform?.position.y ?? 0) +
-                  (event.enemy.sprite?.frame.height ?? 0 / 2),
+                  (event.enemy.sprite?.frame.height ?? 0) / 2,
               },
             }),
             velocity: {
@@ -75,8 +75,12 @@ export function playerProjectileCollisionEventSystemFactory({
               },
               transform: transformFactory({
                 position: {
-                  x: (event.enemy.transform?.position.x ?? 0) + 4,
-                  y: (event.enemy.transform?.position.y ?? 0) + 4,
+                  x:
+                    (event.enemy.transform?.position.x ?? 0) +
+                    (event.enemy.sprite?.frame.width ?? 0) / 2,
+                  y:
+                    (event.enemy.transform?.position.y ?? 0) +
+                    (event.enemy.sprite?.frame.height ?? 0) / 2,
                 },
               }),
               velocity: {
@@ -104,8 +108,12 @@ export function playerProjectileCollisionEventSystemFactory({
               },
               transform: transformFactory({
                 position: {
-                  x: (event.enemy.transform?.position.x ?? 0) + 4,
-                  y: (event.enemy.transform?.position.y ?? 0) + 4,
+                  x:
+                    (event.enemy.transform?.position.x ?? 0) +
+                    (event.enemy.sprite?.frame.width ?? 0) / 2,
+                  y:
+                    (event.enemy.transform?.position.y ?? 0) +
+                    (event.enemy.sprite?.frame.height ?? 0) / 2,
                 },
               }),
               velocity: {
