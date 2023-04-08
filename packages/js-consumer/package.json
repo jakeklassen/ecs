@@ -20,14 +20,14 @@
     "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "5.57.1",
     "@typescript-eslint/parser": "5.57.1",
-    "eslint": "8.37.0",
+    "eslint": "8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "expect": "29.5.0",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "prettier": "2.8.7",
-    "typescript": "5.0.3"
+    "typescript": "5.0.4"
   },
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^4.0.0"
