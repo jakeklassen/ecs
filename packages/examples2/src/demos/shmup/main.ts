@@ -3,6 +3,7 @@ import { obtainCanvasAndContext2d } from '#/lib/dom';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import '../../style.css';
+import enemyDeathWaveUrl from './assets/audio/enemy-death.wav';
 import playerDeathWavUrl from './assets/audio/player-death.wav';
 import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav';
 import shootWavUrl from './assets/audio/shoot.wav';
@@ -28,6 +29,7 @@ const recorder = {
 
 const audioManager = new AudioManager();
 
+await audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
 await audioManager.loadTrack('shoot', shootWavUrl);
 await audioManager.loadTrack('player-death', playerDeathWavUrl);
 await audioManager.loadTrack(

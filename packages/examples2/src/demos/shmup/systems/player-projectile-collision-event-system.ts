@@ -168,6 +168,9 @@ export function playerProjectileCollisionEventSystemFactory({
           }
 
           world.deleteEntity(event.enemy);
+          audioManager.play('enemy-death', {
+            loop: false,
+          });
           gameState.score += 100;
         }
       }
