@@ -1,14 +1,16 @@
 import { AudioManager } from '#/lib/audio-manager.js';
+import { rnd } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
+import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
 import { Entity } from '../entity.js';
+import { explosionFactory } from '../factories/explosion.js';
 import { GameEvent } from '../game-events.js';
 import { GameState } from '../game-state.js';
 import { Scene } from '../scene.js';
-import { rnd } from '#/lib/math.js';
-import { transformFactory } from '../components/transform.js';
+import { Pico8Colors } from '../constants.js';
 
 export function playerEnemyCollisionEventSystemFactory({
   world,
@@ -50,9 +52,28 @@ export function playerEnemyCollisionEventSystemFactory({
 
         scene.emit(GameEvent.GameOver);
       } else {
+        // Shockwave
+        world.createEntity({
+          shockwave: {
+            radius: 3,
+            targetRadius: 25,
+            color: Pico8Colors.Color7,
+            speed: 105,
+          },
+          transform: transformFactory({
+            position: {
+              x:
+                player.transform.position.x +
+                (player.sprite?.frame.width ?? 0) / 2,
+              y:
+                player.transform?.position.y +
+                (player.sprite?.frame.height ?? 0) / 2,
+            },
+          }),
+        });
+
         // Initial flash of the explosion
         world.createEntity({
-          destroyOnViewportExit: true,
           particle: {
             age: 0,
             maxAge: 0,
@@ -76,70 +97,54 @@ export function playerEnemyCollisionEventSystemFactory({
           },
         });
 
-        for (let i = 0; i < 30; i++) {
-          world.createEntity({
-            destroyOnViewportExit: true,
-            direction: {
-              x: 1 * Math.sign(Math.random() * 2 - 1),
-              y: 1 * Math.sign(Math.random() * 2 - 1),
-            },
-            particle: {
-              age: rnd(2),
-              maxAge: 10 + rnd(20),
-              color: '#ffffff',
-              radius: 1 + rnd(4),
-              shape: 'circle',
-              isBlue: true,
-            },
-            transform: transformFactory({
-              position: {
-                x:
-                  player.transform.position.x +
-                  (player.sprite?.frame.width ?? 0) / 2,
-                y:
-                  player.transform?.position.y +
-                  (player.sprite?.frame.height ?? 0) / 2,
-              },
-            }),
-            velocity: {
-              x: Math.random() * 140,
-              y: Math.random() * 140,
-            },
-          });
-        }
+        explosionFactory(world, {
+          count: 30,
+          particleFn: () => ({
+            age: rnd(2),
+            maxAge: 10 + rnd(20),
+            color: '#ffffff',
+            radius: 1 + rnd(4),
+            shape: 'circle',
+            isBlue: true,
+          }),
+          position: {
+            x:
+              player.transform.position.x +
+              (player.sprite?.frame.width ?? 0) / 2,
+            y:
+              player.transform?.position.y +
+              (player.sprite?.frame.height ?? 0) / 2,
+          },
+          velocityFn: () => ({
+            x: Math.random() * 140,
+            y: Math.random() * 140,
+          }),
+        });
 
-        for (let i = 0; i < 20; i++) {
-          world.createEntity({
-            destroyOnViewportExit: true,
-            direction: {
-              x: 1 * Math.sign(Math.random() * 2 - 1),
-              y: 1 * Math.sign(Math.random() * 2 - 1),
-            },
-            particle: {
-              age: rnd(2),
-              maxAge: 10 + rnd(10),
-              color: '#ffffff',
-              isBlue: true,
-              radius: 1 + rnd(4),
-              shape: 'circle',
-              spark: true,
-            },
-            transform: transformFactory({
-              position: {
-                x:
-                  player.transform.position.x +
-                  (player.sprite?.frame.width ?? 0) / 2,
-                y:
-                  player.transform?.position.y +
-                  (player.sprite?.frame.height ?? 0) / 2,
-              },
-            }),
-            velocity: {
-              x: Math.random() * 300,
-              y: Math.random() * 300,
-            },
-          });
-        }
+        explosionFactory(world, {
+          count: 20,
+          particleFn: () => ({
+            age: rnd(2),
+            maxAge: 10 + rnd(10),
+            color: '#ffffff',
+            isBlue: true,
+            radius: 1 + rnd(4),
+            shape: 'circle',
+            spark: true,
+          }),
+          position: {
+            x:
+              player.transform.position.x +
+              (player.sprite?.frame.width ?? 0) / 2,
+            y:
+              player.transform?.position.y +
+              (player.sprite?.frame.height ?? 0) / 2,
+          },
+          velocityFn: () => ({
+            x: Math.random() * 300,
+            y: Math.random() * 300,
+          }),
+        });
 
         // respawn player
         if (player != null) {
