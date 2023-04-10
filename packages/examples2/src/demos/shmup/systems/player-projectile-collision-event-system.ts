@@ -3,8 +3,8 @@ import { rnd } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
-import { Entity } from '../entity.js';
 import { explosionFactory } from '../entity-factories/explosion.js';
+import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 
 export function playerProjectileCollisionEventSystemFactory({
@@ -49,7 +49,7 @@ export function playerProjectileCollisionEventSystemFactory({
 
         world.addEntityComponents(event.enemy, 'flash', {
           alpha: 1,
-          color: '#ffffff',
+          color: Pico8Colors.Color7,
           durationMs: 100,
           elapsedMs: 0,
         });
@@ -81,7 +81,7 @@ export function playerProjectileCollisionEventSystemFactory({
             particle: {
               age: 0,
               maxAge: 0,
-              color: '#ffffff',
+              color: Pico8Colors.Color7,
               radius: 10,
               shape: 'circle',
             },
@@ -106,7 +106,7 @@ export function playerProjectileCollisionEventSystemFactory({
             particleFn: () => ({
               age: rnd(2),
               maxAge: 10 + rnd(10),
-              color: '#ffffff',
+              color: Pico8Colors.Color7,
               radius: 1 + rnd(4),
               shape: 'circle',
             }),
@@ -129,7 +129,7 @@ export function playerProjectileCollisionEventSystemFactory({
             particleFn: () => ({
               age: rnd(2),
               maxAge: 10 + rnd(10),
-              color: '#ffffff',
+              color: Pico8Colors.Color7,
               isBlue: true,
               radius: 1 + rnd(4),
               shape: 'circle',

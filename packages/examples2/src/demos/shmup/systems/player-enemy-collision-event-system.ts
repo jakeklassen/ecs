@@ -77,7 +77,7 @@ export function playerEnemyCollisionEventSystemFactory({
           particle: {
             age: 0,
             maxAge: 0,
-            color: '#ffffff',
+            color: Pico8Colors.Color7,
             radius: 10,
             shape: 'circle',
           },
@@ -102,7 +102,7 @@ export function playerEnemyCollisionEventSystemFactory({
           particleFn: () => ({
             age: rnd(2),
             maxAge: 10 + rnd(20),
-            color: '#ffffff',
+            color: Pico8Colors.Color7,
             radius: 1 + rnd(4),
             shape: 'circle',
             isBlue: true,
@@ -126,7 +126,7 @@ export function playerEnemyCollisionEventSystemFactory({
           particleFn: () => ({
             age: rnd(2),
             maxAge: 10 + rnd(10),
-            color: '#ffffff',
+            color: Pico8Colors.Color7,
             isBlue: true,
             radius: 1 + rnd(4),
             shape: 'circle',
