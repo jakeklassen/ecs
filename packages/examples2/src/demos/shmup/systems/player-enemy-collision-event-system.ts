@@ -6,7 +6,7 @@ import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
 import { Entity } from '../entity.js';
-import { explosionFactory } from '../factories/explosion.js';
+import { explosionFactory } from '../entity-factories/explosion.js';
 import { GameEvent } from '../game-events.js';
 import { GameState } from '../game-state.js';
 import { Scene } from '../scene.js';

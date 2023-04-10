@@ -4,7 +4,7 @@ import { World } from '@jakeklassen/ecs2';
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
-import { explosionFactory } from '../factories/explosion.js';
+import { explosionFactory } from '../entity-factories/explosion.js';
 import { GameState } from '../game-state.js';
 
 export function playerProjectileCollisionEventSystemFactory({
