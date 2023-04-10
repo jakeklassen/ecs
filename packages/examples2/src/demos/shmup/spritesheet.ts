@@ -213,6 +213,14 @@ export const SpriteSheet = {
         height: 5,
       },
     },
+    loadingAssets: {
+      frame: {
+        sourceX: 0,
+        sourceY: 192,
+        width: 64,
+        height: 5,
+      },
+    },
     shortShwaveShmup: {
       frame: {
         sourceX: 0,

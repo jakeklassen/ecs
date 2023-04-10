@@ -17,6 +17,7 @@ import { input } from './input.js';
 import { Scene } from './scene.js';
 import { GameOverScreen } from './scenes/game-over-screen.js';
 import { GameplayScreen } from './scenes/gameplay-screen.js';
+import { LoadingScreen } from './scenes/loading-screen.js';
 import { TitleScreen } from './scenes/title-screen.js';
 import { SpriteSheet } from './spritesheet';
 
@@ -29,20 +30,15 @@ const recorder = {
 
 const audioManager = new AudioManager();
 
-await audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
-await audioManager.loadTrack('shoot', shootWavUrl);
-await audioManager.loadTrack('player-death', playerDeathWavUrl);
-await audioManager.loadTrack(
-  'player-projectile-hit',
-  playerProjectileHitWavUrl,
-);
+audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
+audioManager.loadTrack('shoot', shootWavUrl);
+audioManager.loadTrack('player-death', playerDeathWavUrl);
+audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
 
-await new Promise<void>((resolve) => {
-  audioManager.on(AudioMangerEvent.Ready, () => {
-    console.log('audio ready - click to play');
+audioManager.on(AudioMangerEvent.Ready, () => {
+  console.log('audio ready - click to play');
 
-    resolve();
-  });
+  activeScene?.emit(GameEvent.StartGame);
 });
 
 const content = await Content.load(shmupImageUrl);
@@ -50,6 +46,20 @@ const content = await Content.load(shmupImageUrl);
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
 
 context.imageSmoothingEnabled = false;
+
+const loadingScreenScene = new LoadingScreen({
+  audioManager,
+  canvas,
+  config,
+  context,
+  content,
+  input: controls,
+  gameState,
+  spriteSheet: SpriteSheet,
+});
+loadingScreenScene.on(GameEvent.StartGame, () => {
+  activeScene = activeScene.switchTo(titleScreenScene);
+});
 
 const titleScreenScene = new TitleScreen({
   audioManager,

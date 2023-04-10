@@ -115,7 +115,7 @@ export class AudioManager {
     this.#tracks.set(name, audioBuffer);
   }
 
-  public async play(track: string, options: PlayOptions) {
+  public play(track: string, options: PlayOptions) {
     if (this.#audioContext == null) {
       console.warn('AudioManager is disabled');
 
