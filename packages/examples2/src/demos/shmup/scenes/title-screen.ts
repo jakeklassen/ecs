@@ -25,24 +25,6 @@ export class TitleScreen extends Scene {
 
     this.#areaWidth = this.config.gameWidth - 1;
     this.#areaHeight = this.config.gameHeight - 1;
-
-    this.systems.push(
-      tweenSystemFactory({ world: this.world }),
-      starfieldSystemFactory({ world: this.world }),
-      startGameSystemFactory({ controls: this.input, scene: this }),
-      movementSystemFactory({ world: this.world }),
-      spriteAnimationSystemFactory({ world: this.world }),
-      eventSystemFactory({ world: this.world }),
-      starfieldRenderingSystemFactory({
-        world: this.world,
-        context: this.context,
-      }),
-      renderingSystemFactory({
-        world: this.world,
-        context: this.context,
-        spriteSheet: this.content.spritesheet,
-      }),
-    );
   }
 
   private createStars(starCount = 100) {
@@ -79,6 +61,25 @@ export class TitleScreen extends Scene {
     resetGameState(this.gameState);
     this.audioManager.play('title-screen-music', { loop: true });
     this.world.clearEntities();
+    this.systems = [];
+
+    this.systems.push(
+      tweenSystemFactory({ world: this.world }),
+      starfieldSystemFactory({ world: this.world }),
+      startGameSystemFactory({ controls: this.input, scene: this }),
+      movementSystemFactory({ world: this.world }),
+      spriteAnimationSystemFactory({ world: this.world }),
+      eventSystemFactory({ world: this.world }),
+      starfieldRenderingSystemFactory({
+        world: this.world,
+        context: this.context,
+      }),
+      renderingSystemFactory({
+        world: this.world,
+        context: this.context,
+        spriteSheet: this.content.spritesheet,
+      }),
+    );
 
     this.createStars(100);
 
@@ -179,22 +180,22 @@ export class TitleScreen extends Scene {
     this.world.createEntity({
       sprite: {
         frame: {
-          sourceX: this.spriteSheet.text.pressAnyKeyToStart.frame.sourceX,
-          sourceY: this.spriteSheet.text.pressAnyKeyToStart.frame.sourceY,
-          width: this.spriteSheet.text.pressAnyKeyToStart.frame.width,
-          height: this.spriteSheet.text.pressAnyKeyToStart.frame.height,
+          sourceX: this.spriteSheet.text.pressXToStart.frame.sourceX,
+          sourceY: this.spriteSheet.text.pressXToStart.frame.sourceY,
+          width: this.spriteSheet.text.pressXToStart.frame.width,
+          height: this.spriteSheet.text.pressXToStart.frame.height,
         },
         opacity: 1,
       },
       spriteAnimation: spriteAnimationFactory(
         animationDetailsFactory(
           'press-x-to-start-blink',
-          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.sourceX,
-          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.sourceY,
-          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.width,
-          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.height,
-          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.frameWidth,
-          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.frameHeight,
+          this.spriteSheet.text.pressXToStart.animations.blink.sourceX,
+          this.spriteSheet.text.pressXToStart.animations.blink.sourceY,
+          this.spriteSheet.text.pressXToStart.animations.blink.width,
+          this.spriteSheet.text.pressXToStart.animations.blink.height,
+          this.spriteSheet.text.pressXToStart.animations.blink.frameWidth,
+          this.spriteSheet.text.pressXToStart.animations.blink.frameHeight,
         ),
         500,
         true,
@@ -204,7 +205,7 @@ export class TitleScreen extends Scene {
         position: {
           x:
             this.canvas.width / 2 -
-            this.spriteSheet.text.pressAnyKeyToStart.frame.width / 2,
+            this.spriteSheet.text.pressXToStart.frame.width / 2,
           y: 90,
         },
       }),

@@ -9,6 +9,11 @@ export function startGameSystemFactory({
   controls: Controls;
   scene: Scene;
 }) {
+  // Swallow the first press of the confirm button.
+  // This is to prevent the game from starting immediately if the input
+  // query still reads as true from the previous scene.
+  controls.confirm.query();
+
   return (_dt: number) => {
     if (controls.confirm.query()) {
       scene.emit(GameEvent.StartGame);

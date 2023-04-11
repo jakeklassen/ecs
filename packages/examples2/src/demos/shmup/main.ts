@@ -108,7 +108,17 @@ gameoverScene.on(GameEvent.StartGame, () => {
 let activeScene: Scene = loadingScreenScene;
 activeScene.enter();
 
-window.addEventListener('keypress', (e: KeyboardEvent) => {
+window.addEventListener('click', async () => {
+  if (!audioManager.isInitialized) {
+    audioManager.init();
+  }
+});
+
+window.addEventListener('keypress', async (e: KeyboardEvent) => {
+  if (!audioManager.isInitialized) {
+    await audioManager.init();
+  }
+
   if (e.key === 'r') {
     if (recorder.recording) {
       recorder.frames?.generateAsync({ type: 'blob' }).then((content) => {

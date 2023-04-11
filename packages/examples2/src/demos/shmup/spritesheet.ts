@@ -199,20 +199,20 @@ export const SpriteSheet = {
       },
     },
 
-    clickToBegin: {
+    interactToBegin: {
       frame: {
         sourceX: 0,
         sourceY: 200,
-        width: 59,
+        width: 76,
         height: 5,
       },
       animations: {
         blink: {
           sourceX: 0,
           sourceY: 200,
-          width: 59,
+          width: 76,
           height: 15,
-          frameWidth: 59,
+          frameWidth: 76,
           frameHeight: 5,
         },
       },
@@ -247,20 +247,20 @@ export const SpriteSheet = {
         height: 5,
       },
     },
-    pressAnyKeyToStart: {
+    pressXToStart: {
       frame: {
         sourceX: 0,
         sourceY: 160,
-        width: 102,
+        width: 74,
         height: 5,
       },
       animations: {
         blink: {
           sourceX: 0,
           sourceY: 160,
-          width: 102,
+          width: 74,
           height: 15,
-          frameWidth: 102,
+          frameWidth: 74,
           frameHeight: 5,
         },
       },

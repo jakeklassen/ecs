@@ -31,12 +31,15 @@ export class AudioManager {
   #emitter = new EventEmitter<AudioManagerEvents>();
   #muted = false;
 
-  constructor() {
-    window.addEventListener('click', this.#windowClickListener);
-    window.addEventListener('keypress', this.#windowClickListener);
+  public get muted() {
+    return this.#muted;
   }
 
-  #windowClickListener = async () => {
+  public get isInitialized() {
+    return this.#audioContext != null;
+  }
+
+  public async init() {
     if (this.#audioContext == null) {
       this.#audioContext = new AudioContext();
       this.#gainNode = this.#audioContext.createGain();
@@ -54,13 +57,6 @@ export class AudioManager {
     this.#preloaded.clear();
 
     this.emit(AudioMangerEvent.Ready);
-
-    window.removeEventListener('click', this.#windowClickListener);
-    window.removeEventListener('keypress', this.#windowClickListener);
-  };
-
-  public get muted() {
-    return this.#muted;
   }
 
   public on(event: AudioMangerEvent, listener: AudioManagerEventListener) {

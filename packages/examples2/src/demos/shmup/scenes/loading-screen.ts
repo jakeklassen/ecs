@@ -13,7 +13,6 @@ import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
-import { startGameSystemFactory } from '../systems/start-game-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
 
 export class LoadingScreen extends Scene {
@@ -29,7 +28,6 @@ export class LoadingScreen extends Scene {
     this.systems.push(
       tweenSystemFactory({ world: this.world }),
       starfieldSystemFactory({ world: this.world }),
-      startGameSystemFactory({ controls: this.input, scene: this }),
       movementSystemFactory({ world: this.world }),
       spriteAnimationSystemFactory({ world: this.world }),
       eventSystemFactory({ world: this.world }),
@@ -178,22 +176,22 @@ export class LoadingScreen extends Scene {
     this.world.createEntity({
       sprite: {
         frame: {
-          sourceX: this.spriteSheet.text.clickToBegin.frame.sourceX,
-          sourceY: this.spriteSheet.text.clickToBegin.frame.sourceY,
-          width: this.spriteSheet.text.clickToBegin.frame.width,
-          height: this.spriteSheet.text.clickToBegin.frame.height,
+          sourceX: this.spriteSheet.text.interactToBegin.frame.sourceX,
+          sourceY: this.spriteSheet.text.interactToBegin.frame.sourceY,
+          width: this.spriteSheet.text.interactToBegin.frame.width,
+          height: this.spriteSheet.text.interactToBegin.frame.height,
         },
         opacity: 1,
       },
       spriteAnimation: spriteAnimationFactory(
         animationDetailsFactory(
           'press-x-to-start-blink',
-          this.spriteSheet.text.clickToBegin.animations.blink.sourceX,
-          this.spriteSheet.text.clickToBegin.animations.blink.sourceY,
-          this.spriteSheet.text.clickToBegin.animations.blink.width,
-          this.spriteSheet.text.clickToBegin.animations.blink.height,
-          this.spriteSheet.text.clickToBegin.animations.blink.frameWidth,
-          this.spriteSheet.text.clickToBegin.animations.blink.frameHeight,
+          this.spriteSheet.text.interactToBegin.animations.blink.sourceX,
+          this.spriteSheet.text.interactToBegin.animations.blink.sourceY,
+          this.spriteSheet.text.interactToBegin.animations.blink.width,
+          this.spriteSheet.text.interactToBegin.animations.blink.height,
+          this.spriteSheet.text.interactToBegin.animations.blink.frameWidth,
+          this.spriteSheet.text.interactToBegin.animations.blink.frameHeight,
         ),
         500,
         true,
@@ -203,7 +201,7 @@ export class LoadingScreen extends Scene {
         position: {
           x:
             this.canvas.width / 2 -
-            this.spriteSheet.text.clickToBegin.frame.width / 2,
+            this.spriteSheet.text.interactToBegin.frame.width / 2,
           y: 90,
         },
       }),
