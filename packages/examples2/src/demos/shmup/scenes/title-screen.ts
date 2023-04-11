@@ -77,6 +77,7 @@ export class TitleScreen extends Scene {
 
   public override initialize(): void {
     resetGameState(this.gameState);
+    this.audioManager.play('title-screen-music', { loop: true });
     this.world.clearEntities();
 
     this.createStars(100);
@@ -178,22 +179,22 @@ export class TitleScreen extends Scene {
     this.world.createEntity({
       sprite: {
         frame: {
-          sourceX: this.spriteSheet.text.pressXToStart.frame.sourceX,
-          sourceY: this.spriteSheet.text.pressXToStart.frame.sourceY,
-          width: this.spriteSheet.text.pressXToStart.frame.width,
-          height: this.spriteSheet.text.pressXToStart.frame.height,
+          sourceX: this.spriteSheet.text.pressAnyKeyToStart.frame.sourceX,
+          sourceY: this.spriteSheet.text.pressAnyKeyToStart.frame.sourceY,
+          width: this.spriteSheet.text.pressAnyKeyToStart.frame.width,
+          height: this.spriteSheet.text.pressAnyKeyToStart.frame.height,
         },
         opacity: 1,
       },
       spriteAnimation: spriteAnimationFactory(
         animationDetailsFactory(
           'press-x-to-start-blink',
-          this.spriteSheet.text.pressXToStart.animations.blink.sourceX,
-          this.spriteSheet.text.pressXToStart.animations.blink.sourceY,
-          this.spriteSheet.text.pressXToStart.animations.blink.width,
-          this.spriteSheet.text.pressXToStart.animations.blink.height,
-          this.spriteSheet.text.pressXToStart.animations.blink.frameWidth,
-          this.spriteSheet.text.pressXToStart.animations.blink.frameHeight,
+          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.sourceX,
+          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.sourceY,
+          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.width,
+          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.height,
+          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.frameWidth,
+          this.spriteSheet.text.pressAnyKeyToStart.animations.blink.frameHeight,
         ),
         500,
         true,
@@ -203,7 +204,7 @@ export class TitleScreen extends Scene {
         position: {
           x:
             this.canvas.width / 2 -
-            this.spriteSheet.text.pressXToStart.frame.width / 2,
+            this.spriteSheet.text.pressAnyKeyToStart.frame.width / 2,
           y: 90,
         },
       }),
@@ -214,6 +215,12 @@ export class TitleScreen extends Scene {
     super.enter();
 
     this.initialize();
+  }
+
+  public override exit(): void {
+    super.exit();
+
+    this.audioManager.stopAll();
   }
 
   public override update(delta: number): void {

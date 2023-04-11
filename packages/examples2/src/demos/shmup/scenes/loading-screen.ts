@@ -1,10 +1,12 @@
 import { rndFromList } from '#/lib/array.js';
 import { rndInt } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
+import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
+import { animationDetailsFactory } from '../structures/animation-details.js';
 import { eventSystemFactory } from '../systems/event-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
@@ -172,22 +174,36 @@ export class LoadingScreen extends Scene {
       }),
     });
 
-    // Loading assets text
+    // Click to begin text
     this.world.createEntity({
       sprite: {
         frame: {
-          sourceX: this.spriteSheet.text.loadingAssets.frame.sourceX,
-          sourceY: this.spriteSheet.text.loadingAssets.frame.sourceY,
-          width: this.spriteSheet.text.loadingAssets.frame.width,
-          height: this.spriteSheet.text.loadingAssets.frame.height,
+          sourceX: this.spriteSheet.text.clickToBegin.frame.sourceX,
+          sourceY: this.spriteSheet.text.clickToBegin.frame.sourceY,
+          width: this.spriteSheet.text.clickToBegin.frame.width,
+          height: this.spriteSheet.text.clickToBegin.frame.height,
         },
         opacity: 1,
       },
+      spriteAnimation: spriteAnimationFactory(
+        animationDetailsFactory(
+          'press-x-to-start-blink',
+          this.spriteSheet.text.clickToBegin.animations.blink.sourceX,
+          this.spriteSheet.text.clickToBegin.animations.blink.sourceY,
+          this.spriteSheet.text.clickToBegin.animations.blink.width,
+          this.spriteSheet.text.clickToBegin.animations.blink.height,
+          this.spriteSheet.text.clickToBegin.animations.blink.frameWidth,
+          this.spriteSheet.text.clickToBegin.animations.blink.frameHeight,
+        ),
+        500,
+        true,
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
+      ),
       transform: transformFactory({
         position: {
           x:
             this.canvas.width / 2 -
-            this.spriteSheet.text.pressXToStart.frame.width / 2,
+            this.spriteSheet.text.clickToBegin.frame.width / 2,
           y: 90,
         },
       }),

@@ -8,6 +8,7 @@ import playerDeathWavUrl from './assets/audio/player-death.wav';
 import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav';
 import shootWavUrl from './assets/audio/shoot.wav';
 import shmupImageUrl from './assets/image/shmup.png';
+import titleScreenMusicWaveUrl from './assets/audio/title-screen-music.wav';
 import { config } from './config.js';
 import { Content } from './content.js';
 import { controls } from './controls.js';
@@ -34,9 +35,10 @@ audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
 audioManager.loadTrack('shoot', shootWavUrl);
 audioManager.loadTrack('player-death', playerDeathWavUrl);
 audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
+audioManager.loadTrack('title-screen-music', titleScreenMusicWaveUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
-  console.log('audio ready - click to play');
+  console.log('audio ready');
 
   activeScene?.emit(GameEvent.StartGame);
 });
@@ -103,7 +105,7 @@ gameoverScene.on(GameEvent.StartGame, () => {
   activeScene = activeScene.switchTo(titleScreenScene);
 });
 
-let activeScene: Scene = titleScreenScene;
+let activeScene: Scene = loadingScreenScene;
 activeScene.enter();
 
 window.addEventListener('keypress', (e: KeyboardEvent) => {
@@ -124,6 +126,20 @@ window.addEventListener('keypress', (e: KeyboardEvent) => {
 
     document
       .querySelector<HTMLSpanElement>('#recording-off')
+      ?.classList.toggle('hidden');
+  } else if (e.key === 'm') {
+    if (audioManager.muted) {
+      audioManager.unmute();
+    } else {
+      audioManager.mute();
+    }
+
+    document
+      .querySelector<HTMLSpanElement>('#sound-on')
+      ?.classList.toggle('hidden');
+
+    document
+      .querySelector<HTMLSpanElement>('#sound-off')
       ?.classList.toggle('hidden');
   }
 });

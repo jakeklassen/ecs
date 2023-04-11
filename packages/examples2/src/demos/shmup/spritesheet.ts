@@ -199,6 +199,24 @@ export const SpriteSheet = {
       },
     },
 
+    clickToBegin: {
+      frame: {
+        sourceX: 0,
+        sourceY: 200,
+        width: 59,
+        height: 5,
+      },
+      animations: {
+        blink: {
+          sourceX: 0,
+          sourceY: 200,
+          width: 59,
+          height: 15,
+          frameWidth: 59,
+          frameHeight: 5,
+        },
+      },
+    },
     score: {
       sourceX: 32,
       sourceY: 128,
@@ -229,20 +247,20 @@ export const SpriteSheet = {
         height: 5,
       },
     },
-    pressXToStart: {
+    pressAnyKeyToStart: {
       frame: {
         sourceX: 0,
         sourceY: 160,
-        width: 74,
+        width: 102,
         height: 5,
       },
       animations: {
         blink: {
           sourceX: 0,
           sourceY: 160,
-          width: 74,
+          width: 102,
           height: 15,
-          frameWidth: 74,
+          frameWidth: 102,
           frameHeight: 5,
         },
       },

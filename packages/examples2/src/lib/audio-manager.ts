@@ -3,10 +3,12 @@ import { EventEmitter } from './event-emitter.js';
 type AudioManagerEventListener = () => void;
 
 export enum AudioMangerEvent {
+  Loaded = 'Loaded',
   Ready = 'Ready',
 }
 
 type AudioManagerEvents = {
+  [AudioMangerEvent.Loaded]: AudioManagerEventListener;
   [AudioMangerEvent.Ready]: AudioManagerEventListener;
 };
 
@@ -27,6 +29,7 @@ export class AudioManager {
   #tracks = new Map<string, AudioBuffer>();
   #playing = new Map<string, AudioBufferSourceNode>();
   #emitter = new EventEmitter<AudioManagerEvents>();
+  #muted = false;
 
   constructor() {
     window.addEventListener('click', this.#windowClickListener);
@@ -55,6 +58,10 @@ export class AudioManager {
     window.removeEventListener('click', this.#windowClickListener);
     window.removeEventListener('keypress', this.#windowClickListener);
   };
+
+  public get muted() {
+    return this.#muted;
+  }
 
   public on(event: AudioMangerEvent, listener: AudioManagerEventListener) {
     if (!this.#emitter.has(event)) {
@@ -115,6 +122,24 @@ export class AudioManager {
     this.#tracks.set(name, audioBuffer);
   }
 
+  public mute() {
+    if (this.#audioContext == null || this.#gainNode == null) {
+      return;
+    }
+
+    this.#gainNode.gain.value = 0;
+    this.#muted = true;
+  }
+
+  public unmute() {
+    if (this.#audioContext == null || this.#gainNode == null) {
+      return;
+    }
+
+    this.#gainNode.gain.value = 1;
+    this.#muted = false;
+  }
+
   public play(track: string, options: PlayOptions) {
     if (this.#audioContext == null) {
       console.warn('AudioManager is disabled');
@@ -142,13 +167,20 @@ export class AudioManager {
     const source = this.#audioContext.createBufferSource();
     source.buffer = audioBuffer;
     source.connect(this.#gainNode);
-    this.#gainNode.gain.value = options.volume ?? defaultPlaybackOptions.volume;
+
+    if (!this.muted) {
+      this.#gainNode.gain.value =
+        options.volume ?? defaultPlaybackOptions.volume;
+    }
+
     source.loop = options.loop ?? defaultPlaybackOptions.loop;
+
     source.onended = () => {
       if (options.loop === false) {
         this.#playing.delete(track);
       }
     };
+
     source.start();
 
     this.#playing.set(track, source);
