@@ -9,6 +9,7 @@ import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav'
 import shootWavUrl from './assets/audio/shoot.wav';
 import shmupImageUrl from './assets/image/shmup.png';
 import titleScreenMusicWaveUrl from './assets/audio/title-screen-music.wav';
+import titleScreenBackgroundWaveUrl from './assets/audio/title-screen-background.wav';
 import { config } from './config.js';
 import { Content } from './content.js';
 import { controls } from './controls.js';
@@ -36,6 +37,7 @@ audioManager.loadTrack('shoot', shootWavUrl);
 audioManager.loadTrack('player-death', playerDeathWavUrl);
 audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
 audioManager.loadTrack('title-screen-music', titleScreenMusicWaveUrl);
+audioManager.loadTrack('title-screen-background', titleScreenBackgroundWaveUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
   console.log('audio ready');
