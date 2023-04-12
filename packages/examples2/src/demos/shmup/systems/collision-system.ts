@@ -10,8 +10,10 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
     'transform',
   );
 
+  const handledEntities = new Set<Entity>();
+
   return function collisionSystem(_dt: number) {
-    const handledEntities = new Set<Entity>();
+    handledEntities.clear();
 
     for (const entity of collidables.entities) {
       if (handledEntities.has(entity)) {
@@ -105,6 +107,9 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
 
         handledEntities.add(entity);
         handledEntities.add(otherEntity);
+
+        // We're done with this entity, so break out of the loop
+        break;
       }
     }
   };

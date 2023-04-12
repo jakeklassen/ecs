@@ -12,6 +12,7 @@ import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
+import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
 import { hudRenderingSystemFactory } from '../systems/hud-rendering-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
@@ -75,7 +76,6 @@ export class GameplayScreen extends Scene {
         audioManager: this.audioManager,
         config: this.config,
         gameState: this.gameState,
-        scene: this,
       }),
       playerProjectileCollisionEventSystemFactory({
         world: this.world,
@@ -126,6 +126,11 @@ export class GameplayScreen extends Scene {
       triggerGameOverSystemFactory({ input: this.input, scene: this }),
       playerProjectileCollisionEventCleanupSystemFactory({ world: this.world }),
       playerEnemyCollisionEventCleanupSystemFactory({ world: this.world }),
+      handleGameOverSystemFactory({
+        scene: this,
+        gameState: this.gameState,
+        world: this.world,
+      }),
     );
   }
 
@@ -299,10 +304,6 @@ export class GameplayScreen extends Scene {
     super.enter();
 
     this.initialize();
-  }
-
-  public override exit(): void {
-    super.exit();
   }
 
   public override update(delta: number): void {
