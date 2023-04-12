@@ -8,8 +8,9 @@ import playerDeathWavUrl from './assets/audio/player-death.wav';
 import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav';
 import shootWavUrl from './assets/audio/shoot.wav';
 import shmupImageUrl from './assets/image/shmup.png';
-import titleScreenMusicWaveUrl from './assets/audio/title-screen-music.wav';
-import titleScreenBackgroundWaveUrl from './assets/audio/title-screen-background.wav';
+import gameOverWavUrl from './assets/audio/game-over.wav';
+import titleScreenMusicWavUrl from './assets/audio/title-screen-music.wav';
+import titleScreenBackgroundWavUrl from './assets/audio/title-screen-background.wav';
 import { config } from './config.js';
 import { Content } from './content.js';
 import { controls } from './controls.js';
@@ -33,11 +34,12 @@ const recorder = {
 const audioManager = new AudioManager();
 
 audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
+audioManager.loadTrack('game-over', gameOverWavUrl);
 audioManager.loadTrack('shoot', shootWavUrl);
 audioManager.loadTrack('player-death', playerDeathWavUrl);
 audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
-audioManager.loadTrack('title-screen-music', titleScreenMusicWaveUrl);
-audioManager.loadTrack('title-screen-background', titleScreenBackgroundWaveUrl);
+audioManager.loadTrack('title-screen-music', titleScreenMusicWavUrl);
+audioManager.loadTrack('title-screen-background', titleScreenBackgroundWavUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
   console.log('audio ready');

@@ -5,6 +5,8 @@ import { startGameSystemFactory } from '../systems/start-game-system.js';
 
 export class GameOverScreen extends Scene {
   public override initialize(): void {
+    this.audioManager.play('game-over', { loop: false });
+
     // Before the canvas gets cleared, copy the gameplay scene for a nice
     // background.
     const gameplayBuffer = this.context.getImageData(
