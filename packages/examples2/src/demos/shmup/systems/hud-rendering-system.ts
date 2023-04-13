@@ -1,4 +1,5 @@
 import { obtainCanvas2dContext } from '#/lib/dom.js';
+import { Pico8Colors } from '../constants.js';
 import { LoadedContent } from '../content.js';
 import { GameState } from '../game-state.js';
 
@@ -184,14 +185,14 @@ export function hudRenderingSystemFactory({
     characterPadding: 1,
     context: scoreContext,
     content,
-    tintColor: '#29adff',
+    tintColor: Pico8Colors.Color12,
   });
 
   convertNumberToImageSource(gameState.cherries, {
     characterPadding: 1,
     context: cherriesContext,
     content,
-    tintColor: '#29adff',
+    tintColor: Pico8Colors.Color14,
   });
 
   return (_dt: number) => {
@@ -208,7 +209,7 @@ export function hudRenderingSystemFactory({
         characterPadding: 1,
         content,
         context: scoreContext,
-        tintColor: '#29adff',
+        tintColor: Pico8Colors.Color12,
       });
 
       previousState.score = gameState.score;
@@ -216,8 +217,9 @@ export function hudRenderingSystemFactory({
 
     context.drawImage(
       scoreCanvas,
-      Math.floor(context.canvas.width / 2 - scoreCanvas.width / 2),
-      1,
+      Math.floor(context.canvas.width / 2 - content.sprite.text.score.width) +
+        content.sprite.text.score.width,
+      2,
     );
 
     if (gameState.cherries !== previousState.cherries) {
@@ -225,10 +227,15 @@ export function hudRenderingSystemFactory({
         characterPadding: 1,
         content,
         context: cherriesContext,
-        tintColor: '#29adff',
+        tintColor: Pico8Colors.Color12,
       });
     }
 
+    context.drawImage(
+      content.sprite.text.score,
+      Math.floor(context.canvas.width / 2 - content.sprite.text.score.width),
+      2,
+    );
     context.drawImage(content.sprite.cherry, 108, 1);
     context.drawImage(cherriesCanvas, 118, 2);
   };

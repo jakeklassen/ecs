@@ -202,6 +202,24 @@ export class Content {
 
     const nine = await loadImage(canvas.toDataURL());
 
+    // score: text
+    canvas.width = SpriteSheet.text.score.frame.width;
+    canvas.height = SpriteSheet.text.score.frame.height;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+      spriteSheet,
+      SpriteSheet.text.score.frame.sourceX,
+      SpriteSheet.text.score.frame.sourceY,
+      SpriteSheet.text.score.frame.width,
+      SpriteSheet.text.score.frame.height,
+      0,
+      0,
+      SpriteSheet.text.score.frame.width,
+      SpriteSheet.text.score.frame.height,
+    );
+
+    const score = await loadImage(canvas.toDataURL());
+
     // Heart full
     canvas.width = SpriteSheet.heart.full.frame.width;
     canvas.height = SpriteSheet.heart.full.frame.height;
@@ -296,6 +314,7 @@ export class Content {
           seven,
           eight,
           nine,
+          score,
         },
         hud: {
           heartFull,

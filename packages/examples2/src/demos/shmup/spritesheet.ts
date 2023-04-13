@@ -120,81 +120,81 @@ export const SpriteSheet = {
   text: {
     zero: {
       frame: {
-        sourceX: 0,
-        sourceY: 152,
-        width: 4,
+        sourceX: 24,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     one: {
       frame: {
-        sourceX: 6,
-        sourceY: 152,
+        sourceX: 28,
+        sourceY: 120,
         width: 2,
         height: 5,
       },
     },
     two: {
       frame: {
-        sourceX: 10,
-        sourceY: 152,
-        width: 4,
+        sourceX: 31,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     three: {
       frame: {
-        sourceX: 15,
-        sourceY: 152,
-        width: 4,
+        sourceX: 35,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     four: {
       frame: {
-        sourceX: 20,
-        sourceY: 152,
-        width: 4,
+        sourceX: 39,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     five: {
       frame: {
-        sourceX: 25,
-        sourceY: 152,
-        width: 4,
+        sourceX: 43,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     six: {
       frame: {
-        sourceX: 30,
-        sourceY: 152,
-        width: 4,
+        sourceX: 47,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     seven: {
       frame: {
-        sourceX: 35,
-        sourceY: 152,
-        width: 4,
+        sourceX: 51,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     eight: {
       frame: {
-        sourceX: 40,
-        sourceY: 152,
-        width: 4,
+        sourceX: 55,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
     nine: {
       frame: {
-        sourceX: 45,
-        sourceY: 152,
-        width: 4,
+        sourceX: 59,
+        sourceY: 120,
+        width: 3,
         height: 5,
       },
     },
@@ -202,73 +202,67 @@ export const SpriteSheet = {
     interactToBegin: {
       frame: {
         sourceX: 0,
-        sourceY: 200,
-        width: 76,
+        sourceY: 144,
+        width: 67,
         height: 5,
       },
       animations: {
         blink: {
           sourceX: 0,
-          sourceY: 200,
-          width: 76,
+          sourceY: 144,
+          width: 67,
           height: 15,
-          frameWidth: 76,
+          frameWidth: 67,
           frameHeight: 5,
         },
       },
     },
     score: {
-      sourceX: 32,
-      sourceY: 128,
-      width: 51,
-      height: 5,
+      frame: {
+        sourceX: 0,
+        sourceY: 120,
+        width: 24,
+        height: 5,
+      },
     },
     gameOver: {
       frame: {
         sourceX: 0,
-        sourceY: 184,
-        width: 43,
-        height: 5,
-      },
-    },
-    loadingAssets: {
-      frame: {
-        sourceX: 0,
-        sourceY: 192,
-        width: 64,
+        sourceY: 136,
+        width: 35,
         height: 5,
       },
     },
     shortShwaveShmup: {
       frame: {
         sourceX: 0,
-        sourceY: 176,
-        width: 88,
+        sourceY: 128,
+        width: 71,
         height: 5,
       },
     },
-    pressXToStart: {
+    pressAnyKeyToStart: {
       frame: {
         sourceX: 0,
         sourceY: 160,
-        width: 74,
+        width: 87,
         height: 5,
       },
       animations: {
         blink: {
           sourceX: 0,
           sourceY: 160,
-          width: 74,
+          width: 87,
           height: 15,
-          frameWidth: 74,
+          frameWidth: 87,
           frameHeight: 5,
         },
       },
     },
     v1: {
       frame: {
-        sourceX: 48,
-        sourceY: 184,
+        sourceX: 64,
+        sourceY: 120,
         width: 9,
         height: 5,
       },
