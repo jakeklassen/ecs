@@ -192,7 +192,7 @@ export class TitleScreen extends Scene {
       },
       spriteAnimation: spriteAnimationFactory(
         animationDetailsFactory(
-          'press-x-to-start-blink',
+          'press-any-key-to-start-blink',
           this.spriteSheet.text.pressAnyKeyToStart.animations.blink.sourceX,
           this.spriteSheet.text.pressAnyKeyToStart.animations.blink.sourceY,
           this.spriteSheet.text.pressAnyKeyToStart.animations.blink.width,
