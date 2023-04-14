@@ -347,6 +347,87 @@ export const SpriteSheet = {
         height: 5,
       },
     },
+
+    wave1: {
+      frame: {
+        sourceX: 0,
+        sourceY: 160,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave2: {
+      frame: {
+        sourceX: 24,
+        sourceY: 160,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave3: {
+      frame: {
+        sourceX: 48,
+        sourceY: 160,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave4: {
+      frame: {
+        sourceX: 0,
+        sourceY: 168,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave5: {
+      frame: {
+        sourceX: 24,
+        sourceY: 120,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave6: {
+      frame: {
+        sourceX: 48,
+        sourceY: 120,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave7: {
+      frame: {
+        sourceX: 0,
+        sourceY: 176,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave8: {
+      frame: {
+        sourceX: 24,
+        sourceY: 176,
+        width: 24,
+        height: 5,
+      },
+    },
+
+    wave9: {
+      frame: {
+        sourceX: 48,
+        sourceY: 176,
+        width: 24,
+        height: 5,
+      },
+    },
   },
 } as const;
 
