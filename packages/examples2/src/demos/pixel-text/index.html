@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demos - Pixel Text</title>
+
+    <style>
+      html,
+      body {
+        background-color: #1a1d21;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #container {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #wrapper {
+        position: relative;
+        margin: auto;
+      }
+
+      canvas {
+        background-color: black;
+        margin: auto;
+        padding: 0;
+        display: block;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: pixelated;
+        transform: scale(4);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      a {
+        color: #cacaca;
+      }
+
+      a:hover {
+        color: #fff;
+      }
+
+      a:active {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="wrapper">
+        <canvas id="canvas" width="128" height="128"></canvas>
+      </div>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

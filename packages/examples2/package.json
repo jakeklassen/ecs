@@ -21,6 +21,7 @@
     "color": "4.2.3",
     "contro": "2.2.0",
     "dot-path-value": "0.0.9",
+    "fast-xml-parser": "4.2.0",
     "file-saver": "2.0.5",
     "jszip": "3.10.1",
     "just-group-by": "2.2.0",
