@@ -4,7 +4,24 @@ export const config = {
   entities: {
     enemies: {
       greenAlien: {
+        id: 1,
         startingHealth: 3,
+      },
+      redFlameGuy: {
+        id: 1,
+        startingHealth: 2,
+      },
+      spinningShip: {
+        id: 3,
+        startingHealth: 4,
+      },
+      yellowShip: {
+        id: 4,
+        startingHealth: 30,
+      },
+      boss: {
+        id: 5,
+        startingHealth: 130,
       },
     },
     player: {
@@ -12,6 +29,116 @@ export const config = {
         x: 60,
         y: 110,
       },
+    },
+  },
+
+  waves: {
+    // space invaders
+    1: {
+      attackFrequency: 60,
+      fireFrequency: 20,
+      enemies: [
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      ],
+    },
+
+    // red tutorial
+    2: {
+      attackFrequency: 60,
+      fireFrequency: 20,
+      enemies: [
+        [1, 1, 2, 2, 1, 1, 2, 2, 1, 1],
+        [1, 1, 2, 2, 1, 1, 2, 2, 1, 1],
+        [1, 1, 2, 2, 2, 2, 2, 2, 1, 1],
+        [1, 1, 2, 2, 2, 2, 2, 2, 1, 1],
+      ],
+    },
+
+    // wall of red
+    3: {
+      attackFrequency: 50,
+      fireFrequency: 20,
+      enemies: [
+        [1, 1, 2, 2, 1, 1, 2, 2, 1, 1],
+        [1, 1, 2, 2, 2, 2, 2, 2, 1, 1],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+      ],
+    },
+
+    // spin tutorial
+    4: {
+      attackFrequency: 50,
+      fireFrequency: 15,
+      enemies: [
+        [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
+        [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
+        [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
+        [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
+      ],
+    },
+
+    // chess
+    5: {
+      attackFrequency: 50,
+      fireFrequency: 15,
+      enemies: [
+        [3, 1, 3, 1, 2, 2, 1, 3, 1, 3],
+        [1, 3, 1, 2, 1, 1, 2, 1, 3, 1],
+        [3, 1, 3, 1, 2, 2, 1, 3, 1, 3],
+        [1, 3, 1, 2, 1, 1, 2, 1, 3, 1],
+      ],
+    },
+
+    // yellow tutorial
+    6: {
+      attackFrequency: 40,
+      fireFrequency: 10,
+      enemies: [
+        [2, 2, 2, 0, 4, 0, 0, 2, 2, 2],
+        [2, 2, 0, 0, 0, 0, 0, 0, 2, 2],
+        [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
+        [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
+      ],
+    },
+
+    // double yellow
+    7: {
+      attackFrequency: 40,
+      fireFrequency: 10,
+      enemies: [
+        [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
+        [4, 0, 0, 2, 2, 2, 2, 0, 4, 0],
+        [0, 0, 0, 2, 1, 1, 2, 0, 0, 0],
+        [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
+      ],
+    },
+
+    // hell
+    8: {
+      attackFrequency: 30,
+      fireFrequency: 10,
+      enemies: [
+        [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+        [3, 3, 1, 1, 1, 1, 1, 1, 3, 3],
+        [3, 3, 2, 2, 2, 2, 2, 2, 3, 3],
+        [3, 3, 2, 2, 2, 2, 2, 2, 3, 3],
+      ],
+    },
+
+    // boss
+    9: {
+      attackFrequency: 60,
+      fireFrequency: 20,
+      enemies: [
+        [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
     },
   },
 

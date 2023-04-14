@@ -53,7 +53,17 @@ type BoxCollider = {
   height: number;
 };
 
-type HexColor = `#${string}`;
+type BlinkAnimation = {
+  color: HexColor;
+  colors: HexColor[];
+  colorSequence: number[];
+  currentColorIndex: number;
+  delta: number;
+  durationMs: number;
+  frameRate: number;
+};
+
+export type HexColor = `#${string}`;
 
 type Particle = {
   age: number;
@@ -136,6 +146,7 @@ type Tweens = {
 }[TweenablePaths];
 
 export type Entity = {
+  blinkAnimation?: BlinkAnimation;
   boundToViewport?: true;
   boxCollider?: BoxCollider;
 

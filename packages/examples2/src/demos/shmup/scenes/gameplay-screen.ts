@@ -255,47 +255,93 @@ export class GameplayScreen extends Scene {
     });
 
     for (let y = 0; y < 5; y++) {
+      let last;
+
       for (let i = 0; i < 10; i++) {
         if (i % 2 === 0) {
           continue;
         }
 
-        this.world.createEntity({
-          boxCollider: SpriteSheet.enemies.greenAlien.boxCollider,
-          collisionLayer: CollisionMasks.Enemy,
-          collisionMask:
-            CollisionMasks.PlayerProjectile | CollisionMasks.Player,
-          health: this.config.entities.enemies.greenAlien.startingHealth,
-          sprite: {
-            frame: {
-              sourceX: SpriteSheet.enemies.greenAlien.frame.sourceX,
-              sourceY: SpriteSheet.enemies.greenAlien.frame.sourceY,
-              width: SpriteSheet.enemies.greenAlien.frame.width,
-              height: SpriteSheet.enemies.greenAlien.frame.height,
+        if (last == null || last === 'redFlameGuy') {
+          last = 'greenAlien';
+
+          this.world.createEntity({
+            boxCollider: SpriteSheet.enemies.greenAlien.boxCollider,
+            collisionLayer: CollisionMasks.Enemy,
+            collisionMask:
+              CollisionMasks.PlayerProjectile | CollisionMasks.Player,
+            health: this.config.entities.enemies.greenAlien.startingHealth,
+            sprite: {
+              frame: {
+                sourceX: SpriteSheet.enemies.greenAlien.frame.sourceX,
+                sourceY: SpriteSheet.enemies.greenAlien.frame.sourceY,
+                width: SpriteSheet.enemies.greenAlien.frame.width,
+                height: SpriteSheet.enemies.greenAlien.frame.height,
+              },
+              opacity: 1,
             },
-            opacity: 1,
-          },
-          spriteAnimation: spriteAnimationFactory(
-            animationDetailsFactory(
-              'alien-idle',
-              this.spriteSheet.enemies.greenAlien.animations.idle.sourceX,
-              this.spriteSheet.enemies.greenAlien.animations.idle.sourceY,
-              this.spriteSheet.enemies.greenAlien.animations.idle.width,
-              this.spriteSheet.enemies.greenAlien.animations.idle.height,
-              this.spriteSheet.enemies.greenAlien.animations.idle.frameWidth,
-              this.spriteSheet.enemies.greenAlien.animations.idle.frameHeight,
+            spriteAnimation: spriteAnimationFactory(
+              animationDetailsFactory(
+                'alien-idle',
+                this.spriteSheet.enemies.greenAlien.animations.idle.sourceX,
+                this.spriteSheet.enemies.greenAlien.animations.idle.sourceY,
+                this.spriteSheet.enemies.greenAlien.animations.idle.width,
+                this.spriteSheet.enemies.greenAlien.animations.idle.height,
+                this.spriteSheet.enemies.greenAlien.animations.idle.frameWidth,
+                this.spriteSheet.enemies.greenAlien.animations.idle.frameHeight,
+              ),
+              400,
+              true,
             ),
-            400,
-            true,
-          ),
-          tagEnemy: true,
-          transform: transformFactory({
-            position: {
-              x: 16 + i * 8 + 4,
-              y: 16 + y * 2 + y * 8 + 4,
+            tagEnemy: true,
+            transform: transformFactory({
+              position: {
+                x: 16 + i * 8 + 4,
+                y: 16 + y * 2 + y * 8 + 4,
+              },
+            }),
+          });
+        } else {
+          last = 'redFlameGuy';
+
+          this.world.createEntity({
+            boxCollider: SpriteSheet.enemies.redFlameGuy.boxCollider,
+            collisionLayer: CollisionMasks.Enemy,
+            collisionMask:
+              CollisionMasks.PlayerProjectile | CollisionMasks.Player,
+            health: this.config.entities.enemies.redFlameGuy.startingHealth,
+            sprite: {
+              frame: {
+                sourceX: SpriteSheet.enemies.redFlameGuy.frame.sourceX,
+                sourceY: SpriteSheet.enemies.redFlameGuy.frame.sourceY,
+                width: SpriteSheet.enemies.redFlameGuy.frame.width,
+                height: SpriteSheet.enemies.redFlameGuy.frame.height,
+              },
+              opacity: 1,
             },
-          }),
-        });
+            spriteAnimation: spriteAnimationFactory(
+              animationDetailsFactory(
+                'alien-idle',
+                this.spriteSheet.enemies.redFlameGuy.animations.idle.sourceX,
+                this.spriteSheet.enemies.redFlameGuy.animations.idle.sourceY,
+                this.spriteSheet.enemies.redFlameGuy.animations.idle.width,
+                this.spriteSheet.enemies.redFlameGuy.animations.idle.height,
+                this.spriteSheet.enemies.redFlameGuy.animations.idle.frameWidth,
+                this.spriteSheet.enemies.redFlameGuy.animations.idle
+                  .frameHeight,
+              ),
+              400,
+              true,
+            ),
+            tagEnemy: true,
+            transform: transformFactory({
+              position: {
+                x: 16 + i * 8 + 4,
+                y: 16 + y * 2 + y * 8 + 4,
+              },
+            }),
+          });
+        }
       }
     }
   }

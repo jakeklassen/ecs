@@ -115,6 +115,106 @@ export const SpriteSheet = {
         },
       },
     },
+
+    redFlameGuy: {
+      boxCollider: {
+        offsetX: 0,
+        offsetY: 0,
+        width: 8,
+        height: 8,
+      },
+      frame: {
+        sourceX: 32,
+        sourceY: 72,
+        width: 8,
+        height: 8,
+      },
+      animations: {
+        idle: {
+          sourceX: 32,
+          sourceY: 72,
+          width: 16,
+          height: 8,
+          frameWidth: 8,
+          frameHeight: 8,
+        },
+      },
+    },
+
+    spinningShip: {
+      boxCollider: {
+        offsetX: 0,
+        offsetY: 0,
+        width: 8,
+        height: 8,
+      },
+      frame: {
+        sourceX: 64,
+        sourceY: 88,
+        width: 8,
+        height: 8,
+      },
+      animations: {
+        idle: {
+          sourceX: 64,
+          sourceY: 88,
+          width: 32,
+          height: 8,
+          frameWidth: 8,
+          frameHeight: 8,
+        },
+      },
+    },
+
+    yellowShip: {
+      boxCollider: {
+        offsetX: 1,
+        offsetY: 2,
+        width: 14,
+        height: 12,
+      },
+      frame: {
+        sourceX: 0,
+        sourceY: 104,
+        width: 16,
+        height: 16,
+      },
+      animations: {
+        idle: {
+          sourceX: 0,
+          sourceY: 104,
+          width: 32,
+          height: 16,
+          frameWidth: 16,
+          frameHeight: 16,
+        },
+      },
+    },
+
+    boss: {
+      boxCollider: {
+        offsetX: 0,
+        offsetY: 0,
+        width: 32,
+        height: 24,
+      },
+      frame: {
+        sourceX: 0,
+        sourceY: 32,
+        width: 32,
+        height: 24,
+      },
+      animations: {
+        idle: {
+          sourceX: 0,
+          sourceY: 32,
+          width: 128,
+          height: 24,
+          frameWidth: 32,
+          frameHeight: 24,
+        },
+      },
+    },
   },
 
   text: {
@@ -206,16 +306,6 @@ export const SpriteSheet = {
         width: 67,
         height: 5,
       },
-      animations: {
-        blink: {
-          sourceX: 0,
-          sourceY: 144,
-          width: 67,
-          height: 15,
-          frameWidth: 67,
-          frameHeight: 5,
-        },
-      },
     },
     score: {
       frame: {
@@ -244,19 +334,9 @@ export const SpriteSheet = {
     pressAnyKeyToStart: {
       frame: {
         sourceX: 0,
-        sourceY: 160,
+        sourceY: 152,
         width: 87,
         height: 5,
-      },
-      animations: {
-        blink: {
-          sourceX: 0,
-          sourceY: 160,
-          width: 87,
-          height: 15,
-          frameWidth: 87,
-          frameHeight: 5,
-        },
       },
     },
     v1: {

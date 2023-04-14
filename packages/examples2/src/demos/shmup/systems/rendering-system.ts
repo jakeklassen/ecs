@@ -10,7 +10,9 @@ export function renderingSystemFactory({
   context: CanvasRenderingContext2D;
   spriteSheet: HTMLImageElement;
 }) {
-  const renderables = world.archetype('sprite', 'transform').without('flash');
+  const renderables = world
+    .archetype('sprite', 'transform')
+    .without('blinkAnimation', 'flash');
 
   return (_dt: number) => {
     for (const entity of renderables.entities) {

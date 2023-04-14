@@ -1,12 +1,14 @@
 import { rndFromList } from '#/lib/array.js';
 import { rndInt } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
-import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { blinkAnimationFactory } from '../components/blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
+import { Pico8Colors } from '../constants.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
-import { animationDetailsFactory } from '../structures/animation-details.js';
+import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
+import { blinkRenderingSystemFactory } from '../systems/blink-rendering-system.js';
 import { eventSystemFactory } from '../systems/event-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
@@ -26,6 +28,7 @@ export class LoadingScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
+      blinkAnimationSystemFactory({ world: this.world }),
       tweenSystemFactory({ world: this.world }),
       starfieldSystemFactory({ world: this.world }),
       movementSystemFactory({ world: this.world }),
@@ -38,6 +41,11 @@ export class LoadingScreen extends Scene {
       renderingSystemFactory({
         world: this.world,
         context: this.context,
+        spriteSheet: this.content.spritesheet,
+      }),
+      blinkRenderingSystemFactory({
+        context: this.context,
+        world: this.world,
         spriteSheet: this.content.spritesheet,
       }),
     );
@@ -183,20 +191,11 @@ export class LoadingScreen extends Scene {
         },
         opacity: 1,
       },
-      spriteAnimation: spriteAnimationFactory(
-        animationDetailsFactory(
-          'press-x-to-start-blink',
-          this.spriteSheet.text.interactToBegin.animations.blink.sourceX,
-          this.spriteSheet.text.interactToBegin.animations.blink.sourceY,
-          this.spriteSheet.text.interactToBegin.animations.blink.width,
-          this.spriteSheet.text.interactToBegin.animations.blink.height,
-          this.spriteSheet.text.interactToBegin.animations.blink.frameWidth,
-          this.spriteSheet.text.interactToBegin.animations.blink.frameHeight,
-        ),
-        500,
-        true,
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
-      ),
+      blinkAnimation: blinkAnimationFactory({
+        colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
+        colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
+        durationMs: 500,
+      }),
       transform: transformFactory({
         position: {
           x:

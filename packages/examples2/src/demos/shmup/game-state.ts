@@ -5,6 +5,8 @@ export const gameState = {
   maxLives: 4,
   paused: false,
   gameOver: false,
+  wave: 0,
+  maxWaves: 9,
 };
 
 export const resetGameState = (gameState: GameState) => {
@@ -13,6 +15,7 @@ export const resetGameState = (gameState: GameState) => {
   gameState.lives = 1;
   gameState.paused = false;
   gameState.gameOver = false;
+  gameState.wave = 0;
 };
 
 export type GameState = typeof gameState;
