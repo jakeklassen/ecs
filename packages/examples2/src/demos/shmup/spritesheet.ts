@@ -352,16 +352,16 @@ export const SpriteSheet = {
       frame: {
         sourceX: 0,
         sourceY: 160,
-        width: 24,
+        width: 43,
         height: 5,
       },
     },
 
     wave2: {
       frame: {
-        sourceX: 24,
+        sourceX: 48,
         sourceY: 160,
-        width: 24,
+        width: 43,
         height: 5,
       },
     },
@@ -369,26 +369,26 @@ export const SpriteSheet = {
     wave3: {
       frame: {
         sourceX: 48,
-        sourceY: 160,
-        width: 24,
+        sourceY: 168,
+        width: 43,
         height: 5,
       },
     },
 
     wave4: {
       frame: {
-        sourceX: 0,
+        sourceX: 48,
         sourceY: 168,
-        width: 24,
+        width: 43,
         height: 5,
       },
     },
 
     wave5: {
       frame: {
-        sourceX: 24,
-        sourceY: 120,
-        width: 24,
+        sourceX: 0,
+        sourceY: 176,
+        width: 43,
         height: 5,
       },
     },
@@ -396,8 +396,8 @@ export const SpriteSheet = {
     wave6: {
       frame: {
         sourceX: 48,
-        sourceY: 120,
-        width: 24,
+        sourceY: 176,
+        width: 43,
         height: 5,
       },
     },
@@ -405,26 +405,26 @@ export const SpriteSheet = {
     wave7: {
       frame: {
         sourceX: 0,
-        sourceY: 176,
-        width: 24,
+        sourceY: 184,
+        width: 43,
         height: 5,
       },
     },
 
     wave8: {
       frame: {
-        sourceX: 24,
-        sourceY: 176,
-        width: 24,
+        sourceX: 48,
+        sourceY: 184,
+        width: 43,
         height: 5,
       },
     },
 
     wave9: {
       frame: {
-        sourceX: 48,
-        sourceY: 176,
-        width: 24,
+        sourceX: 0,
+        sourceY: 192,
+        width: 43,
         height: 5,
       },
     },
