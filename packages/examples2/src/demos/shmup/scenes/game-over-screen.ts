@@ -3,11 +3,12 @@ import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Scene } from '../scene.js';
 import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
-import { blinkRenderingSystemFactory } from '../systems/blink-rendering-system.js';
 import { gameOverSystemFactory } from '../systems/game-over-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
+import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
+import { textSystemFactory } from '../systems/text-system.js';
 
 export class GameOverScreen extends Scene {
   public override initialize(): void {
@@ -26,14 +27,10 @@ export class GameOverScreen extends Scene {
 
     // game over text
     this.world.createEntity({
-      sprite: {
-        frame: {
-          sourceX: this.spriteSheet.text.gameOver.frame.sourceX,
-          sourceY: this.spriteSheet.text.gameOver.frame.sourceY,
-          width: this.spriteSheet.text.gameOver.frame.width,
-          height: this.spriteSheet.text.gameOver.frame.height,
-        },
-        opacity: 1,
+      text: {
+        color: Pico8Colors.Color8,
+        font: 'PICO-8',
+        message: 'Game Over',
       },
       transform: {
         position: {
@@ -52,25 +49,20 @@ export class GameOverScreen extends Scene {
 
     // Press any key to start text
     this.world.createEntity({
-      sprite: {
-        frame: {
-          sourceX: this.spriteSheet.text.pressAnyKeyToStart.frame.sourceX,
-          sourceY: this.spriteSheet.text.pressAnyKeyToStart.frame.sourceY,
-          width: this.spriteSheet.text.pressAnyKeyToStart.frame.width,
-          height: this.spriteSheet.text.pressAnyKeyToStart.frame.height,
-        },
-        opacity: 1,
-      },
       blinkAnimation: blinkAnimationFactory({
         colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
         colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
         durationMs: 500,
       }),
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color6,
+        font: 'PICO-8',
+        message: 'Press Any Key To Start',
+      },
       transform: transformFactory({
         position: {
-          x:
-            this.canvas.width / 2 -
-            this.spriteSheet.text.pressAnyKeyToStart.frame.width / 2,
+          x: this.canvas.width / 2,
           y: 90,
         },
       }),
@@ -83,7 +75,15 @@ export class GameOverScreen extends Scene {
 
     this.systems.push(
       startGameSystemFactory({ controls: this.input, scene: this }),
-      blinkAnimationSystemFactory({ world: this.world }),
+      textSystemFactory({
+        fontCache: this.fontCache,
+        textCache: this.textCache,
+        world: this.world,
+      }),
+      blinkAnimationSystemFactory({
+        textCache: this.textCache,
+        world: this.world,
+      }),
       spriteAnimationSystemFactory({ world: this.world }),
       gameOverSystemFactory({
         context: this.context,
@@ -94,10 +94,10 @@ export class GameOverScreen extends Scene {
         context: this.context,
         spriteSheet: this.content.spritesheet,
       }),
-      blinkRenderingSystemFactory({
+      textRenderingSystemFactory({
         context: this.context,
+        textCache: this.textCache,
         world: this.world,
-        spriteSheet: this.content.spritesheet,
       }),
     );
   }

@@ -207,8 +207,16 @@ export type Entity = {
   tagHud?: true;
   tagPlayer?: true;
   tagPlayerThruster?: true;
+  tagTextCherries?: true;
+  tagTextScore?: true;
   tagStartScreenGreenAlien?: true;
   tagText?: true;
+  text?: {
+    align?: 'center' | 'left';
+    color: string;
+    font: string;
+    message: string;
+  };
   trackPlayer?: {
     offset?: Vector2d;
   };

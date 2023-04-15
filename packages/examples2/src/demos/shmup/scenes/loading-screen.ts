@@ -8,13 +8,14 @@ import { Pico8Colors } from '../constants.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
-import { blinkRenderingSystemFactory } from '../systems/blink-rendering-system.js';
 import { eventSystemFactory } from '../systems/event-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
+import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
+import { textSystemFactory } from '../systems/text-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
 
 export class LoadingScreen extends Scene {
@@ -28,7 +29,15 @@ export class LoadingScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
-      blinkAnimationSystemFactory({ world: this.world }),
+      textSystemFactory({
+        fontCache: this.fontCache,
+        textCache: this.textCache,
+        world: this.world,
+      }),
+      blinkAnimationSystemFactory({
+        textCache: this.textCache,
+        world: this.world,
+      }),
       tweenSystemFactory({ world: this.world }),
       starfieldSystemFactory({ world: this.world }),
       movementSystemFactory({ world: this.world }),
@@ -43,10 +52,10 @@ export class LoadingScreen extends Scene {
         context: this.context,
         spriteSheet: this.content.spritesheet,
       }),
-      blinkRenderingSystemFactory({
+      textRenderingSystemFactory({
         context: this.context,
+        textCache: this.textCache,
         world: this.world,
-        spriteSheet: this.content.spritesheet,
       }),
     );
   }
@@ -86,25 +95,6 @@ export class LoadingScreen extends Scene {
     this.world.clearEntities();
 
     this.createStars(100);
-
-    // V1 image
-    this.world.createEntity({
-      sprite: {
-        frame: {
-          sourceX: this.spriteSheet.text.v1.frame.sourceX,
-          sourceY: this.spriteSheet.text.v1.frame.sourceY,
-          width: this.spriteSheet.text.v1.frame.width,
-          height: this.spriteSheet.text.v1.frame.height,
-        },
-        opacity: 1,
-      },
-      transform: transformFactory({
-        position: {
-          x: 1,
-          y: 1,
-        },
-      }),
-    });
 
     // Little green alien
     this.world.createEntity({
@@ -159,48 +149,53 @@ export class LoadingScreen extends Scene {
       }),
     });
 
-    // Short Shwave Shmup text
+    // V1 text
     this.world.createEntity({
-      sprite: {
-        frame: {
-          sourceX: this.spriteSheet.text.shortShwaveShmup.frame.sourceX,
-          sourceY: this.spriteSheet.text.shortShwaveShmup.frame.sourceY,
-          width: this.spriteSheet.text.shortShwaveShmup.frame.width,
-          height: this.spriteSheet.text.shortShwaveShmup.frame.height,
-        },
-        opacity: 1,
+      text: {
+        color: Pico8Colors.Color1,
+        font: 'PICO-8',
+        message: 'V1',
       },
       transform: transformFactory({
         position: {
-          x:
-            this.canvas.width / 2 -
-            this.spriteSheet.text.shortShwaveShmup.frame.width / 2,
+          x: 1,
+          y: 1,
+        },
+      }),
+    });
+
+    // Short Shwave Shmup text
+    this.world.createEntity({
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color6,
+        font: 'PICO-8',
+        message: 'Short Shwave Shmup',
+      },
+      transform: transformFactory({
+        position: {
+          x: this.canvas.width / 2,
           y: 45,
         },
       }),
     });
 
-    // Click to begin text
+    // Interact to begin text
     this.world.createEntity({
-      sprite: {
-        frame: {
-          sourceX: this.spriteSheet.text.interactToBegin.frame.sourceX,
-          sourceY: this.spriteSheet.text.interactToBegin.frame.sourceY,
-          width: this.spriteSheet.text.interactToBegin.frame.width,
-          height: this.spriteSheet.text.interactToBegin.frame.height,
-        },
-        opacity: 1,
-      },
       blinkAnimation: blinkAnimationFactory({
         colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
         colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
         durationMs: 500,
       }),
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color6,
+        font: 'PICO-8',
+        message: 'Interact To Begin',
+      },
       transform: transformFactory({
         position: {
-          x:
-            this.canvas.width / 2 -
-            this.spriteSheet.text.interactToBegin.frame.width / 2,
+          x: this.canvas.width / 2,
           y: 90,
         },
       }),

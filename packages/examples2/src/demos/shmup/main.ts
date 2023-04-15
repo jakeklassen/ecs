@@ -1,5 +1,6 @@
 import { AudioManager, AudioMangerEvent } from '#/lib/audio-manager.js';
 import { obtainCanvasAndContext2d } from '#/lib/dom';
+import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import '../../style.css';
@@ -11,9 +12,12 @@ import shootWavUrl from './assets/audio/shoot.wav';
 import titleScreenBackgroundWavUrl from './assets/audio/title-screen-background.wav';
 import titleScreenMusicWavUrl from './assets/audio/title-screen-music.wav';
 import shmupImageUrl from './assets/image/shmup.png';
+import pico8FontImageUrl from './assets/font/pico-8_regular_5.png';
+import pico8FontXmlUrl from './assets/font/pico-8_regular_5.xml?url';
 import { config } from './config.js';
 import { Content } from './content.js';
 import { controls } from './controls.js';
+import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { gameState } from './game-state.js';
 import { input } from './input.js';
@@ -23,6 +27,7 @@ import { GameplayScreen } from './scenes/gameplay-screen.js';
 import { LoadingScreen } from './scenes/loading-screen.js';
 import { TitleScreen } from './scenes/title-screen.js';
 import { SpriteSheet } from './spritesheet';
+import { loadFont } from '#/lib/pixel-text/load-font.js';
 
 const zip = new JSZip();
 
@@ -47,6 +52,13 @@ audioManager.on(AudioMangerEvent.Ready, () => {
   activeScene?.emit(GameEvent.StartGame);
 });
 
+const picoFont = await loadFont(pico8FontImageUrl, pico8FontXmlUrl);
+
+const fontCache = new Map<string, TextBufferFont>();
+fontCache.set(picoFont.family, picoFont);
+
+const textCache = new Map<Entity, TextBuffer>();
+
 const content = await Content.load(shmupImageUrl);
 
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
@@ -59,9 +71,11 @@ const loadingScreenScene = new LoadingScreen({
   config,
   context,
   content,
+  fontCache,
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  textCache,
 });
 loadingScreenScene.on(GameEvent.StartGame, () => {
   activeScene = activeScene.switchTo(titleScreenScene);
@@ -73,9 +87,11 @@ const titleScreenScene = new TitleScreen({
   config,
   context,
   content,
+  fontCache,
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  textCache,
 });
 titleScreenScene.on(GameEvent.StartGame, () => {
   activeScene = activeScene.switchTo(gameplayScene);
@@ -87,9 +103,11 @@ const gameplayScene = new GameplayScreen({
   config,
   context,
   content,
+  fontCache,
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  textCache,
 });
 gameplayScene.on(GameEvent.GameOver, () => {
   activeScene = activeScene.switchTo(gameoverScene);
@@ -101,9 +119,11 @@ const gameoverScene = new GameOverScreen({
   config,
   context,
   content,
+  fontCache,
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  textCache,
 });
 gameoverScene.on(GameEvent.StartGame, () => {
   activeScene = activeScene.switchTo(titleScreenScene);

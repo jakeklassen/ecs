@@ -1,12 +1,15 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
+import { TextBuffer } from '#/lib/pixel-text/text-buffer.js';
 
 export function blinkAnimationSystemFactory({
+  textCache,
   world,
 }: {
+  textCache: Map<Entity, TextBuffer>;
   world: World<Entity>;
 }) {
-  const entities = world.archetype('blinkAnimation');
+  const entities = world.archetype('blinkAnimation', 'text');
 
   return (dt: number) => {
     for (const entity of entities.entities) {
@@ -25,6 +28,11 @@ export function blinkAnimationSystemFactory({
         blinkAnimation.colors[
           blinkAnimation.colorSequence[blinkAnimation.currentColorIndex]
         ];
+
+      const textBuffer = textCache.get(entity);
+      textBuffer?.updateText(textBuffer?.text, {
+        color: blinkAnimation.color,
+      });
     }
   };
 }

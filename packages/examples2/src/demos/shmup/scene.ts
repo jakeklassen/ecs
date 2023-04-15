@@ -7,6 +7,7 @@ import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { GameState } from './game-state.js';
 import { SpriteSheet } from './spritesheet.js';
+import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 
 type System = (dt: number) => void;
 
@@ -16,9 +17,11 @@ export interface SceneConstructorProps {
   config: Config;
   content: LoadedContent;
   context: CanvasRenderingContext2D;
+  fontCache: Map<string, TextBufferFont>;
   gameState: GameState;
   input: Controls;
   spriteSheet: SpriteSheet;
+  textCache: Map<Entity, TextBuffer>;
 }
 
 type SceneEventListener = () => void;
@@ -33,8 +36,10 @@ export class Scene {
   protected config: Config;
   protected canvas: HTMLCanvasElement;
   protected context: CanvasRenderingContext2D;
+  protected fontCache: Map<string, TextBufferFont>;
   protected gameState: GameState;
   protected spriteSheet: SpriteSheet;
+  protected textCache: Map<Entity, TextBuffer>;
 
   private listeners = new Map<GameEvent, Array<SceneEventListener>>();
 
@@ -45,8 +50,10 @@ export class Scene {
     this.config = props.config;
     this.canvas = props.canvas;
     this.context = props.context;
+    this.fontCache = props.fontCache;
     this.gameState = props.gameState;
     this.spriteSheet = props.spriteSheet;
+    this.textCache = props.textCache;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

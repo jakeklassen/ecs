@@ -47,8 +47,9 @@ const frame = (hrt: DOMHighResTimeStamp) => {
   }
 
   // textRenderer.draw(0, 0, 'Hello, world!');
-  textRenderer.draw(0, 10, 'Score: 1234', { color: '#FFA300' });
+  textRenderer.draw(0, 10, 'Score: 1231', { color: '#FFA300' });
 
+  textElement.updateText(`HRT: ${hrt}`);
   context.drawImage(textElement.renderable, 0, 0);
 
   last = hrt;

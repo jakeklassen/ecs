@@ -1,5 +1,4 @@
 import { obtainCanvas2dContext } from '#/lib/dom.js';
-import { Pico8Colors } from '../constants.js';
 import { LoadedContent } from '../content.js';
 import { GameState } from '../game-state.js';
 
@@ -159,7 +158,7 @@ function convertNumberToImageSourceFactory() {
   };
 }
 
-export function hudRenderingSystemFactory({
+export function livesRenderingSystemFactory({
   gameState,
   content,
   context,
@@ -168,33 +167,6 @@ export function hudRenderingSystemFactory({
   content: LoadedContent;
   context: CanvasRenderingContext2D;
 }) {
-  const scoreCanvas = document.createElement('canvas');
-  const scoreContext = obtainCanvas2dContext(scoreCanvas);
-  const cherriesCanvas = document.createElement('canvas');
-  const cherriesContext = obtainCanvas2dContext(cherriesCanvas);
-  const previousState = structuredClone(gameState);
-
-  scoreCanvas.style.imageRendering = 'pixelated';
-  scoreContext.imageSmoothingEnabled = false;
-  cherriesCanvas.style.imageRendering = 'pixelated';
-  cherriesContext.imageSmoothingEnabled = false;
-
-  const convertNumberToImageSource = convertNumberToImageSourceFactory();
-
-  convertNumberToImageSource(gameState.score, {
-    characterPadding: 1,
-    context: scoreContext,
-    content,
-    tintColor: Pico8Colors.Color12,
-  });
-
-  convertNumberToImageSource(gameState.cherries, {
-    characterPadding: 1,
-    context: cherriesContext,
-    content,
-    tintColor: Pico8Colors.Color14,
-  });
-
   return (_dt: number) => {
     for (let i = 0; i < gameState.maxLives; i++) {
       if (i < gameState.lives) {
@@ -203,40 +175,5 @@ export function hudRenderingSystemFactory({
         context.drawImage(content.sprite.hud.heartEmpty, (i + 1) * 9 - 8, 1);
       }
     }
-
-    if (gameState.score !== previousState.score) {
-      convertNumberToImageSource(gameState.score, {
-        characterPadding: 1,
-        content,
-        context: scoreContext,
-        tintColor: Pico8Colors.Color12,
-      });
-
-      previousState.score = gameState.score;
-    }
-
-    context.drawImage(
-      scoreCanvas,
-      Math.floor(context.canvas.width / 2 - content.sprite.text.score.width) +
-        content.sprite.text.score.width,
-      2,
-    );
-
-    if (gameState.cherries !== previousState.cherries) {
-      convertNumberToImageSource(gameState.cherries, {
-        characterPadding: 1,
-        content,
-        context: cherriesContext,
-        tintColor: Pico8Colors.Color12,
-      });
-    }
-
-    context.drawImage(
-      content.sprite.text.score,
-      Math.floor(context.canvas.width / 2 - content.sprite.text.score.width),
-      2,
-    );
-    context.drawImage(content.sprite.cherry, 108, 1);
-    context.drawImage(cherriesCanvas, 118, 2);
   };
 }

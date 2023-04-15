@@ -7,6 +7,8 @@ interface ITextBufferOptions {
   text: string;
 }
 
+export type TextBufferFont = Awaited<ReturnType<typeof loadFont>>;
+
 export class TextBuffer {
   bufferCanvas: OffscreenCanvas;
   buffer: OffscreenCanvasRenderingContext2D;
@@ -90,6 +92,19 @@ export class TextBuffer {
     }
 
     this.checkBufferSize(width, this.font.height * this.scale);
+
+    this.buffer.clearRect(
+      0,
+      0,
+      this.bufferCanvas.width,
+      this.bufferCanvas.height,
+    );
+    this.output.clearRect(
+      0,
+      0,
+      this.outputCanvas.width,
+      this.outputCanvas.height,
+    );
 
     let x = 0;
     for (const c of text) {

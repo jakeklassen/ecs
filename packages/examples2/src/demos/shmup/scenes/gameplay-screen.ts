@@ -3,17 +3,19 @@ import { rndInt } from '#/lib/math.js';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { transformFactory } from '../components/transform.js';
+import { Pico8Colors } from '../constants.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
+import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
-import { hudRenderingSystemFactory } from '../systems/hud-rendering-system.js';
+import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
@@ -26,11 +28,14 @@ import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/p
 import { playerProjectileCollisionEventSystemFactory } from '../systems/player-projectile-collision-event-system.js';
 import { playerSystemFactory } from '../systems/player-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
+import { scoreSystemFactory } from '../systems/score-system.js';
 import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-system.js';
 import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
+import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
+import { textSystemFactory } from '../systems/text-system.js';
 import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
 import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
@@ -46,6 +51,11 @@ export class GameplayScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
+      textSystemFactory({
+        fontCache: this.fontCache,
+        textCache: this.textCache,
+        world: this.world,
+      }),
       playerSystemFactory({
         world: this.world,
         controls: this.input,
@@ -96,6 +106,16 @@ export class GameplayScreen extends Scene {
         context: this.context,
         spriteSheet: this.content.spritesheet,
       }),
+      cherrySystemFactory({
+        gameState: this.gameState,
+        textCache: this.textCache,
+        world: this.world,
+      }),
+      scoreSystemFactory({
+        gameState: this.gameState,
+        textCache: this.textCache,
+        world: this.world,
+      }),
       renderingSystemFactory({
         world: this.world,
         context: this.context,
@@ -113,10 +133,15 @@ export class GameplayScreen extends Scene {
         world: this.world,
         context: this.context,
       }),
-      hudRenderingSystemFactory({
+      livesRenderingSystemFactory({
         gameState: this.gameState,
         content: this.content,
         context: this.context,
+      }),
+      textRenderingSystemFactory({
+        context: this.context,
+        textCache: this.textCache,
+        world: this.world,
       }),
       debugRenderingSystemFactory({
         world: this.world,
@@ -344,6 +369,57 @@ export class GameplayScreen extends Scene {
         }
       }
     }
+
+    // Cherry
+    this.world.createEntity({
+      transform: transformFactory({
+        position: {
+          x: 108,
+          y: 1,
+        },
+      }),
+      sprite: {
+        frame: {
+          sourceX: SpriteSheet.cherry.frame.sourceX,
+          sourceY: SpriteSheet.cherry.frame.sourceY,
+          width: SpriteSheet.cherry.frame.width,
+          height: SpriteSheet.cherry.frame.height,
+        },
+        opacity: 1,
+      },
+    });
+
+    // Score text
+    this.world.createEntity({
+      tagTextScore: true,
+      text: {
+        color: Pico8Colors.Color12,
+        font: 'PICO-8',
+        message: `Score:${this.gameState.score}`,
+      },
+      transform: transformFactory({
+        position: {
+          x: 40,
+          y: 2,
+        },
+      }),
+    });
+
+    // Cherries text
+    this.world.createEntity({
+      tagTextCherries: true,
+      text: {
+        color: Pico8Colors.Color14,
+        font: 'PICO-8',
+        message: `${this.gameState.cherries}`,
+      },
+      transform: transformFactory({
+        position: {
+          x: 118,
+          y: 2,
+        },
+      }),
+    });
   }
 
   public override enter(): void {
