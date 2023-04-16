@@ -72,6 +72,8 @@ export function playerSystemFactory({
         if (bulletTimer <= 0) {
           bulletTimer = initialBulletTime;
 
+          // Spawn two muzzle flashes for a slightly better centered look
+
           world.createEntity({
             muzzleFlash: {
               color: 'white',
@@ -82,11 +84,35 @@ export function playerSystemFactory({
             },
             transform: {
               position: {
-                x:
-                  entity.transform.position.x +
-                  spritesheet.bullet.frame.width / 4,
-                y:
-                  entity.transform.position.y - spritesheet.bullet.frame.height,
+                x: entity.transform.position.x + 3,
+                y: entity.transform.position.y - 2,
+              },
+              rotation: 0,
+              scale: {
+                x: 1,
+                y: 1,
+              },
+            },
+            trackPlayer: {
+              offset: {
+                x: 3,
+                y: -2,
+              },
+            },
+          });
+
+          world.createEntity({
+            muzzleFlash: {
+              color: 'white',
+              durationMs: 0.1,
+              elapsed: 0,
+              initialSize: 5,
+              size: 5,
+            },
+            transform: {
+              position: {
+                x: entity.transform.position.x + 4,
+                y: entity.transform.position.y - 2,
               },
               rotation: 0,
               scale: {

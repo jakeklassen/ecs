@@ -1,4 +1,6 @@
+import { fillCircle } from '#/lib/canvas.js';
 import { World } from '@jakeklassen/ecs2';
+import { Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
 
 export function muzzleFlashRenderingSystemFactory({
@@ -18,10 +20,7 @@ export function muzzleFlashRenderingSystemFactory({
       context.rotate(transform.rotation);
       context.scale(transform.scale.x, transform.scale.y);
 
-      context.fillStyle = 'white';
-      context.beginPath();
-      context.arc(0, 0, muzzleFlash.size, 0, 2 * Math.PI);
-      context.fill();
+      fillCircle(context, 0, 0, muzzleFlash.size, Pico8Colors.Color7);
 
       context.resetTransform();
     }
