@@ -27,6 +27,7 @@ textElement.updateText('sup', {
 
 const TARGET_FPS = 60;
 const STEP = 1000 / TARGET_FPS;
+// @ts-ignore
 const dt = STEP / 1000;
 // @ts-ignore
 let variableDt = 0;

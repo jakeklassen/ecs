@@ -2,6 +2,7 @@ import { obtainCanvas2dContext } from '#/lib/dom.js';
 import { LoadedContent } from '../content.js';
 import { GameState } from '../game-state.js';
 
+// @ts-ignore
 function convertNumberToImageSourceFactory() {
   const textCanvas = document.createElement('canvas');
   const textContext = obtainCanvas2dContext(textCanvas);
