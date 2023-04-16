@@ -15,7 +15,7 @@ export const resetGameState = (gameState: GameState) => {
   gameState.lives = gameState.maxLives;
   gameState.paused = false;
   gameState.gameOver = false;
-  gameState.wave = 8;
+  gameState.wave = 0;
 };
 
 export type GameState = typeof gameState;

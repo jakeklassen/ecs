@@ -59,7 +59,7 @@ export async function loadFont(imgUrl: string, xmlUrl: string) {
     };
   }, {} as Record<string, { code: string; offset: number[]; rect: number[]; width: number }>);
 
-  console.log(xmlObject);
+  // console.log(xmlObject);
 
   const fontData = {
     characters,
@@ -70,7 +70,7 @@ export async function loadFont(imgUrl: string, xmlUrl: string) {
     style: xmlObject.Font.style,
   };
 
-  console.log(fontData);
+  // console.log(fontData);
 
   return fontData;
 }
