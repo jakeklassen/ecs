@@ -8,6 +8,10 @@ export function invulnerableSystemFactory({ world }: { world: World<Entity> }) {
     for (const entity of invulnerables.entities) {
       const { invulnerable } = entity;
 
+      if (invulnerable === true) {
+        continue;
+      }
+
       invulnerable.elapsedMs += dt * 1000;
 
       if (invulnerable.elapsedMs >= invulnerable.durationMs) {

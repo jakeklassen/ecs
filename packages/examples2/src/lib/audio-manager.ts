@@ -171,6 +171,13 @@ export class AudioManager {
 
     source.loop = options.loop ?? defaultPlaybackOptions.loop;
 
+    // TODO: https://stackoverflow.com/questions/47996114/webaudio-play-sound-pops-at-start-and-end
+    // Maybe helps with pop. I don't think it will cause I don't control the
+    // end of the sound with something like a button click. So the pop will
+    // happen, then this handler will be called.
+    //
+    // If I can get the track length, I can use that to calculate the time
+    // to stop the sound?
     source.onended = () => {
       if (options.loop === false) {
         this.#playing.delete(track);

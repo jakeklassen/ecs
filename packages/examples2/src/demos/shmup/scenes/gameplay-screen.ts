@@ -15,6 +15,7 @@ import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.j
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
+import { handleGameWonSystemFactory } from '../systems/handle-game-won-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
@@ -41,6 +42,7 @@ import { timeToLiveSystemFactory } from '../systems/time-to-live-system.js';
 import { timerSystemFactory } from '../systems/timer-system.js';
 import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
 import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
+import { triggerGameWonSystemFactory } from '../systems/trigger-game-won-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
 import { waveSystemFactory } from '../systems/wave-system.js';
 
@@ -57,14 +59,15 @@ export class GameplayScreen extends Scene {
     this.systems.push(
       timerSystemFactory({ timer: this.timer }),
       waveSystemFactory({
+        audioManager: this.audioManager,
         canvas: this.canvas,
         config: this.config,
         gameState: this.gameState,
         world: this.world,
       }),
       spawnWaveSystemFactory({
+        audioManager: this.audioManager,
         config: this.config,
-        spriteSheet: SpriteSheet,
         timer: this.timer,
         world: this.world,
       }),
@@ -173,9 +176,15 @@ export class GameplayScreen extends Scene {
         config: this.config,
       }),
       triggerGameOverSystemFactory({ input: this.input, scene: this }),
+      triggerGameWonSystemFactory({ input: this.input, scene: this }),
       playerProjectileCollisionEventCleanupSystemFactory({ world: this.world }),
       playerEnemyCollisionEventCleanupSystemFactory({ world: this.world }),
       handleGameOverSystemFactory({
+        scene: this,
+        gameState: this.gameState,
+        world: this.world,
+      }),
+      handleGameWonSystemFactory({
         scene: this,
         gameState: this.gameState,
         world: this.world,
@@ -326,12 +335,20 @@ export class GameplayScreen extends Scene {
     this.world.createEntity({
       eventNextWave: true,
     });
+
+    this.audioManager.play('game-start', { loop: false });
   }
 
   public override enter(): void {
     super.enter();
 
     this.initialize();
+  }
+
+  public override exit(): void {
+    super.exit();
+
+    this.audioManager.stopAll();
   }
 
   public override update(delta: number): void {

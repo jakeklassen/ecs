@@ -188,10 +188,12 @@ export type Entity = {
     elapsedMs: number;
   };
   health?: number;
-  invulnerable?: {
-    durationMs: number;
-    elapsedMs: number;
-  };
+  invulnerable?:
+    | true
+    | {
+        durationMs: number;
+        elapsedMs: number;
+      };
   muzzleFlash?: {
     color: string;
     durationMs: number;

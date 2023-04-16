@@ -45,7 +45,7 @@ export function playerProjectileCollisionEventSystemFactory({
         }),
       });
 
-      if (event.enemy.health != null) {
+      if (event.enemy.invulnerable !== true && event.enemy.health != null) {
         event.enemy.health -= 1;
 
         world.addEntityComponents(event.enemy, 'flash', {

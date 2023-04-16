@@ -4,13 +4,17 @@ import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import '../../style.css';
+import bossMusicWavUrl from './assets/audio/boss-music.wav';
 import enemyDeathWaveUrl from './assets/audio/enemy-death.wav';
 import gameOverWavUrl from './assets/audio/game-over.wav';
+import gameStartWavUrl from './assets/audio/game-start.wav';
+import gameWonWavUrl from './assets/audio/game-won-music.wav';
 import playerDeathWavUrl from './assets/audio/player-death.wav';
 import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav';
 import shootWavUrl from './assets/audio/shoot.wav';
-import titleScreenBackgroundWavUrl from './assets/audio/title-screen-background.wav';
 import titleScreenMusicWavUrl from './assets/audio/title-screen-music.wav';
+import waveSpawnWavUrl from './assets/audio/wave-spawn.wav';
+import waveCompleteWavUrl from './assets/audio/wave-complete.wav';
 import shmupImageUrl from './assets/image/shmup.png';
 import pico8FontImageUrl from './assets/font/pico-8_regular_5.png';
 import pico8FontXmlUrl from './assets/font/pico-8_regular_5.xml?url';
@@ -29,6 +33,7 @@ import { TitleScreen } from './scenes/title-screen.js';
 import { SpriteSheet } from './spritesheet';
 import { loadFont } from '#/lib/pixel-text/load-font.js';
 import { Timer } from './timer.js';
+import { GameWonScreen } from './scenes/game-won-screen.js';
 
 const zip = new JSZip();
 
@@ -39,13 +44,17 @@ const recorder = {
 
 const audioManager = new AudioManager();
 
+audioManager.loadTrack('boss-music', bossMusicWavUrl);
 audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
 audioManager.loadTrack('game-over', gameOverWavUrl);
+audioManager.loadTrack('game-start', gameStartWavUrl);
+audioManager.loadTrack('game-won', gameWonWavUrl);
 audioManager.loadTrack('shoot', shootWavUrl);
 audioManager.loadTrack('player-death', playerDeathWavUrl);
 audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
 audioManager.loadTrack('title-screen-music', titleScreenMusicWavUrl);
-audioManager.loadTrack('title-screen-background', titleScreenBackgroundWavUrl);
+audioManager.loadTrack('wave-complete', waveCompleteWavUrl);
+audioManager.loadTrack('wave-spawn', waveSpawnWavUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
   console.log('audio ready');
@@ -118,6 +127,9 @@ const gameplayScene = new GameplayScreen({
 gameplayScene.on(GameEvent.GameOver, () => {
   activeScene = activeScene.switchTo(gameoverScene);
 });
+gameplayScene.on(GameEvent.GameWon, () => {
+  activeScene = activeScene.switchTo(gameWonScene);
+});
 
 const gameoverScene = new GameOverScreen({
   audioManager,
@@ -133,6 +145,23 @@ const gameoverScene = new GameOverScreen({
   textCache,
 });
 gameoverScene.on(GameEvent.StartGame, () => {
+  activeScene = activeScene.switchTo(titleScreenScene);
+});
+
+const gameWonScene = new GameWonScreen({
+  audioManager,
+  canvas,
+  config,
+  context,
+  content,
+  fontCache,
+  input: controls,
+  gameState,
+  spriteSheet: SpriteSheet,
+  timer,
+  textCache,
+});
+gameWonScene.on(GameEvent.StartGame, () => {
   activeScene = activeScene.switchTo(titleScreenScene);
 });
 

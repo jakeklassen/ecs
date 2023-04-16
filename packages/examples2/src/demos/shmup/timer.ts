@@ -2,8 +2,8 @@ export class TimeSpan {
   #duration: number;
   #elapsed: number;
 
-  constructor(duration: number, elapsed = 0) {
-    this.#duration = duration;
+  constructor(durationMs: number, elapsed = 0) {
+    this.#duration = durationMs / 1000;
     this.#elapsed = elapsed;
   }
 

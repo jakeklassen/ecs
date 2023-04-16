@@ -1,17 +1,20 @@
+import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
-import { GameState } from '../game-state.js';
-import { Entity } from '../entity.js';
-import { Config } from '../config.js';
 import { blinkAnimationFactory } from '../components/blink-animation.js';
-import { Pico8Colors } from '../constants.js';
 import { transformFactory } from '../components/transform.js';
+import { Config } from '../config.js';
+import { Pico8Colors } from '../constants.js';
+import { Entity } from '../entity.js';
+import { GameState } from '../game-state.js';
 
 export function waveSystemFactory({
+  audioManager,
   canvas,
   config,
   gameState,
   world,
 }: {
+  audioManager: AudioManager;
   canvas: HTMLCanvasElement;
   config: Config;
   gameState: GameState;
@@ -41,7 +44,6 @@ export function waveSystemFactory({
     } else if (gameState.wave === maxMaves) {
       text.message = 'Final Wave!';
     } else {
-      // game is over
       return;
     }
 
@@ -60,12 +62,16 @@ export function waveSystemFactory({
         },
       }),
       ttl: {
-        durationMs: 3000,
+        durationMs: 2600,
         elapsedMs: 0,
         onComplete: 'remove',
         trigger: `nextWave:${gameState.wave}`,
       },
     });
+
+    if (gameState.wave > 1) {
+      audioManager.play('wave-complete', { loop: false });
+    }
 
     world.deleteEntity(entity);
   };

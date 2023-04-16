@@ -33,7 +33,6 @@ export class TitleScreen extends Scene {
     resetGameState(this.gameState);
 
     this.audioManager.play('title-screen-music', { loop: true });
-    this.audioManager.play('title-screen-background', { loop: true });
 
     this.world.clearEntities();
     this.systems = [];

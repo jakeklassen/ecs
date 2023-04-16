@@ -12,10 +12,10 @@ export const gameState = {
 export const resetGameState = (gameState: GameState) => {
   gameState.cherries = 0;
   gameState.score = 0;
-  gameState.lives = 1;
+  gameState.lives = gameState.maxLives;
   gameState.paused = false;
   gameState.gameOver = false;
-  gameState.wave = 0;
+  gameState.wave = 8;
 };
 
 export type GameState = typeof gameState;
