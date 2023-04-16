@@ -44,17 +44,20 @@ const recorder = {
 
 const audioManager = new AudioManager();
 
-audioManager.loadTrack('boss-music', bossMusicWavUrl);
-audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
-audioManager.loadTrack('game-over', gameOverWavUrl);
-audioManager.loadTrack('game-start', gameStartWavUrl);
-audioManager.loadTrack('game-won', gameWonWavUrl);
-audioManager.loadTrack('shoot', shootWavUrl);
-audioManager.loadTrack('player-death', playerDeathWavUrl);
-audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
-audioManager.loadTrack('title-screen-music', titleScreenMusicWavUrl);
-audioManager.loadTrack('wave-complete', waveCompleteWavUrl);
-audioManager.loadTrack('wave-spawn', waveSpawnWavUrl);
+await audioManager.loadTrack('boss-music', bossMusicWavUrl);
+await audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
+await audioManager.loadTrack('game-over', gameOverWavUrl);
+await audioManager.loadTrack('game-start', gameStartWavUrl);
+await audioManager.loadTrack('game-won', gameWonWavUrl);
+await audioManager.loadTrack('shoot', shootWavUrl);
+await audioManager.loadTrack('player-death', playerDeathWavUrl);
+await audioManager.loadTrack(
+  'player-projectile-hit',
+  playerProjectileHitWavUrl,
+);
+await audioManager.loadTrack('title-screen-music', titleScreenMusicWavUrl);
+await audioManager.loadTrack('wave-complete', waveCompleteWavUrl);
+await audioManager.loadTrack('wave-spawn', waveSpawnWavUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
   console.log('audio ready');
@@ -170,7 +173,7 @@ activeScene.enter();
 
 window.addEventListener('click', async () => {
   if (!audioManager.isInitialized) {
-    audioManager.init();
+    await audioManager.init();
   }
 });
 

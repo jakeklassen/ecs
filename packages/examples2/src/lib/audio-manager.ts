@@ -94,9 +94,7 @@ export class AudioManager {
 
   public async loadTrackFromBuffer(name: string, buffer: ArrayBuffer) {
     if (this.#audioContext == null) {
-      this.#preloaded.set(name, buffer);
-
-      return;
+      throw new Error('AudioManager is not initialized');
     }
 
     const audioBuffer = await this.#audioContext.decodeAudioData(buffer);
