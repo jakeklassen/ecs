@@ -8,6 +8,7 @@ import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
+import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
 import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
@@ -15,8 +16,8 @@ import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.j
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
-import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
+import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
 import { muzzleFlashSystemFactory } from '../systems/muzzle-flash-system.js';
@@ -31,14 +32,18 @@ import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { scoreSystemFactory } from '../systems/score-system.js';
 import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-system.js';
 import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
+import { spawnWaveSystemFactory } from '../systems/spawn-wave-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
 import { textSystemFactory } from '../systems/text-system.js';
+import { timeToLiveSystemFactory } from '../systems/time-to-live-system.js';
+import { timerSystemFactory } from '../systems/timer-system.js';
 import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
 import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
+import { waveSystemFactory } from '../systems/wave-system.js';
 
 export class GameplayScreen extends Scene {
   #areaWidth: number;
@@ -51,8 +56,28 @@ export class GameplayScreen extends Scene {
     this.#areaHeight = this.config.gameHeight - 1;
 
     this.systems.push(
+      timerSystemFactory({ timer: this.timer }),
+      waveSystemFactory({
+        canvas: this.canvas,
+        config: this.config,
+        gameState: this.gameState,
+        world: this.world,
+      }),
+      spawnWaveSystemFactory({
+        config: this.config,
+        spriteSheet: SpriteSheet,
+        timer: this.timer,
+        world: this.world,
+      }),
+      timeToLiveSystemFactory({
+        world: this.world,
+      }),
       textSystemFactory({
         fontCache: this.fontCache,
+        textCache: this.textCache,
+        world: this.world,
+      }),
+      blinkAnimationSystemFactory({
         textCache: this.textCache,
         world: this.world,
       }),
@@ -279,98 +304,6 @@ export class GameplayScreen extends Scene {
       tagPlayerThruster: true,
     });
 
-    for (let y = 0; y < 5; y++) {
-      let last;
-
-      for (let i = 0; i < 10; i++) {
-        if (i % 2 === 0) {
-          continue;
-        }
-
-        if (last == null || last === 'redFlameGuy') {
-          last = 'greenAlien';
-
-          this.world.createEntity({
-            boxCollider: SpriteSheet.enemies.greenAlien.boxCollider,
-            collisionLayer: CollisionMasks.Enemy,
-            collisionMask:
-              CollisionMasks.PlayerProjectile | CollisionMasks.Player,
-            health: this.config.entities.enemies.greenAlien.startingHealth,
-            sprite: {
-              frame: {
-                sourceX: SpriteSheet.enemies.greenAlien.frame.sourceX,
-                sourceY: SpriteSheet.enemies.greenAlien.frame.sourceY,
-                width: SpriteSheet.enemies.greenAlien.frame.width,
-                height: SpriteSheet.enemies.greenAlien.frame.height,
-              },
-              opacity: 1,
-            },
-            spriteAnimation: spriteAnimationFactory(
-              animationDetailsFactory(
-                'alien-idle',
-                this.spriteSheet.enemies.greenAlien.animations.idle.sourceX,
-                this.spriteSheet.enemies.greenAlien.animations.idle.sourceY,
-                this.spriteSheet.enemies.greenAlien.animations.idle.width,
-                this.spriteSheet.enemies.greenAlien.animations.idle.height,
-                this.spriteSheet.enemies.greenAlien.animations.idle.frameWidth,
-                this.spriteSheet.enemies.greenAlien.animations.idle.frameHeight,
-              ),
-              400,
-              true,
-            ),
-            tagEnemy: true,
-            transform: transformFactory({
-              position: {
-                x: 16 + i * 8 + 4,
-                y: 16 + y * 2 + y * 8 + 4,
-              },
-            }),
-          });
-        } else {
-          last = 'redFlameGuy';
-
-          this.world.createEntity({
-            boxCollider: SpriteSheet.enemies.redFlameGuy.boxCollider,
-            collisionLayer: CollisionMasks.Enemy,
-            collisionMask:
-              CollisionMasks.PlayerProjectile | CollisionMasks.Player,
-            health: this.config.entities.enemies.redFlameGuy.startingHealth,
-            sprite: {
-              frame: {
-                sourceX: SpriteSheet.enemies.redFlameGuy.frame.sourceX,
-                sourceY: SpriteSheet.enemies.redFlameGuy.frame.sourceY,
-                width: SpriteSheet.enemies.redFlameGuy.frame.width,
-                height: SpriteSheet.enemies.redFlameGuy.frame.height,
-              },
-              opacity: 1,
-            },
-            spriteAnimation: spriteAnimationFactory(
-              animationDetailsFactory(
-                'alien-idle',
-                this.spriteSheet.enemies.redFlameGuy.animations.idle.sourceX,
-                this.spriteSheet.enemies.redFlameGuy.animations.idle.sourceY,
-                this.spriteSheet.enemies.redFlameGuy.animations.idle.width,
-                this.spriteSheet.enemies.redFlameGuy.animations.idle.height,
-                this.spriteSheet.enemies.redFlameGuy.animations.idle.frameWidth,
-                this.spriteSheet.enemies.redFlameGuy.animations.idle
-                  .frameHeight,
-              ),
-              400,
-              true,
-            ),
-            tagEnemy: true,
-            transform: transformFactory({
-              position: {
-                x: 16 + i * 8 + 4,
-                y: 16 + y * 2 + y * 8 + 4,
-              },
-            }),
-          });
-        }
-      }
-    }
-
-    // Cherry
     this.world.createEntity({
       transform: transformFactory({
         position: {
@@ -419,6 +352,10 @@ export class GameplayScreen extends Scene {
           y: 2,
         },
       }),
+    });
+
+    this.world.createEntity({
+      eventNextWave: true,
     });
   }
 

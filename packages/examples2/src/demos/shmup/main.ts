@@ -28,6 +28,7 @@ import { LoadingScreen } from './scenes/loading-screen.js';
 import { TitleScreen } from './scenes/title-screen.js';
 import { SpriteSheet } from './spritesheet';
 import { loadFont } from '#/lib/pixel-text/load-font.js';
+import { Timer } from './timer.js';
 
 const zip = new JSZip();
 
@@ -61,6 +62,8 @@ const textCache = new Map<Entity, TextBuffer>();
 
 const content = await Content.load(shmupImageUrl);
 
+const timer = new Timer();
+
 const { canvas, context } = obtainCanvasAndContext2d('#canvas');
 
 context.imageSmoothingEnabled = false;
@@ -75,6 +78,7 @@ const loadingScreenScene = new LoadingScreen({
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  timer,
   textCache,
 });
 loadingScreenScene.on(GameEvent.StartGame, () => {
@@ -91,6 +95,7 @@ const titleScreenScene = new TitleScreen({
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  timer,
   textCache,
 });
 titleScreenScene.on(GameEvent.StartGame, () => {
@@ -107,6 +112,7 @@ const gameplayScene = new GameplayScreen({
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  timer,
   textCache,
 });
 gameplayScene.on(GameEvent.GameOver, () => {
@@ -123,6 +129,7 @@ const gameoverScene = new GameOverScreen({
   input: controls,
   gameState,
   spriteSheet: SpriteSheet,
+  timer,
   textCache,
 });
 gameoverScene.on(GameEvent.StartGame, () => {

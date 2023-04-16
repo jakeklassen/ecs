@@ -169,6 +169,7 @@ export type Entity = {
     type: 'TweenEnd';
     entity: Entity;
   };
+  eventNextWave?: true;
   eventPlayerEnemyCollision?: {
     player: Entity;
     enemy: Entity;
@@ -176,6 +177,9 @@ export type Entity = {
   eventPlayerProjectileEnemyCollision?: {
     projectile: Entity;
     enemy: Entity;
+  };
+  eventSpawnWave?: {
+    waveNumber: number;
   };
   flash?: {
     alpha: number;
@@ -211,6 +215,12 @@ export type Entity = {
   tagTextScore?: true;
   tagStartScreenGreenAlien?: true;
   tagText?: true;
+  ttl?: {
+    durationMs: number;
+    elapsedMs: number;
+    onComplete: 'remove';
+    trigger?: `nextWave:${number}`;
+  };
   text?: {
     align?: 'center' | 'left';
     color: string;

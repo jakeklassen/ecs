@@ -8,6 +8,7 @@ import { GameEvent } from './game-events.js';
 import { GameState } from './game-state.js';
 import { SpriteSheet } from './spritesheet.js';
 import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
+import { Timer } from './timer.js';
 
 type System = (dt: number) => void;
 
@@ -21,6 +22,7 @@ export interface SceneConstructorProps {
   gameState: GameState;
   input: Controls;
   spriteSheet: SpriteSheet;
+  timer: Timer;
   textCache: Map<Entity, TextBuffer>;
 }
 
@@ -39,6 +41,7 @@ export class Scene {
   protected fontCache: Map<string, TextBufferFont>;
   protected gameState: GameState;
   protected spriteSheet: SpriteSheet;
+  protected timer: Timer;
   protected textCache: Map<Entity, TextBuffer>;
 
   private listeners = new Map<GameEvent, Array<SceneEventListener>>();
@@ -53,6 +56,7 @@ export class Scene {
     this.fontCache = props.fontCache;
     this.gameState = props.gameState;
     this.spriteSheet = props.spriteSheet;
+    this.timer = props.timer;
     this.textCache = props.textCache;
   }
 
