@@ -1,9 +1,8 @@
-import { rndFromList } from '#/lib/array.js';
-import { rndInt } from '#/lib/math.js';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
+import { starfieldFactory } from '../entity-factories/star.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { SpriteSheet } from '../spritesheet.js';
@@ -184,46 +183,16 @@ export class GameplayScreen extends Scene {
     );
   }
 
-  private createStars(starCount = 100) {
-    for (let i = 0; i < starCount; i++) {
-      const entity = this.world.createEntity({
-        direction: {
-          x: 0,
-          y: 1,
-        },
-        star: {
-          color: 'white',
-        },
-        transform: {
-          position: {
-            x: rndInt(this.#areaWidth, 1),
-            y: rndInt(this.#areaHeight, 1),
-          },
-          rotation: 0,
-          scale: {
-            x: 1,
-            y: 1,
-          },
-        },
-        velocity: {
-          x: 0,
-          y: rndFromList([60, 30, 20]),
-        },
-      });
-
-      if (entity.velocity.y < 30) {
-        entity.star.color = '#1d2b53';
-      } else if (entity.velocity.y < 60) {
-        entity.star.color = '#83769b';
-      }
-    }
-  }
-
   public override initialize(): void {
     this.world.clearEntities();
     resetGameState(this.gameState);
 
-    this.createStars(100);
+    starfieldFactory({
+      areaHeight: this.#areaHeight,
+      areaWidth: this.#areaWidth,
+      count: 100,
+      world: this.world,
+    });
 
     const player = this.world.createEntity({
       boundToViewport: true,

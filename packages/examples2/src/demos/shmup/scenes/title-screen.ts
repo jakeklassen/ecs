@@ -1,10 +1,9 @@
-import { rndFromList } from '#/lib/array.js';
-import { rndInt } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
 import { blinkAnimationFactory } from '../components/blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Pico8Colors } from '../constants.js';
+import { starfieldFactory } from '../entity-factories/star.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
@@ -28,36 +27,6 @@ export class TitleScreen extends Scene {
 
     this.#areaWidth = this.config.gameWidth - 1;
     this.#areaHeight = this.config.gameHeight - 1;
-  }
-
-  private createStars(starCount = 100) {
-    for (let i = 0; i < starCount; i++) {
-      const entity = this.world.createEntity({
-        direction: {
-          x: 0,
-          y: 1,
-        },
-        star: {
-          color: 'white',
-        },
-        transform: transformFactory({
-          position: {
-            x: rndInt(this.#areaWidth, 1),
-            y: rndInt(this.#areaHeight, 1),
-          },
-        }),
-        velocity: {
-          x: 0,
-          y: rndFromList([60, 30, 20]),
-        },
-      });
-
-      if (entity.velocity.y < 30) {
-        entity.star.color = '#1d2b53';
-      } else if (entity.velocity.y < 60) {
-        entity.star.color = '#83769b';
-      }
-    }
   }
 
   public override initialize(): void {
@@ -101,7 +70,12 @@ export class TitleScreen extends Scene {
       }),
     );
 
-    this.createStars(100);
+    starfieldFactory({
+      areaHeight: this.#areaHeight,
+      areaWidth: this.#areaWidth,
+      count: 100,
+      world: this.world,
+    });
 
     // Little green alien
     this.world.createEntity({
