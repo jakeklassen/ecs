@@ -164,6 +164,7 @@ export type Entity = {
 
   destroyOnViewportExit?: true;
   direction?: Vector2d;
+  enemyState?: 'spawning' | 'flying' | 'protect' | 'attack';
   event?: {
     type: 'TweenEnd';
     entity: Entity;

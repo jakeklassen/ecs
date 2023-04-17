@@ -71,6 +71,7 @@ export function spawnWave({
         timer.add(new TimeSpan(wait), () => {
           const entity = greenAlienFactory({
             components: {
+              invulnerable: true,
               transform,
               tweens,
             },
@@ -85,6 +86,7 @@ export function spawnWave({
         timer.add(new TimeSpan(wait), () => {
           const entity = redFlameGuyFactory({
             components: {
+              invulnerable: true,
               transform,
               tweens,
             },
@@ -99,6 +101,7 @@ export function spawnWave({
         timer.add(new TimeSpan(wait), () => {
           const entity = spinningShipFactory({
             components: {
+              invulnerable: true,
               transform,
               tweens,
             },
@@ -113,6 +116,7 @@ export function spawnWave({
         timer.add(new TimeSpan(wait), () => {
           const entity = yellowShipFactory({
             components: {
+              invulnerable: true,
               transform,
               tweens,
             },
@@ -127,6 +131,7 @@ export function spawnWave({
         timer.add(new TimeSpan(wait), () => {
           const entity = bossFactory({
             components: {
+              invulnerable: true,
               transform,
               tweens,
             },

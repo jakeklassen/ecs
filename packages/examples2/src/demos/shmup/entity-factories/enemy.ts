@@ -25,7 +25,6 @@ function enemyFactory<
     collisionLayer: CollisionMasks.Enemy,
     collisionMask: CollisionMasks.PlayerProjectile | CollisionMasks.Player,
     health: config.entities.enemies[enemyName].startingHealth,
-    invulnerable: true,
     sprite: {
       frame: {
         sourceX: enemy.frame.sourceX,
