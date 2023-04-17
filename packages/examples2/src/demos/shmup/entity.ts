@@ -170,7 +170,7 @@ export type Entity = {
    */
   enemyDestination?: Vector2d;
 
-  enemyState?: 'spawned' | 'flyin' | 'protect' | 'attack';
+  enemyState?: 'flyin' | 'protect' | 'attack';
   event?: {
     type: 'TweenEnd';
     entity: Entity;

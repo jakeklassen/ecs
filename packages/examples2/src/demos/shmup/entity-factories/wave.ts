@@ -13,7 +13,6 @@ import {
 } from './enemy.js';
 
 export function spawnWave({
-  dt,
   timer,
   wave,
   world,
@@ -33,17 +32,17 @@ export function spawnWave({
         continue;
       }
 
-      const toXPosition = (x + 1) * 12 - 6;
-      const toYPosition = 4 + (y + 1) * 12;
+      const destinationX = (x + 1) * 12 - 6;
+      const destinationY = 4 + (y + 1) * 12;
 
       const spawnPosition = {
-        x: toXPosition * 1.25 - 16,
-        y: toYPosition - 66,
+        x: destinationX * 1.25 - 16,
+        y: destinationY - 66,
       };
 
       const enemyDestination = {
-        x: toXPosition,
-        y: toYPosition,
+        x: destinationX,
+        y: destinationY,
       };
 
       const transform = transformFactory({
@@ -53,7 +52,7 @@ export function spawnWave({
         },
       });
 
-      const enemyState = 'spawned';
+      const enemyState = 'flyin';
 
       const components: SetRequired<
         Entity,
@@ -65,7 +64,7 @@ export function spawnWave({
         transform,
       };
 
-      const wait = x * 3 * dt;
+      const wait = x * 90;
 
       if (enemyType === 1) {
         timer.add(new TimeSpan(wait), () => {

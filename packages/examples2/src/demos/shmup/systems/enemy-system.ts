@@ -1,6 +1,4 @@
-import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
-import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
@@ -21,7 +19,7 @@ export function enemySystemFactory({
     'transform',
   );
 
-  return () => {
+  return (_dt: number) => {
     const wave = config.waves[gameState.wave];
 
     if (wave == null) {
@@ -29,42 +27,21 @@ export function enemySystemFactory({
     }
 
     for (const entity of enemies.entities) {
-      if (entity.enemyState === 'spawned') {
-        // When spawned we want to tween to the destination
-
-        entity.enemyState = 'flyin';
-        const tweenDuration = 800;
-
-        const tweenXPosition = tweenFactory('transform.position.x', {
-          from: entity.transform.position.x,
-          to: entity.enemyDestination.x,
-          duration: tweenDuration,
-          easing: Easing.OutSine,
-        });
-
-        const tweenYPosition = tweenFactory('transform.position.y', {
-          from: entity.transform.position.y,
-          to: entity.enemyDestination.y,
-          duration: tweenDuration,
-          easing: Easing.OutSine,
-        });
-
-        const tweens = [tweenXPosition, tweenYPosition];
-
-        world.addEntityComponents(entity, 'tweens', tweens);
-      } else if (entity.enemyState === 'flyin') {
+      if (entity.enemyState === 'flyin') {
         // When flying we want to check if we are at the destination.
         // If we are, we want to remove the tweens and set the state to protect
 
+        const dx =
+          (entity.enemyDestination.x - entity.transform.position.x) / 14;
+        const dy =
+          (entity.enemyDestination.y - entity.transform.position.y) / 14;
+
+        entity.transform.position.x += dx;
+        entity.transform.position.y += dy;
+
         const { enemyDestination, transform } = entity;
 
-        const atX =
-          Math.abs((transform.position.x | 0) - (enemyDestination.x | 0)) === 0;
-
-        const atY =
-          Math.abs((transform.position.y | 0) - (enemyDestination.y | 0)) === 0;
-
-        if (atX && atY) {
+        if (Math.abs(transform.position.y - enemyDestination.y) < 0.7) {
           entity.enemyState = 'protect';
           world.removeEntityComponents(entity, 'invulnerable');
         }
