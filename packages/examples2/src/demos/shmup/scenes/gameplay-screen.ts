@@ -31,7 +31,6 @@ import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { scoreSystemFactory } from '../systems/score-system.js';
 import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-system.js';
 import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
-import { spawnWaveSystemFactory } from '../systems/spawn-wave-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
@@ -63,11 +62,6 @@ export class GameplayScreen extends Scene {
         canvas: this.canvas,
         config: this.config,
         gameState: this.gameState,
-        world: this.world,
-      }),
-      spawnWaveSystemFactory({
-        audioManager: this.audioManager,
-        config: this.config,
         timer: this.timer,
         world: this.world,
       }),

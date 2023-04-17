@@ -219,7 +219,7 @@ export type Entity = {
   ttl?: {
     durationMs: number;
     elapsedMs: number;
-    onComplete: 'remove';
+    onComplete: 'entity:destroy';
     trigger?: `nextWave:${number}`;
   };
   text?: {

@@ -1,3 +1,9 @@
+type Wave = {
+  attackFrequency: number;
+  fireFrequency: number;
+  enemies: number[][];
+};
+
 export const config = {
   debug: false,
 
@@ -140,7 +146,7 @@ export const config = {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ],
     },
-  },
+  } as Record<string, Wave | undefined>,
 
   /**
    * In pixels

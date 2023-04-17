@@ -6,24 +6,28 @@ import { Config } from '../config.js';
 import { Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
+import { TimeSpan, Timer } from '../timer.js';
+import { spawnWave } from '../entity-factories/wave.js';
 
 export function waveSystemFactory({
   audioManager,
   canvas,
   config,
   gameState,
+  timer,
   world,
 }: {
   audioManager: AudioManager;
   canvas: HTMLCanvasElement;
   config: Config;
   gameState: GameState;
+  timer: Timer;
   world: World<Entity>;
 }) {
   const nextWaveEvents = world.archetype('eventNextWave');
   const maxMaves = Object.keys(config.waves).length;
 
-  return () => {
+  return (dt: number) => {
     const [entity] = nextWaveEvents.entities;
 
     if (entity == null) {
@@ -47,6 +51,8 @@ export function waveSystemFactory({
       return;
     }
 
+    const waveTextTTL = 2600;
+
     // Show next wave text
     world.createEntity({
       text,
@@ -62,16 +68,40 @@ export function waveSystemFactory({
         },
       }),
       ttl: {
-        durationMs: 2600,
+        durationMs: waveTextTTL,
         elapsedMs: 0,
-        onComplete: 'remove',
-        trigger: `nextWave:${gameState.wave}`,
+        onComplete: 'entity:destroy',
       },
     });
 
     if (gameState.wave > 1) {
       audioManager.play('wave-complete', { loop: false });
     }
+
+    const wave = config.waves[gameState.wave];
+
+    if (wave == null) {
+      console.warn('No more waves to spawn');
+      return;
+    }
+
+    // Synchronize wave spawn with text destroy
+    timer.add(new TimeSpan(waveTextTTL), () => {
+      spawnWave({
+        dt,
+        timer,
+        wave,
+        world,
+      });
+
+      audioManager.play('wave-spawn', { loop: false });
+
+      if (gameState.wave === gameState.maxWaves) {
+        timer.add(new TimeSpan(1000), () => {
+          audioManager.play('boss-music', { loop: true });
+        });
+      }
+    });
 
     world.deleteEntity(entity);
   };

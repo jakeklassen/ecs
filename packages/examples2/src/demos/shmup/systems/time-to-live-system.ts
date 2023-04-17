@@ -10,7 +10,10 @@ export function timeToLiveSystemFactory({ world }: { world: World<Entity> }) {
 
       ttl.elapsedMs += dt * 1000;
 
-      if (ttl.elapsedMs >= ttl.durationMs && ttl.onComplete === 'remove') {
+      if (
+        ttl.elapsedMs >= ttl.durationMs &&
+        ttl.onComplete === 'entity:destroy'
+      ) {
         world.deleteEntity(entity);
 
         if (ttl.trigger == null) {
