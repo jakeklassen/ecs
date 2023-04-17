@@ -3,7 +3,7 @@ import { Entity } from '../entity.js';
 
 export function transformFactory(
   transform: PartialDeep<Entity['transform']> = {},
-): Entity['transform'] {
+): NonNullable<Entity['transform']> {
   return {
     position: {
       x: transform.position?.x ?? 0,

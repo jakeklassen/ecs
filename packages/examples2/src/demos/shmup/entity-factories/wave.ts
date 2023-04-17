@@ -1,9 +1,8 @@
 import { World } from '@jakeklassen/ecs2';
-import { Entity } from '../entity.js';
-import { Config } from '../config.js';
+import { SetRequired } from 'type-fest';
 import { transformFactory } from '../components/transform.js';
-import { tweenFactory } from '../components/tween.js';
-import { Easing } from '#/lib/tween.js';
+import { Config } from '../config.js';
+import { Entity } from '../entity.js';
 import { TimeSpan, Timer } from '../timer.js';
 import {
   bossFactory,
@@ -35,111 +34,72 @@ export function spawnWave({
       }
 
       const toXPosition = (x + 1) * 12 - 6;
-      const fromXPosition = toXPosition * 1.25 - 16;
-
       const toYPosition = 4 + (y + 1) * 12;
-      const fromYPosition = toYPosition - 66;
+
+      const spawnPosition = {
+        x: toXPosition * 1.25 - 16,
+        y: toYPosition - 66,
+      };
+
+      const enemyDestination = {
+        x: toXPosition,
+        y: toYPosition,
+      };
 
       const transform = transformFactory({
         position: {
-          x: fromXPosition,
-          y: fromYPosition,
+          x: spawnPosition.x,
+          y: spawnPosition.y,
         },
       });
 
-      const tweenDuration = 800;
+      const enemyState = 'spawned';
 
-      const tweenXPosition = tweenFactory('transform.position.x', {
-        from: fromXPosition,
-        to: toXPosition,
-        duration: tweenDuration,
-        easing: Easing.OutSine,
-      });
+      const components: SetRequired<
+        Entity,
+        'enemyDestination' | 'enemyState' | 'invulnerable' | 'transform'
+      > = {
+        enemyDestination,
+        enemyState,
+        invulnerable: true,
+        transform,
+      };
 
-      const tweenYPosition = tweenFactory('transform.position.y', {
-        from: fromYPosition,
-        to: toYPosition,
-        duration: tweenDuration,
-        easing: Easing.OutSine,
-      });
-
-      const tweens = [tweenXPosition, tweenYPosition];
-
-      const wait = (x + 1) * 3 * dt;
+      const wait = x * 3 * dt;
 
       if (enemyType === 1) {
         timer.add(new TimeSpan(wait), () => {
-          const entity = greenAlienFactory({
-            components: {
-              invulnerable: true,
-              transform,
-              tweens,
-            },
+          greenAlienFactory({
+            components,
             world,
-          });
-
-          timer.add(new TimeSpan(tweenDuration), () => {
-            world.removeEntityComponents(entity, 'invulnerable');
           });
         });
       } else if (enemyType === 2) {
         timer.add(new TimeSpan(wait), () => {
-          const entity = redFlameGuyFactory({
-            components: {
-              invulnerable: true,
-              transform,
-              tweens,
-            },
+          redFlameGuyFactory({
+            components,
             world,
-          });
-
-          timer.add(new TimeSpan(tweenDuration), () => {
-            world.removeEntityComponents(entity, 'invulnerable');
           });
         });
       } else if (enemyType === 3) {
         timer.add(new TimeSpan(wait), () => {
-          const entity = spinningShipFactory({
-            components: {
-              invulnerable: true,
-              transform,
-              tweens,
-            },
+          spinningShipFactory({
+            components,
             world,
-          });
-
-          timer.add(new TimeSpan(tweenDuration), () => {
-            world.removeEntityComponents(entity, 'invulnerable');
           });
         });
       } else if (enemyType === 4) {
         timer.add(new TimeSpan(wait), () => {
-          const entity = yellowShipFactory({
-            components: {
-              invulnerable: true,
-              transform,
-              tweens,
-            },
+          yellowShipFactory({
+            components,
             world,
-          });
-
-          timer.add(new TimeSpan(tweenDuration), () => {
-            world.removeEntityComponents(entity, 'invulnerable');
           });
         });
       } else if (enemyType === 5) {
         timer.add(new TimeSpan(wait), () => {
-          const entity = bossFactory({
-            components: {
-              invulnerable: true,
-              transform,
-              tweens,
-            },
+          bossFactory({
+            components,
             world,
-          });
-
-          timer.add(new TimeSpan(tweenDuration), () => {
-            world.removeEntityComponents(entity, 'invulnerable');
           });
         });
       }

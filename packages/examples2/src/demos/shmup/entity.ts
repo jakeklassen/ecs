@@ -164,7 +164,13 @@ export type Entity = {
 
   destroyOnViewportExit?: true;
   direction?: Vector2d;
-  enemyState?: 'spawning' | 'flying' | 'protect' | 'attack';
+
+  /**
+   * After the enemy has spawned, this is the destination that it will fly to.
+   */
+  enemyDestination?: Vector2d;
+
+  enemyState?: 'spawned' | 'flyin' | 'protect' | 'attack';
   event?: {
     type: 'TweenEnd';
     entity: Entity;

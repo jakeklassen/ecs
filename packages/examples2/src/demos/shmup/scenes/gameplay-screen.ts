@@ -12,6 +12,7 @@ import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
+import { enemySystemFactory } from '../systems/enemy-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
 import { handleGameWonSystemFactory } from '../systems/handle-game-won-system.js';
@@ -63,6 +64,11 @@ export class GameplayScreen extends Scene {
         config: this.config,
         gameState: this.gameState,
         timer: this.timer,
+        world: this.world,
+      }),
+      enemySystemFactory({
+        config: this.config,
+        gameState: this.gameState,
         world: this.world,
       }),
       timeToLiveSystemFactory({
