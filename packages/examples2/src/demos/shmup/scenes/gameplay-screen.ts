@@ -7,7 +7,6 @@ import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
-import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
 import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
@@ -36,6 +35,7 @@ import { spawnWaveSystemFactory } from '../systems/spawn-wave-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
+import { textBlinkAnimationSystemFactory } from '../systems/text-blink-animation-system.js';
 import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
 import { textSystemFactory } from '../systems/text-system.js';
 import { timeToLiveSystemFactory } from '../systems/time-to-live-system.js';
@@ -79,7 +79,7 @@ export class GameplayScreen extends Scene {
         textCache: this.textCache,
         world: this.world,
       }),
-      blinkAnimationSystemFactory({
+      textBlinkAnimationSystemFactory({
         textCache: this.textCache,
         world: this.world,
       }),

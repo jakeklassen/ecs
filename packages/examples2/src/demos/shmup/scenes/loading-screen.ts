@@ -1,18 +1,18 @@
 import { Easing } from '#/lib/tween.js';
-import { blinkAnimationFactory } from '../components/blink-animation.js';
+import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Pico8Colors } from '../constants.js';
 import { starfieldFactory } from '../entity-factories/star.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
-import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
 import { eventSystemFactory } from '../systems/event-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
+import { textBlinkAnimationSystemFactory } from '../systems/text-blink-animation-system.js';
 import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
 import { textSystemFactory } from '../systems/text-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
@@ -33,7 +33,7 @@ export class LoadingScreen extends Scene {
         textCache: this.textCache,
         world: this.world,
       }),
-      blinkAnimationSystemFactory({
+      textBlinkAnimationSystemFactory({
         textCache: this.textCache,
         world: this.world,
       }),
@@ -156,17 +156,17 @@ export class LoadingScreen extends Scene {
 
     // Interact to begin text
     this.world.createEntity({
-      blinkAnimation: blinkAnimationFactory({
-        colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
-        colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
-        durationMs: 500,
-      }),
       text: {
         align: 'center',
         color: Pico8Colors.Color6,
         font: 'PICO-8',
         message: 'Interact To Begin',
       },
+      textBlinkAnimation: textBlinkAnimationFactory({
+        colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
+        colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
+        durationMs: 500,
+      }),
       transform: transformFactory({
         position: {
           x: this.canvas.width / 2,

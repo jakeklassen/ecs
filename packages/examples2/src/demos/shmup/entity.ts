@@ -53,7 +53,7 @@ type BoxCollider = {
   height: number;
 };
 
-type BlinkAnimation = {
+type TextBlinkAnimation = {
   color: HexColor;
   colors: HexColor[];
   colorSequence: number[];
@@ -146,7 +146,6 @@ type Tweens = {
 }[TweenablePaths];
 
 export type Entity = {
-  blinkAnimation?: BlinkAnimation;
   boundToViewport?: true;
   boxCollider?: BoxCollider;
 
@@ -229,6 +228,7 @@ export type Entity = {
     font: string;
     message: string;
   };
+  textBlinkAnimation?: TextBlinkAnimation;
   trackPlayer?: {
     offset?: Vector2d;
   };

@@ -1,6 +1,6 @@
 import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
-import { blinkAnimationFactory } from '../components/blink-animation.js';
+import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { Config } from '../config.js';
 import { Pico8Colors } from '../constants.js';
@@ -49,12 +49,12 @@ export function waveSystemFactory({
 
     // Show next wave text
     world.createEntity({
-      blinkAnimation: blinkAnimationFactory({
+      text,
+      textBlinkAnimation: textBlinkAnimationFactory({
         colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
         colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
         durationMs: 500,
       }),
-      text,
       transform: transformFactory({
         position: {
           x: canvas.width / 2,

@@ -2,7 +2,7 @@ import { obtainCanvas2dContext } from '#/lib/dom.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function blinkRenderingSystemFactory({
+export function textBlinkRenderingSystemFactory({
   context,
   spriteSheet,
   world,
@@ -11,7 +11,7 @@ export function blinkRenderingSystemFactory({
   spriteSheet: HTMLImageElement;
   world: World<Entity>;
 }) {
-  const entities = world.archetype('blinkAnimation', 'sprite', 'transform');
+  const entities = world.archetype('sprite', 'textBlinkAnimation', 'transform');
   const textCanvas = document.createElement('canvas');
   const textContext = obtainCanvas2dContext(textCanvas);
   textContext.imageSmoothingEnabled = false;
@@ -22,7 +22,7 @@ export function blinkRenderingSystemFactory({
 
   return (_dt: number) => {
     for (const entity of entities.entities) {
-      const { blinkAnimation, sprite, transform } = entity;
+      const { textBlinkAnimation, sprite, transform } = entity;
 
       textContext.canvas.width = sprite.frame.width;
       textContext.canvas.height = sprite.frame.height;
@@ -43,7 +43,7 @@ export function blinkRenderingSystemFactory({
       );
 
       textContext.save();
-      textContext.fillStyle = blinkAnimation.color;
+      textContext.fillStyle = textBlinkAnimation.color;
       textContext.fillRect(
         0,
         0,

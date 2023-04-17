@@ -1,12 +1,12 @@
-import { blinkAnimationFactory } from '../components/blink-animation.js';
+import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Scene } from '../scene.js';
-import { blinkAnimationSystemFactory } from '../systems/blink-animation-system.js';
 import { gameOverSystemFactory } from '../systems/game-over-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
+import { textBlinkAnimationSystemFactory } from '../systems/text-blink-animation-system.js';
 import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
 import { textSystemFactory } from '../systems/text-system.js';
 
@@ -49,17 +49,17 @@ export class GameOverScreen extends Scene {
 
     // Press any key to start text
     this.world.createEntity({
-      blinkAnimation: blinkAnimationFactory({
-        colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
-        colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
-        durationMs: 500,
-      }),
       text: {
         align: 'center',
         color: Pico8Colors.Color6,
         font: 'PICO-8',
         message: 'Press Any Key To Start',
       },
+      textBlinkAnimation: textBlinkAnimationFactory({
+        colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],
+        colorSequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0],
+        durationMs: 500,
+      }),
       transform: transformFactory({
         position: {
           x: this.canvas.width / 2,
@@ -80,7 +80,7 @@ export class GameOverScreen extends Scene {
         textCache: this.textCache,
         world: this.world,
       }),
-      blinkAnimationSystemFactory({
+      textBlinkAnimationSystemFactory({
         textCache: this.textCache,
         world: this.world,
       }),

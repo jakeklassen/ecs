@@ -1,6 +1,6 @@
 import { Entity, HexColor } from '../entity.js';
 
-export function blinkAnimationFactory({
+export function textBlinkAnimationFactory({
   colors,
   colorSequence,
   durationMs,
@@ -8,7 +8,7 @@ export function blinkAnimationFactory({
   colors: HexColor[];
   colorSequence: number[];
   durationMs: number;
-}): NonNullable<Entity['blinkAnimation']> {
+}): NonNullable<Entity['textBlinkAnimation']> {
   const delta = 0;
   const currentColorIndex = 0;
   const color = colors[colorSequence[currentColorIndex]];

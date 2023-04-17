@@ -12,7 +12,7 @@ export function renderingSystemFactory({
 }) {
   const renderables = world
     .archetype('sprite', 'transform')
-    .without('blinkAnimation', 'flash');
+    .without('textBlinkAnimation', 'flash');
 
   return (_dt: number) => {
     for (const entity of renderables.entities) {
