@@ -1,4 +1,5 @@
 import { AudioManager } from '#/lib/audio-manager.js';
+import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { World } from '@jakeklassen/ecs2';
 import { Config } from './config.js';
 import { LoadedContent } from './content.js';
@@ -7,7 +8,6 @@ import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { GameState } from './game-state.js';
 import { SpriteSheet } from './spritesheet.js';
-import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { Timer } from './timer.js';
 
 type System = (dt: number) => void;

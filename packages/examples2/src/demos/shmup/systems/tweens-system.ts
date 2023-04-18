@@ -1,4 +1,10 @@
-import { Easing, easeInSine, easeLinear, easeOutSine } from '#/lib/tween';
+import {
+  Easing,
+  easeInSine,
+  easeLinear,
+  easeOutQuart,
+  easeOutSine,
+} from '#/lib/tween';
 import { World } from '@jakeklassen/ecs2';
 import justSafeGet from 'just-safe-get';
 import justSafeSet from 'just-safe-set';
@@ -76,6 +82,13 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
             );
           } else if (tween.easing === Easing.OutSine) {
             change = easeOutSine(
+              tween.time,
+              tween.from,
+              tween.change,
+              tween.duration,
+            );
+          } else if (tween.easing === Easing.OutQuart) {
+            change = easeOutQuart(
               tween.time,
               tween.from,
               tween.change,

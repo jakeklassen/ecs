@@ -1,5 +1,6 @@
 import { Easing } from '#/lib/tween.js';
 import { Path, PathValue } from 'dot-path-value';
+import { Config } from './config.js';
 
 type AnimationDetails = {
   name: string;
@@ -170,7 +171,8 @@ export type Entity = {
    */
   enemyDestination?: Vector2d;
 
-  enemyState?: 'flyin' | 'protect' | 'attack';
+  enemyState?: 'spawned' | 'flyin' | 'protect' | 'attack';
+  enemyType?: keyof Config['entities']['enemies'];
   event?: {
     type: 'TweenEnd';
     entity: Entity;

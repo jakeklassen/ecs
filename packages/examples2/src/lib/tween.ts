@@ -4,6 +4,7 @@ export const Easing = {
   InSine: 'inSine',
   Linear: 'linear',
   OutSine: 'outSine',
+  OutQuart: 'outQuart',
 } as const;
 
 export const easeLinear = (
@@ -27,3 +28,11 @@ export const easeOutSine = (
   change: number,
   duration: number,
 ): number => change * Math.sin((time / duration) * (Math.PI / 2)) + start;
+
+export const easeOutQuart = (
+  time: number,
+  start: number,
+  change: number,
+  duration: number,
+): number =>
+  -change * ((time = time / duration - 1) * time * time * time - 1) + start;

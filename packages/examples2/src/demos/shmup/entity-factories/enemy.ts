@@ -24,6 +24,7 @@ function enemyFactory<
     boxCollider: enemy.boxCollider,
     collisionLayer: CollisionMasks.Enemy,
     collisionMask: CollisionMasks.PlayerProjectile | CollisionMasks.Player,
+    enemyType: enemyName,
     health: config.entities.enemies[enemyName].startingHealth,
     sprite: {
       frame: {

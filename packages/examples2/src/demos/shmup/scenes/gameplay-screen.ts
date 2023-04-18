@@ -21,6 +21,7 @@ import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.j
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
 import { muzzleFlashSystemFactory } from '../systems/muzzle-flash-system.js';
+import { nextWaveEventSystemFactory } from '../systems/next-wave-event-system.js';
 import { particleRenderingSystemFactory } from '../systems/particle-rendering-system.js';
 import { particleSystemFactory } from '../systems/particle-system.js';
 import { playerEnemyCollisionEventCleanupSystemFactory } from '../systems/player-enemy-collision-event-cleanup-system.js';
@@ -44,7 +45,7 @@ import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
 import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
 import { triggerGameWonSystemFactory } from '../systems/trigger-game-won-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
-import { waveSystemFactory } from '../systems/wave-system.js';
+import { waveReadyCheckSystemFactory } from '../systems/wave-ready-check-system.js';
 
 export class GameplayScreen extends Scene {
   #areaWidth: number;
@@ -58,7 +59,12 @@ export class GameplayScreen extends Scene {
 
     this.systems.push(
       timerSystemFactory({ timer: this.timer }),
-      waveSystemFactory({
+      waveReadyCheckSystemFactory({
+        config: this.config,
+        gameState: this.gameState,
+        world: this.world,
+      }),
+      nextWaveEventSystemFactory({
         audioManager: this.audioManager,
         canvas: this.canvas,
         config: this.config,
@@ -69,6 +75,7 @@ export class GameplayScreen extends Scene {
       enemySystemFactory({
         config: this.config,
         gameState: this.gameState,
+        timer: this.timer,
         world: this.world,
       }),
       timeToLiveSystemFactory({

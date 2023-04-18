@@ -9,7 +9,7 @@ import { GameState } from '../game-state.js';
 import { TimeSpan, Timer } from '../timer.js';
 import { spawnWave } from '../entity-factories/wave.js';
 
-export function waveSystemFactory({
+export function nextWaveEventSystemFactory({
   audioManager,
   canvas,
   config,
@@ -34,6 +34,7 @@ export function waveSystemFactory({
       return;
     }
 
+    gameState.waveReady = false;
     gameState.wave++;
 
     const text: NonNullable<Entity['text']> = {

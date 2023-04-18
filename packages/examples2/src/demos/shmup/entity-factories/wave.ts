@@ -1,6 +1,8 @@
+import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
 import { SetRequired } from 'type-fest';
 import { transformFactory } from '../components/transform.js';
+import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
 import { Entity } from '../entity.js';
 import { TimeSpan, Timer } from '../timer.js';
@@ -54,14 +56,36 @@ export function spawnWave({
 
       const enemyState = 'flyin';
 
+      const tweenDuration = 800;
+
+      const tweenXPosition = tweenFactory('transform.position.x', {
+        from: spawnPosition.x,
+        to: destinationX,
+        duration: tweenDuration,
+        easing: Easing.OutQuart,
+        maxIterations: 1,
+      });
+
+      const tweenYPosition = tweenFactory('transform.position.y', {
+        from: spawnPosition.y,
+        to: destinationY,
+        duration: tweenDuration,
+        easing: Easing.OutQuart,
+        maxIterations: 1,
+      });
+
+      const tweens = [tweenXPosition, tweenYPosition];
+
       const components: SetRequired<
         Entity,
         'enemyDestination' | 'enemyState' | 'invulnerable' | 'transform'
       > = {
+        destroyOnViewportExit: true,
         enemyDestination,
         enemyState,
         invulnerable: true,
         transform,
+        tweens,
       };
 
       const wait = x * 90;

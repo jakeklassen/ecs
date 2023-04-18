@@ -41,8 +41,10 @@ export const config = {
   waves: {
     // space invaders
     1: {
-      attackFrequency: 60,
-      fireFrequency: 20,
+      // 60: Originally based on 30 FPS - so 2 seconds
+      attackFrequency: 60 / 30,
+      // 20: Originally based on 30 FPS - so 2 / 3 second
+      fireFrequency: 20 / 30,
       enemies: [
         [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
         [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -53,8 +55,10 @@ export const config = {
 
     // red tutorial
     2: {
-      attackFrequency: 60,
-      fireFrequency: 20,
+      // 60: Originally based on 30 FPS - so 2 seconds
+      attackFrequency: 60 / 30,
+      // 20: Originally based on 30 FPS - so 2 / 3 second
+      fireFrequency: 20 / 30,
       enemies: [
         [1, 1, 2, 2, 1, 1, 2, 2, 1, 1],
         [1, 1, 2, 2, 1, 1, 2, 2, 1, 1],
@@ -65,8 +69,10 @@ export const config = {
 
     // wall of red
     3: {
-      attackFrequency: 50,
-      fireFrequency: 20,
+      // 60: Originally based on 30 FPS - so ~1.66 seconds
+      attackFrequency: 50 / 30,
+      // 20: Originally based on 30 FPS - so 2 / 3 second
+      fireFrequency: 20 / 30,
       enemies: [
         [1, 1, 2, 2, 1, 1, 2, 2, 1, 1],
         [1, 1, 2, 2, 2, 2, 2, 2, 1, 1],
@@ -77,8 +83,10 @@ export const config = {
 
     // spin tutorial
     4: {
-      attackFrequency: 50,
-      fireFrequency: 15,
+      // 50: Originally based on 30 FPS - so ~1.66 seconds
+      attackFrequency: 50 / 30,
+      // 15: Originally based on 30 FPS - so 1 / 2 second
+      fireFrequency: 15 / 30,
       enemies: [
         [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
         [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
@@ -89,8 +97,10 @@ export const config = {
 
     // chess
     5: {
-      attackFrequency: 50,
-      fireFrequency: 15,
+      // 50: Originally based on 30 FPS - so ~1.66 seconds
+      attackFrequency: 50 / 30,
+      // 15: Originally based on 30 FPS - so 1 / 2 second
+      fireFrequency: 15 / 30,
       enemies: [
         [3, 1, 3, 1, 2, 2, 1, 3, 1, 3],
         [1, 3, 1, 2, 1, 1, 2, 1, 3, 1],
@@ -101,8 +111,10 @@ export const config = {
 
     // yellow tutorial
     6: {
-      attackFrequency: 40,
-      fireFrequency: 10,
+      // 40: Originally based on 30 FPS - so ~1.33 seconds
+      attackFrequency: 40 / 30,
+      // 10: Originally based on 30 FPS - so 1 / 3 second
+      fireFrequency: 10 / 30,
       enemies: [
         [2, 2, 2, 0, 4, 0, 0, 2, 2, 2],
         [2, 2, 0, 0, 0, 0, 0, 0, 2, 2],
@@ -113,8 +125,10 @@ export const config = {
 
     // double yellow
     7: {
-      attackFrequency: 40,
-      fireFrequency: 10,
+      // 40: Originally based on 30 FPS - so ~1.33 seconds
+      attackFrequency: 40 / 30,
+      // 10: Originally based on 30 FPS - so 1 / 3 second
+      fireFrequency: 10 / 30,
       enemies: [
         [3, 3, 0, 1, 1, 1, 1, 0, 3, 3],
         [4, 0, 0, 2, 2, 2, 2, 0, 4, 0],
@@ -125,8 +139,10 @@ export const config = {
 
     // hell
     8: {
-      attackFrequency: 30,
-      fireFrequency: 10,
+      // 30: Originally based on 30 FPS - so 1 second
+      attackFrequency: 30 / 30,
+      // 10: Originally based on 30 FPS - so 1 / 3 second
+      fireFrequency: 10 / 30,
       enemies: [
         [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
         [3, 3, 1, 1, 1, 1, 1, 1, 3, 3],
@@ -137,8 +153,10 @@ export const config = {
 
     // boss
     9: {
-      attackFrequency: 60,
-      fireFrequency: 20,
+      // 60: Originally based on 30 FPS - so 2 seconds
+      attackFrequency: 60 / 30,
+      // 20: Originally based on 30 FPS - so 2 / 3 second
+      fireFrequency: 20 / 30,
       enemies: [
         [0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

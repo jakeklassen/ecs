@@ -16,6 +16,12 @@ export function destroyOnViewportExitSystemFactory({
 
   return (_dt: number) => {
     for (const entity of boundToViewport.entities) {
+      if (entity.enemyState === 'flyin') {
+        // Don't destroy enemies that are flying in.
+        // They start off screen.
+        continue;
+      }
+
       let destroy = false;
 
       // ? The bullets were disappearing too early when the player was
