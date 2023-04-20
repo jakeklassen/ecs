@@ -1,24 +1,22 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
-import { gameTime } from '../game-time.js';
 import { Timer } from '../timer.js';
 
-function sin(x: number) {
-  x = x % 1;
-  const pi = 3.14159265359;
-  x = x * pi * 2;
-  let s = x;
-  let t = x;
+// function sin(x: number) {
+//   x = x % 1;
+//   const pi = 3.14159265359;
+//   x = x * pi * 2;
+//   let s = x;
+//   let t = x;
 
-  for (let i = 1; i < 8; i++) {
-    t *= (-x * x) / (2 * i * (2 * i + 1));
-    s += t;
-  }
-  return -parseFloat(s.toFixed(3));
-}
+//   for (let i = 1; i < 8; i++) {
+//     t *= (-x * x) / (2 * i * (2 * i + 1));
+//     s += t;
+//   }
+//   return -parseFloat(s.toFixed(3));
+// }
 
 export function enemyMovementSystemFactory({
-  timer,
   world,
 }: {
   timer: Timer;
@@ -36,7 +34,7 @@ export function enemyMovementSystemFactory({
   // const frequency = 1;
   // const phase = 0;
 
-  return (dt: number) => {
+  return (_dt: number) => {
     for (const entity of movables.entities) {
       if (entity.enemyState === 'attack') {
         // Calculate the value of the sine wave at the current time

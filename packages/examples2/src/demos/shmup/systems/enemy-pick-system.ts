@@ -10,7 +10,6 @@ import { Timer } from '../timer.js';
 export function enemyPickSystemFactory({
   config,
   gameState,
-  timer,
   world,
 }: {
   config: Config;
@@ -26,6 +25,7 @@ export function enemyPickSystemFactory({
   );
 
   let attackFrequencyTimer = 0;
+  // @ts-ignore
   let fireFrequencyTimer = 0;
 
   return (dt: number) => {
