@@ -12,6 +12,10 @@ import { textSystemFactory } from '../systems/text-system.js';
 
 export class GameWonScreen extends Scene {
   public override initialize(): void {
+    this.clearSystems();
+    this.world.clearEntities();
+    this.timer.clear();
+
     this.audioManager.play('game-won', { loop: false });
 
     // Before the canvas gets cleared, copy the gameplay scene for a nice
@@ -22,8 +26,6 @@ export class GameWonScreen extends Scene {
       this.canvas.width,
       this.canvas.height,
     );
-
-    this.world.clearEntities();
 
     // game over text
     this.world.createEntity({
@@ -66,11 +68,6 @@ export class GameWonScreen extends Scene {
         },
       }),
     });
-
-    // We're initing system within initialize() because we need to pass in the
-    // gameplayBuffer.
-    // So we'll just clear all systems and re-add them.
-    this.clearSystems();
 
     this.systems.push(
       startGameSystemFactory({ controls: this.input, scene: this }),

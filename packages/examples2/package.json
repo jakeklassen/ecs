@@ -13,15 +13,15 @@
     "@types/file-saver": "2.0.5",
     "@types/wicg-file-system-access": "2020.9.6",
     "typescript": "5.0.4",
-    "vite": "^4.2.1"
+    "vite": "^4.3.0"
   },
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
-    "@tweakpane/core": "1.1.6",
+    "@tweakpane/core": "1.1.7",
     "color": "4.2.3",
     "contro": "2.2.0",
     "dot-path-value": "0.0.9",
-    "fast-xml-parser": "4.2.0",
+    "fast-xml-parser": "4.2.2",
     "file-saver": "2.0.5",
     "jszip": "3.10.1",
     "just-group-by": "2.2.0",
@@ -31,7 +31,7 @@
     "just-safe-set": "4.2.1",
     "just-shuffle": "4.2.0",
     "sharp": "0.32.0",
-    "tweakpane": "3.1.7",
+    "tweakpane": "3.1.8",
     "type-fest": "3.8.0"
   }
 }

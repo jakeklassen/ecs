@@ -44,7 +44,7 @@ export function destroyOnViewportExitSystemFactory({
 
       if (
         entity.transform.position.y + entity.boxCollider.offsetY >
-        viewport.height - entity.boxCollider.height
+        viewport.height
       ) {
         destroy = true;
       } else if (entity.transform.position.y <= -entity.boxCollider.height) {

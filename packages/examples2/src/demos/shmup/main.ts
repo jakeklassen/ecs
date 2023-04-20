@@ -25,6 +25,7 @@ import { controls } from './controls.js';
 import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { gameState } from './game-state.js';
+import { gameTime } from './game-time.js';
 import { input } from './input.js';
 import { Scene } from './scene.js';
 import { GameOverScreen } from './scenes/game-over-screen.js';
@@ -233,6 +234,7 @@ let frameCount = 0;
 const frame = (hrt: DOMHighResTimeStamp) => {
   deltaTimeAccumulator += Math.min(1000, hrt - last);
   variableDt = (hrt - last) / 1000;
+  gameTime.update(hrt);
 
   while (deltaTimeAccumulator >= STEP) {
     if (input.debug.query()) {

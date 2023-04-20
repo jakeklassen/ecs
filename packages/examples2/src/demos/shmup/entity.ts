@@ -85,12 +85,25 @@ type Shockwave = {
 
 export interface TweenOptions {
   /**
+   * The delay in milliseconds before the tween starts.
+   * Defaults to 0.
+   */
+  delay?: number;
+
+  /**
    * The duration of the tween in milliseconds.
    */
   duration: number;
   easing: (typeof Easing)[keyof typeof Easing];
   from: number;
   to: number;
+
+  /**
+   * If you start at position 10 and tween position.x to 4, with
+   * fullSwing set to true, the tween will go from 10 to 14 and then
+   * back to 6. It treats the original from position as the origin.
+   */
+  fullSwing?: boolean;
 
   /**
    * Defaults to Infinity and only applies to yoyo tweens.
@@ -114,6 +127,7 @@ export type Tween<E extends TweenableEntity, P extends Path<E>> = {
   property: P;
 
   completed: boolean;
+  delay: number;
   duration: number;
   progress: number;
   iterations: number;
@@ -124,6 +138,7 @@ export type Tween<E extends TweenableEntity, P extends Path<E>> = {
   change: number;
   from: number;
   to: number;
+  fullSwing: boolean;
   easing: (typeof Easing)[keyof typeof Easing];
   yoyo: boolean;
   events: Array<'start' | 'end' | 'yoyo'>;

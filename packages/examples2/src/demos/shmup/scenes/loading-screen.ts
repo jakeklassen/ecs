@@ -26,6 +26,13 @@ export class LoadingScreen extends Scene {
 
     this.#areaWidth = this.config.gameWidth - 1;
     this.#areaHeight = this.config.gameHeight - 1;
+  }
+
+  public override initialize(): void {
+    resetGameState(this.gameState);
+    this.clearSystems();
+    this.world.clearEntities();
+    this.timer.clear();
 
     this.systems.push(
       textSystemFactory({
@@ -57,11 +64,6 @@ export class LoadingScreen extends Scene {
         world: this.world,
       }),
     );
-  }
-
-  public override initialize(): void {
-    resetGameState(this.gameState);
-    this.world.clearEntities();
 
     starfieldFactory({
       areaHeight: this.#areaHeight,

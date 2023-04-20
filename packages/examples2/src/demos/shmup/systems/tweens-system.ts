@@ -20,6 +20,16 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
       for (let i = tweens.length - 1; i >= 0; i--) {
         const tween = tweens[i];
         tween.time += dt;
+
+        if (tween.time < tween.delay) {
+          continue;
+        }
+
+        if (tween.time > tween.delay && tween.delay !== 0) {
+          tween.time = 0;
+          tween.delay = 0;
+        }
+
         tween.progress = tween.time / tween.duration;
 
         const property = justSafeGet(entity, tween.property);
@@ -58,7 +68,15 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
             tween.progress = 0;
             tween.completed = false;
             tween.time = 0;
-            [tween.from, tween.to] = [tween.to, tween.from];
+
+            if (tween.iterations === 1 && tween.fullSwing) {
+              const distance = tween.from - tween.to;
+
+              [tween.from, tween.to] = [tween.to, tween.from + distance];
+            } else {
+              [tween.from, tween.to] = [tween.to, tween.from];
+            }
+
             tween.change = tween.to - tween.from;
           }
         }

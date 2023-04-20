@@ -12,6 +12,10 @@ import { textSystemFactory } from '../systems/text-system.js';
 
 export class GameOverScreen extends Scene {
   public override initialize(): void {
+    this.clearSystems();
+    this.world.clearEntities();
+    this.timer.clear();
+
     this.audioManager.play('game-over', { loop: false });
 
     // Before the canvas gets cleared, copy the gameplay scene for a nice
@@ -23,7 +27,33 @@ export class GameOverScreen extends Scene {
       this.canvas.height,
     );
 
-    this.world.clearEntities();
+    this.systems.push(
+      startGameSystemFactory({ controls: this.input, scene: this }),
+      textSystemFactory({
+        fontCache: this.fontCache,
+        textCache: this.textCache,
+        world: this.world,
+      }),
+      textBlinkAnimationSystemFactory({
+        textCache: this.textCache,
+        world: this.world,
+      }),
+      spriteAnimationSystemFactory({ world: this.world }),
+      gameOverSystemFactory({
+        context: this.context,
+        imageData: gameplayBuffer,
+      }),
+      renderingSystemFactory({
+        world: this.world,
+        context: this.context,
+        spriteSheet: this.content.spritesheet,
+      }),
+      textRenderingSystemFactory({
+        context: this.context,
+        textCache: this.textCache,
+        world: this.world,
+      }),
+    );
 
     // game over text
     this.world.createEntity({
@@ -67,39 +97,6 @@ export class GameOverScreen extends Scene {
         },
       }),
     });
-
-    // We're initing system within initialize() because we need to pass in the
-    // gameplayBuffer.
-    // So we'll just clear all systems and re-add them.
-    this.clearSystems();
-
-    this.systems.push(
-      startGameSystemFactory({ controls: this.input, scene: this }),
-      textSystemFactory({
-        fontCache: this.fontCache,
-        textCache: this.textCache,
-        world: this.world,
-      }),
-      textBlinkAnimationSystemFactory({
-        textCache: this.textCache,
-        world: this.world,
-      }),
-      spriteAnimationSystemFactory({ world: this.world }),
-      gameOverSystemFactory({
-        context: this.context,
-        imageData: gameplayBuffer,
-      }),
-      renderingSystemFactory({
-        world: this.world,
-        context: this.context,
-        spriteSheet: this.content.spritesheet,
-      }),
-      textRenderingSystemFactory({
-        context: this.context,
-        textCache: this.textCache,
-        world: this.world,
-      }),
-    );
   }
 
   public override enter(): void {

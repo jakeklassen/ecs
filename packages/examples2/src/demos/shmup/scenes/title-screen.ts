@@ -31,11 +31,11 @@ export class TitleScreen extends Scene {
 
   public override initialize(): void {
     resetGameState(this.gameState);
+    this.clearSystems();
+    this.world.clearEntities();
+    this.timer.clear();
 
     this.audioManager.play('title-screen-music', { loop: true });
-
-    this.world.clearEntities();
-    this.systems = [];
 
     this.systems.push(
       textSystemFactory({

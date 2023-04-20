@@ -27,6 +27,10 @@ export class Timer {
     this.#timers.delete(time);
   }
 
+  clear() {
+    this.#timers.clear();
+  }
+
   update(dt: number) {
     for (const [time, callback] of this.#timers) {
       time.update(dt);

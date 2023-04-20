@@ -12,7 +12,8 @@ import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
-import { enemySystemFactory } from '../systems/enemy-system.js';
+import { enemyMovementSystemFactory } from '../systems/enemy-movement-system.js';
+import { enemyPickSystemFactory } from '../systems/enemy-pick-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
 import { handleGameWonSystemFactory } from '../systems/handle-game-won-system.js';
@@ -56,6 +57,13 @@ export class GameplayScreen extends Scene {
 
     this.#areaWidth = this.config.gameWidth - 1;
     this.#areaHeight = this.config.gameHeight - 1;
+  }
+
+  public override initialize(): void {
+    resetGameState(this.gameState);
+    this.clearSystems();
+    this.world.clearEntities();
+    this.timer.clear();
 
     this.systems.push(
       timerSystemFactory({ timer: this.timer }),
@@ -72,7 +80,7 @@ export class GameplayScreen extends Scene {
         timer: this.timer,
         world: this.world,
       }),
-      enemySystemFactory({
+      enemyPickSystemFactory({
         config: this.config,
         gameState: this.gameState,
         timer: this.timer,
@@ -95,6 +103,10 @@ export class GameplayScreen extends Scene {
         controls: this.input,
         spritesheet: SpriteSheet,
         audioManager: this.audioManager,
+      }),
+      enemyMovementSystemFactory({
+        timer: this.timer,
+        world: this.world,
       }),
       movementSystemFactory({ world: this.world }),
       particleSystemFactory({ world: this.world }),
@@ -197,11 +209,6 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
     );
-  }
-
-  public override initialize(): void {
-    this.world.clearEntities();
-    resetGameState(this.gameState);
 
     starfieldFactory({
       areaHeight: this.#areaHeight,
@@ -362,6 +369,13 @@ export class GameplayScreen extends Scene {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.context.fillStyle = 'black';
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // this.context.fillStyle = 'red';
+    // this.context.fillRect(16, 0, 1, this.canvas.height);
+    // this.context.fillRect(32, 0, 1, this.canvas.height);
+    // this.context.fillRect(54, 0, 1, this.canvas.height);
+    // this.context.fillRect(96, 0, 1, this.canvas.height);
+    // this.context.fillRect(112, 0, 1, this.canvas.height);
 
     super.update(delta);
   }
