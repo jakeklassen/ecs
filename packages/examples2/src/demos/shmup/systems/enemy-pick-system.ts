@@ -39,6 +39,7 @@ export function enemyPickSystemFactory({
       return;
     }
 
+    // TODO: smelly
     if (enemies.entities.size === 0) {
       world.createEntity({
         eventNextWave: true,
@@ -46,7 +47,7 @@ export function enemyPickSystemFactory({
     }
 
     // Sort by position using x and y, from left to right, top to bottom
-    // All y positions should be grouped together
+    // All _rows_ should be grouped together
     const enemiesArray = Array.from(enemies.entities)
       .filter((enemy) => enemy.enemyState === 'protect')
       .sort((a, b) => {
@@ -75,8 +76,6 @@ export function enemyPickSystemFactory({
     if (attackFrequencyTimer >= wave.attackFrequency) {
       attackFrequencyTimer = 0;
 
-      let startDirection = Math.random() < 0.5 ? 1 : -1;
-
       const max = Math.min(enemies.entities.size, 10);
       const randomIndex = rndInt(max, 1);
       const enemyIndex = enemies.entities.size - randomIndex;
@@ -86,37 +85,45 @@ export function enemyPickSystemFactory({
         return;
       }
 
+      // We don't move the boss or yellow ship
       if (enemy.enemyType === 'boss' || enemy.enemyType === 'yellowShip') {
         return;
       }
 
+      const startDirection = Math.random() < 0.5 ? 1 : -1;
       enemy.enemyState = 'attack';
 
       const direction = {
-        // -1 is right, 1 is left
-        x: startDirection === 1 ? 1 : -1,
+        x: 0,
         y: 1,
+      };
+
+      let boostTweenXDuration = 700;
+      let tweenXDuration = 800;
+      let tweenXDistance = 16;
+
+      const velocity = {
+        x: 0,
+        y: 51,
       };
 
       const tweens = [];
 
       if (enemy.transform.position.x < 16) {
         // Always start to the right
-        startDirection = 1;
-
         tweens.push(
           tweenFactory('transform.position.x', {
-            duration: 700,
+            duration: boostTweenXDuration,
             easing: Easing.InSine,
             from: enemy.transform.position.x,
             to: enemy.transform.position.x + 24,
           }),
           tweenFactory('transform.position.x', {
-            delay: 700,
-            duration: 800,
+            delay: boostTweenXDuration,
+            duration: tweenXDuration,
             easing: Easing.InSine,
             from: enemy.transform.position.x + 24,
-            to: enemy.transform.position.x + 24 - 16,
+            to: enemy.transform.position.x + 24 - tweenXDistance,
             fullSwing: true,
             yoyo: true,
             maxIterations: Infinity,
@@ -124,34 +131,31 @@ export function enemyPickSystemFactory({
         );
       } else if (enemy.transform.position.x > 104) {
         // Always start to the left
-        startDirection = -1;
         tweens.push(
           tweenFactory('transform.position.x', {
-            duration: 700,
+            duration: boostTweenXDuration,
             easing: Easing.InSine,
             from: enemy.transform.position.x,
             to: enemy.transform.position.x - 24,
           }),
           tweenFactory('transform.position.x', {
-            delay: 700,
-            duration: 800,
+            delay: boostTweenXDuration,
+            duration: tweenXDuration,
             easing: Easing.InSine,
             from: enemy.transform.position.x - 24,
-            to: enemy.transform.position.x - 24 + 16,
+            to: enemy.transform.position.x - 24 + tweenXDistance,
             fullSwing: true,
             yoyo: true,
             maxIterations: Infinity,
           }),
         );
       } else {
-        startDirection = startDirection === 1 ? 1 : -1;
-
         tweens.push(
           tweenFactory('transform.position.x', {
-            duration: 800,
+            duration: tweenXDuration,
             easing: Easing.InSine,
             from: enemy.transform.position.x,
-            to: enemy.transform.position.x + startDirection * 16,
+            to: enemy.transform.position.x + startDirection * tweenXDistance,
             fullSwing: true,
             yoyo: true,
             maxIterations: Infinity,
@@ -159,14 +163,26 @@ export function enemyPickSystemFactory({
         );
       }
 
-      world.addEntityComponents(enemy, 'tweens', [
-        ...(enemy.tweens ?? []).concat(tweens),
-      ]);
+      // The red guy is more aggressive
+      if (enemy.enemyType === 'redFlameGuy') {
+        velocity.y = 75;
+        tweenXDuration = 400;
+        tweenXDistance = 8;
+      } else if (enemy.enemyType === 'spinningShip') {
+        velocity.y = 60;
 
-      const velocity = {
-        x: 0,
-        y: 51,
-      };
+        // The spinning ship moves down until the player is within
+        // perpendicular sight. It will move laterally towards the player
+        // at this point.
+        world.addEntityComponents(enemy, 'tagLateralHunter', true);
+      }
+
+      // Only these two tween
+      if (['greenAlien', 'redFlameGuy'].includes(enemy.enemyType)) {
+        world.addEntityComponents(enemy, 'tweens', [
+          ...(enemy.tweens ?? []).concat(tweens),
+        ]);
+      }
 
       world.addEntityComponents(enemy, 'direction', direction);
       world.addEntityComponents(enemy, 'velocity', velocity);

@@ -234,6 +234,7 @@ export type Entity = {
   tagBullet?: true;
   tagEnemy?: true;
   tagHud?: true;
+  tagLateralHunter?: true;
   tagPlayer?: true;
   tagPlayerThruster?: true;
   tagTextCherries?: true;

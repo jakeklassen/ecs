@@ -12,12 +12,12 @@ import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
-import { enemyMovementSystemFactory } from '../systems/enemy-movement-system.js';
 import { enemyPickSystemFactory } from '../systems/enemy-pick-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
 import { handleGameWonSystemFactory } from '../systems/handle-game-won-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
+import { lateralHunterSystemFactory } from '../systems/lateral-hunter-system.js';
 import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
 import { muzzleFlashRenderingSystemFactory } from '../systems/muzzle-flash-rendering-system.js';
@@ -104,7 +104,7 @@ export class GameplayScreen extends Scene {
         spritesheet: SpriteSheet,
         audioManager: this.audioManager,
       }),
-      enemyMovementSystemFactory({
+      lateralHunterSystemFactory({
         timer: this.timer,
         world: this.world,
       }),
