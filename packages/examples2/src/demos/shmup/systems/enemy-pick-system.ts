@@ -86,6 +86,10 @@ export function enemyPickSystemFactory({
         return;
       }
 
+      if (enemy.enemyType === 'boss' || enemy.enemyType === 'yellowShip') {
+        return;
+      }
+
       enemy.enemyState = 'attack';
 
       const direction = {

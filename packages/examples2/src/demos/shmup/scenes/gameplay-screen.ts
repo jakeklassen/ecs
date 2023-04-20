@@ -370,13 +370,6 @@ export class GameplayScreen extends Scene {
     this.context.fillStyle = 'black';
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // this.context.fillStyle = 'red';
-    // this.context.fillRect(16, 0, 1, this.canvas.height);
-    // this.context.fillRect(32, 0, 1, this.canvas.height);
-    // this.context.fillRect(54, 0, 1, this.canvas.height);
-    // this.context.fillRect(96, 0, 1, this.canvas.height);
-    // this.context.fillRect(112, 0, 1, this.canvas.height);
-
     super.update(delta);
   }
 }
