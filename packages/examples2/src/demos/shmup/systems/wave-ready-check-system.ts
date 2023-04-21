@@ -20,6 +20,12 @@ export function waveReadyCheckSystemFactory({
   );
 
   return () => {
+    if (enemies.entities.size === 0 && gameState.waveReady === true) {
+      world.createEntity({
+        eventNextWave: true,
+      });
+    }
+
     if (enemies.entities.size === 0 || gameState.waveReady === true) {
       return;
     }

@@ -217,6 +217,31 @@ export const SpriteSheet = {
     },
   },
 
+  enemyBullet: {
+    boxCollider: {
+      offsetX: 0,
+      offsetY: 0,
+      width: 6,
+      height: 6,
+    },
+    frame: {
+      sourceX: 0,
+      sourceY: 16,
+      width: 8,
+      height: 8,
+    },
+    animations: {
+      idle: {
+        sourceX: 0,
+        sourceY: 16,
+        width: 24,
+        height: 8,
+        frameWidth: 8,
+        frameHeight: 8,
+      },
+    },
+  },
+
   text: {
     zero: {
       frame: {

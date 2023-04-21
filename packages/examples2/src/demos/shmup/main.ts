@@ -7,6 +7,7 @@ import JSZip from 'jszip';
 import '../../style.css';
 import bossMusicWavUrl from './assets/audio/boss-music.wav';
 import enemyDeathWaveUrl from './assets/audio/enemy-death.wav';
+import enemyProjectileWavUrl from './assets/audio/enemy-projectile.wav';
 import gameOverWavUrl from './assets/audio/game-over.wav';
 import gameStartWavUrl from './assets/audio/game-start.wav';
 import gameWonWavUrl from './assets/audio/game-won-music.wav';
@@ -47,6 +48,7 @@ const audioManager = new AudioManager();
 
 await audioManager.loadTrack('boss-music', bossMusicWavUrl);
 await audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
+await audioManager.loadTrack('enemy-projectile', enemyProjectileWavUrl);
 await audioManager.loadTrack('game-over', gameOverWavUrl);
 await audioManager.loadTrack('game-start', gameStartWavUrl);
 await audioManager.loadTrack('game-won', gameWonWavUrl);

@@ -44,6 +44,8 @@ import { textSystemFactory } from '../systems/text-system.js';
 import { timeToLiveSystemFactory } from '../systems/time-to-live-system.js';
 import { timerSystemFactory } from '../systems/timer-system.js';
 import { trackPlayerSystemFactory } from '../systems/track-player-system.js';
+import { triggerEnemyAttackEventSystemFactory } from '../systems/trigger-enemy-attack-event-system.js';
+import { triggerEnemyFireEventSystemFactory } from '../systems/trigger-enemy-fire-event-system.js';
 import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-system.js';
 import { triggerGameWonSystemFactory } from '../systems/trigger-game-won-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
@@ -90,7 +92,14 @@ export class GameplayScreen extends Scene {
       enemyPickSystemFactory({
         config: this.config,
         gameState: this.gameState,
+        world: this.world,
+      }),
+      triggerEnemyAttackEventSystemFactory({
         timer: this.timer,
+        world: this.world,
+      }),
+      triggerEnemyFireEventSystemFactory({
+        audioManager: this.audioManager,
         world: this.world,
       }),
       timeToLiveSystemFactory({

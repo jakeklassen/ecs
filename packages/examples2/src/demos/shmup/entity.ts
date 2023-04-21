@@ -214,6 +214,8 @@ export type Entity = {
     waveNumber: number;
   };
   eventTriggerBomb?: true;
+  eventTriggerEnemyAttack?: true;
+  eventTriggerEnemyFire?: true;
   flash?: {
     alpha: number;
     color: HexColor;
@@ -244,6 +246,7 @@ export type Entity = {
   tagBomb?: true;
   tagBullet?: true;
   tagEnemy?: true;
+  tagEnemyProjectile?: true;
   tagHud?: true;
   tagLateralHunter?: true;
   tagPlayer?: true;

@@ -16,7 +16,6 @@ export function playerProjectileCollisionEventSystemFactory({
   audioManager: AudioManager;
   gameState: GameState;
 }) {
-  const enemies = world.archetype('tagEnemy');
   const events = world.archetype('eventPlayerProjectileEnemyCollision');
 
   return () => {
@@ -156,12 +155,9 @@ export function playerProjectileCollisionEventSystemFactory({
           });
           gameState.score += 100;
 
-          // Trigger next wave event
-          if (enemies.entities.size === 0) {
-            world.createEntity({
-              eventNextWave: true,
-            });
-          }
+          world.createEntity({
+            eventTriggerEnemyAttack: true,
+          });
         }
       }
 
