@@ -25,6 +25,16 @@ export function tweenSystemFactory({ world }: { world: World<Entity> }) {
           continue;
         }
 
+        if (tween.destroyAfter > 0) {
+          tween.destroyAfter -= dt;
+
+          if (tween.destroyAfter <= 0) {
+            tweens.splice(i, 1);
+
+            continue;
+          }
+        }
+
         if (tween.time > tween.delay && tween.delay !== 0) {
           tween.time = 0;
           tween.delay = 0;

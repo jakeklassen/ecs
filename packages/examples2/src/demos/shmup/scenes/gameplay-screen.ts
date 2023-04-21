@@ -48,6 +48,7 @@ import { triggerGameOverSystemFactory } from '../systems/trigger-game-over-syste
 import { triggerGameWonSystemFactory } from '../systems/trigger-game-won-system.js';
 import { tweenSystemFactory } from '../systems/tweens-system.js';
 import { waveReadyCheckSystemFactory } from '../systems/wave-ready-check-system.js';
+import { yellowShipSystemFactory } from '../systems/yellow-ship-system.js';
 
 export class GameplayScreen extends Scene {
   #areaWidth: number;
@@ -115,6 +116,9 @@ export class GameplayScreen extends Scene {
         timer: this.timer,
         world: this.world,
       }),
+      yellowShipSystemFactory({
+        world: this.world,
+      }),
       movementSystemFactory({ world: this.world }),
       particleSystemFactory({ world: this.world }),
       shockwaveSystemFactory({ world: this.world }),
@@ -170,9 +174,9 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       renderingSystemFactory({
-        world: this.world,
         context: this.context,
         spriteSheet: this.content.spritesheet,
+        world: this.world,
       }),
       shockwaveRenderingSystemFactory({
         context: this.context,

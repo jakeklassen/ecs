@@ -20,6 +20,7 @@ export function tweenFactory<P extends TweenablePaths>(
     end: options.to,
     change: options.to - options.from,
     delay: (options.delay ?? 0) / 1000,
+    destroyAfter: (options.destroyAfter ?? 0) / 1000,
     duration: options.duration / 1000,
     from: options.from,
     to: options.to,

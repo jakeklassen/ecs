@@ -2,13 +2,13 @@ import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
 export function renderingSystemFactory({
-  world,
   context,
   spriteSheet,
+  world,
 }: {
-  world: World<Entity>;
   context: CanvasRenderingContext2D;
   spriteSheet: HTMLImageElement;
+  world: World<Entity>;
 }) {
   const renderables = world
     .archetype('sprite', 'transform')

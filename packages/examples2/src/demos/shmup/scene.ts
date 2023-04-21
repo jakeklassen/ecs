@@ -9,6 +9,7 @@ import { GameEvent } from './game-events.js';
 import { GameState } from './game-state.js';
 import { SpriteSheet } from './spritesheet.js';
 import { Timer } from './timer.js';
+import { GameTime } from './game-time.js';
 
 type System = (dt: number) => void;
 
@@ -20,6 +21,7 @@ export interface SceneConstructorProps {
   context: CanvasRenderingContext2D;
   fontCache: Map<string, TextBufferFont>;
   gameState: GameState;
+  gameTime: GameTime;
   input: Controls;
   spriteSheet: SpriteSheet;
   timer: Timer;
@@ -40,6 +42,7 @@ export class Scene {
   protected context: CanvasRenderingContext2D;
   protected fontCache: Map<string, TextBufferFont>;
   protected gameState: GameState;
+  protected gameTime: GameTime;
   protected spriteSheet: SpriteSheet;
   protected timer: Timer;
   protected textCache: Map<Entity, TextBuffer>;
@@ -55,6 +58,7 @@ export class Scene {
     this.context = props.context;
     this.fontCache = props.fontCache;
     this.gameState = props.gameState;
+    this.gameTime = props.gameTime;
     this.spriteSheet = props.spriteSheet;
     this.timer = props.timer;
     this.textCache = props.textCache;

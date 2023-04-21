@@ -91,6 +91,13 @@ export interface TweenOptions {
   delay?: number;
 
   /**
+   * Regardless of other combinations of options, if you set
+   * destroyAfter to a number, the tween will be destroyed after
+   * that many milliseconds.
+   */
+  destroyAfter?: number;
+
+  /**
    * The duration of the tween in milliseconds.
    */
   duration: number;
@@ -129,6 +136,7 @@ export type Tween<E extends TweenableEntity, P extends Path<E>> = {
   completed: boolean;
   delay: number;
   duration: number;
+  destroyAfter: number;
   progress: number;
   iterations: number;
   maxIterations: number;
@@ -244,6 +252,7 @@ export type Entity = {
   tagTextScore?: true;
   tagStartScreenGreenAlien?: true;
   tagText?: true;
+  tagYellowShip?: true;
   ttl?: {
     durationMs: number;
     elapsedMs: number;

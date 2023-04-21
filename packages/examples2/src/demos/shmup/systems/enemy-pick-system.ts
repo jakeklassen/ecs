@@ -5,11 +5,12 @@ import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
-import { Timer } from '../timer.js';
+import { TimeSpan, Timer } from '../timer.js';
 
 export function enemyPickSystemFactory({
   config,
   gameState,
+  timer,
   world,
 }: {
   config: Config;
@@ -20,6 +21,7 @@ export function enemyPickSystemFactory({
   const enemies = world.archetype(
     'enemyState',
     'enemyType',
+    'spriteAnimation',
     'tagEnemy',
     'transform',
   );
@@ -86,12 +88,16 @@ export function enemyPickSystemFactory({
       }
 
       // We don't move the boss or yellow ship
-      if (enemy.enemyType === 'boss' || enemy.enemyType === 'yellowShip') {
+      if (enemy.enemyType === 'boss') {
         return;
       }
 
       const startDirection = Math.random() < 0.5 ? 1 : -1;
       enemy.enemyState = 'attack';
+      // Double the animation speed. `frameRate` is a fraction of a second,
+      // so we're not multiplying by 2, but dividing by 2 to make it smaller.
+      // e.g. less time to wait between frames.
+      enemy.spriteAnimation.frameRate /= 2;
 
       const direction = {
         x: 0,
@@ -107,7 +113,7 @@ export function enemyPickSystemFactory({
         y: 51,
       };
 
-      const tweens = [];
+      const tweens: NonNullable<Entity['tweens']> = [];
 
       if (enemy.transform.position.x < 16) {
         // Always start to the right
@@ -163,29 +169,59 @@ export function enemyPickSystemFactory({
         );
       }
 
-      // The red guy is more aggressive
-      if (enemy.enemyType === 'redFlameGuy') {
-        velocity.y = 75;
-        tweenXDuration = 400;
-        tweenXDistance = 8;
-      } else if (enemy.enemyType === 'spinningShip') {
-        velocity.y = 60;
-
-        // The spinning ship moves down until the player is within
-        // perpendicular sight. It will move laterally towards the player
-        // at this point.
-        world.addEntityComponents(enemy, 'tagLateralHunter', true);
-      }
-
-      // Only these two tween
-      if (['greenAlien', 'redFlameGuy'].includes(enemy.enemyType)) {
+      if (
+        enemy.enemyType === 'greenAlien' ||
+        enemy.enemyType === 'redFlameGuy'
+      ) {
         world.addEntityComponents(enemy, 'tweens', [
-          ...(enemy.tweens ?? []).concat(tweens),
+          ...(enemy.tweens ?? []).concat(
+            tweenFactory('transform.position.x', {
+              duration: 80,
+              destroyAfter: 2000,
+              easing: Easing.InSine,
+              from: enemy.transform.position.x,
+              to: enemy.transform.position.x + 1,
+              yoyo: true,
+              fullSwing: true,
+              maxIterations: Infinity,
+            }),
+          ),
         ]);
       }
 
-      world.addEntityComponents(enemy, 'direction', direction);
-      world.addEntityComponents(enemy, 'velocity', velocity);
+      timer.add(new TimeSpan(2000), () => {
+        if (world.entities.has(enemy) === false) {
+          return;
+        }
+
+        // The red guy is more aggressive
+        if (enemy.enemyType === 'redFlameGuy') {
+          velocity.y = 75;
+          tweenXDuration = 400;
+          tweenXDistance = 8;
+        } else if (enemy.enemyType === 'spinningShip') {
+          velocity.y = 60;
+
+          // The spinning ship moves down until the player is within
+          // perpendicular sight. It will move laterally towards the player
+          // at this point.
+          world.addEntityComponents(enemy, 'tagLateralHunter', true);
+        } else if (enemy.enemyType === 'yellowShip') {
+          velocity.y = 10;
+
+          world.addEntityComponents(enemy, 'tagYellowShip', true);
+        }
+
+        // Only these two tween
+        if (['greenAlien', 'redFlameGuy'].includes(enemy.enemyType)) {
+          world.addEntityComponents(enemy, 'tweens', [
+            ...(enemy.tweens ?? []).concat(tweens),
+          ]);
+        }
+
+        world.addEntityComponents(enemy, 'direction', direction);
+        world.addEntityComponents(enemy, 'velocity', velocity);
+      });
     }
   };
 }
