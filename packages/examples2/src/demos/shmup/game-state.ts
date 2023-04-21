@@ -1,4 +1,5 @@
 export const gameState = {
+  bombLocked: true,
   cherries: 0,
   score: 0,
   lives: 1,
@@ -11,6 +12,7 @@ export const gameState = {
 };
 
 export const resetGameState = (gameState: GameState) => {
+  gameState.bombLocked = true;
   gameState.cherries = 0;
   gameState.score = 0;
   gameState.lives = gameState.maxLives;

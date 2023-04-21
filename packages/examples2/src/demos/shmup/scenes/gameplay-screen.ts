@@ -7,6 +7,7 @@ import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
+import { bombSystemFactory } from '../systems/bomb-system.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
 import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
@@ -80,6 +81,11 @@ export class GameplayScreen extends Scene {
         timer: this.timer,
         world: this.world,
       }),
+      bombSystemFactory({
+        gameState: this.gameState,
+        timer: this.timer,
+        world: this.world,
+      }),
       enemyPickSystemFactory({
         config: this.config,
         gameState: this.gameState,
@@ -99,10 +105,11 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       playerSystemFactory({
-        world: this.world,
-        controls: this.input,
-        spritesheet: SpriteSheet,
         audioManager: this.audioManager,
+        controls: this.input,
+        gameState: this.gameState,
+        spritesheet: SpriteSheet,
+        world: this.world,
       }),
       lateralHunterSystemFactory({
         timer: this.timer,

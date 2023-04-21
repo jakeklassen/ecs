@@ -9,6 +9,7 @@ export const controls = {
   up: or(gamepad.button('Up'), keyboard.key('ArrowUp')),
   down: or(gamepad.button('Down'), keyboard.key('ArrowDown')),
   fire: or(gamepad.button('A'), keyboard.key('Z')),
+  bomb: or(gamepad.button('X'), keyboard.key('B')),
   debug: or(gamepad.button('RB').trigger, keyboard.key('D').trigger),
   confirm: or(gamepad.button('B').trigger, keyboard.key('X').trigger),
   quit: or(gamepad.button('Start').trigger, keyboard.key('Escape').trigger),

@@ -82,14 +82,19 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           ? otherEntity
           : null;
 
-        if (
-          (entity.tagBullet && otherEntity.tagEnemy) ||
-          (entity.tagEnemy && otherEntity.tagBullet)
-        ) {
+        const projectile =
+          entity.tagBullet || entity.tagBomb
+            ? entity
+            : otherEntity.tagBullet || otherEntity.tagBomb
+            ? otherEntity
+            : null;
+
+        if (projectile != null && enemy != null) {
           world.createEntity({
             eventPlayerProjectileEnemyCollision: {
               projectile: entity.tagBullet ? entity : otherEntity,
               enemy: entity.tagBullet ? otherEntity : entity,
+              damage: projectile.tagBomb ? 1000 : 1,
             },
           });
         } else if (

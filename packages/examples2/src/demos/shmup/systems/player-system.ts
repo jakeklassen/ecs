@@ -4,17 +4,20 @@ import { Control } from 'contro/dist/core/control.js';
 import { Entity } from '../entity.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { CollisionMasks } from '../bitmasks.js';
+import { GameState } from '../game-state.js';
 
 export function playerSystemFactory({
-  world,
-  controls,
-  spritesheet,
   audioManager,
+  controls,
+  gameState,
+  spritesheet,
+  world,
 }: {
-  world: World<Entity>;
-  controls: Record<string, Control<any>>;
-  spritesheet: SpriteSheet;
   audioManager: AudioManager;
+  controls: Record<string, Control<any>>;
+  gameState: GameState;
+  spritesheet: SpriteSheet;
+  world: World<Entity>;
 }) {
   const players = world.archetype(
     'boxCollider',
@@ -66,6 +69,12 @@ export function playerSystemFactory({
         entity.direction.y = -1;
       } else if (controls.down.query()) {
         entity.direction.y = 1;
+      }
+
+      if (controls.bomb.query() && !gameState.bombLocked) {
+        world.createEntity({
+          eventTriggerBomb: true,
+        });
       }
 
       if (controls.fire.query()) {

@@ -40,13 +40,6 @@ export function waveReadyCheckSystemFactory({
 
         // When flying we want to check if we are at the destination.
         // If we are, we want to remove the tweens and set the state to protect
-
-        // const dx = (enemyDestination.x - transform.position.x) / 14;
-        // const dy = (enemyDestination.y - transform.position.y) / 14;
-
-        // entity.transform.position.x += dx;
-        // entity.transform.position.y += dy;
-
         if (
           Math.abs(transform.position.y - enemyDestination.y) < Number.EPSILON
         ) {
@@ -57,5 +50,6 @@ export function waveReadyCheckSystemFactory({
     }
 
     gameState.waveReady = waveReady;
+    gameState.bombLocked = !waveReady;
   };
 }

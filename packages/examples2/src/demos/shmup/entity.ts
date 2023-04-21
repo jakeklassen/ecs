@@ -200,10 +200,12 @@ export type Entity = {
   eventPlayerProjectileEnemyCollision?: {
     projectile: Entity;
     enemy: Entity;
+    damage: number;
   };
   eventSpawnWave?: {
     waveNumber: number;
   };
+  eventTriggerBomb?: true;
   flash?: {
     alpha: number;
     color: HexColor;
@@ -231,6 +233,7 @@ export type Entity = {
   star?: {
     color: string;
   };
+  tagBomb?: true;
   tagBullet?: true;
   tagEnemy?: true;
   tagHud?: true;
