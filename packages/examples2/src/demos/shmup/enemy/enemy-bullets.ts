@@ -161,8 +161,8 @@ export function aimedFire({
   world: World<Entity>;
 }) {
   const angle = Math.atan2(
-    target.position.x - enemy.transform.position.x,
-    target.position.y - enemy.transform.position.y,
+    target.position.x + 4 - enemy.transform.position.x,
+    target.position.y + 4 - enemy.transform.position.y,
   );
 
   fire({
