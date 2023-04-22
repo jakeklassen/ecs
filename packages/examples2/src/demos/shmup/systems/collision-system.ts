@@ -82,33 +82,33 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           ? otherEntity
           : null;
 
-        const projectile =
+        const playerBullet =
           entity.tagBullet || entity.tagBomb
             ? entity
             : otherEntity.tagBullet || otherEntity.tagBomb
             ? otherEntity
             : null;
 
-        const enemyProjectile = entity.tagEnemyProjectile
+        const enemyBullet = entity.tagEnemyBullet
           ? entity
-          : otherEntity.tagEnemyProjectile
+          : otherEntity.tagEnemyBullet
           ? otherEntity
           : null;
 
-        if (projectile != null && enemy != null) {
+        if (playerBullet != null && enemy != null) {
           world.createEntity({
             eventPlayerProjectileEnemyCollision: {
               projectile: entity.tagBullet ? entity : otherEntity,
               enemy: entity.tagBullet ? otherEntity : entity,
-              damage: projectile.tagBomb ? 1000 : 1,
+              damage: playerBullet.tagBomb ? 1000 : 1,
             },
           });
         } else if (player != null && player.invulnerable == null) {
-          if (enemyProjectile != null) {
+          if (enemyBullet != null) {
             world.createEntity({
               eventPlayerEnemyCollision: {
                 player,
-                enemy: enemyProjectile,
+                enemy: enemyBullet,
               },
             });
           } else if (enemy != null) {

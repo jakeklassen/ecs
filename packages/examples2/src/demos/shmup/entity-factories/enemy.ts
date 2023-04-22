@@ -2,6 +2,7 @@ import { World } from '@jakeklassen/ecs2';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { config } from '../config.js';
+import { EnemyType } from '../constants.js';
 import { Entity } from '../entity.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
@@ -62,7 +63,7 @@ export function greenAlienFactory<T extends Entity>({
 }) {
   return enemyFactory({
     components,
-    enemyName: 'greenAlien',
+    enemyName: EnemyType.GreenAlien,
     world,
   });
 }
@@ -76,7 +77,7 @@ export function redFlameGuyFactory<T extends Entity>({
 }) {
   return enemyFactory({
     components,
-    enemyName: 'redFlameGuy',
+    enemyName: EnemyType.RedFlameGuy,
     world,
   });
 }
@@ -90,7 +91,7 @@ export function spinningShipFactory<T extends Entity>({
 }) {
   return enemyFactory({
     components,
-    enemyName: 'spinningShip',
+    enemyName: EnemyType.SpinningShip,
     world,
   });
 }
@@ -104,7 +105,7 @@ export function yellowShipFactory<T extends Entity>({
 }) {
   return enemyFactory({
     components,
-    enemyName: 'yellowShip',
+    enemyName: EnemyType.YellowShip,
     world,
   });
 }
@@ -118,7 +119,7 @@ export function bossFactory<T extends Entity>({
 }) {
   return enemyFactory({
     components,
-    enemyName: 'boss',
+    enemyName: EnemyType.Boss,
     world,
   });
 }

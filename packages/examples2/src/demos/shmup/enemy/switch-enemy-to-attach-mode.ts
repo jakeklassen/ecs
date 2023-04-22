@@ -2,6 +2,7 @@ import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
 import { SetRequired } from 'type-fest';
 import { tweenFactory } from '../components/tween.js';
+import { EnemyType } from '../constants.js';
 import { Entity } from '../entity.js';
 import { TimeSpan, Timer } from '../timer.js';
 
@@ -94,7 +95,10 @@ export function switchEnemyToAttackMode({
     );
   }
 
-  if (enemy.enemyType === 'greenAlien' || enemy.enemyType === 'redFlameGuy') {
+  if (
+    enemy.enemyType === EnemyType.GreenAlien ||
+    enemy.enemyType === EnemyType.RedFlameGuy
+  ) {
     world.addEntityComponents(enemy, 'tweens', [
       ...(enemy.tweens ?? []).concat(
         tweenFactory('transform.position.x', {
@@ -117,25 +121,28 @@ export function switchEnemyToAttackMode({
     }
 
     // The red guy is more aggressive
-    if (enemy.enemyType === 'redFlameGuy') {
+    if (enemy.enemyType === EnemyType.RedFlameGuy) {
       velocity.y = 75;
       tweenXDuration = 400;
       tweenXDistance = 8;
-    } else if (enemy.enemyType === 'spinningShip') {
+    } else if (enemy.enemyType === EnemyType.SpinningShip) {
       velocity.y = 60;
 
       // The spinning ship moves down until the player is within
       // perpendicular sight. It will move laterally towards the player
       // at this point.
       world.addEntityComponents(enemy, 'tagLateralHunter', true);
-    } else if (enemy.enemyType === 'yellowShip') {
+    } else if (enemy.enemyType === EnemyType.YellowShip) {
       velocity.y = 10;
 
       world.addEntityComponents(enemy, 'tagYellowShip', true);
     }
 
     // Only these two tween
-    if (['greenAlien', 'redFlameGuy'].includes(enemy.enemyType)) {
+    if (
+      enemy.enemyType === EnemyType.GreenAlien ||
+      enemy.enemyType === EnemyType.RedFlameGuy
+    ) {
       world.addEntityComponents(enemy, 'tweens', [
         ...(enemy.tweens ?? []).concat(tweens),
       ]);

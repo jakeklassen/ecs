@@ -3,7 +3,7 @@ import { World } from '@jakeklassen/ecs2';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { transformFactory } from '../components/transform.js';
-import { Pico8Colors } from '../constants.js';
+import { EnemyType, Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
@@ -28,10 +28,10 @@ export function fire({
     },
   });
 
-  if (enemy.enemyType === 'yellowShip') {
+  if (enemy.enemyType === EnemyType.YellowShip) {
     transform.position.x = enemy.transform?.position.x ?? 0 + 7;
     transform.position.y = enemy.transform?.position.y ?? 0 + 13;
-  } else if (enemy.enemyType === 'boss') {
+  } else if (enemy.enemyType === EnemyType.Boss) {
     transform.position.x = enemy.transform?.position.x ?? 0 + 15;
     transform.position.y = enemy.transform?.position.y ?? 0 + 23;
   }
@@ -63,7 +63,7 @@ export function fire({
       SpriteSheet.enemyBullet.animations.idle.frameWidth,
       SpriteSheet.enemyBullet.animations.idle.frameHeight,
     ),
-    500,
+    250,
     true,
     [0, 1, 2, 1],
   );
@@ -89,12 +89,12 @@ export function fire({
     destroyOnViewportExit: true,
     sprite,
     spriteAnimation,
-    tagEnemyProjectile: true,
+    tagEnemyBullet: true,
     transform,
     velocity,
   });
 
-  if (enemy.enemyType !== 'boss') {
+  if (enemy.enemyType !== EnemyType.Boss) {
     world.addEntityComponents(enemy, 'flash', {
       alpha: 1,
       color: Pico8Colors.Color7,

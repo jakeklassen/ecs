@@ -19,3 +19,11 @@ export const Pico8Colors = {
   Color14: '#ff77a8',
   Color15: '#ffccaa',
 } as const;
+
+export const EnemyType = {
+  GreenAlien: 'greenAlien',
+  RedFlameGuy: 'redFlameGuy',
+  SpinningShip: 'spinningShip',
+  YellowShip: 'yellowShip',
+  Boss: 'boss',
+} as const;

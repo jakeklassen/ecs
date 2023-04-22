@@ -1,6 +1,7 @@
 import { rndFromList } from '#/lib/array.js';
 import { rndInt } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
+import { Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
 
 interface StarFactoryOptions {
@@ -33,9 +34,9 @@ export function starFactory({ position, world }: StarFactoryOptions) {
 
   // Adjust star color based on velocity
   if (entity.velocity.y < 30) {
-    entity.star.color = '#1d2b53';
+    entity.star.color = Pico8Colors.Color1;
   } else if (entity.velocity.y < 60) {
-    entity.star.color = '#83769b';
+    entity.star.color = Pico8Colors.Color13;
   }
 }
 

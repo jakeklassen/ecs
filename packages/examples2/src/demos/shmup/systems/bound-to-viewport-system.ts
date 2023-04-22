@@ -1,20 +1,28 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function boundToViewportSystemFactory({
-  world,
-  viewport,
-}: {
-  world: World<Entity>;
+type BoundToViewportSystemFactoryOptions = {
   viewport: { width: number; height: number };
-}) {
+  world: World<Entity>;
+};
+
+/**
+ * Factory for system that keeps entities within the viewport.
+ */
+export function boundToViewportSystemFactory({
+  viewport,
+  world,
+}: BoundToViewportSystemFactoryOptions) {
   const boundToViewport = world.archetype(
     'boundToViewport',
     'boxCollider',
     'transform',
   );
 
-  return (_dt: number) => {
+  /**
+   * This system keeps entities within the viewport.
+   */
+  return function boundToViewportSystem() {
     for (const entity of boundToViewport.entities) {
       if (
         entity.transform.position.x + entity.boxCollider.offsetX >

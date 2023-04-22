@@ -246,7 +246,7 @@ export type Entity = {
   tagBomb?: true;
   tagBullet?: true;
   tagEnemy?: true;
-  tagEnemyProjectile?: true;
+  tagEnemyBullet?: true;
   tagHud?: true;
   tagLateralHunter?: true;
   tagPlayer?: true;

@@ -13,20 +13,12 @@ export function enemyPickSystemFactory({
   gameState: GameState;
   world: World<Entity>;
 }) {
-  const enemies = world.archetype(
-    'enemyState',
-    'enemyType',
-    'spriteAnimation',
-    'tagEnemy',
-    'transform',
-  );
-
   let attackFrequencyTimer = 0;
   let fireFrequencyTimer = 0;
   let nextFireTime = 0;
 
-  return (dt: number) => {
-    if (gameState.waveReady === false || enemies.entities.size === 0) {
+  return function enemyPickSystem(dt: number) {
+    if (gameState.waveReady === false) {
       return;
     }
 

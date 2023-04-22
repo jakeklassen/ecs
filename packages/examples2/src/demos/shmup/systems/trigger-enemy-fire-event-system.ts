@@ -1,7 +1,7 @@
 import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
 import { determinePickableEnemies } from '../enemy/determine-pickable-enemies.js';
-import { fire } from '../enemy/fire.js';
+import { fire } from '../enemy/enemy-bullets.js';
 import { pickRandomEnemy } from '../enemy/pick-random-enemy.js';
 import { Entity } from '../entity.js';
 

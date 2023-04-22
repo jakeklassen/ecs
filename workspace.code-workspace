@@ -31,6 +31,10 @@
   ],
   "settings": {
     "typescript.preferences.importModuleSpecifierEnding": "js",
-    "typescript.tsdk": "📦 ecs/node_modules/typescript/lib"
+    "typescript.tsdk": "📦 ecs/node_modules/typescript/lib",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
   }
 }
