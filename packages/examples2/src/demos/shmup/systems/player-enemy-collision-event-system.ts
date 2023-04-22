@@ -1,4 +1,3 @@
-import { AudioManager } from '#/lib/audio-manager.js';
 import { rnd } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
@@ -11,15 +10,13 @@ import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 
 export function playerEnemyCollisionEventSystemFactory({
-  world,
-  audioManager,
   config,
   gameState,
+  world,
 }: {
-  world: World<Entity>;
-  audioManager: AudioManager;
   config: Config;
   gameState: GameState;
+  world: World<Entity>;
 }) {
   const events = world.archetype('eventPlayerEnemyCollision');
   const players = world.archetype('tagPlayer', 'transform');
@@ -32,8 +29,13 @@ export function playerEnemyCollisionEventSystemFactory({
     for (const entity of events.entities) {
       const { eventPlayerEnemyCollision: event } = entity;
 
-      audioManager.play('player-death', {
-        loop: false,
+      world.createEntity({
+        eventPlaySound: {
+          track: 'player-death',
+          options: {
+            loop: false,
+          },
+        },
       });
 
       // decrement lives

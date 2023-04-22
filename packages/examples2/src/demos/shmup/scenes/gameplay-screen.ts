@@ -35,6 +35,7 @@ import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { scoreSystemFactory } from '../systems/score-system.js';
 import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-system.js';
 import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
+import { soundSystemFactory } from '../systems/sound-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
@@ -77,7 +78,6 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       nextWaveEventSystemFactory({
-        audioManager: this.audioManager,
         canvas: this.canvas,
         config: this.config,
         gameState: this.gameState,
@@ -99,7 +99,6 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       triggerEnemyFireEventSystemFactory({
-        audioManager: this.audioManager,
         world: this.world,
       }),
       timeToLiveSystemFactory({
@@ -115,7 +114,6 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       playerSystemFactory({
-        audioManager: this.audioManager,
         controls: this.input,
         gameState: this.gameState,
         spritesheet: SpriteSheet,
@@ -149,13 +147,11 @@ export class GameplayScreen extends Scene {
       collisionSystemFactory({ world: this.world }),
       playerEnemyCollisionEventSystemFactory({
         world: this.world,
-        audioManager: this.audioManager,
         config: this.config,
         gameState: this.gameState,
       }),
       playerProjectileCollisionEventSystemFactory({
         world: this.world,
-        audioManager: this.audioManager,
         gameState: this.gameState,
       }),
       tweenSystemFactory({ world: this.world }),
@@ -180,6 +176,10 @@ export class GameplayScreen extends Scene {
       scoreSystemFactory({
         gameState: this.gameState,
         textCache: this.textCache,
+        world: this.world,
+      }),
+      soundSystemFactory({
+        audioManager: this.audioManager,
         world: this.world,
       }),
       renderingSystemFactory({

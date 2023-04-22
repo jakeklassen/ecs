@@ -1,3 +1,4 @@
+import { AudioManager } from '#/lib/audio-manager.js';
 import { Easing } from '#/lib/tween.js';
 import { Path, PathValue } from 'dot-path-value';
 import { Config } from './config.js';
@@ -209,6 +210,10 @@ export type Entity = {
     projectile: Entity;
     enemy: Entity;
     damage: number;
+  };
+  eventPlaySound?: {
+    track: string;
+    options: Parameters<AudioManager['play']>[1];
   };
   eventSpawnWave?: {
     waveNumber: number;

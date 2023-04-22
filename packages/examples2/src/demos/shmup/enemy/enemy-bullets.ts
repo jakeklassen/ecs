@@ -1,4 +1,4 @@
-import { AudioManager } from '#/lib/audio-manager.js';
+import { deg2rad } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
@@ -10,15 +10,15 @@ import { animationDetailsFactory } from '../structures/animation-details.js';
 
 export function fire({
   angle,
-  audioManager,
   enemy,
   speed,
+  triggerSound,
   world,
 }: {
   angle: number;
-  audioManager: AudioManager;
   enemy: Entity;
   speed: number;
+  triggerSound: boolean;
   world: World<Entity>;
 }) {
   const transform = transformFactory({
@@ -29,8 +29,8 @@ export function fire({
   });
 
   if (enemy.enemyType === EnemyType.YellowShip) {
-    transform.position.x = enemy.transform?.position.x ?? 0 + 7;
-    transform.position.y = enemy.transform?.position.y ?? 0 + 13;
+    transform.position.x = (enemy.transform?.position.x ?? 0) + 6;
+    transform.position.y = (enemy.transform?.position.y ?? 0) + 13;
   } else if (enemy.enemyType === EnemyType.Boss) {
     transform.position.x = enemy.transform?.position.x ?? 0 + 15;
     transform.position.y = enemy.transform?.position.y ?? 0 + 23;
@@ -69,8 +69,8 @@ export function fire({
   );
 
   const velocity = {
-    x: Math.sin(angle) * speed,
-    y: Math.cos(angle) * speed,
+    x: Math.sin(deg2rad(angle)) * speed,
+    y: Math.cos(deg2rad(angle)) * speed,
   };
 
   const direction = {
@@ -102,8 +102,50 @@ export function fire({
       elapsedMs: 0,
     });
 
-    audioManager.play('enemy-projectile', {
-      loop: false,
+    if (triggerSound) {
+      world.createEntity({
+        eventPlaySound: {
+          track: 'enemy-projectile',
+          options: {
+            loop: false,
+          },
+        },
+      });
+    }
+  }
+}
+
+export function fireSpread({
+  base = Math.random(),
+  count,
+  enemy,
+  speed,
+  world,
+}: {
+  base?: number;
+  count: number;
+  enemy: Entity;
+  speed: number;
+  world: World<Entity>;
+}) {
+  for (let i = 0; i < count; i++) {
+    const angle = (360 / count) * i + base * 360;
+
+    fire({
+      angle: angle + i,
+      enemy,
+      speed,
+      triggerSound: false,
+      world,
+    });
+
+    world.createEntity({
+      eventPlaySound: {
+        track: 'enemy-projectile',
+        options: {
+          loop: false,
+        },
+      },
     });
   }
 }

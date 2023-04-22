@@ -1,23 +1,20 @@
-import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
 import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { Config } from '../config.js';
 import { Pico8Colors } from '../constants.js';
+import { spawnWave } from '../entity-factories/wave.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 import { TimeSpan, Timer } from '../timer.js';
-import { spawnWave } from '../entity-factories/wave.js';
 
 export function nextWaveEventSystemFactory({
-  audioManager,
   canvas,
   config,
   gameState,
   timer,
   world,
 }: {
-  audioManager: AudioManager;
   canvas: HTMLCanvasElement;
   config: Config;
   gameState: GameState;
@@ -76,7 +73,12 @@ export function nextWaveEventSystemFactory({
     });
 
     if (gameState.wave > 1) {
-      audioManager.play('wave-complete', { loop: false });
+      world.createEntity({
+        eventPlaySound: {
+          track: 'wave-complete',
+          options: { loop: false },
+        },
+      });
     }
 
     const wave = config.waves[gameState.wave];
@@ -95,11 +97,21 @@ export function nextWaveEventSystemFactory({
         world,
       });
 
-      audioManager.play('wave-spawn', { loop: false });
+      world.createEntity({
+        eventPlaySound: {
+          track: 'wave-spawn',
+          options: { loop: false },
+        },
+      });
 
       if (gameState.wave === gameState.maxWaves) {
         timer.add(new TimeSpan(1000), () => {
-          audioManager.play('boss-music', { loop: true });
+          world.createEntity({
+            eventPlaySound: {
+              track: 'boss-music',
+              options: { loop: true },
+            },
+          });
         });
       }
     });

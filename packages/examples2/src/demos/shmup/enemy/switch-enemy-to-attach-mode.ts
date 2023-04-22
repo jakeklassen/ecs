@@ -95,9 +95,11 @@ export function switchEnemyToAttackMode({
     );
   }
 
+  // Trigger a `shake` tween on the enemy
   if (
     enemy.enemyType === EnemyType.GreenAlien ||
-    enemy.enemyType === EnemyType.RedFlameGuy
+    enemy.enemyType === EnemyType.RedFlameGuy ||
+    enemy.enemyType === EnemyType.YellowShip
   ) {
     world.addEntityComponents(enemy, 'tweens', [
       ...(enemy.tweens ?? []).concat(

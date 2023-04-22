@@ -1,19 +1,16 @@
-import { AudioManager } from '#/lib/audio-manager.js';
 import { World } from '@jakeklassen/ecs2';
 import { Control } from 'contro/dist/core/control.js';
-import { Entity } from '../entity.js';
-import { SpriteSheet } from '../spritesheet.js';
 import { CollisionMasks } from '../bitmasks.js';
+import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
+import { SpriteSheet } from '../spritesheet.js';
 
 export function playerSystemFactory({
-  audioManager,
   controls,
   gameState,
   spritesheet,
   world,
 }: {
-  audioManager: AudioManager;
   controls: Record<string, Control<any>>;
   gameState: GameState;
   spritesheet: SpriteSheet;
@@ -177,8 +174,13 @@ export function playerSystemFactory({
             },
           });
 
-          audioManager.play('shoot', {
-            loop: false,
+          world.createEntity({
+            eventPlaySound: {
+              track: 'shoot',
+              options: {
+                loop: false,
+              },
+            },
           });
         }
       }

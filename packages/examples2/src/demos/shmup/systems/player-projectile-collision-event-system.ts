@@ -1,4 +1,3 @@
-import { AudioManager } from '#/lib/audio-manager.js';
 import { rnd } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
 import { transformFactory } from '../components/transform.js';
@@ -8,13 +7,11 @@ import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 
 export function playerProjectileCollisionEventSystemFactory({
-  world,
-  audioManager,
   gameState,
+  world,
 }: {
-  world: World<Entity>;
-  audioManager: AudioManager;
   gameState: GameState;
+  world: World<Entity>;
 }) {
   const events = world.archetype('eventPlayerProjectileEnemyCollision');
 
@@ -150,9 +147,16 @@ export function playerProjectileCollisionEventSystemFactory({
           });
 
           world.deleteEntity(event.enemy);
-          audioManager.play('enemy-death', {
-            loop: false,
+
+          world.createEntity({
+            eventPlaySound: {
+              track: 'enemy-death',
+              options: {
+                loop: false,
+              },
+            },
           });
+
           gameState.score += 100;
 
           world.createEntity({
@@ -161,8 +165,13 @@ export function playerProjectileCollisionEventSystemFactory({
         }
       }
 
-      audioManager.play('player-projectile-hit', {
-        loop: false,
+      world.createEntity({
+        eventPlaySound: {
+          track: 'player-projectile-hit',
+          options: {
+            loop: false,
+          },
+        },
       });
     }
   };

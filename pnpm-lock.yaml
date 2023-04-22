@@ -185,21 +185,21 @@ importers:
         specifier: workspace:1.0.0
         version: link:../ecs2
       '@tweakpane/core':
-        specifier: 1.1.7
-        version: 1.1.7
+        specifier: 1.1.8
+        version: 1.1.8
       just-safe-set:
         specifier: 4.2.1
         version: 4.2.1
       tweakpane:
-        specifier: 3.1.8
-        version: 3.1.8
+        specifier: 3.1.9
+        version: 3.1.9
     devDependencies:
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
       vite:
         specifier: ^4.3.1
-        version: 4.3.1(@types/node@18.15.13)
+        version: 4.3.1
 
   packages/examples2:
     dependencies:
@@ -207,8 +207,8 @@ importers:
         specifier: workspace:1.0.0
         version: link:../ecs2
       '@tweakpane/core':
-        specifier: 1.1.7
-        version: 1.1.7
+        specifier: 1.1.8
+        version: 1.1.8
       color:
         specifier: 4.2.3
         version: 4.2.3
@@ -249,8 +249,8 @@ importers:
         specifier: 0.32.0
         version: 0.32.0
       tweakpane:
-        specifier: 3.1.8
-        version: 3.1.8
+        specifier: 3.1.9
+        version: 3.1.9
       type-fest:
         specifier: 3.8.0
         version: 3.8.0
@@ -269,7 +269,7 @@ importers:
         version: 5.0.4
       vite:
         specifier: ^4.3.1
-        version: 4.3.1(@types/node@18.15.13)
+        version: 4.3.1
 
   packages/js-consumer:
     dependencies:
@@ -874,8 +874,8 @@ packages:
   /@tsconfig/node16@1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
 
-  /@tweakpane/core@1.1.7:
-    resolution: {integrity: sha512-mFxhwamJtYQTx5+9M2621LhxbEzoMTkcfil4u4XaDiI/Zb+Ltm7H92ePPIqIKUANfCIaWPM9/uwYRhnMT0/8xw==}
+  /@tweakpane/core@1.1.8:
+    resolution: {integrity: sha512-psvBf6Cbm3YSZOTmDFWkcGzHYMnw7gVZM3jw+TfbzErIC+sMXPQb85h4ayW04w2u7AGg8jD0gHXSCg5wd+rafg==}
     dev: false
 
   /@types/benchmark@2.1.2:
@@ -3421,8 +3421,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /tweakpane@3.1.8:
-    resolution: {integrity: sha512-rBBB0wyWN1f1cJ1gILL/sIQuEBOloRvxeZ4AQFHqaPUAkLDtK2VAybUn2n4iGqK8Tg0OA38XLl5AjUm0JTYP+w==}
+  /tweakpane@3.1.9:
+    resolution: {integrity: sha512-vMzh3X8uHo9HDY+9S9V0bc+UBScs8VYmMeOEW+BvynczV0aiLHweYv4eKpyoqpcRrQlkLhUsx8Dvv/1/qiCESg==}
     dev: false
 
   /type-check@0.4.0:
@@ -3500,6 +3500,38 @@ packages:
       - sugarss
       - supports-color
       - terser
+    dev: true
+
+  /vite@4.3.1:
+    resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.17.17
+      postcss: 8.4.23
+      rollup: 3.20.7
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /vite@4.3.1(@types/node@18.15.13):

@@ -15,8 +15,8 @@
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^4.0.0",
     "@jakeklassen/ecs2": "workspace:1.0.0",
-    "@tweakpane/core": "1.1.7",
+    "@tweakpane/core": "1.1.8",
     "just-safe-set": "4.2.1",
-    "tweakpane": "3.1.8"
+    "tweakpane": "3.1.9"
   }
 }
