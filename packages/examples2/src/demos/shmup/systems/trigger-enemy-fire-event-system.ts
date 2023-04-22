@@ -1,6 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
+import { EnemyType } from '../constants.js';
 import { determinePickableEnemies } from '../enemy/determine-pickable-enemies.js';
-import { fire, fireSpread } from '../enemy/enemy-bullets.js';
+import { aimedFire, fire, fireSpread } from '../enemy/enemy-bullets.js';
 import { pickRandomEnemy } from '../enemy/pick-random-enemy.js';
 import { Entity } from '../entity.js';
 
@@ -16,6 +17,7 @@ export function triggerEnemyFireEventSystemFactory({
     'tagEnemy',
     'transform',
   );
+  const players = world.archetype('tagPlayer', 'transform');
   const events = world.archetype('eventTriggerEnemyFire');
 
   return function triggerEnemyFireEventSystem() {
@@ -26,7 +28,7 @@ export function triggerEnemyFireEventSystemFactory({
       // to have a chance to fire a spread of bullets.
       for (const enemy of enemies.entities) {
         if (
-          enemy.enemyType !== 'yellowShip' ||
+          enemy.enemyType !== EnemyType.YellowShip ||
           enemy.enemyState !== 'protect'
         ) {
           continue;
@@ -57,19 +59,29 @@ export function triggerEnemyFireEventSystemFactory({
       }
 
       // TODO: What do we do with the boss?
-      if (enemy.enemyType === 'boss') {
+      if (enemy.enemyType === EnemyType.Boss) {
         continue;
       }
 
-      if (enemy.enemyType === 'yellowShip') {
+      if (enemy.enemyType === EnemyType.YellowShip) {
         fireSpread({
           count: 12,
           enemy,
           speed: 40,
           world,
         });
-      } else if (enemy.enemyType === 'redFlameGuy') {
-        // aimed shot
+      } else if (enemy.enemyType === EnemyType.RedFlameGuy) {
+        const [player] = players.entities;
+
+        if (player == null) {
+          continue;
+        }
+
+        aimedFire({
+          enemy,
+          target: player.transform,
+          world,
+        });
       } else {
         fire({
           angle: 0,

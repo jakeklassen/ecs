@@ -1,5 +1,6 @@
 import { deg2rad } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
+import { SetRequired } from 'type-fest';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { transformFactory } from '../components/transform.js';
@@ -148,4 +149,27 @@ export function fireSpread({
       },
     });
   }
+}
+
+export function aimedFire({
+  enemy,
+  target,
+  world,
+}: {
+  enemy: SetRequired<Entity, 'transform'>;
+  target: NonNullable<Entity['transform']>;
+  world: World<Entity>;
+}) {
+  const angle = Math.atan2(
+    target.position.x - enemy.transform.position.x,
+    target.position.y - enemy.transform.position.y,
+  );
+
+  fire({
+    angle: angle * (180 / Math.PI),
+    enemy,
+    speed: 60,
+    triggerSound: true,
+    world: world,
+  });
 }
