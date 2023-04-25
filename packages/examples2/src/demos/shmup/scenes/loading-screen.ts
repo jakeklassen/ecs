@@ -8,8 +8,8 @@ import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { eventSystemFactory } from '../systems/event-system.js';
 import { movementSystemFactory } from '../systems/movement-system.js';
-import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
+import { spriteRenderingSystemFactory } from '../systems/sprite-rendering-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { textBlinkAnimationSystemFactory } from '../systems/text-blink-animation-system.js';
@@ -53,7 +53,7 @@ export class LoadingScreen extends Scene {
         world: this.world,
         context: this.context,
       }),
-      renderingSystemFactory({
+      spriteRenderingSystemFactory({
         world: this.world,
         context: this.context,
         spriteSheet: this.content.spritesheet,

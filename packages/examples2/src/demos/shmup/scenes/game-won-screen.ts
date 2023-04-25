@@ -3,8 +3,8 @@ import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Scene } from '../scene.js';
 import { gameOverSystemFactory } from '../systems/game-over-system.js';
-import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
+import { spriteRenderingSystemFactory } from '../systems/sprite-rendering-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
 import { textBlinkAnimationSystemFactory } from '../systems/text-blink-animation-system.js';
 import { textRenderingSystemFactory } from '../systems/text-rendering-system.js';
@@ -85,7 +85,7 @@ export class GameWonScreen extends Scene {
         context: this.context,
         imageData: gameplayBuffer,
       }),
-      renderingSystemFactory({
+      spriteRenderingSystemFactory({
         world: this.world,
         context: this.context,
         spriteSheet: this.content.spritesheet,

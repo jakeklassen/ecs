@@ -1,43 +1,25 @@
-import { World } from '@jakeklassen/ecs2';
-import { Entity } from '../entity.js';
-
 export function renderingSystemFactory({
+  buffer,
+  camera,
   context,
-  spriteSheet,
-  world,
 }: {
+  buffer: HTMLCanvasElement;
+  camera: { x: number; y: number };
   context: CanvasRenderingContext2D;
-  spriteSheet: HTMLImageElement;
-  world: World<Entity>;
 }) {
-  const renderables = world
-    .archetype('sprite', 'transform')
-    .without('textBlinkAnimation', 'flash');
+  return function renderingSystem() {
+    context.translate(camera.x, camera.y);
 
-  return (_dt: number) => {
-    for (const entity of renderables.entities) {
-      const { sprite, transform } = entity;
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-      context.globalAlpha = sprite.opacity;
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/filter
+    // Holy shit this is cool
+    // context.filter = 'contrast(1.4) sepia(1) blur(1px)';
 
-      context.translate(transform.position.x | 0, transform.position.y | 0);
-      context.rotate(transform.rotation);
-      context.scale(transform.scale.x, transform.scale.y);
+    context.drawImage(buffer, 0, 0);
 
-      context.drawImage(
-        spriteSheet,
-        sprite.frame.sourceX,
-        sprite.frame.sourceY,
-        sprite.frame.width,
-        sprite.frame.height,
-        transform.scale.x > 0 ? 0 : -sprite.frame.width,
-        transform.scale.y > 0 ? 0 : -sprite.frame.height,
-        sprite.frame.width,
-        sprite.frame.height,
-      );
-
-      context.globalAlpha = 1;
-      context.resetTransform();
-    }
+    context.resetTransform();
   };
 }

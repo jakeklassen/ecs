@@ -9,6 +9,7 @@ import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
 import { bombSystemFactory } from '../systems/bomb-system.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
+import { cameraShakeSystemFactory } from '../systems/camera-shake-system.js';
 import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
@@ -37,6 +38,7 @@ import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-
 import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
 import { soundSystemFactory } from '../systems/sound-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
+import { spriteRenderingSystemFactory } from '../systems/sprite-rendering-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
 import { textBlinkAnimationSystemFactory } from '../systems/text-blink-animation-system.js';
@@ -56,12 +58,19 @@ import { yellowShipSystemFactory } from '../systems/yellow-ship-system.js';
 export class GameplayScreen extends Scene {
   #areaWidth: number;
   #areaHeight: number;
+  #bufferCanvas = document.createElement('canvas');
+  #bufferContext = this.#bufferCanvas.getContext('2d')!;
+  #camera = { x: 0, y: 0 };
 
   constructor(props: SceneConstructorProps) {
     super(props);
 
     this.#areaWidth = this.config.gameWidth - 1;
     this.#areaHeight = this.config.gameHeight - 1;
+
+    this.#bufferCanvas.width = this.canvas.width;
+    this.#bufferCanvas.height = this.canvas.height;
+    this.#bufferContext.imageSmoothingEnabled = false;
   }
 
   public override initialize(): void {
@@ -161,11 +170,11 @@ export class GameplayScreen extends Scene {
       spriteAnimationSystemFactory({ world: this.world }),
       starfieldRenderingSystemFactory({
         world: this.world,
-        context: this.context,
+        context: this.#bufferContext,
       }),
       flashSystemFactory({
         world: this.world,
-        context: this.context,
+        context: this.#bufferContext,
         spriteSheet: this.content.spritesheet,
       }),
       cherrySystemFactory({
@@ -182,36 +191,36 @@ export class GameplayScreen extends Scene {
         audioManager: this.audioManager,
         world: this.world,
       }),
-      renderingSystemFactory({
-        context: this.context,
+      spriteRenderingSystemFactory({
+        context: this.#bufferContext,
         spriteSheet: this.content.spritesheet,
         world: this.world,
       }),
       shockwaveRenderingSystemFactory({
-        context: this.context,
+        context: this.#bufferContext,
         world: this.world,
       }),
       particleRenderingSystemFactory({
         world: this.world,
-        context: this.context,
+        context: this.#bufferContext,
       }),
       muzzleFlashRenderingSystemFactory({
         world: this.world,
-        context: this.context,
+        context: this.#bufferContext,
       }),
       livesRenderingSystemFactory({
         gameState: this.gameState,
         content: this.content,
-        context: this.context,
+        context: this.#bufferContext,
       }),
       textRenderingSystemFactory({
-        context: this.context,
+        context: this.#bufferContext,
         textCache: this.textCache,
         world: this.world,
       }),
       debugRenderingSystemFactory({
         world: this.world,
-        context: this.context,
+        context: this.#bufferContext,
         config: this.config,
       }),
       triggerGameOverSystemFactory({ input: this.input, scene: this }),
@@ -227,6 +236,15 @@ export class GameplayScreen extends Scene {
         scene: this,
         gameState: this.gameState,
         world: this.world,
+      }),
+      cameraShakeSystemFactory({
+        camera: this.#camera,
+        world: this.world,
+      }),
+      renderingSystemFactory({
+        buffer: this.#bufferCanvas,
+        camera: this.#camera,
+        context: this.context,
       }),
     );
 
@@ -386,10 +404,23 @@ export class GameplayScreen extends Scene {
   }
 
   public override update(delta: number): void {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.context.fillStyle = 'black';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.#bufferContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.#bufferContext.fillStyle = 'black';
+    this.#bufferContext.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     super.update(delta);
+
+    // // shake screen randomly within unit circle
+    // const offsetX = 2 * (Math.random() - 0.5);
+    // const offsetY = 2 * (Math.random() - 0.5);
+    // this.context.translate(offsetX, offsetY);
+
+    // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // this.context.fillStyle = 'black';
+    // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // this.context.drawImage(this.#bufferCanvas, 0, 0);
+
+    // this.context.resetTransform();
   }
 }

@@ -218,6 +218,10 @@ export type Entity = {
   eventSpawnWave?: {
     waveNumber: number;
   };
+  eventTriggerCameraShake?: {
+    strength: number;
+    durationMs: number;
+  };
   eventTriggerBomb?: true;
   eventTriggerEnemyAttack?: true;
   eventTriggerEnemyFire?: true;

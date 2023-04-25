@@ -133,6 +133,13 @@ export function playerEnemyCollisionEventSystemFactory({
         }),
       });
 
+      world.createEntity({
+        eventTriggerCameraShake: {
+          durationMs: 400,
+          strength: 6,
+        },
+      });
+
       if (gameState.lives <= 0) {
         world.deleteEntity(event.player);
 

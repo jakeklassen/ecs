@@ -1,6 +1,8 @@
 import { obtainCanvas2dContext } from '../dom.js';
 import { loadFont } from './load-font.js';
 
+// Port of https://github.com/jmswrnr/pixel-text/tree/master
+
 type ColorSymbol =
   | '🔵'
   | '⚪'
