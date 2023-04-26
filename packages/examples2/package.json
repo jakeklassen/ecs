@@ -13,7 +13,7 @@
     "@types/file-saver": "2.0.5",
     "@types/wicg-file-system-access": "2020.9.6",
     "typescript": "5.0.4",
-    "vite": "^4.3.1"
+    "vite": "^4.3.3"
   },
   "dependencies": {
     "@jakeklassen/ecs2": "workspace:1.0.0",
@@ -32,6 +32,6 @@
     "just-shuffle": "4.2.0",
     "sharp": "0.32.0",
     "tweakpane": "3.1.9",
-    "type-fest": "3.8.0"
+    "type-fest": "3.9.0"
   }
 }
