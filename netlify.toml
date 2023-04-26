@@ -1,4 +1,4 @@
 [build]
   publish = "packages/examples2/dist"
 
-  command = "pnpm i -g pnpm@latest && pnpm install && pnpm --filter @jakeklassen/ecs2 build && pnpm --filter examples2 build"
+  command = "pnpm --version && pnpm install && pnpm --filter @jakeklassen/ecs2 build && pnpm --filter examples2 build"
