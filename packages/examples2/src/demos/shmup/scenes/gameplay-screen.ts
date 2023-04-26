@@ -29,6 +29,7 @@ import { particleRenderingSystemFactory } from '../systems/particle-rendering-sy
 import { particleSystemFactory } from '../systems/particle-system.js';
 import { playerEnemyCollisionEventCleanupSystemFactory } from '../systems/player-enemy-collision-event-cleanup-system.js';
 import { playerEnemyCollisionEventSystemFactory } from '../systems/player-enemy-collision-event-system.js';
+import { playerPickupCollisionEventSystemFactory } from '../systems/player-pickup-collision-event-system.js';
 import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/player-projectile-collision-event-cleanup-system.js';
 import { playerProjectileCollisionEventSystemFactory } from '../systems/player-projectile-collision-event-system.js';
 import { playerSystemFactory } from '../systems/player-system.js';
@@ -160,8 +161,9 @@ export class GameplayScreen extends Scene {
         gameState: this.gameState,
       }),
       playerProjectileCollisionEventSystemFactory({
-        world: this.world,
+        config: this.config,
         gameState: this.gameState,
+        world: this.world,
       }),
       tweenSystemFactory({ world: this.world }),
       invulnerableSystemFactory({ world: this.world }),
@@ -227,6 +229,10 @@ export class GameplayScreen extends Scene {
       triggerGameWonSystemFactory({ input: this.input, scene: this }),
       playerProjectileCollisionEventCleanupSystemFactory({ world: this.world }),
       playerEnemyCollisionEventCleanupSystemFactory({ world: this.world }),
+      playerPickupCollisionEventSystemFactory({
+        gameState: this.gameState,
+        world: this.world,
+      }),
       handleGameOverSystemFactory({
         scene: this,
         gameState: this.gameState,
@@ -259,7 +265,10 @@ export class GameplayScreen extends Scene {
       boundToViewport: true,
       boxCollider: SpriteSheet.player.boxCollider,
       collisionLayer: CollisionMasks.Player,
-      collisionMask: CollisionMasks.Enemy | CollisionMasks.EnemyProjectile,
+      collisionMask:
+        CollisionMasks.Enemy |
+        CollisionMasks.EnemyProjectile |
+        CollisionMasks.Pickup,
       direction: {
         x: 0,
         y: 0,

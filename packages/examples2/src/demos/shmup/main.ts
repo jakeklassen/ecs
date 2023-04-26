@@ -11,6 +11,7 @@ import enemyProjectileWavUrl from './assets/audio/enemy-projectile.wav';
 import gameOverWavUrl from './assets/audio/game-over.wav';
 import gameStartWavUrl from './assets/audio/game-start.wav';
 import gameWonWavUrl from './assets/audio/game-won-music.wav';
+import pickupWavUrl from './assets/audio/pickup.wav';
 import playerDeathWavUrl from './assets/audio/player-death.wav';
 import playerProjectileHitWavUrl from './assets/audio/player-projectile-hit.wav';
 import shootWavUrl from './assets/audio/shoot.wav';
@@ -53,6 +54,7 @@ await audioManager.loadTrack('game-over', gameOverWavUrl);
 await audioManager.loadTrack('game-start', gameStartWavUrl);
 await audioManager.loadTrack('game-won', gameWonWavUrl);
 await audioManager.loadTrack('shoot', shootWavUrl);
+await audioManager.loadTrack('pickup', pickupWavUrl);
 await audioManager.loadTrack('player-death', playerDeathWavUrl);
 await audioManager.loadTrack(
   'player-projectile-hit',

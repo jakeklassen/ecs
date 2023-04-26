@@ -14,6 +14,12 @@ export const SpriteSheet = {
     },
   },
   cherry: {
+    boxCollider: {
+      offsetX: 0,
+      offsetY: 0,
+      width: 8,
+      height: 8,
+    },
     frame: {
       sourceX: 0,
       sourceY: 24,

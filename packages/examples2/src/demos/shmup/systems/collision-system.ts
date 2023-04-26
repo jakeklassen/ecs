@@ -20,8 +20,6 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
         continue;
       }
 
-      const { boxCollider, transform } = entity;
-
       for (const otherEntity of collidables.entities) {
         if (entity === otherEntity) {
           continue;
@@ -38,6 +36,8 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
         ) {
           continue;
         }
+
+        const { boxCollider, transform } = entity;
 
         const { boxCollider: otherBoxCollider, transform: otherTransform } =
           otherEntity;
@@ -76,6 +76,12 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           ? otherEntity
           : null;
 
+        const pickup = entity.tagPickup
+          ? entity
+          : otherEntity.tagPickup
+          ? otherEntity
+          : null;
+
         const enemy = entity.tagEnemy
           ? entity
           : otherEntity.tagEnemy
@@ -103,21 +109,30 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
               damage: playerBullet.tagBomb ? 1000 : 1,
             },
           });
-        } else if (player != null && player.invulnerable == null) {
-          if (enemyBullet != null) {
+        } else if (player != null) {
+          if (pickup != null) {
             world.createEntity({
-              eventPlayerEnemyCollision: {
+              eventPlayerPickupCollision: {
                 player,
-                enemy: enemyBullet,
+                pickup,
               },
             });
-          } else if (enemy != null) {
-            world.createEntity({
-              eventPlayerEnemyCollision: {
-                player,
-                enemy,
-              },
-            });
+          } else if (player.invulnerable == null) {
+            if (enemyBullet != null) {
+              world.createEntity({
+                eventPlayerEnemyCollision: {
+                  player,
+                  enemy: enemyBullet,
+                },
+              });
+            } else if (enemy != null) {
+              world.createEntity({
+                eventPlayerEnemyCollision: {
+                  player,
+                  enemy,
+                },
+              });
+            }
           }
         }
 

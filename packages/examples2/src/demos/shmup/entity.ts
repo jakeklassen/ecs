@@ -206,6 +206,10 @@ export type Entity = {
     player: Entity;
     enemy: Entity;
   };
+  eventPlayerPickupCollision?: {
+    player: Entity;
+    pickup: Entity;
+  };
   eventPlayerProjectileEnemyCollision?: {
     projectile: Entity;
     enemy: Entity;
@@ -260,6 +264,7 @@ export type Entity = {
   tagLateralHunter?: true;
   tagPlayer?: true;
   tagPlayerThruster?: true;
+  tagPickup?: true;
   tagTextCherries?: true;
   tagTextScore?: true;
   tagStartScreenGreenAlien?: true;

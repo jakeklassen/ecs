@@ -11,22 +11,27 @@ export const config = {
     enemies: {
       greenAlien: {
         id: 1,
+        score: 100,
         startingHealth: 3,
       },
       redFlameGuy: {
         id: 1,
+        score: 200,
         startingHealth: 2,
       },
       spinningShip: {
         id: 3,
+        score: 300,
         startingHealth: 4,
       },
       yellowShip: {
         id: 4,
-        startingHealth: 30,
+        score: 500,
+        startingHealth: 20,
       },
       boss: {
         id: 5,
+        score: 10_000,
         startingHealth: 130,
       },
     },
