@@ -39,6 +39,8 @@ import { shockwaveRenderingSystemFactory } from '../systems/shockwave-rendering-
 import { shockwaveSystemFactory } from '../systems/shockwave-system.js';
 import { soundSystemFactory } from '../systems/sound-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
+import { spriteOutlineAnimationSystemFactory } from '../systems/sprite-outline-animation-system.js';
+import { spriteOutlineRenderingSystemFactory } from '../systems/sprite-outline-rendering-system.js';
 import { spriteRenderingSystemFactory } from '../systems/sprite-rendering-system.js';
 import { starfieldRenderingSystemFactory } from '../systems/starfield-rendering-system.js';
 import { starfieldSystemFactory } from '../systems/starfield-system.js';
@@ -191,6 +193,14 @@ export class GameplayScreen extends Scene {
       }),
       soundSystemFactory({
         audioManager: this.audioManager,
+        world: this.world,
+      }),
+      spriteOutlineAnimationSystemFactory({
+        world: this.world,
+      }),
+      spriteOutlineRenderingSystemFactory({
+        context: this.#bufferContext,
+        spriteSheet: this.content.spritesheet,
         world: this.world,
       }),
       spriteRenderingSystemFactory({

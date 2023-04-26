@@ -65,6 +65,16 @@ type TextBlinkAnimation = {
   frameRate: number;
 };
 
+type SpriteOutlineAnimation = {
+  color: HexColor;
+  colors: HexColor[];
+  colorSequence: number[];
+  currentColorIndex: number;
+  delta: number;
+  durationMs: number;
+  frameRate: number;
+};
+
 export type HexColor = `#${string}`;
 
 type Particle = {
@@ -253,6 +263,10 @@ export type Entity = {
   shockwave?: Shockwave;
   sprite?: Sprite;
   spriteAnimation?: SpriteAnimation;
+  spriteOutline?: {
+    color: HexColor;
+  };
+  spriteOutlineAnimation?: SpriteOutlineAnimation;
   star?: {
     color: string;
   };
