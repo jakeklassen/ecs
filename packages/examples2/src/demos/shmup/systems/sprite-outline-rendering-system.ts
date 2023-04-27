@@ -1,6 +1,6 @@
 import { obtainCanvas2dContext } from '#/lib/dom.js';
 import { World } from '@jakeklassen/ecs2';
-import { Entity } from '../entity.js';
+import { Entity, HexColor } from '../entity.js';
 
 export function spriteOutlineRenderingSystemFactory({
   context,
@@ -16,6 +16,8 @@ export function spriteOutlineRenderingSystemFactory({
     'spriteOutline',
     'transform',
   );
+
+  const spriteOutlineCache = new Map<Entity, Map<HexColor, ImageData>>();
 
   const thickness = 1;
 
@@ -60,66 +62,75 @@ export function spriteOutlineRenderingSystemFactory({
         sprite.frame.height,
       );
 
-      // Get the pixel data from the temporary canvas
-      const imageData = outlineContext.getImageData(0, 0, width, height);
-      const pixels = imageData.data;
+      const cache = spriteOutlineCache.get(entity) ?? new Map();
 
-      const modifiedIndices = new Set();
+      let imageData = cache.get(entity.spriteOutline.color);
 
-      // convert spriteOutline.color from hex string in format #ffffff to rgb
-      const color = {
-        r: parseInt(entity.spriteOutline.color.slice(1, 3), 16),
-        g: parseInt(entity.spriteOutline.color.slice(3, 5), 16),
-        b: parseInt(entity.spriteOutline.color.slice(5, 7), 16),
-        a: 255,
-      };
+      if (imageData == null) {
+        // Get the pixel data from the temporary canvas
+        imageData = outlineContext.getImageData(0, 0, width, height);
+        const pixels = imageData.data;
 
-      for (let i = 0; i < pixels.length; i += 4) {
-        // const r = pixels[i];
-        // const g = pixels[i + 1];
-        // const b = pixels[i + 2];
-        const a = pixels[i + 3];
+        const modifiedIndices = new Set();
 
-        // Check if the current pixel is non-transparent
-        if (a > 0) {
-          const x = (i / 4) % width;
-          const y = Math.floor(i / 4 / width);
-          const index = (y * width + x) * 4;
+        // convert spriteOutline.color from hex string in format #ffffff to rgb
+        const color = {
+          r: parseInt(entity.spriteOutline.color.slice(1, 3), 16),
+          g: parseInt(entity.spriteOutline.color.slice(3, 5), 16),
+          b: parseInt(entity.spriteOutline.color.slice(5, 7), 16),
+          a: 255,
+        };
 
-          if (modifiedIndices.has(index)) {
-            continue;
-          }
+        for (let i = 0; i < pixels.length; i += 4) {
+          // const r = pixels[i];
+          // const g = pixels[i + 1];
+          // const b = pixels[i + 2];
+          const a = pixels[i + 3];
 
-          // Check the surrounding pixels
-          for (let j = -thickness; j <= thickness; j++) {
-            for (let k = -thickness; k <= thickness; k++) {
-              const neighborX = x + j;
-              const neighborY = y + k;
+          // Check if the current pixel is non-transparent
+          if (a > 0) {
+            const x = (i / 4) % width;
+            const y = Math.floor(i / 4 / width);
+            const index = (y * width + x) * 4;
 
-              if (
-                neighborX >= 0 &&
-                neighborX < width &&
-                neighborY >= 0 &&
-                neighborY < height
-              ) {
-                const neighborIndex = (neighborY * width + neighborX) * 4;
+            if (modifiedIndices.has(index)) {
+              continue;
+            }
 
-                // Check if the neighbor pixel is transparent and has not already been modified
+            // Check the surrounding pixels
+            for (let j = -thickness; j <= thickness; j++) {
+              for (let k = -thickness; k <= thickness; k++) {
+                const neighborX = x + j;
+                const neighborY = y + k;
+
                 if (
-                  pixels[neighborIndex + 3] === 0 &&
-                  !modifiedIndices.has(neighborIndex)
+                  neighborX >= 0 &&
+                  neighborX < width &&
+                  neighborY >= 0 &&
+                  neighborY < height
                 ) {
-                  pixels[neighborIndex] = color.r;
-                  pixels[neighborIndex + 1] = color.g;
-                  pixels[neighborIndex + 2] = color.b;
-                  pixels[neighborIndex + 3] = 255;
+                  const neighborIndex = (neighborY * width + neighborX) * 4;
 
-                  modifiedIndices.add(neighborIndex);
+                  // Check if the neighbor pixel is transparent and has not already been modified
+                  if (
+                    pixels[neighborIndex + 3] === 0 &&
+                    !modifiedIndices.has(neighborIndex)
+                  ) {
+                    pixels[neighborIndex] = color.r;
+                    pixels[neighborIndex + 1] = color.g;
+                    pixels[neighborIndex + 2] = color.b;
+                    pixels[neighborIndex + 3] = 255;
+
+                    modifiedIndices.add(neighborIndex);
+                  }
                 }
               }
             }
           }
         }
+
+        cache.set(entity.spriteOutline.color, imageData);
+        spriteOutlineCache.set(entity, cache);
       }
 
       // Put the modified image data back onto the outline canvas
