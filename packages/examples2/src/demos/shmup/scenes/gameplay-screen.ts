@@ -158,12 +158,14 @@ export class GameplayScreen extends Scene {
       }),
       collisionSystemFactory({ world: this.world }),
       playerEnemyCollisionEventSystemFactory({
-        world: this.world,
         config: this.config,
+        content: this.content,
         gameState: this.gameState,
+        world: this.world,
       }),
       playerProjectileCollisionEventSystemFactory({
         config: this.config,
+        content: this.content,
         gameState: this.gameState,
         world: this.world,
       }),
@@ -204,8 +206,8 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       spriteRenderingSystemFactory({
+        content: this.content,
         context: this.#bufferContext,
-        spriteSheet: this.content.spritesheet,
         world: this.world,
       }),
       shockwaveRenderingSystemFactory({

@@ -267,6 +267,7 @@ export type Entity = {
     color: HexColor;
   };
   spriteOutlineAnimation?: SpriteOutlineAnimation;
+  spritesheet?: string;
   star?: {
     color: string;
   };

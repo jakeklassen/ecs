@@ -20,7 +20,9 @@ import waveCompleteWavUrl from './assets/audio/wave-complete.wav';
 import waveSpawnWavUrl from './assets/audio/wave-spawn.wav';
 import pico8FontImageUrl from './assets/font/pico-8_regular_5.png';
 import pico8FontXmlUrl from './assets/font/pico-8_regular_5.xml?url';
-import shmupImageUrl from './assets/image/shmup.png';
+import explosionsSheetImageUrl from './assets/image/explosions.png';
+import playerExplosionsSheetImageUrl from './assets/image/player-explosions.png';
+import spriteSheetImageUrl from './assets/image/shmup.png';
 import { config } from './config.js';
 import { Content } from './content.js';
 import { controls } from './controls.js';
@@ -65,7 +67,7 @@ await audioManager.loadTrack('wave-complete', waveCompleteWavUrl);
 await audioManager.loadTrack('wave-spawn', waveSpawnWavUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
-  console.log('audio ready');
+  console.log('🎵 audio ready');
 
   activeScene?.emit(GameEvent.StartGame);
 });
@@ -77,7 +79,11 @@ fontCache.set(picoFont.family, picoFont);
 
 const textCache = new Map<Entity, TextBuffer>();
 
-const content = await Content.load(shmupImageUrl);
+const content = await Content.load({
+  explosionsSheetImageUrl,
+  playerExplosionsSheetImageUrl,
+  spriteSheetImageUrl,
+});
 
 const timer = new Timer();
 

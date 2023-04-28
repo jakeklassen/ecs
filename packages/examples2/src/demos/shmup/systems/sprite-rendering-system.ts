@@ -1,13 +1,14 @@
 import { World } from '@jakeklassen/ecs2';
+import { LoadedContent } from '../content.js';
 import { Entity } from '../entity.js';
 
 export function spriteRenderingSystemFactory({
+  content,
   context,
-  spriteSheet,
   world,
 }: {
+  content: LoadedContent;
   context: CanvasRenderingContext2D;
-  spriteSheet: HTMLImageElement;
   world: World<Entity>;
 }) {
   const renderables = world
@@ -24,8 +25,18 @@ export function spriteRenderingSystemFactory({
       context.rotate(transform.rotation);
       context.scale(transform.scale.x, transform.scale.y);
 
+      let imageSource: CanvasImageSource = content.spritesheet;
+
+      if (entity.spritesheet != null) {
+        if (entity.spritesheet === 'explosions') {
+          imageSource = content.explosions;
+        } else if (entity.spritesheet === 'player-explosions') {
+          imageSource = content.playerExplosions;
+        }
+      }
+
       context.drawImage(
-        spriteSheet,
+        imageSource,
         sprite.frame.sourceX,
         sprite.frame.sourceY,
         sprite.frame.width,

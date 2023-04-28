@@ -9,10 +9,13 @@ export function spriteAnimationSystemFactory({
   const spriteAnimatables = world.archetype('spriteAnimation', 'sprite');
 
   return (dt: number) => {
-    for (const { spriteAnimation, sprite } of spriteAnimatables.entities) {
+    for (const entity of spriteAnimatables.entities) {
+      const { spriteAnimation, sprite } = entity;
+
       if (spriteAnimation.finished && !spriteAnimation.loop) {
-        // You could do something like spawn a SpriteAnimationFinishedEvent here.
-        // Then handle it in another system.
+        world.removeEntityComponents(entity, 'spriteAnimation');
+
+        continue;
       }
 
       spriteAnimation.delta += dt;

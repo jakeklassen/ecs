@@ -58,9 +58,9 @@ export class TitleScreen extends Scene {
         context: this.context,
       }),
       spriteRenderingSystemFactory({
-        world: this.world,
+        content: this.content,
         context: this.context,
-        spriteSheet: this.content.spritesheet,
+        world: this.world,
       }),
       textRenderingSystemFactory({
         context: this.context,

@@ -1,20 +1,23 @@
-import { rnd } from '#/lib/math.js';
+import { rndInt } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
+import { spriteAnimationFactory } from '../components/sprite-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
-import { Pico8Colors } from '../constants.js';
-import { explosionFactory } from '../entity-factories/explosion.js';
+import { LoadedContent } from '../content.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
+import { animationDetailsFactory } from '../structures/animation-details.js';
 
 export function playerEnemyCollisionEventSystemFactory({
   config,
+  content,
   gameState,
   world,
 }: {
   config: Config;
+  content: LoadedContent;
   gameState: GameState;
   world: World<Entity>;
 }) {
@@ -41,95 +44,44 @@ export function playerEnemyCollisionEventSystemFactory({
       // decrement lives
       gameState.lives--;
 
-      // Shockwave
+      const explosionIndex = rndInt(content.playerExplosions.height / 64);
+      const sourceY = explosionIndex * 64;
+
       world.createEntity({
-        shockwave: {
-          radius: 3,
-          targetRadius: 25,
-          color: Pico8Colors.Color7,
-          speed: 105,
+        sprite: {
+          frame: {
+            sourceX: 0,
+            sourceY,
+            width: 64,
+            height: 64,
+          },
+          opacity: 1,
         },
+        spriteAnimation: spriteAnimationFactory(
+          animationDetailsFactory(
+            `explosion`,
+            0,
+            sourceY,
+            content.playerExplosions.width,
+            64,
+            64,
+            64,
+          ),
+          100,
+          false,
+        ),
+        spritesheet: 'player-explosions',
         transform: transformFactory({
           position: {
             x:
-              player.transform.position.x +
-              (player.sprite?.frame.width ?? 0) / 2,
+              (player.transform?.position.x ?? 0) +
+              (player.sprite?.frame.width ?? 0) / 2 -
+              32,
             y:
-              player.transform?.position.y +
-              (player.sprite?.frame.height ?? 0) / 2,
+              (player.transform?.position.y ?? 0) +
+              (player.sprite?.frame.height ?? 0) / 2 -
+              32,
           },
-        }),
-      });
-
-      // Initial flash of the explosion
-      world.createEntity({
-        particle: {
-          age: 0,
-          maxAge: 0,
-          color: Pico8Colors.Color7,
-          radius: 10,
-          shape: 'circle',
-        },
-        transform: transformFactory({
-          position: {
-            x:
-              player.transform.position.x +
-              (player.sprite?.frame.width ?? 0) / 2,
-            y:
-              player.transform?.position.y +
-              (player.sprite?.frame.height ?? 0) / 2,
-          },
-        }),
-        velocity: {
-          x: 0,
-          y: 0,
-        },
-      });
-
-      explosionFactory(world, {
-        count: 30,
-        particleFn: () => ({
-          age: rnd(2),
-          maxAge: 10 + rnd(20),
-          color: Pico8Colors.Color7,
-          radius: 1 + rnd(4),
-          shape: 'circle',
-          isBlue: true,
-        }),
-        position: {
-          x:
-            player.transform.position.x + (player.sprite?.frame.width ?? 0) / 2,
-          y:
-            player.transform?.position.y +
-            (player.sprite?.frame.height ?? 0) / 2,
-        },
-        velocityFn: () => ({
-          x: Math.random() * 140,
-          y: Math.random() * 140,
-        }),
-      });
-
-      explosionFactory(world, {
-        count: 20,
-        particleFn: () => ({
-          age: rnd(2),
-          maxAge: 10 + rnd(10),
-          color: Pico8Colors.Color7,
-          isBlue: true,
-          radius: 1 + rnd(4),
-          shape: 'circle',
-          spark: true,
-        }),
-        position: {
-          x:
-            player.transform.position.x + (player.sprite?.frame.width ?? 0) / 2,
-          y:
-            player.transform?.position.y +
-            (player.sprite?.frame.height ?? 0) / 2,
-        },
-        velocityFn: () => ({
-          x: Math.random() * 300,
-          y: Math.random() * 300,
         }),
       });
 
