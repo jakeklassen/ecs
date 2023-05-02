@@ -1,25 +1,27 @@
 import { World } from '@jakeklassen/ecs2';
-import { GameEvent } from '../game-events.js';
-import { GameState } from '../game-state.js';
-import { Scene } from '../scene.js';
 import { Entity } from '../entity.js';
+import { GameEvent } from '../game-events.js';
+import { Scene } from '../scene.js';
 
 export function handleGameOverSystemFactory({
-  gameState,
   scene,
   world,
 }: {
-  gameState: GameState;
   scene: Scene;
   world: World<Entity>;
 }) {
-  const particles = world.archetype('particle');
+  const events = world.archetype('eventGameOver');
 
   return () => {
-    // We want to let particles finish their animation before we switch to
-    // the game over scene.
-    if (gameState.lives <= 0 && particles.entities.size === 0) {
-      scene.emit(GameEvent.GameOver);
+    if (events.entities.size === 0) {
+      return;
     }
+
+    // We know we received the game over event, so we can delete all entities
+    for (const entity of events.entities) {
+      world.deleteEntity(entity);
+    }
+
+    scene.emit(GameEvent.GameOver);
   };
 }

@@ -77,13 +77,13 @@ export class GameOverScreen extends Scene {
       },
     });
 
-    // Press any key to start text
+    // Press any key to continue text
     this.world.createEntity({
       text: {
         align: 'center',
         color: Pico8Colors.Color6,
         font: 'PICO-8',
-        message: 'Press Any Key To Start',
+        message: 'Press Any Key To Continue',
       },
       textBlinkAnimation: textBlinkAnimationFactory({
         colors: [Pico8Colors.Color5, Pico8Colors.Color6, Pico8Colors.Color7],

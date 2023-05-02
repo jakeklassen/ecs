@@ -1,8 +1,15 @@
 import { intersects } from '#/lib/collision/aabb.js';
 import { World } from '@jakeklassen/ecs2';
+import { Config } from '../config.js';
 import { Entity } from '../entity.js';
 
-export function collisionSystemFactory({ world }: { world: World<Entity> }) {
+export function collisionSystemFactory({
+  config,
+  world,
+}: {
+  config: Config;
+  world: World<Entity>;
+}) {
   const collidables = world.archetype(
     'boxCollider',
     'collisionLayer',
@@ -29,7 +36,8 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           continue;
         }
 
-        // Make sure entityA's collision layer is a subset of entityB's collision mask
+        // Make sure entityA's collision layer is a subset of entityB's
+        // collision mask
         if (
           (entity.collisionLayer & otherEntity.collisionMask) !==
           entity.collisionLayer
@@ -69,7 +77,8 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           continue;
         }
 
-        // Determine if either entity is the player
+        // Determine entity types
+
         const player = entity.tagPlayer
           ? entity
           : otherEntity.tagPlayer
@@ -89,9 +98,11 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           : null;
 
         const playerBullet =
-          entity.tagBullet || entity.tagBomb
+          entity.tagBullet || entity.tagBigBullet || entity.tagBomb
             ? entity
-            : otherEntity.tagBullet || otherEntity.tagBomb
+            : otherEntity.tagBullet ||
+              otherEntity.tagBigBullet ||
+              otherEntity.tagBomb
             ? otherEntity
             : null;
 
@@ -102,11 +113,19 @@ export function collisionSystemFactory({ world }: { world: World<Entity> }) {
           : null;
 
         if (playerBullet != null && enemy != null) {
+          let damage = config.entities.player.projectiles.bullet.damage;
+
+          if (playerBullet.tagBigBullet) {
+            damage = config.entities.player.projectiles.bigBullet.damage;
+          } else if (playerBullet.tagBomb) {
+            damage = config.entities.player.projectiles.bomb.damage;
+          }
+
           world.createEntity({
             eventPlayerProjectileEnemyCollision: {
-              projectile: entity.tagBullet ? entity : otherEntity,
-              enemy: entity.tagBullet ? otherEntity : entity,
-              damage: playerBullet.tagBomb ? 1000 : 1,
+              projectile: playerBullet,
+              enemy,
+              damage,
             },
           });
         } else if (player != null) {

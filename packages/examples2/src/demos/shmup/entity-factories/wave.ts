@@ -83,7 +83,10 @@ export function spawnWave({
         destroyOnViewportExit: true,
         enemyDestination,
         enemyState,
-        invulnerable: true,
+        invulnerable: {
+          durationMs: tweenDuration,
+          elapsedMs: 0,
+        },
         transform,
         tweens,
       };

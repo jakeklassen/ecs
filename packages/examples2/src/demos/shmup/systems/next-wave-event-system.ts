@@ -1,6 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
+import { ttlFactory } from '../components/ttl.js';
 import { Config } from '../config.js';
 import { Pico8Colors } from '../constants.js';
 import { spawnWave } from '../entity-factories/wave.js';
@@ -65,11 +66,9 @@ export function nextWaveEventSystemFactory({
           y: 40,
         },
       }),
-      ttl: {
+      ttl: ttlFactory({
         durationMs: waveTextTTL,
-        elapsedMs: 0,
-        onComplete: 'entity:destroy',
-      },
+      }),
     });
 
     if (gameState.wave > 1) {

@@ -1,7 +1,9 @@
 import { rndInt } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
+import { ttlFactory } from '../components/ttl.js';
 import { Config } from '../config.js';
 import { Pico8Colors } from '../constants.js';
 import { LoadedContent } from '../content.js';
@@ -52,7 +54,7 @@ export function playerProjectileCollisionEventSystemFactory({
         });
       }
 
-      if (event.enemy.invulnerable !== true && event.enemy.health != null) {
+      if (event.enemy.invulnerable == null && event.enemy.health != null) {
         event.enemy.health -= event.damage;
 
         world.addEntityComponents(event.enemy, 'flash', {
@@ -74,6 +76,38 @@ export function playerProjectileCollisionEventSystemFactory({
           if (event.enemy.enemyState === 'attack') {
             scoreMultiplier = 2;
             cherryChance = 0.2;
+
+            const score = enemyConfig.score * scoreMultiplier;
+
+            // Show bonus score text
+            world.createEntity({
+              direction: {
+                x: 0,
+                y: -1,
+              },
+              text: {
+                align: 'center',
+                color: Pico8Colors.Color7,
+                font: 'PICO-8',
+                message: `${score}`,
+              },
+              textBlinkAnimation: textBlinkAnimationFactory({
+                colors: [Pico8Colors.Color7, Pico8Colors.Color8],
+                colorSequence: [0, 1],
+                durationMs: 100,
+              }),
+              transform: transformFactory({
+                position: {
+                  x: event.enemy.transform.position.x + 4,
+                  y: event.enemy.transform.position.y + 4,
+                },
+              }),
+              ttl: ttlFactory({ durationMs: 2000 }),
+              velocity: {
+                x: 0,
+                y: 15,
+              },
+            });
 
             if (Math.random() < 0.5) {
               world.createEntity({

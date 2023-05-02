@@ -116,11 +116,6 @@ export class GameplayScreen extends Scene {
       timeToLiveSystemFactory({
         world: this.world,
       }),
-      textSystemFactory({
-        fontCache: this.fontCache,
-        textCache: this.textCache,
-        world: this.world,
-      }),
       textBlinkAnimationSystemFactory({
         textCache: this.textCache,
         world: this.world,
@@ -156,11 +151,12 @@ export class GameplayScreen extends Scene {
           height: this.config.gameHeight,
         },
       }),
-      collisionSystemFactory({ world: this.world }),
+      collisionSystemFactory({ config: this.config, world: this.world }),
       playerEnemyCollisionEventSystemFactory({
         config: this.config,
         content: this.content,
         gameState: this.gameState,
+        timer: this.timer,
         world: this.world,
       }),
       playerProjectileCollisionEventSystemFactory({
@@ -195,6 +191,11 @@ export class GameplayScreen extends Scene {
       }),
       soundSystemFactory({
         audioManager: this.audioManager,
+        world: this.world,
+      }),
+      textSystemFactory({
+        fontCache: this.fontCache,
+        textCache: this.textCache,
         world: this.world,
       }),
       spriteOutlineAnimationSystemFactory({
@@ -247,7 +248,6 @@ export class GameplayScreen extends Scene {
       }),
       handleGameOverSystemFactory({
         scene: this,
-        gameState: this.gameState,
         world: this.world,
       }),
       handleGameWonSystemFactory({
@@ -430,18 +430,5 @@ export class GameplayScreen extends Scene {
     this.#bufferContext.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     super.update(delta);
-
-    // // shake screen randomly within unit circle
-    // const offsetX = 2 * (Math.random() - 0.5);
-    // const offsetY = 2 * (Math.random() - 0.5);
-    // this.context.translate(offsetX, offsetY);
-
-    // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // this.context.fillStyle = 'black';
-    // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-    // this.context.drawImage(this.#bufferCanvas, 0, 0);
-
-    // this.context.resetTransform();
   }
 }

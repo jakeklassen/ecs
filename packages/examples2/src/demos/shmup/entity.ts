@@ -211,6 +211,7 @@ export type Entity = {
     type: 'TweenEnd';
     entity: Entity;
   };
+  eventGameOver?: true;
   eventNextWave?: true;
   eventPlayerEnemyCollision?: {
     player: Entity;
@@ -246,12 +247,10 @@ export type Entity = {
     elapsedMs: number;
   };
   health?: number;
-  invulnerable?:
-    | true
-    | {
-        durationMs: number;
-        elapsedMs: number;
-      };
+  invulnerable?: {
+    durationMs: number;
+    elapsedMs: number;
+  };
   muzzleFlash?: {
     color: string;
     durationMs: number;
@@ -271,6 +270,7 @@ export type Entity = {
   star?: {
     color: string;
   };
+  tagBigBullet?: true;
   tagBomb?: true;
   tagBullet?: true;
   tagEnemy?: true;

@@ -9,16 +9,19 @@ import { LoadedContent } from '../content.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
+import { TimeSpan, Timer } from '../timer.js';
 
 export function playerEnemyCollisionEventSystemFactory({
   config,
   content,
   gameState,
+  timer,
   world,
 }: {
   config: Config;
   content: LoadedContent;
   gameState: GameState;
+  timer: Timer;
   world: World<Entity>;
 }) {
   const events = world.archetype('eventPlayerEnemyCollision');
@@ -98,6 +101,13 @@ export function playerEnemyCollisionEventSystemFactory({
         if (playerThruster != null) {
           world.deleteEntity(playerThruster);
         }
+
+        // Give the player death sprite time to finish
+        timer.add(new TimeSpan(1000), () => {
+          world.createEntity({
+            eventGameOver: true,
+          });
+        });
       } else {
         // respawn player
         if (player != null) {

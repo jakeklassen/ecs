@@ -102,17 +102,17 @@ export function fire({
       durationMs: 120,
       elapsedMs: 0,
     });
+  }
 
-    if (triggerSound) {
-      world.createEntity({
-        eventPlaySound: {
-          track: 'enemy-projectile',
-          options: {
-            loop: false,
-          },
+  if (triggerSound) {
+    world.createEntity({
+      eventPlaySound: {
+        track: 'enemy-projectile',
+        options: {
+          loop: false,
         },
-      });
-    }
+      },
+    });
   }
 }
 
@@ -139,16 +139,16 @@ export function fireSpread({
       triggerSound: false,
       world,
     });
-
-    world.createEntity({
-      eventPlaySound: {
-        track: 'enemy-projectile',
-        options: {
-          loop: false,
-        },
-      },
-    });
   }
+
+  world.createEntity({
+    eventPlaySound: {
+      track: 'enemy-projectile',
+      options: {
+        loop: false,
+      },
+    },
+  });
 }
 
 export function aimedFire({

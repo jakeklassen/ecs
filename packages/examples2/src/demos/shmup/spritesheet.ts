@@ -13,6 +13,22 @@ export const SpriteSheet = {
       height: 8,
     },
   },
+
+  bigBullet: {
+    boxCollider: {
+      offsetX: 0,
+      offsetY: 0,
+      width: 8,
+      height: 8,
+    },
+    frame: {
+      sourceX: 8,
+      sourceY: 8,
+      width: 8,
+      height: 8,
+    },
+  },
+
   cherry: {
     boxCollider: {
       offsetX: 0,
@@ -27,6 +43,7 @@ export const SpriteSheet = {
       height: 8,
     },
   },
+
   heart: {
     full: {
       frame: {
@@ -45,6 +62,7 @@ export const SpriteSheet = {
       },
     },
   },
+
   player: {
     boxCollider: {
       offsetX: 1,

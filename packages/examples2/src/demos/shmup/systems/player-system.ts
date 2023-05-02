@@ -1,6 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { Control } from 'contro/dist/core/control.js';
 import { CollisionMasks } from '../bitmasks.js';
+import { spreadShot } from '../entity-factories/player/spread-shot.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 import { SpriteSheet } from '../spritesheet.js';
@@ -28,33 +29,35 @@ export function playerSystemFactory({
   const initialBulletTime = 1;
   let bulletTimer = 0;
   const bulletCooldown = 7;
+  let cherryBombFired = false;
 
   return (dt: number) => {
     bulletTimer -= bulletCooldown * dt;
+    cherryBombFired = false;
 
-    for (const entity of players.entities) {
+    for (const player of players.entities) {
       // Start each frame with the idle sprite
-      entity.sprite.frame = {
+      player.sprite.frame = {
         sourceX: spritesheet.player.idle.sourceX,
         sourceY: spritesheet.player.idle.sourceY,
         width: spritesheet.player.idle.width,
         height: spritesheet.player.idle.height,
       };
 
-      entity.direction.x = 0;
-      entity.direction.y = 0;
+      player.direction.x = 0;
+      player.direction.y = 0;
 
       if (controls.left.query()) {
-        entity.direction.x = -1;
-        entity.sprite.frame = {
+        player.direction.x = -1;
+        player.sprite.frame = {
           sourceX: spritesheet.player.bankLeft.sourceX,
           sourceY: spritesheet.player.bankLeft.sourceY,
           width: spritesheet.player.bankLeft.width,
           height: spritesheet.player.bankLeft.height,
         };
       } else if (controls.right.query()) {
-        entity.direction.x = 1;
-        entity.sprite.frame = {
+        player.direction.x = 1;
+        player.sprite.frame = {
           sourceX: spritesheet.player.bankRight.sourceX,
           sourceY: spritesheet.player.bankRight.sourceY,
           width: spritesheet.player.bankRight.width,
@@ -63,9 +66,64 @@ export function playerSystemFactory({
       }
 
       if (controls.up.query()) {
-        entity.direction.y = -1;
+        player.direction.y = -1;
       } else if (controls.down.query()) {
-        entity.direction.y = 1;
+        player.direction.y = 1;
+      }
+
+      if (controls.confirm.query()) {
+        if (gameState.cherries > 0) {
+          spreadShot({
+            count: gameState.cherries,
+            player,
+            speed: 120,
+            world,
+          });
+
+          if (player.invulnerable != null) {
+            const timeLeft =
+              player.invulnerable.durationMs - player.invulnerable.elapsedMs;
+
+            // Extend invulnerability
+            if (timeLeft < 1000) {
+              player.invulnerable.durationMs = 1000;
+              player.invulnerable.elapsedMs = 0;
+            }
+          } else {
+            world.addEntityComponents(player, 'invulnerable', {
+              durationMs: 1000,
+              elapsedMs: 0,
+            });
+          }
+
+          world.createEntity({
+            eventTriggerCameraShake: {
+              durationMs: 200,
+              strength: 3,
+            },
+          });
+
+          world.createEntity({
+            eventPlaySound: {
+              track: 'spread-shot',
+              options: {
+                loop: false,
+              },
+            },
+          });
+
+          cherryBombFired = true;
+          gameState.cherries = 0;
+        } else {
+          world.createEntity({
+            eventPlaySound: {
+              track: 'no-spread-shot',
+              options: {
+                loop: false,
+              },
+            },
+          });
+        }
       }
 
       if (controls.bomb.query() && !gameState.bombLocked) {
@@ -74,12 +132,11 @@ export function playerSystemFactory({
         });
       }
 
-      if (controls.fire.query()) {
+      if (controls.fire.query() && !cherryBombFired) {
         if (bulletTimer <= 0) {
           bulletTimer = initialBulletTime;
 
           // Spawn two muzzle flashes for a slightly better centered look
-
           world.createEntity({
             muzzleFlash: {
               color: 'white',
@@ -90,8 +147,8 @@ export function playerSystemFactory({
             },
             transform: {
               position: {
-                x: entity.transform.position.x + 3,
-                y: entity.transform.position.y - 2,
+                x: player.transform.position.x + 3,
+                y: player.transform.position.y - 2,
               },
               rotation: 0,
               scale: {
@@ -117,8 +174,8 @@ export function playerSystemFactory({
             },
             transform: {
               position: {
-                x: entity.transform.position.x + 4,
-                y: entity.transform.position.y - 2,
+                x: player.transform.position.x + 4,
+                y: player.transform.position.y - 2,
               },
               rotation: 0,
               scale: {
@@ -148,10 +205,10 @@ export function playerSystemFactory({
             transform: {
               position: {
                 x:
-                  entity.transform.position.x +
+                  player.transform.position.x +
                   spritesheet.bullet.frame.width / 4,
                 y:
-                  entity.transform.position.y - spritesheet.bullet.frame.height,
+                  player.transform.position.y - spritesheet.bullet.frame.height,
               },
               rotation: 0,
               scale: {

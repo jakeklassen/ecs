@@ -36,6 +36,17 @@ export const config = {
       },
     },
     player: {
+      projectiles: {
+        bullet: {
+          damage: 1,
+        },
+        bigBullet: {
+          damage: 3,
+        },
+        bomb: {
+          damage: 1000,
+        },
+      },
       spawnPosition: {
         x: 60,
         y: 110,
