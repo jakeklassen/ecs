@@ -96,21 +96,21 @@ export function nextWaveEventSystemFactory({
         world,
       });
 
-      world.createEntity({
-        eventPlaySound: {
-          track: 'wave-spawn',
-          options: { loop: false },
-        },
-      });
-
       if (gameState.wave === gameState.maxWaves) {
-        timer.add(new TimeSpan(1000), () => {
+        timer.add(new TimeSpan(500), () => {
           world.createEntity({
             eventPlaySound: {
               track: 'boss-music',
               options: { loop: true },
             },
           });
+        });
+      } else {
+        world.createEntity({
+          eventPlaySound: {
+            track: 'wave-spawn',
+            options: { loop: false },
+          },
         });
       }
     });

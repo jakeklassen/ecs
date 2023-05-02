@@ -251,9 +251,9 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       handleGameWonSystemFactory({
-        scene: this,
         gameState: this.gameState,
-        world: this.world,
+        scene: this,
+        timer: this.timer,
       }),
       cameraShakeSystemFactory({
         camera: this.#camera,

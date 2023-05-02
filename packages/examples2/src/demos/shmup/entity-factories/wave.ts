@@ -122,7 +122,56 @@ export function spawnWave({
           });
         });
       } else if (enemyType === 5) {
-        timer.add(new TimeSpan(wait), () => {
+        timer.add(new TimeSpan(300), () => {
+          const destinationX = 48;
+          const destinationY = 25;
+
+          const spawnPosition = {
+            x: 48,
+            y: -24,
+          };
+
+          const enemyDestination = {
+            x: destinationX,
+            y: destinationY,
+          };
+
+          const transform = transformFactory({
+            position: {
+              x: spawnPosition.x,
+              y: spawnPosition.y,
+            },
+          });
+
+          const enemyState = 'flyin';
+
+          const tweenDuration = 2000;
+
+          const tweenYPosition = tweenFactory('transform.position.y', {
+            from: spawnPosition.y,
+            to: destinationY,
+            duration: tweenDuration,
+            easing: Easing.Linear,
+            maxIterations: 1,
+          });
+
+          const tweens = [tweenYPosition];
+
+          const components: SetRequired<
+            Entity,
+            'enemyDestination' | 'enemyState' | 'invulnerable' | 'transform'
+          > = {
+            destroyOnViewportExit: true,
+            enemyDestination,
+            enemyState,
+            invulnerable: {
+              durationMs: tweenDuration,
+              elapsedMs: 0,
+            },
+            transform,
+            tweens,
+          };
+
           bossFactory({
             components,
             world,

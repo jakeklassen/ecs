@@ -1,25 +1,23 @@
-import { World } from '@jakeklassen/ecs2';
 import { GameEvent } from '../game-events.js';
 import { GameState } from '../game-state.js';
 import { Scene } from '../scene.js';
-import { Entity } from '../entity.js';
+import { TimeSpan, Timer } from '../timer.js';
 
 export function handleGameWonSystemFactory({
   gameState,
   scene,
-  world,
+  timer,
 }: {
   gameState: GameState;
   scene: Scene;
-  world: World<Entity>;
+  timer: Timer;
 }) {
-  const particles = world.archetype('particle');
-
   return () => {
-    // We want to let particles finish their animation before we switch to
-    // the game won scene.
-    if (gameState.wave > gameState.maxWaves && particles.entities.size === 0) {
-      scene.emit(GameEvent.GameWon);
+    // Delay game over to give animations time to finish
+    if (gameState.wave > gameState.maxWaves) {
+      timer.add(new TimeSpan(1000), () => {
+        scene.emit(GameEvent.GameWon);
+      });
     }
   };
 }
