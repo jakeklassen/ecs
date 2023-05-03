@@ -1,6 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { Control } from 'contro/dist/core/control.js';
 import { CollisionMasks } from '../bitmasks.js';
+import { spriteFactory } from '../components/sprite.js';
 import { spreadShot } from '../entity-factories/player/spread-shot.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
@@ -216,15 +217,14 @@ export function playerSystemFactory({
                 y: 1,
               },
             },
-            sprite: {
+            sprite: spriteFactory({
               frame: {
                 sourceX: spritesheet.bullet.frame.sourceX,
                 sourceY: spritesheet.bullet.frame.sourceY,
                 width: spritesheet.bullet.frame.width,
                 height: spritesheet.bullet.frame.height,
               },
-              opacity: 1,
-            },
+            }),
             velocity: {
               x: 0,
               y: 120,

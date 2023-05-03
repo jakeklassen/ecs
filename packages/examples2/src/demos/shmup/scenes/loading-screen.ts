@@ -1,4 +1,5 @@
 import { Easing } from '#/lib/tween.js';
+import { spriteFactory } from '../components/sprite.js';
 import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
@@ -74,15 +75,14 @@ export class LoadingScreen extends Scene {
 
     // Little green alien
     this.world.createEntity({
-      sprite: {
+      sprite: spriteFactory({
         frame: {
           sourceX: this.spriteSheet.enemies.greenAlien.frame.sourceX,
           sourceY: this.spriteSheet.enemies.greenAlien.frame.sourceY,
           width: this.spriteSheet.enemies.greenAlien.frame.width,
           height: this.spriteSheet.enemies.greenAlien.frame.height,
         },
-        opacity: 1,
-      },
+      }),
       transform: transformFactory({
         position: {
           x:
@@ -108,15 +108,14 @@ export class LoadingScreen extends Scene {
 
     // Cherry Bomb logo
     this.world.createEntity({
-      sprite: {
+      sprite: spriteFactory({
         frame: {
           sourceX: this.spriteSheet.titleLogo.frame.sourceX,
           sourceY: this.spriteSheet.titleLogo.frame.sourceY,
           width: this.spriteSheet.titleLogo.frame.width,
           height: this.spriteSheet.titleLogo.frame.height,
         },
-        opacity: 1,
-      },
+      }),
       transform: transformFactory({
         position: {
           x: this.canvas.width / 2 - this.spriteSheet.titleLogo.frame.width / 2,

@@ -1,11 +1,12 @@
 import { rndInt } from '#/lib/math.js';
 import { World } from '@jakeklassen/ecs2';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { spriteFactory } from '../components/sprite.js';
 import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { ttlFactory } from '../components/ttl.js';
 import { Config } from '../config.js';
-import { Pico8Colors } from '../constants.js';
+import { Pico8Colors, SpriteLayer } from '../constants.js';
 import { LoadedContent } from '../content.js';
 import { cherryFactory } from '../entity-factories/cherry.js';
 import { Entity } from '../entity.js';
@@ -127,15 +128,15 @@ export function playerProjectileCollisionEventSystemFactory({
           const sourceY = explosionIndex * 64;
 
           world.createEntity({
-            sprite: {
+            sprite: spriteFactory({
               frame: {
                 sourceX: 0,
                 sourceY,
                 width: 64,
                 height: 64,
               },
-              opacity: 1,
-            },
+              layer: SpriteLayer.Explosion,
+            }),
             spriteAnimation: spriteAnimationFactory(
               animationDetailsFactory(
                 `explosion`,

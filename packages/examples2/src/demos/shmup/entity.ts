@@ -22,6 +22,7 @@ export type Frame = {
 
 type Sprite = {
   frame: Frame;
+  layer: number;
   opacity: number;
 };
 
@@ -198,6 +199,14 @@ export type Entity = {
   collisionMask?: number;
 
   destroyOnViewportExit?: true;
+
+  /**
+   * This should be used with `velocity` to move the entity.
+   * @example ```ts
+   * entity.transform.position.x += entity.velocity.x * entity.direction.x * delta;
+   * entity.transform.position.y += entity.velocity.y * entity.direction.y * delta;
+   * ```
+   */
   direction?: Vector2d;
 
   /**
@@ -227,7 +236,7 @@ export type Entity = {
     damage: number;
   };
   eventPlaySound?: {
-    track: string;
+    track: Parameters<AudioManager['play']>[0];
     options: Parameters<AudioManager['play']>[1];
   };
   eventSpawnWave?: {

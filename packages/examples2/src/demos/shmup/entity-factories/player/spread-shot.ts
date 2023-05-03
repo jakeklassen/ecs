@@ -3,6 +3,7 @@ import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
 import { SetRequired } from 'type-fest';
 import { CollisionMasks } from '../../bitmasks.js';
+import { spriteFactory } from '../../components/sprite.js';
 import { transformFactory } from '../../components/transform.js';
 import { tweenFactory } from '../../components/tween.js';
 import { Pico8Colors } from '../../constants.js';
@@ -175,15 +176,14 @@ export function spreadShot({
       collisionLayer: CollisionMasks.PlayerProjectile,
       collisionMask: CollisionMasks.Enemy,
       direction,
-      sprite: {
+      sprite: spriteFactory({
         frame: {
           sourceX: SpriteSheet.bigBullet.frame.sourceX,
           sourceY: SpriteSheet.bigBullet.frame.sourceY,
           width: SpriteSheet.bigBullet.frame.width,
           height: SpriteSheet.bigBullet.frame.height,
         },
-        opacity: 1,
-      },
+      }),
       tagBigBullet: true,
       transform,
       velocity,

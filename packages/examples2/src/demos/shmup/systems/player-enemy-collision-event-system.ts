@@ -2,6 +2,7 @@ import { rndInt } from '#/lib/math.js';
 import { Easing } from '#/lib/tween.js';
 import { World } from '@jakeklassen/ecs2';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { spriteFactory } from '../components/sprite.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Config } from '../config.js';
@@ -51,15 +52,14 @@ export function playerEnemyCollisionEventSystemFactory({
       const sourceY = explosionIndex * 64;
 
       world.createEntity({
-        sprite: {
+        sprite: spriteFactory({
           frame: {
             sourceX: 0,
             sourceY,
             width: 64,
             height: 64,
           },
-          opacity: 1,
-        },
+        }),
         spriteAnimation: spriteAnimationFactory(
           animationDetailsFactory(
             `explosion`,

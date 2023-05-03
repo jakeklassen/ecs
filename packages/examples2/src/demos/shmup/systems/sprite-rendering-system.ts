@@ -15,8 +15,12 @@ export function spriteRenderingSystemFactory({
     .archetype('sprite', 'transform')
     .without('textBlinkAnimation', 'flash');
 
-  return (_dt: number) => {
-    for (const entity of renderables.entities) {
+  return function spriteRenderingSystem(_dt: number) {
+    const entities = Array.from(renderables.entities).sort(
+      (a, b) => a.sprite.layer - b.sprite.layer,
+    );
+
+    for (const entity of entities) {
       const { sprite, transform } = entity;
 
       context.globalAlpha = sprite.opacity;

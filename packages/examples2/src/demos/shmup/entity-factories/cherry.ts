@@ -1,6 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteOutlineAnimationFactory } from '../components/sprite-outline-animation.js';
+import { spriteFactory } from '../components/sprite.js';
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
@@ -30,15 +31,14 @@ export function cherryFactory({
     transform: transformFactory({
       position: transform.position,
     }),
-    sprite: {
+    sprite: spriteFactory({
       frame: {
         sourceX: SpriteSheet.cherry.frame.sourceX,
         sourceY: SpriteSheet.cherry.frame.sourceY,
         width: SpriteSheet.cherry.frame.width,
         height: SpriteSheet.cherry.frame.height,
       },
-      opacity: 1,
-    },
+    }),
     spriteOutline: {
       color: Pico8Colors.Color7,
     },

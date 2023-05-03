@@ -1,5 +1,6 @@
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { spriteFactory } from '../components/sprite.js';
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { starfieldFactory } from '../entity-factories/star.js';
@@ -297,15 +298,14 @@ export class GameplayScreen extends Scene {
           y: 1,
         },
       },
-      sprite: {
+      sprite: spriteFactory({
         frame: {
           sourceX: SpriteSheet.player.idle.sourceX,
           sourceY: SpriteSheet.player.idle.sourceY,
           width: SpriteSheet.player.idle.width,
           height: SpriteSheet.player.idle.height,
         },
-        opacity: 1,
-      },
+      }),
       velocity: {
         x: 60,
         y: 60,
@@ -331,15 +331,14 @@ export class GameplayScreen extends Scene {
           y: 1,
         },
       },
-      sprite: {
+      sprite: spriteFactory({
         frame: {
           sourceX: SpriteSheet.player.thruster.sourceX,
           sourceY: SpriteSheet.player.thruster.sourceY,
           width: SpriteSheet.player.thruster.width,
           height: SpriteSheet.player.thruster.height,
         },
-        opacity: 1,
-      },
+      }),
       spriteAnimation: spriteAnimationFactory(
         animationDetailsFactory(
           'player-thruster',
@@ -362,15 +361,14 @@ export class GameplayScreen extends Scene {
           y: 1,
         },
       }),
-      sprite: {
+      sprite: spriteFactory({
         frame: {
           sourceX: SpriteSheet.cherry.frame.sourceX,
           sourceY: SpriteSheet.cherry.frame.sourceY,
           width: SpriteSheet.cherry.frame.width,
           height: SpriteSheet.cherry.frame.height,
         },
-        opacity: 1,
-      },
+      }),
     });
 
     // Score text

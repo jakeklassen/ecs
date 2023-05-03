@@ -1,6 +1,6 @@
+import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
-import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 
 export function textSystemFactory({
   fontCache,
@@ -13,7 +13,7 @@ export function textSystemFactory({
 }) {
   const entities = world.archetype('text', 'transform');
 
-  return (_dt: number) => {
+  return function textSystem(_dt: number) {
     for (const entity of entities.entities) {
       const { text, transform } = entity;
 

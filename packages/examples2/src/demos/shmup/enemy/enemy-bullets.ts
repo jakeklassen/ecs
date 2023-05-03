@@ -3,6 +3,7 @@ import { World } from '@jakeklassen/ecs2';
 import { SetRequired } from 'type-fest';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { spriteFactory } from '../components/sprite.js';
 import { transformFactory } from '../components/transform.js';
 import { EnemyType, Pico8Colors } from '../constants.js';
 import { Entity } from '../entity.js';
@@ -44,15 +45,14 @@ export function fire({
     height: SpriteSheet.enemyBullet.boxCollider.height,
   };
 
-  const sprite: NonNullable<Entity['sprite']> = {
+  const sprite = spriteFactory({
     frame: {
       sourceX: SpriteSheet.enemyBullet.frame.sourceX,
       sourceY: SpriteSheet.enemyBullet.frame.sourceY,
       width: SpriteSheet.enemyBullet.frame.width,
       height: SpriteSheet.enemyBullet.frame.height,
     },
-    opacity: 1,
-  };
+  });
 
   const spriteAnimation = spriteAnimationFactory(
     animationDetailsFactory(

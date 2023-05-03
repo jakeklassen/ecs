@@ -27,3 +27,10 @@ export const EnemyType = {
   YellowShip: 'yellowShip',
   Boss: 'boss',
 } as const;
+
+export const SpriteLayer = {
+  Background: -1,
+  Base: 0,
+  Entity: 1,
+  Explosion: 2,
+} as const;
