@@ -217,9 +217,9 @@ export const SpriteSheet = {
 
     boss: {
       boxCollider: {
-        offsetX: 0,
+        offsetX: 3,
         offsetY: 0,
-        width: 32,
+        width: 26,
         height: 24,
       },
       frame: {
@@ -228,11 +228,27 @@ export const SpriteSheet = {
         width: 32,
         height: 24,
       },
-      animations: {
-        idle: {
+      hurt: {
+        frame: {
           sourceX: 0,
           sourceY: 32,
-          width: 128,
+          width: 32,
+          height: 24,
+        },
+      },
+      animations: {
+        hurt: {
+          sourceX: 0,
+          sourceY: 32,
+          width: 64,
+          height: 24,
+          frameWidth: 32,
+          frameHeight: 24,
+        },
+        idle: {
+          sourceX: 64,
+          sourceY: 32,
+          width: 96,
           height: 24,
           frameWidth: 32,
           frameHeight: 24,

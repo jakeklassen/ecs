@@ -5,7 +5,9 @@ import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import '../../style.css';
+import bigExplosionWavUrl from './assets/audio/big-explosion.wav';
 import bossMusicWavUrl from './assets/audio/boss-music.wav';
+import bossProjectileWavUrl from './assets/audio/boss-projectile.wav';
 import enemyDeathWaveUrl from './assets/audio/enemy-death.wav';
 import enemyProjectileWavUrl from './assets/audio/enemy-projectile.wav';
 import extraLifeWavUrl from './assets/audio/extra-life.wav';
@@ -52,7 +54,9 @@ const recorder = {
 
 const audioManager = new AudioManager();
 
+await audioManager.loadTrack('big-explosion', bigExplosionWavUrl);
 await audioManager.loadTrack('boss-music', bossMusicWavUrl);
+await audioManager.loadTrack('boss-projectile', bossProjectileWavUrl);
 await audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
 await audioManager.loadTrack('enemy-projectile', enemyProjectileWavUrl);
 await audioManager.loadTrack('extra-life', extraLifeWavUrl);

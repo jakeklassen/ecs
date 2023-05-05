@@ -24,6 +24,7 @@ type Sprite = {
   frame: Frame;
   layer: number;
   opacity: number;
+  paletteSwaps: Array<[from: HexColor, to: HexColor]>;
 };
 
 type SpriteAnimation = {
@@ -214,12 +215,22 @@ export type Entity = {
    */
   enemyDestination?: Vector2d;
 
-  enemyState?: 'spawned' | 'flyin' | 'protect' | 'attack';
+  enemyState?:
+    | 'spawned'
+    | 'flyin'
+    | 'protect'
+    | 'attack'
+    | 'bossReady'
+    | 'boss1'
+    | 'boss2'
+    | 'boss3'
+    | 'boss4';
   enemyType?: keyof Config['entities']['enemies'];
   event?: {
     type: 'TweenEnd';
     entity: Entity;
   };
+  eventDestroyBoss?: true;
   eventGameOver?: true;
   eventNextWave?: true;
   eventPlayerEnemyCollision?: {
@@ -229,6 +240,15 @@ export type Entity = {
   eventPlayerPickupCollision?: {
     player: Entity;
     pickup: Entity;
+  };
+  eventPlayerProjectileBossCollision?: {
+    projectile: Entity;
+    boss: Entity;
+    damage: number;
+  };
+  eventPlayerProjectileDestroy?: {
+    projectile: Entity;
+    shockWavePosition: Vector2d;
   };
   eventPlayerProjectileEnemyCollision?: {
     projectile: Entity;
@@ -281,7 +301,9 @@ export type Entity = {
   };
   tagBigBullet?: true;
   tagBomb?: true;
+  tagBoss?: true;
   tagBullet?: true;
+  tagDisabled?: true;
   tagEnemy?: true;
   tagEnemyBullet?: true;
   tagHud?: true;

@@ -33,6 +33,7 @@ export function destroyOnViewportExitSystemFactory({
       // of room on the right side check.
       const bulletXBuffer = 1;
 
+      // TODO: I think x-axis needs to be fixed. I think it needs to be fully off screen.
       if (
         entity.transform.position.x + entity.boxCollider.offsetX >
         viewport.width - entity.boxCollider.width + bulletXBuffer

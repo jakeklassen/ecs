@@ -34,8 +34,8 @@ export function fire({
     transform.position.x = (enemy.transform?.position.x ?? 0) + 6;
     transform.position.y = (enemy.transform?.position.y ?? 0) + 13;
   } else if (enemy.enemyType === EnemyType.Boss) {
-    transform.position.x = enemy.transform?.position.x ?? 0 + 15;
-    transform.position.y = enemy.transform?.position.y ?? 0 + 23;
+    transform.position.x = (enemy.transform?.position.x ?? 0) + 13;
+    transform.position.y = (enemy.transform?.position.y ?? 0) + 22;
   }
 
   const boxCollider = {
@@ -107,7 +107,7 @@ export function fire({
   if (triggerSound) {
     world.createEntity({
       eventPlaySound: {
-        track: 'enemy-projectile',
+        track: enemy.tagBoss ? 'boss-projectile' : 'enemy-projectile',
         options: {
           loop: false,
         },
@@ -161,8 +161,12 @@ export function aimedFire({
   world: World<Entity>;
 }) {
   const angle = Math.atan2(
-    target.position.x + 4 - enemy.transform.position.x,
-    target.position.y + 4 - enemy.transform.position.y,
+    target.position.x +
+      4 -
+      (enemy.transform.position.x + (enemy.sprite?.frame.width ?? 0) / 2),
+    target.position.y +
+      4 -
+      (enemy.transform.position.y + (enemy.sprite?.frame.width ?? 0) / 2),
   );
 
   fire({

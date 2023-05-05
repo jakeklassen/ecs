@@ -1,6 +1,7 @@
 import { intersects } from '#/lib/collision/aabb.js';
 import { World } from '@jakeklassen/ecs2';
 import { Config } from '../config.js';
+import { EnemyType } from '../constants.js';
 import { Entity } from '../entity.js';
 
 export function collisionSystemFactory({
@@ -91,11 +92,12 @@ export function collisionSystemFactory({
           ? otherEntity
           : null;
 
-        const enemy = entity.tagEnemy
-          ? entity
-          : otherEntity.tagEnemy
-          ? otherEntity
-          : null;
+        const enemy =
+          entity.tagEnemy || entity.tagBoss
+            ? entity
+            : otherEntity.tagEnemy || otherEntity.tagBoss
+            ? otherEntity
+            : null;
 
         const playerBullet =
           entity.tagBullet || entity.tagBigBullet || entity.tagBomb
@@ -121,13 +123,24 @@ export function collisionSystemFactory({
             damage = config.entities.player.projectiles.bomb.damage;
           }
 
-          world.createEntity({
-            eventPlayerProjectileEnemyCollision: {
-              projectile: playerBullet,
-              enemy,
-              damage,
-            },
-          });
+          // Boss will get it's own collision event
+          if (enemy.enemyType === EnemyType.Boss) {
+            world.createEntity({
+              eventPlayerProjectileBossCollision: {
+                projectile: playerBullet,
+                boss: enemy,
+                damage,
+              },
+            });
+          } else {
+            world.createEntity({
+              eventPlayerProjectileEnemyCollision: {
+                projectile: playerBullet,
+                enemy,
+                damage,
+              },
+            });
+          }
         } else if (player != null) {
           if (pickup != null) {
             world.createEntity({

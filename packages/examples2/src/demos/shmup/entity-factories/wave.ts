@@ -123,17 +123,14 @@ export function spawnWave({
         });
       } else if (enemyType === 5) {
         timer.add(new TimeSpan(300), () => {
-          const destinationX = 48;
-          const destinationY = 25;
-
           const spawnPosition = {
             x: 48,
             y: -24,
           };
 
           const enemyDestination = {
-            x: destinationX,
-            y: destinationY,
+            x: 48,
+            y: 25,
           };
 
           const transform = transformFactory({
@@ -149,7 +146,7 @@ export function spawnWave({
 
           const tweenYPosition = tweenFactory('transform.position.y', {
             from: spawnPosition.y,
-            to: destinationY,
+            to: enemyDestination.y,
             duration: tweenDuration,
             easing: Easing.Linear,
             maxIterations: 1,
@@ -168,6 +165,7 @@ export function spawnWave({
               durationMs: tweenDuration,
               elapsedMs: 0,
             },
+            tagBoss: true,
             transform,
             tweens,
           };

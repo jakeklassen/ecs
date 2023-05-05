@@ -9,12 +9,13 @@ import { Config } from '../config.js';
 import { Pico8Colors, SpriteLayer } from '../constants.js';
 import { LoadedContent } from '../content.js';
 import { cherryFactory } from '../entity-factories/cherry.js';
+import { destroyPlayerBulletFactory } from '../entity-factories/destroy-player-bullet.js';
 import { Entity } from '../entity.js';
 import { assertEnityHasOrThrow } from '../entity/assert.js';
 import { GameState } from '../game-state.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
 
-export function playerProjectileCollisionEventSystemFactory({
+export function playerProjectileEnemyCollisionEventSystemFactory({
   config,
   content,
   gameState,
@@ -31,29 +32,22 @@ export function playerProjectileCollisionEventSystemFactory({
     for (const entity of events.entities) {
       const { eventPlayerProjectileEnemyCollision: event } = entity;
 
-      world.deleteEntity(event.projectile);
-
-      // Spawn a shockwave - only for bullets
-      if (event.projectile.tagBullet) {
-        world.createEntity({
-          shockwave: {
-            radius: 3,
-            targetRadius: 6,
-            color: Pico8Colors.Color9,
-            speed: 30,
-          },
-          transform: transformFactory({
-            position: {
-              x:
-                (event.projectile.transform?.position.x ?? 0) +
-                (event.projectile.sprite?.frame.width ?? 0) / 2,
-              y:
-                (event.projectile.transform?.position.y ?? 0) +
-                (event.projectile.sprite?.frame.height ?? 0) / 2,
-            },
-          }),
-        });
-      }
+      destroyPlayerBulletFactory({
+        bullet: event.projectile,
+        shockwave: event.projectile.tagBullet
+          ? {
+              location: {
+                x:
+                  (event.projectile.transform?.position.x ?? 0) +
+                  (event.projectile.sprite?.frame.width ?? 0) / 2,
+                y:
+                  (event.projectile.transform?.position.y ?? 0) +
+                  (event.projectile.sprite?.frame.height ?? 0) / 2,
+              },
+            }
+          : undefined,
+        world,
+      });
 
       if (event.enemy.invulnerable == null && event.enemy.health != null) {
         event.enemy.health -= event.damage;
@@ -179,15 +173,6 @@ export function playerProjectileCollisionEventSystemFactory({
           gameState.score += enemyConfig.score * scoreMultiplier;
         }
       }
-
-      world.createEntity({
-        eventPlaySound: {
-          track: 'player-projectile-hit',
-          options: {
-            loop: false,
-          },
-        },
-      });
     }
   };
 }

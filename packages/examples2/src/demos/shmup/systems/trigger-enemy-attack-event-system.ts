@@ -1,4 +1,5 @@
 import { World } from '@jakeklassen/ecs2';
+import { EnemyType } from '../constants.js';
 import { determinePickableEnemies } from '../enemy/determine-pickable-enemies.js';
 import { pickRandomEnemy } from '../enemy/pick-random-enemy.js';
 import { switchEnemyToAttackMode } from '../enemy/switch-enemy-to-attach-mode.js';
@@ -43,7 +44,7 @@ export function triggerEnemyAttackEventSystemFactory({
       }
 
       // TODO: What do we do with the boss?
-      if (enemy.enemyType === 'boss') {
+      if (enemy.enemyType === EnemyType.Boss) {
         continue;
       }
 

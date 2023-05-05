@@ -1,12 +1,12 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function playerProjectileCollisionEventCleanupSystemFactory({
+export function playerProjectileBossCollisionEventCleanupSystemFactory({
   world,
 }: {
   world: World<Entity>;
 }) {
-  const events = world.archetype('eventPlayerProjectileEnemyCollision');
+  const events = world.archetype('eventPlayerProjectileBossCollision');
 
   return () => {
     for (const entity of events.entities) {

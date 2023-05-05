@@ -9,16 +9,17 @@ import { Scene, SceneConstructorProps } from '../scene.js';
 import { SpriteSheet } from '../spritesheet.js';
 import { animationDetailsFactory } from '../structures/animation-details.js';
 import { bombSystemFactory } from '../systems/bomb-system.js';
+import { bossSystemFactory } from '../systems/boss-system.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
 import { cameraShakeSystemFactory } from '../systems/camera-shake-system.js';
 import { cherrySystemFactory } from '../systems/cherry-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
+import { destroyBossEventSystemFactory } from '../systems/destroy-boss-event-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { enemyPickSystemFactory } from '../systems/enemy-pick-system.js';
 import { flashSystemFactory } from '../systems/flash-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
-import { handleGameWonSystemFactory } from '../systems/handle-game-won-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { lateralHunterSystemFactory } from '../systems/lateral-hunter-system.js';
 import { livesRenderingSystemFactory } from '../systems/lives-rendering-system.js';
@@ -31,8 +32,10 @@ import { particleSystemFactory } from '../systems/particle-system.js';
 import { playerEnemyCollisionEventCleanupSystemFactory } from '../systems/player-enemy-collision-event-cleanup-system.js';
 import { playerEnemyCollisionEventSystemFactory } from '../systems/player-enemy-collision-event-system.js';
 import { playerPickupCollisionEventSystemFactory } from '../systems/player-pickup-collision-event-system.js';
-import { playerProjectileCollisionEventCleanupSystemFactory } from '../systems/player-projectile-collision-event-cleanup-system.js';
-import { playerProjectileCollisionEventSystemFactory } from '../systems/player-projectile-collision-event-system.js';
+import { playerProjectileBossCollisionEventCleanupSystemFactory } from '../systems/player-projectile-boss-collision-event-cleanup-system.js';
+import { playerProjectileBossCollisionEventSystemFactory } from '../systems/player-projectile-boss-collision-event-system.js';
+import { playerProjectileEnemyCollisionEventCleanupSystemFactory } from '../systems/player-projectile-enemy-collision-event-cleanup-system.js';
+import { playerProjectileEnemyCollisionEventSystemFactory } from '../systems/player-projectile-enemy-collision-event-system.js';
 import { playerSystemFactory } from '../systems/player-system.js';
 import { renderingSystemFactory } from '../systems/rendering-system.js';
 import { scoreSystemFactory } from '../systems/score-system.js';
@@ -94,6 +97,18 @@ export class GameplayScreen extends Scene {
         canvas: this.canvas,
         config: this.config,
         gameState: this.gameState,
+        timer: this.timer,
+        world: this.world,
+      }),
+      bossSystemFactory({
+        timer: this.timer,
+        world: this.world,
+      }),
+      destroyBossEventSystemFactory({
+        config: this.config,
+        content: this.content,
+        gameState: this.gameState,
+        scene: this,
         timer: this.timer,
         world: this.world,
       }),
@@ -160,10 +175,13 @@ export class GameplayScreen extends Scene {
         timer: this.timer,
         world: this.world,
       }),
-      playerProjectileCollisionEventSystemFactory({
+      playerProjectileEnemyCollisionEventSystemFactory({
         config: this.config,
         content: this.content,
         gameState: this.gameState,
+        world: this.world,
+      }),
+      playerProjectileBossCollisionEventSystemFactory({
         world: this.world,
       }),
       tweenSystemFactory({ world: this.world }),
@@ -241,7 +259,12 @@ export class GameplayScreen extends Scene {
       }),
       triggerGameOverSystemFactory({ input: this.input, scene: this }),
       triggerGameWonSystemFactory({ input: this.input, scene: this }),
-      playerProjectileCollisionEventCleanupSystemFactory({ world: this.world }),
+      playerProjectileEnemyCollisionEventCleanupSystemFactory({
+        world: this.world,
+      }),
+      playerProjectileBossCollisionEventCleanupSystemFactory({
+        world: this.world,
+      }),
       playerEnemyCollisionEventCleanupSystemFactory({ world: this.world }),
       playerPickupCollisionEventSystemFactory({
         gameState: this.gameState,
@@ -250,11 +273,6 @@ export class GameplayScreen extends Scene {
       handleGameOverSystemFactory({
         scene: this,
         world: this.world,
-      }),
-      handleGameWonSystemFactory({
-        gameState: this.gameState,
-        scene: this,
-        timer: this.timer,
       }),
       cameraShakeSystemFactory({
         camera: this.#camera,

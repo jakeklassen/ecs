@@ -101,6 +101,7 @@ export class TitleScreen extends Scene {
           easing: Easing.Linear,
           from: 31,
           to: 24,
+          maxIterations: Infinity,
           yoyo: true,
           // Interested in the end of the tween so we can randomize the x
           // position before it repeats.

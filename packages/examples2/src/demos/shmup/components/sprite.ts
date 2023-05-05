@@ -14,5 +14,6 @@ export function spriteFactory(
     },
     layer: sprite.layer ?? SpriteLayer.Base,
     opacity: sprite.opacity ?? 1,
+    paletteSwaps: sprite.paletteSwaps ?? [],
   };
 }
