@@ -1,8 +1,8 @@
 import { World } from '@jakeklassen/ecs2';
-import { Entity } from '../entity.js';
-import { GameState } from '../game-state.js';
 import { CollisionMasks } from '../bitmasks.js';
 import { transformFactory } from '../components/transform.js';
+import { Entity } from '../entity.js';
+import { GameState } from '../game-state.js';
 import { TimeSpan, Timer } from '../timer.js';
 
 export function bombSystemFactory({
@@ -14,16 +14,21 @@ export function bombSystemFactory({
   timer: Timer;
   world: World<Entity>;
 }) {
+  // TODO: Consider archetypes that support a single entity only?
   const bombEvents = world.archetype('eventTriggerBomb');
   const enemies = world.archetype('boxCollider', 'tagEnemy', 'transform');
 
-  return () => {
+  return function bombSystem() {
     if (
       bombEvents.entities.size === 0 ||
       gameState.waveReady === false ||
       gameState.bombLocked
     ) {
       return;
+    }
+
+    if (bombEvents.entities.size > 1) {
+      throw new Error('bomb event should only be triggered once');
     }
 
     gameState.bombLocked = true;
@@ -56,6 +61,8 @@ export function bombSystemFactory({
         });
       });
     }
+
+    // ? Part of me _really_ wants to play a "Bombin the floor!" AVGN sample here
 
     const [bombEvent] = bombEvents.entities;
 

@@ -44,7 +44,7 @@ export function destroyBossEventSystemFactory({
     'transform',
   );
 
-  return () => {
+  return function destroyBossEventSystem() {
     for (const event of events.entities) {
       world.deleteEntity(event);
 
@@ -54,6 +54,7 @@ export function destroyBossEventSystemFactory({
         break;
       }
 
+      // Stop boss movement
       boss.direction.x = 0;
       boss.direction.y = 0;
 

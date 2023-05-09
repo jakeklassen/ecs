@@ -1,6 +1,9 @@
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
+/**
+ * System that renders box colliders for debugging.
+ */
 export function debugRenderingSystemFactory({
   world,
   context,

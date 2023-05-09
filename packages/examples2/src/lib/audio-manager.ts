@@ -176,6 +176,8 @@ export class AudioManager {
     //
     // If I can get the track length, I can use that to calculate the time
     // to stop the sound?
+    // What I've been doing so far is using `sox` to add a fade near the end
+    // of the track: `sox in.wav out.wav fade 0 0 0.01`
     source.onended = () => {
       if (options.loop === false) {
         this.#playing.delete(track);

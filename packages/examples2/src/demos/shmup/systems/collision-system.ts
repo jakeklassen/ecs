@@ -4,6 +4,9 @@ import { Config } from '../config.js';
 import { EnemyType } from '../constants.js';
 import { Entity } from '../entity.js';
 
+/**
+ * System that detects collisions between entities and raises events.
+ */
 export function collisionSystemFactory({
   config,
   world,
@@ -20,7 +23,7 @@ export function collisionSystemFactory({
 
   const handledEntities = new Set<Entity>();
 
-  return function collisionSystem(_dt: number) {
+  return function collisionSystem() {
     handledEntities.clear();
 
     for (const entity of collidables.entities) {

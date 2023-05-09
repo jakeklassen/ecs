@@ -12,7 +12,7 @@ import { bombSystemFactory } from '../systems/bomb-system.js';
 import { bossSystemFactory } from '../systems/boss-system.js';
 import { boundToViewportSystemFactory } from '../systems/bound-to-viewport-system.js';
 import { cameraShakeSystemFactory } from '../systems/camera-shake-system.js';
-import { cherrySystemFactory } from '../systems/cherry-system.js';
+import { cherryTextSystemFactory } from '../systems/cherry-text-system.js';
 import { collisionSystemFactory } from '../systems/collision-system.js';
 import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.js';
 import { destroyBossEventSystemFactory } from '../systems/destroy-boss-event-system.js';
@@ -198,7 +198,7 @@ export class GameplayScreen extends Scene {
         context: this.#bufferContext,
         spriteSheet: this.content.spritesheet,
       }),
-      cherrySystemFactory({
+      cherryTextSystemFactory({
         gameState: this.gameState,
         textCache: this.textCache,
         world: this.world,

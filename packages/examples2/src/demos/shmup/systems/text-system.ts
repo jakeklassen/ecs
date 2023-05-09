@@ -13,7 +13,7 @@ export function textSystemFactory({
 }) {
   const entities = world.archetype('text', 'transform');
 
-  return function textSystem(_dt: number) {
+  return function textSystem() {
     for (const entity of entities.entities) {
       const { text, transform } = entity;
 

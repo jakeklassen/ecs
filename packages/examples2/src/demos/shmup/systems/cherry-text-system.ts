@@ -3,7 +3,10 @@ import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 
-export function cherrySystemFactory({
+/**
+ * System to update the cherry text to reflect the current number of cherries.
+ */
+export function cherryTextSystemFactory({
   gameState,
   textCache,
   world,
@@ -15,7 +18,7 @@ export function cherrySystemFactory({
   const cherryTextEntities = world.archetype('tagTextCherries', 'text');
   const previousState = structuredClone(gameState);
 
-  return () => {
+  return function cherryTextSystem() {
     if (gameState.cherries === previousState.cherries) {
       return;
     }
