@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demos - Shmup (Cherry Bomb)</title>
 
-    <script src="/js/feather.min.js"></script>
+    <script src="/js/feather.min.js" defer></script>
 
     <style>
       html,
@@ -84,7 +84,15 @@
     </div>
 
     <script>
-      feather.replace();
+      const timer = setInterval(() => {
+        if (globalThis.feather == null) {
+          return;
+        }
+
+        globalThis.feather.replace();
+
+        clearInterval(timer);
+      }, 50);
     </script>
     <script type="module" src="./main.ts"></script>
   </body>
