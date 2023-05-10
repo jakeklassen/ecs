@@ -54,10 +54,11 @@ function determineParticlColorFromAge(
 export function particleSystemFactory({ world }: { world: World<Entity> }) {
   const renderables = world.archetype('particle', 'velocity');
 
-  return (dt: number) => {
+  return function particleSystem(dt: number) {
     for (const entity of renderables.entities) {
       const { particle, velocity } = entity;
 
+      // FIXME: Code smell `30 * dt` - need to extract `30`
       particle.age += 30 * dt;
       velocity.x *= 0.85;
       velocity.y *= 0.85;
@@ -71,6 +72,7 @@ export function particleSystemFactory({ world }: { world: World<Entity> }) {
         }
       }
 
+      // There are two color biases, red for enemies and blue for the player.
       particle.color = particle.isBlue
         ? determineParticlColorFromAge(particle, 'blue')
         : determineParticlColorFromAge(particle, 'red');

@@ -15,7 +15,7 @@ export function scoreSystemFactory({
   const scoreTextEntities = world.archetype('tagTextScore', 'text');
   const previousState = structuredClone(gameState);
 
-  return () => {
+  return function scoreSystem() {
     if (gameState.score === previousState.score) {
       return;
     }

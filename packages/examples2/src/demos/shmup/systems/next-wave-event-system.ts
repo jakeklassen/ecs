@@ -25,15 +25,21 @@ export function nextWaveEventSystemFactory({
   const nextWaveEvents = world.archetype('eventNextWave');
   const maxMaves = Object.keys(config.waves).length;
 
-  return (dt: number) => {
-    const [entity] = nextWaveEvents.entities;
-
-    if (entity == null) {
+  return function nextWaveEventSystem(dt: number) {
+    if (nextWaveEvents.entities.size === 0) {
       return;
     }
 
+    const [entity] = nextWaveEvents.entities;
+
     gameState.waveReady = false;
     gameState.wave++;
+
+    const wave = config.waves[gameState.wave];
+
+    if (wave == null) {
+      return;
+    }
 
     const text: NonNullable<Entity['text']> = {
       align: 'center',
@@ -46,8 +52,6 @@ export function nextWaveEventSystemFactory({
       text.message = `Wave ${gameState.wave} of ${maxMaves}`;
     } else if (gameState.wave === maxMaves) {
       text.message = 'Final Wave!';
-    } else {
-      return;
     }
 
     const waveTextTTL = 2600;
@@ -71,6 +75,7 @@ export function nextWaveEventSystemFactory({
       }),
     });
 
+    // TODO: Don't play sound before final wave?
     if (gameState.wave > 1) {
       world.createEntity({
         eventPlaySound: {
@@ -78,13 +83,6 @@ export function nextWaveEventSystemFactory({
           options: { loop: false },
         },
       });
-    }
-
-    const wave = config.waves[gameState.wave];
-
-    if (wave == null) {
-      console.warn('No more waves to spawn');
-      return;
     }
 
     // Synchronize wave spawn with text destroy

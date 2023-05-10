@@ -6,6 +6,9 @@ import { switchEnemyToAttackMode } from '../enemy/switch-enemy-to-attach-mode.js
 import { Entity } from '../entity.js';
 import { Timer } from '../timer.js';
 
+/**
+ * Attack in this case means signal, then fly at the player.
+ */
 export function triggerEnemyAttackEventSystemFactory({
   timer,
   world,
@@ -22,7 +25,7 @@ export function triggerEnemyAttackEventSystemFactory({
   );
   const events = world.archetype('eventTriggerEnemyAttack');
 
-  return () => {
+  return function triggerEnemyAttackEventSystem() {
     for (const event of events.entities) {
       world.deleteEntity(event);
 
@@ -37,13 +40,11 @@ export function triggerEnemyAttackEventSystemFactory({
 
       const enemy = pickRandomEnemy(enemiesArray, 10);
 
-      // It's possible that there are no enemies to switch to attack mode,
-      // but that are still on the field.
+      // It's possible that there are no enemies eligible to attack.
       if (enemy == null) {
         continue;
       }
 
-      // TODO: What do we do with the boss?
       if (enemy.enemyType === EnemyType.Boss) {
         continue;
       }

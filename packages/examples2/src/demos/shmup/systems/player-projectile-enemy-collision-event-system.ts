@@ -28,7 +28,7 @@ export function playerProjectileEnemyCollisionEventSystemFactory({
 }) {
   const events = world.archetype('eventPlayerProjectileEnemyCollision');
 
-  return () => {
+  return function playerProjectileEnemyCollisionEventSystem() {
     for (const entity of events.entities) {
       const { eventPlayerProjectileEnemyCollision: event } = entity;
 

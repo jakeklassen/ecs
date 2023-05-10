@@ -11,7 +11,7 @@ export function textBlinkAnimationSystemFactory({
 }) {
   const entities = world.archetype('textBlinkAnimation', 'text');
 
-  return (dt: number) => {
+  return function textBlinkAnimationSystem(dt: number) {
     for (const entity of entities.entities) {
       const { textBlinkAnimation } = entity;
 

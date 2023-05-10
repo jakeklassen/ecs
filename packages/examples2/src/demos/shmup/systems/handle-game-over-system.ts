@@ -17,7 +17,7 @@ export function handleGameOverSystemFactory({
       return;
     }
 
-    // We know we received the game over event, so we can delete all entities
+    // cleanup
     for (const entity of events.entities) {
       world.deleteEntity(entity);
     }

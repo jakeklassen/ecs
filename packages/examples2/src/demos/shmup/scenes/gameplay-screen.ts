@@ -18,7 +18,7 @@ import { debugRenderingSystemFactory } from '../systems/debug-rendering-system.j
 import { destroyBossEventSystemFactory } from '../systems/destroy-boss-event-system.js';
 import { destroyOnViewportExitSystemFactory } from '../systems/destroy-on-viewport-exit-system.js';
 import { enemyPickSystemFactory } from '../systems/enemy-pick-system.js';
-import { flashSystemFactory } from '../systems/flash-system.js';
+import { flashRenderingSystemFactory } from '../systems/flash-rendering-system.js';
 import { handleGameOverSystemFactory } from '../systems/handle-game-over-system.js';
 import { invulnerableSystemFactory } from '../systems/invulnerable-system.js';
 import { lateralHunterSystemFactory } from '../systems/lateral-hunter-system.js';
@@ -193,7 +193,7 @@ export class GameplayScreen extends Scene {
         world: this.world,
         context: this.#bufferContext,
       }),
-      flashSystemFactory({
+      flashRenderingSystemFactory({
         world: this.world,
         context: this.#bufferContext,
         spriteSheet: this.content.spritesheet,

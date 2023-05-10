@@ -8,7 +8,7 @@ export function spriteAnimationSystemFactory({
 }) {
   const spriteAnimatables = world.archetype('spriteAnimation', 'sprite');
 
-  return (dt: number) => {
+  return function spriteAnimationSystem(dt: number) {
     for (const entity of spriteAnimatables.entities) {
       const { spriteAnimation, sprite } = entity;
 

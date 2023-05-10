@@ -27,6 +27,8 @@ function enemyFactory<
     collisionMask: CollisionMasks.PlayerProjectile | CollisionMasks.Player,
     enemyType: enemyName,
     health: config.entities.enemies[enemyName].startingHealth,
+    // FIXME: Notice that we are not getting `sprite` errors when we're
+    // missing because of the `typeof components`.
     sprite: {
       frame: {
         sourceX: enemy.frame.sourceX,

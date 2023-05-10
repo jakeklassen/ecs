@@ -15,8 +15,18 @@ export function playerProjectileBossCollisionEventSystemFactory({
   const events = world.archetype('eventPlayerProjectileBossCollision');
   const bosses = world.archetype('sprite', 'spriteAnimation', 'tagBoss');
 
+  /**
+   * We need to disable the hurt timer when the boss is dead. Otherwise,
+   * the boss will switch back to the idle animation when it's _dying_.
+   */
   let disableHurtTimer = false;
+
   let hurtTimer = 0;
+
+  /**
+   * We need some duration to lock the boss in the hurt state so that
+   * the animation doesn't toggle back to idle too quickly.
+   */
   const hurtDurationSeconds = 0.2;
 
   return function playerProjectileBossCollisionEventSystem(dt: number) {
@@ -31,8 +41,8 @@ export function playerProjectileBossCollisionEventSystemFactory({
 
       boss.sprite.paletteSwaps = [];
 
-      // TODO: Should add some tests as to whether or not it's a good
-      // idea to mutate the spriteAnimation object like this
+      // When the timer expires and boss is hurting, switch back to
+      // the idle animation
       if (boss.spriteAnimation.animationDetails.name !== 'boss-idle') {
         boss.spriteAnimation = spriteAnimationFactory(
           animationDetailsFactory(

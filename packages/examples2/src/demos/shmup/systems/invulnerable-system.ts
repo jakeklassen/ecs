@@ -4,7 +4,7 @@ import { Entity } from '../entity.js';
 export function invulnerableSystemFactory({ world }: { world: World<Entity> }) {
   const invulnerables = world.archetype('invulnerable');
 
-  return (dt: number) => {
+  return function invulnerableSystem(dt: number) {
     for (const entity of invulnerables.entities) {
       const { invulnerable } = entity;
 

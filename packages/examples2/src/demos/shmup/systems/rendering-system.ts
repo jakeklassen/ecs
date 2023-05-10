@@ -1,3 +1,8 @@
+/**
+ * The rendering system is handed a buffer canvas and a context to draw to.
+ * Using a buffer allows us to separate cleaning for camera movement.
+ * e.g. camera shake.
+ */
 export function renderingSystemFactory({
   buffer,
   camera,

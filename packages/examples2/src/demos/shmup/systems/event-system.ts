@@ -5,9 +5,7 @@ import { Entity } from '../entity.js';
 export function eventSystemFactory({ world }: { world: World<Entity> }) {
   const events = world.archetype('event');
 
-  return () => {
-    const entitiesToDelete = [];
-
+  return function eventSystem() {
     for (const entity of events.entities) {
       const { event } = entity;
 
@@ -27,8 +25,6 @@ export function eventSystemFactory({ world }: { world: World<Entity> }) {
           break;
         }
       }
-
-      entitiesToDelete.push(entity);
     }
   };
 }

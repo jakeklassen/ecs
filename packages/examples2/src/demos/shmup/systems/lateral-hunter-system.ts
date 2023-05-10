@@ -2,6 +2,11 @@ import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 import { Timer } from '../timer.js';
 
+/**
+ * This system handles the spinning ship enemy type.
+ * When the enemy is in the attack state, if the player crosses it's path
+ * along x, it will stop moving vertically and move towards the player.
+ */
 export function lateralHunterSystemFactory({
   world,
 }: {
@@ -18,7 +23,7 @@ export function lateralHunterSystemFactory({
 
   const players = world.archetype('boxCollider', 'tagPlayer', 'transform');
 
-  return (_dt: number) => {
+  return function lateralHunterSystem() {
     const [player] = players.entities;
 
     if (player == null) {
@@ -38,6 +43,7 @@ export function lateralHunterSystemFactory({
         entity.velocity.x = 60;
         entity.velocity.y = 0;
 
+        // No need to continue checking
         world.removeEntityComponents(entity, 'tagLateralHunter');
       }
     }

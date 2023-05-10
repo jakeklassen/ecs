@@ -14,7 +14,7 @@ export function startGameSystemFactory({
   // query still reads as true from the previous scene.
   controls.confirm.query();
 
-  return (_dt: number) => {
+  return function startGameSystem() {
     if (controls.confirm.query()) {
       scene.emit(GameEvent.StartGame);
     }

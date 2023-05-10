@@ -28,6 +28,10 @@ export function playerEnemyCollisionEventSystemFactory({
   const events = world.archetype('eventPlayerEnemyCollision');
   const players = world.archetype('tagPlayer', 'transform');
   const playerThrusters = world.archetype('tagPlayerThruster', 'transform');
+  /**
+   * Width and height are the same
+   */
+  const playerExplosionFrameSize = 64;
 
   return () => {
     const [player] = players.entities;
@@ -45,19 +49,20 @@ export function playerEnemyCollisionEventSystemFactory({
         },
       });
 
-      // decrement lives
       gameState.lives--;
 
-      const explosionIndex = rndInt(content.playerExplosions.height / 64);
-      const sourceY = explosionIndex * 64;
+      const explosionIndex = rndInt(
+        content.playerExplosions.height / playerExplosionFrameSize,
+      );
+      const sourceY = explosionIndex * playerExplosionFrameSize;
 
       world.createEntity({
         sprite: spriteFactory({
           frame: {
             sourceX: 0,
             sourceY,
-            width: 64,
-            height: 64,
+            width: playerExplosionFrameSize,
+            height: playerExplosionFrameSize,
           },
         }),
         spriteAnimation: spriteAnimationFactory(
@@ -66,9 +71,9 @@ export function playerEnemyCollisionEventSystemFactory({
             0,
             sourceY,
             content.playerExplosions.width,
-            64,
-            64,
-            64,
+            playerExplosionFrameSize,
+            playerExplosionFrameSize,
+            playerExplosionFrameSize,
           ),
           100,
           false,
@@ -79,11 +84,11 @@ export function playerEnemyCollisionEventSystemFactory({
             x:
               (player.transform?.position.x ?? 0) +
               (player.sprite?.frame.width ?? 0) / 2 -
-              32,
+              playerExplosionFrameSize / 2,
             y:
               (player.transform?.position.y ?? 0) +
               (player.sprite?.frame.height ?? 0) / 2 -
-              32,
+              playerExplosionFrameSize / 2,
           },
         }),
       });

@@ -1,11 +1,11 @@
-export function gameOverSystemFactory({
+export function gameOverRenderingSystemFactory({
   context,
   imageData,
 }: {
   context: CanvasRenderingContext2D;
   imageData: ImageData;
 }) {
-  return (_dt: number) => {
+  return function gameOverRenderingSystem() {
     context.putImageData(imageData, 0, 0);
   };
 }

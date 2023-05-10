@@ -180,6 +180,42 @@ export class TitleScreen extends Scene {
         },
       }),
     });
+
+    // High score text
+    const highscoreString = localStorage.getItem('highscore');
+    let highscore = parseInt(highscoreString ?? '0');
+
+    if (highscore > 0) {
+      this.world.createEntity({
+        text: {
+          align: 'center',
+          color: Pico8Colors.Color12,
+          font: 'PICO-8',
+          message: `highscore:`,
+        },
+        transform: transformFactory({
+          position: {
+            x: this.canvas.width / 2,
+            y: 63,
+          },
+        }),
+      });
+
+      this.world.createEntity({
+        text: {
+          align: 'center',
+          color: Pico8Colors.Color12,
+          font: 'PICO-8',
+          message: `${highscore}`,
+        },
+        transform: transformFactory({
+          position: {
+            x: this.canvas.width / 2,
+            y: 69,
+          },
+        }),
+      });
+    }
   }
 
   public override enter(): void {

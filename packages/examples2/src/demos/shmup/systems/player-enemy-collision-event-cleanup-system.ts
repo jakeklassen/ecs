@@ -8,7 +8,7 @@ export function playerEnemyCollisionEventCleanupSystemFactory({
 }) {
   const events = world.archetype('eventPlayerEnemyCollision');
 
-  return () => {
+  return function playerEnemyCollisionEventCleanupSystem() {
     for (const entity of events.entities) {
       world.deleteEntity(entity);
     }

@@ -1,6 +1,6 @@
+import { TextBuffer } from '#/lib/pixel-text/text-buffer.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
-import { TextBuffer } from '#/lib/pixel-text/text-buffer.js';
 
 export function textRenderingSystemFactory({
   context,
@@ -13,7 +13,7 @@ export function textRenderingSystemFactory({
 }) {
   const textRenderables = world.archetype('text', 'transform');
 
-  return (_dt: number) => {
+  return function textRenderingSystem() {
     for (const entity of textRenderables.entities) {
       const { transform } = entity;
 

@@ -4,6 +4,9 @@ import { Config } from '../config.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
 
+/**
+ * This system is responsible for picking when enemies should attack and fire.
+ */
 export function enemyPickSystemFactory({
   config,
   gameState,

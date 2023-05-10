@@ -24,19 +24,9 @@ export function destroyOnViewportExitSystemFactory({
 
       let destroy = false;
 
-      // ? The bullets were disappearing too early when the player was
-      // ? all the way to the right side of the screen.
-      // This is used because the bullet sprite, and the ship sprite,
-      // are both even numbers in width. This means that the bullet
-      // will never _really_ be positioned dead center on the ship,
-      // even if it is rendered that way. So we'll allow a little bit
-      // of room on the right side check.
-      const bulletXBuffer = 1;
-
-      // TODO: I think x-axis needs to be fixed. I think it needs to be fully off screen.
       if (
         entity.transform.position.x + entity.boxCollider.offsetX >
-        viewport.width - entity.boxCollider.width + bulletXBuffer
+        viewport.width
       ) {
         destroy = true;
       } else if (entity.transform.position.x + entity.boxCollider.offsetX < 0) {

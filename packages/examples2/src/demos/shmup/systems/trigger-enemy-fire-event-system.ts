@@ -5,6 +5,9 @@ import { aimedFire, fire, fireSpread } from '../enemy/enemy-bullets.js';
 import { pickRandomEnemy } from '../enemy/pick-random-enemy.js';
 import { Entity } from '../entity.js';
 
+/**
+ * Fire in this case mean fire a projectile at the player.
+ */
 export function triggerEnemyFireEventSystemFactory({
   world,
 }: {
@@ -52,13 +55,11 @@ export function triggerEnemyFireEventSystemFactory({
 
       const enemy = pickRandomEnemy(enemiesArray, 10);
 
-      // It's possible that there are no enemies to switch to attack mode,
-      // but that are still on the field.
+      // It's possible that there are no enemies eligible to fire.
       if (enemy == null) {
         continue;
       }
 
-      // TODO: What do we do with the boss?
       if (enemy.enemyType === EnemyType.Boss) {
         continue;
       }

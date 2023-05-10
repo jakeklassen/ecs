@@ -10,7 +10,7 @@ export function starfieldRenderingSystemFactory({
 }) {
   const stars = world.archetype('star', 'transform');
 
-  return (_dt: number) => {
+  return function starfieldRenderingSystem() {
     for (const { star, transform } of stars.entities) {
       context.globalAlpha = 1;
 

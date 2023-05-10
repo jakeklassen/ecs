@@ -12,7 +12,7 @@ export function yellowShipSystemFactory({ world }: { world: World<Entity> }) {
 
   let spreadshotTimer = 0;
 
-  return (dt: number) => {
+  return function yellowShipSystem(dt: number) {
     spreadshotTimer += dt;
 
     for (const yellowShip of yellowShips.entities) {

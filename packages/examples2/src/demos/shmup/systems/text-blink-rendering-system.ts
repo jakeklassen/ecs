@@ -20,7 +20,7 @@ export function textBlinkRenderingSystemFactory({
   const tintContext = obtainCanvas2dContext(tintCanvas);
   tintContext.imageSmoothingEnabled = false;
 
-  return (_dt: number) => {
+  return function textBlinkRenderingSystem() {
     for (const entity of entities.entities) {
       const { textBlinkAnimation, sprite, transform } = entity;
 

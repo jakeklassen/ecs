@@ -13,7 +13,7 @@ import { Entity } from '../entity.js';
 export function tweenSystemFactory({ world }: { world: World<Entity> }) {
   const tweened = world.archetype('tweens');
 
-  return (dt: number) => {
+  return function tweenSystem(dt: number) {
     for (const entity of tweened.entities) {
       const { tweens } = entity;
 

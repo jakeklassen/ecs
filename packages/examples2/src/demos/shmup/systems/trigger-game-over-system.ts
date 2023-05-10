@@ -9,7 +9,7 @@ export function triggerGameOverSystemFactory({
   input: Controls;
   scene: Scene;
 }) {
-  return (_dt: number) => {
+  return function triggerGameOverSystem() {
     if (input.quit.query()) {
       scene.emit(GameEvent.GameOver);
     }

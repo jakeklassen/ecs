@@ -2,7 +2,7 @@ import { textBlinkAnimationFactory } from '../components/text-blink-animation.js
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Scene } from '../scene.js';
-import { gameOverSystemFactory } from '../systems/game-over-system.js';
+import { gameOverRenderingSystemFactory } from '../systems/game-over-rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { spriteRenderingSystemFactory } from '../systems/sprite-rendering-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
@@ -48,6 +48,51 @@ export class GameWonScreen extends Scene {
       },
     });
 
+    const highscoreString = localStorage.getItem('highscore');
+    let highscore = parseInt(highscoreString ?? '0');
+
+    if (this.gameState.score > highscore) {
+      localStorage.setItem('highscore', `${this.gameState.score}`);
+      highscore = this.gameState.score;
+
+      // Show new high score text
+      this.world.createEntity({
+        text: {
+          align: 'center',
+          color: Pico8Colors.Color12,
+          font: 'PICO-8',
+          message: `new highscore!: ${highscore}`,
+        },
+        textBlinkAnimation: textBlinkAnimationFactory({
+          colors: [Pico8Colors.Color7, Pico8Colors.Color10],
+          colorSequence: [0, 1],
+          durationMs: 100,
+        }),
+        transform: transformFactory({
+          position: {
+            x: this.canvas.width / 2,
+            y: 66,
+          },
+        }),
+      });
+    }
+
+    // Show high score text
+    this.world.createEntity({
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color12,
+        font: 'PICO-8',
+        message: `score: ${highscore}`,
+      },
+      transform: transformFactory({
+        position: {
+          x: this.canvas.width / 2,
+          y: 60,
+        },
+      }),
+    });
+
     // Press any key to start text
     this.world.createEntity({
       text: {
@@ -81,7 +126,7 @@ export class GameWonScreen extends Scene {
         world: this.world,
       }),
       spriteAnimationSystemFactory({ world: this.world }),
-      gameOverSystemFactory({
+      gameOverRenderingSystemFactory({
         context: this.context,
         imageData: gameplayBuffer,
       }),

@@ -4,7 +4,7 @@ import { Entity } from '../entity.js';
 export function timeToLiveSystemFactory({ world }: { world: World<Entity> }) {
   const entities = world.archetype('ttl');
 
-  return (dt: number) => {
+  return function timeToLiveSystem(dt: number) {
     for (const entity of entities.entities) {
       const { ttl } = entity;
 

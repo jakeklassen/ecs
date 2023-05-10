@@ -2,7 +2,7 @@ import { textBlinkAnimationFactory } from '../components/text-blink-animation.js
 import { transformFactory } from '../components/transform.js';
 import { Pico8Colors } from '../constants.js';
 import { Scene } from '../scene.js';
-import { gameOverSystemFactory } from '../systems/game-over-system.js';
+import { gameOverRenderingSystemFactory } from '../systems/game-over-rendering-system.js';
 import { spriteAnimationSystemFactory } from '../systems/sprite-animation-system.js';
 import { spriteRenderingSystemFactory } from '../systems/sprite-rendering-system.js';
 import { startGameSystemFactory } from '../systems/start-game-system.js';
@@ -39,7 +39,7 @@ export class GameOverScreen extends Scene {
         world: this.world,
       }),
       spriteAnimationSystemFactory({ world: this.world }),
-      gameOverSystemFactory({
+      gameOverRenderingSystemFactory({
         context: this.context,
         imageData: gameplayBuffer,
       }),

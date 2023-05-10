@@ -1,7 +1,8 @@
+import { obtainCanvas2dContext } from '#/lib/dom.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
 
-export function flashSystemFactory({
+export function flashRenderingSystemFactory({
   context,
   spriteSheet,
   world,
@@ -16,25 +17,17 @@ export function flashSystemFactory({
   tintCanvas.width = context.canvas.width;
   tintCanvas.height = context.canvas.height;
 
-  const tintContext = tintCanvas.getContext('2d');
-
-  if (tintContext == null) {
-    throw new Error('Could not get 2D context from tint canvas');
-  }
+  const tintContext = obtainCanvas2dContext(tintCanvas);
+  tintContext.imageSmoothingEnabled = false;
 
   const bufferCanvas = document.createElement('canvas');
   bufferCanvas.width = context.canvas.width;
   bufferCanvas.height = context.canvas.height;
 
-  const bufferContext = bufferCanvas.getContext('2d');
-
-  if (bufferContext == null) {
-    throw new Error('Could not get 2D context from buffer canvas');
-  }
-
+  const bufferContext = obtainCanvas2dContext(bufferCanvas);
   bufferContext.imageSmoothingEnabled = false;
 
-  return (dt: number) => {
+  return function flashRenderingSystem(dt: number) {
     tintContext.clearRect(0, 0, tintCanvas.width, tintCanvas.height);
     bufferContext.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
 

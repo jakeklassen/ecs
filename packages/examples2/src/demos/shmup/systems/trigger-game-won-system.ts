@@ -9,7 +9,7 @@ export function triggerGameWonSystemFactory({
   input: Controls;
   scene: Scene;
 }) {
-  return (_dt: number) => {
+  return function triggerGameWonSystem() {
     if (input.win.query()) {
       scene.emit(GameEvent.GameWon);
     }

@@ -1,6 +1,6 @@
+import { circ } from '#/lib/canvas.js';
 import { World } from '@jakeklassen/ecs2';
 import { Entity } from '../entity.js';
-import { circ } from '#/lib/canvas.js';
 
 export function shockwaveRenderingSystemFactory({
   context,
@@ -11,7 +11,7 @@ export function shockwaveRenderingSystemFactory({
 }) {
   const shockwaves = world.archetype('shockwave', 'transform');
 
-  return (_dt: number) => {
+  return function shockwaveRenderingSystem() {
     for (const entity of shockwaves.entities) {
       const { shockwave, transform } = entity;
 

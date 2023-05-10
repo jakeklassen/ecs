@@ -12,7 +12,7 @@ export function muzzleFlashRenderingSystemFactory({
 }) {
   const muzzleFlashes = world.archetype('muzzleFlash', 'transform');
 
-  return (_dt: number) => {
+  return function muzzleFlashRenderingSystem() {
     for (const entity of muzzleFlashes.entities) {
       const { muzzleFlash, transform } = entity;
 

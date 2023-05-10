@@ -1,7 +1,7 @@
-import { World } from '@jakeklassen/ecs2';
-import { Entity } from '../entity.js';
 import { fillCircle } from '#/lib/canvas.js';
+import { World } from '@jakeklassen/ecs2';
 import { Pico8Colors } from '../constants.js';
+import { Entity } from '../entity.js';
 
 export function particleRenderingSystemFactory({
   world,
@@ -12,7 +12,7 @@ export function particleRenderingSystemFactory({
 }) {
   const renderables = world.archetype('particle', 'transform');
 
-  return (_dt: number) => {
+  return function particleRenderingSystem() {
     for (const entity of renderables.entities) {
       const { particle, transform } = entity;
 
