@@ -97,6 +97,52 @@ export class GameOverScreen extends Scene {
         },
       }),
     });
+
+    // High score text
+    const highscoreString = localStorage.getItem('highscore');
+    let highscore = parseInt(highscoreString ?? '0');
+
+    if (this.gameState.score > highscore) {
+      localStorage.setItem('highscore', `${this.gameState.score}`);
+      highscore = this.gameState.score;
+
+      // Show new high score text
+      this.world.createEntity({
+        text: {
+          align: 'center',
+          color: Pico8Colors.Color12,
+          font: 'PICO-8',
+          message: `new highscore!: ${highscore}`,
+        },
+        textBlinkAnimation: textBlinkAnimationFactory({
+          colors: [Pico8Colors.Color7, Pico8Colors.Color10],
+          colorSequence: [0, 1],
+          durationMs: 100,
+        }),
+        transform: transformFactory({
+          position: {
+            x: this.canvas.width / 2,
+            y: 66,
+          },
+        }),
+      });
+    }
+
+    // Show high score text
+    this.world.createEntity({
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color12,
+        font: 'PICO-8',
+        message: `score: ${highscore}`,
+      },
+      transform: transformFactory({
+        position: {
+          x: this.canvas.width / 2,
+          y: 60,
+        },
+      }),
+    });
   }
 
   public override enter(): void {
