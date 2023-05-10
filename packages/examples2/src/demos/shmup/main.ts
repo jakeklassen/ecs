@@ -54,27 +54,24 @@ const recorder = {
 
 const audioManager = new AudioManager();
 
-await audioManager.loadTrack('big-explosion', bigExplosionWavUrl);
-await audioManager.loadTrack('boss-music', bossMusicWavUrl);
-await audioManager.loadTrack('boss-projectile', bossProjectileWavUrl);
-await audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
-await audioManager.loadTrack('enemy-projectile', enemyProjectileWavUrl);
-await audioManager.loadTrack('extra-life', extraLifeWavUrl);
-await audioManager.loadTrack('game-over', gameOverWavUrl);
-await audioManager.loadTrack('game-start', gameStartWavUrl);
-await audioManager.loadTrack('game-won', gameWonWavUrl);
-await audioManager.loadTrack('no-spread-shot', noSpreadShotWavUrl);
-await audioManager.loadTrack('shoot', shootWavUrl);
-await audioManager.loadTrack('spread-shot', spreadShotWavUrl);
-await audioManager.loadTrack('pickup', pickupWavUrl);
-await audioManager.loadTrack('player-death', playerDeathWavUrl);
-await audioManager.loadTrack(
-  'player-projectile-hit',
-  playerProjectileHitWavUrl,
-);
-await audioManager.loadTrack('title-screen-music', titleScreenMusicWavUrl);
-await audioManager.loadTrack('wave-complete', waveCompleteWavUrl);
-await audioManager.loadTrack('wave-spawn', waveSpawnWavUrl);
+audioManager.loadTrack('big-explosion', bigExplosionWavUrl);
+audioManager.loadTrack('boss-music', bossMusicWavUrl);
+audioManager.loadTrack('boss-projectile', bossProjectileWavUrl);
+audioManager.loadTrack('enemy-death', enemyDeathWaveUrl);
+audioManager.loadTrack('enemy-projectile', enemyProjectileWavUrl);
+audioManager.loadTrack('extra-life', extraLifeWavUrl);
+audioManager.loadTrack('game-over', gameOverWavUrl);
+audioManager.loadTrack('game-start', gameStartWavUrl);
+audioManager.loadTrack('game-won', gameWonWavUrl);
+audioManager.loadTrack('no-spread-shot', noSpreadShotWavUrl);
+audioManager.loadTrack('shoot', shootWavUrl);
+audioManager.loadTrack('spread-shot', spreadShotWavUrl);
+audioManager.loadTrack('pickup', pickupWavUrl);
+audioManager.loadTrack('player-death', playerDeathWavUrl);
+audioManager.loadTrack('player-projectile-hit', playerProjectileHitWavUrl);
+audioManager.loadTrack('title-screen-music', titleScreenMusicWavUrl);
+audioManager.loadTrack('wave-complete', waveCompleteWavUrl);
+audioManager.loadTrack('wave-spawn', waveSpawnWavUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
   console.log('🎵 audio ready');
