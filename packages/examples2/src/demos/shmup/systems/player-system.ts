@@ -1,19 +1,19 @@
 import { World } from '@jakeklassen/ecs2';
-import { Control } from 'contro/dist/core/control.js';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteFactory } from '../components/sprite.js';
 import { spreadShot } from '../entity-factories/player/spread-shot.js';
 import { Entity } from '../entity.js';
 import { GameState } from '../game-state.js';
+import { Input } from '../input.js';
 import { SpriteSheet } from '../spritesheet.js';
 
 export function playerSystemFactory({
-  controls,
+  input,
   gameState,
   spritesheet,
   world,
 }: {
-  controls: Record<string, Control<any>>;
+  input: Input;
   gameState: GameState;
   spritesheet: SpriteSheet;
   world: World<Entity>;
@@ -48,7 +48,7 @@ export function playerSystemFactory({
       player.direction.x = 0;
       player.direction.y = 0;
 
-      if (controls.left.query()) {
+      if (input.left.query()) {
         player.direction.x = -1;
         player.sprite.frame = {
           sourceX: spritesheet.player.bankLeft.sourceX,
@@ -56,7 +56,7 @@ export function playerSystemFactory({
           width: spritesheet.player.bankLeft.width,
           height: spritesheet.player.bankLeft.height,
         };
-      } else if (controls.right.query()) {
+      } else if (input.right.query()) {
         player.direction.x = 1;
         player.sprite.frame = {
           sourceX: spritesheet.player.bankRight.sourceX,
@@ -66,13 +66,13 @@ export function playerSystemFactory({
         };
       }
 
-      if (controls.up.query()) {
+      if (input.up.query()) {
         player.direction.y = -1;
-      } else if (controls.down.query()) {
+      } else if (input.down.query()) {
         player.direction.y = 1;
       }
 
-      if (controls.confirm.query()) {
+      if (input.confirm.query()) {
         if (gameState.cherries > 0) {
           spreadShot({
             count: gameState.cherries,
@@ -127,13 +127,13 @@ export function playerSystemFactory({
         }
       }
 
-      if (controls.bomb.query() && !gameState.bombLocked) {
+      if (input.bomb.query() && !gameState.bombLocked) {
         world.createEntity({
           eventTriggerBomb: true,
         });
       }
 
-      if (controls.fire.query() && !cherryBombFired) {
+      if (input.fire.query() && !cherryBombFired) {
         if (bulletTimer <= 0) {
           bulletTimer = initialBulletTime;
 

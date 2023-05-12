@@ -137,7 +137,7 @@ export class GameplayScreen extends Scene {
         world: this.world,
       }),
       playerSystemFactory({
-        controls: this.input,
+        input: this.input,
         gameState: this.gameState,
         spritesheet: SpriteSheet,
         world: this.world,

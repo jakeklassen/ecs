@@ -1,9 +1,10 @@
-import { Keyboard, Gamepad, or } from 'contro';
+import { Gamepad, Keyboard, or } from 'gameinput';
 
-const keyboard = new Keyboard();
-const gamepad = new Gamepad();
+export const keyboard = new Keyboard();
+export const gamepad = new Gamepad();
 
 export const controls = {
+  any: or(gamepad.button('*').trigger, keyboard.key('any').trigger),
   left: or(gamepad.button('Left'), keyboard.key('ArrowLeft')),
   right: or(gamepad.button('Right'), keyboard.key('ArrowRight')),
   up: or(gamepad.button('Up'), keyboard.key('ArrowUp')),

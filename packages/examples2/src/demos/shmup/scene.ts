@@ -3,13 +3,13 @@ import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { World } from '@jakeklassen/ecs2';
 import { Config } from './config.js';
 import { LoadedContent } from './content.js';
-import { Controls } from './controls.js';
 import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { GameState } from './game-state.js';
+import { GameTime } from './game-time.js';
+import { Input } from './input.js';
 import { SpriteSheet } from './spritesheet.js';
 import { Timer } from './timer.js';
-import { GameTime } from './game-time.js';
 
 type System = (dt: number) => void;
 
@@ -22,7 +22,8 @@ export interface SceneConstructorProps {
   fontCache: Map<string, TextBufferFont>;
   gameState: GameState;
   gameTime: GameTime;
-  input: Controls;
+  // input: Controls;
+  input: Input;
   spriteSheet: SpriteSheet;
   timer: Timer;
   textCache: Map<Entity, TextBuffer>;
@@ -34,7 +35,8 @@ export class Scene {
   world = new World<Entity>();
   systems: System[] = [];
 
-  protected input: Controls;
+  // protected input: Controls;
+  protected input: Input;
   protected content: LoadedContent;
   protected audioManager: AudioManager;
   protected config: Config;

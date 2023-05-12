@@ -5,24 +5,6 @@ import { TextBuffer, TextBufferFont } from '#/lib/pixel-text/text-buffer.js';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import '../../style.css';
-import bigExplosionAudioUrl from './assets/audio/big-explosion.ogg';
-import bossMusicAudioUrl from './assets/audio/boss-music.ogg';
-import bossProjectileAudioUrl from './assets/audio/boss-projectile.ogg';
-import enemyDeathAudioUrl from './assets/audio/enemy-death.ogg';
-import enemyProjectileAudioUrl from './assets/audio/enemy-projectile.ogg';
-import extraLifeAudioUrl from './assets/audio/extra-life.ogg';
-import gameOverAudioUrl from './assets/audio/game-over.ogg';
-import gameStartAudioUrl from './assets/audio/game-start.ogg';
-import gameWonAudioUrl from './assets/audio/game-won-music.ogg';
-import noSpreadShotAudioUrl from './assets/audio/no-spread-shot.ogg';
-import pickupAudioUrl from './assets/audio/pickup.ogg';
-import playerDeathAudioUrl from './assets/audio/player-death.ogg';
-import playerProjectileHitAudioUrl from './assets/audio/player-projectile-hit.ogg';
-import shootAudioUrl from './assets/audio/shoot.ogg';
-import spreadShotAudioUrl from './assets/audio/spread-shot.ogg';
-import titleScreenMusicAudioUrl from './assets/audio/title-screen-music.ogg';
-import waveCompleteAudioUrl from './assets/audio/wave-complete.ogg';
-import waveSpawnAudioUrl from './assets/audio/wave-spawn.ogg';
 import pico8FontImageUrl from './assets/font/pico-8_regular_5.png';
 import pico8FontXmlUrl from './assets/font/pico-8_regular_5.xml?url';
 import explosionsSheetImageUrl from './assets/image/explosions.png';
@@ -30,7 +12,6 @@ import playerExplosionsSheetImageUrl from './assets/image/player-explosions.png'
 import spriteSheetImageUrl from './assets/image/shmup.png';
 import { config } from './config.js';
 import { Content } from './content.js';
-import { controls } from './controls.js';
 import { Entity } from './entity.js';
 import { GameEvent } from './game-events.js';
 import { gameState } from './game-state.js';
@@ -53,25 +34,6 @@ const recorder = {
 };
 
 const audioManager = new AudioManager();
-
-audioManager.loadTrack('big-explosion', bigExplosionAudioUrl);
-audioManager.loadTrack('boss-music', bossMusicAudioUrl);
-audioManager.loadTrack('boss-projectile', bossProjectileAudioUrl);
-audioManager.loadTrack('enemy-death', enemyDeathAudioUrl);
-audioManager.loadTrack('enemy-projectile', enemyProjectileAudioUrl);
-audioManager.loadTrack('extra-life', extraLifeAudioUrl);
-audioManager.loadTrack('game-over', gameOverAudioUrl);
-audioManager.loadTrack('game-start', gameStartAudioUrl);
-audioManager.loadTrack('game-won', gameWonAudioUrl);
-audioManager.loadTrack('no-spread-shot', noSpreadShotAudioUrl);
-audioManager.loadTrack('shoot', shootAudioUrl);
-audioManager.loadTrack('spread-shot', spreadShotAudioUrl);
-audioManager.loadTrack('pickup', pickupAudioUrl);
-audioManager.loadTrack('player-death', playerDeathAudioUrl);
-audioManager.loadTrack('player-projectile-hit', playerProjectileHitAudioUrl);
-audioManager.loadTrack('title-screen-music', titleScreenMusicAudioUrl);
-audioManager.loadTrack('wave-complete', waveCompleteAudioUrl);
-audioManager.loadTrack('wave-spawn', waveSpawnAudioUrl);
 
 audioManager.on(AudioMangerEvent.Ready, () => {
   console.log('🎵 audio ready');
@@ -105,7 +67,7 @@ const loadingScreenScene = new LoadingScreen({
   context,
   content,
   fontCache,
-  input: controls,
+  input,
   gameState,
   gameTime,
   spriteSheet: SpriteSheet,
@@ -123,7 +85,7 @@ const titleScreenScene = new TitleScreen({
   context,
   content,
   fontCache,
-  input: controls,
+  input,
   gameState,
   gameTime,
   spriteSheet: SpriteSheet,
@@ -141,7 +103,7 @@ const gameplayScene = new GameplayScreen({
   context,
   content,
   fontCache,
-  input: controls,
+  input,
   gameState,
   gameTime,
   spriteSheet: SpriteSheet,
@@ -162,7 +124,7 @@ const gameoverScene = new GameOverScreen({
   context,
   content,
   fontCache,
-  input: controls,
+  input,
   gameState,
   gameTime,
   spriteSheet: SpriteSheet,
@@ -180,7 +142,7 @@ const gameWonScene = new GameWonScreen({
   context,
   content,
   fontCache,
-  input: controls,
+  input,
   gameState,
   gameTime,
   spriteSheet: SpriteSheet,
@@ -194,17 +156,7 @@ gameWonScene.on(GameEvent.StartGame, () => {
 let activeScene: Scene = loadingScreenScene;
 activeScene.enter();
 
-window.addEventListener('click', async () => {
-  if (!audioManager.isInitialized) {
-    await audioManager.init();
-  }
-});
-
 window.addEventListener('keypress', async (e: KeyboardEvent) => {
-  if (!audioManager.isInitialized) {
-    await audioManager.init();
-  }
-
   if (e.key === 'r') {
     if (recorder.recording) {
       recorder.frames?.generateAsync({ type: 'blob' }).then((content) => {

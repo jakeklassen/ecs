@@ -28,7 +28,7 @@ export class GameOverScreen extends Scene {
     );
 
     this.systems.push(
-      startGameSystemFactory({ controls: this.input, scene: this }),
+      startGameSystemFactory({ input: this.input, scene: this }),
       textSystemFactory({
         fontCache: this.fontCache,
         textCache: this.textCache,

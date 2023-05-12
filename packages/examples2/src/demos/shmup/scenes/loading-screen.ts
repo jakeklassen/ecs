@@ -1,10 +1,29 @@
 import { Easing } from '#/lib/tween.js';
+import bigExplosionAudioUrl from '../assets/audio/big-explosion.ogg';
+import bossMusicAudioUrl from '../assets/audio/boss-music.ogg';
+import bossProjectileAudioUrl from '../assets/audio/boss-projectile.ogg';
+import enemyDeathAudioUrl from '../assets/audio/enemy-death.ogg';
+import enemyProjectileAudioUrl from '../assets/audio/enemy-projectile.ogg';
+import extraLifeAudioUrl from '../assets/audio/extra-life.ogg';
+import gameOverAudioUrl from '../assets/audio/game-over.ogg';
+import gameStartAudioUrl from '../assets/audio/game-start.ogg';
+import gameWonAudioUrl from '../assets/audio/game-won-music.ogg';
+import noSpreadShotAudioUrl from '../assets/audio/no-spread-shot.ogg';
+import pickupAudioUrl from '../assets/audio/pickup.ogg';
+import playerDeathAudioUrl from '../assets/audio/player-death.ogg';
+import playerProjectileHitAudioUrl from '../assets/audio/player-projectile-hit.ogg';
+import shootAudioUrl from '../assets/audio/shoot.ogg';
+import spreadShotAudioUrl from '../assets/audio/spread-shot.ogg';
+import titleScreenMusicAudioUrl from '../assets/audio/title-screen-music.ogg';
+import waveCompleteAudioUrl from '../assets/audio/wave-complete.ogg';
+import waveSpawnAudioUrl from '../assets/audio/wave-spawn.ogg';
 import { spriteFactory } from '../components/sprite.js';
 import { textBlinkAnimationFactory } from '../components/text-blink-animation.js';
 import { transformFactory } from '../components/transform.js';
 import { tweenFactory } from '../components/tween.js';
 import { Pico8Colors } from '../constants.js';
 import { starfieldFactory } from '../entity-factories/star.js';
+import { GameEvent } from '../game-events.js';
 import { resetGameState } from '../game-state.js';
 import { Scene, SceneConstructorProps } from '../scene.js';
 import { eventSystemFactory } from '../systems/event-system.js';
@@ -22,6 +41,11 @@ export class LoadingScreen extends Scene {
   #areaWidth: number;
   #areaHeight: number;
 
+  /**
+   * Whether the audio manager is ready to be initialized.
+   */
+  #audioManagerReadyToInit = false;
+
   constructor(props: SceneConstructorProps) {
     super(props);
 
@@ -34,6 +58,42 @@ export class LoadingScreen extends Scene {
     this.clearSystems();
     this.world.clearEntities();
     this.timer.clear();
+
+    if (this.audioManager.isInitialized === false) {
+      Promise.all([
+        this.audioManager.loadTrack('big-explosion', bigExplosionAudioUrl),
+        this.audioManager.loadTrack('boss-music', bossMusicAudioUrl),
+        this.audioManager.loadTrack('boss-projectile', bossProjectileAudioUrl),
+        this.audioManager.loadTrack('enemy-death', enemyDeathAudioUrl),
+        this.audioManager.loadTrack(
+          'enemy-projectile',
+          enemyProjectileAudioUrl,
+        ),
+        this.audioManager.loadTrack('extra-life', extraLifeAudioUrl),
+        this.audioManager.loadTrack('game-over', gameOverAudioUrl),
+        this.audioManager.loadTrack('game-start', gameStartAudioUrl),
+        this.audioManager.loadTrack('game-won', gameWonAudioUrl),
+        this.audioManager.loadTrack('no-spread-shot', noSpreadShotAudioUrl),
+        this.audioManager.loadTrack('shoot', shootAudioUrl),
+        this.audioManager.loadTrack('spread-shot', spreadShotAudioUrl),
+        this.audioManager.loadTrack('pickup', pickupAudioUrl),
+        this.audioManager.loadTrack('player-death', playerDeathAudioUrl),
+        this.audioManager.loadTrack(
+          'player-projectile-hit',
+          playerProjectileHitAudioUrl,
+        ),
+        this.audioManager.loadTrack(
+          'title-screen-music',
+          titleScreenMusicAudioUrl,
+        ),
+        this.audioManager.loadTrack('wave-complete', waveCompleteAudioUrl),
+        this.audioManager.loadTrack('wave-spawn', waveSpawnAudioUrl),
+      ]).then(() => {
+        // At this point the tracks are `queued`. We cannot progress the
+        // audio manager until the user has interacted with the page.
+        this.#audioManagerReadyToInit = true;
+      });
+    }
 
     this.systems.push(
       textSystemFactory({
@@ -190,5 +250,14 @@ export class LoadingScreen extends Scene {
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     super.update(delta);
+
+    if (this.#audioManagerReadyToInit && this.input.any.query()) {
+      // Reset the flag so we don't try to init again.
+      this.#audioManagerReadyToInit = false;
+
+      this.audioManager.init().then(() => {
+        this.emit(GameEvent.StartGame);
+      });
+    }
   }
 }

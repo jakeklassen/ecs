@@ -50,7 +50,7 @@ export class TitleScreen extends Scene {
       }),
       tweenSystemFactory({ world: this.world }),
       starfieldSystemFactory({ world: this.world }),
-      startGameSystemFactory({ controls: this.input, scene: this }),
+      startGameSystemFactory({ input: this.input, scene: this }),
       movementSystemFactory({ world: this.world }),
       spriteAnimationSystemFactory({ world: this.world }),
       eventSystemFactory({ world: this.world }),

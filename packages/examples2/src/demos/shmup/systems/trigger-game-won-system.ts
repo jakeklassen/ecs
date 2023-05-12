@@ -1,12 +1,12 @@
-import { Controls } from '../controls.js';
 import { GameEvent } from '../game-events.js';
+import { Input } from '../input.js';
 import { Scene } from '../scene.js';
 
 export function triggerGameWonSystemFactory({
   input,
   scene,
 }: {
-  input: Controls;
+  input: Input;
   scene: Scene;
 }) {
   return function triggerGameWonSystem() {

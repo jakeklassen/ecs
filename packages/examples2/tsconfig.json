@@ -18,6 +18,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "types": ["@types/wicg-file-system-access"],
+    "allowImportingTsExtensions": true,
     "paths": {
       "#/*": ["src/*"],
       "#/assets/*": ["assets/*"]
