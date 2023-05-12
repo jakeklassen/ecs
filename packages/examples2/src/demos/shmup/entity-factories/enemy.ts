@@ -1,6 +1,7 @@
 import { World } from '@jakeklassen/ecs2';
 import { CollisionMasks } from '../bitmasks.js';
 import { spriteAnimationFactory } from '../components/sprite-animation.js';
+import { spriteFactory } from '../components/sprite.js';
 import { config } from '../config.js';
 import { EnemyType } from '../constants.js';
 import { Entity } from '../entity.js';
@@ -29,15 +30,14 @@ function enemyFactory<
     health: config.entities.enemies[enemyName].startingHealth,
     // FIXME: Notice that we are not getting `sprite` errors when we're
     // missing because of the `typeof components`.
-    sprite: {
+    sprite: spriteFactory({
       frame: {
         sourceX: enemy.frame.sourceX,
         sourceY: enemy.frame.sourceY,
         width: enemy.frame.width,
         height: enemy.frame.height,
       },
-      opacity: 1,
-    },
+    }),
     spriteAnimation: spriteAnimationFactory(
       animationDetailsFactory(
         `${enemyName}-idle`,

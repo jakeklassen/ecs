@@ -20,6 +20,18 @@ export function spriteRenderingSystemFactory({
       (a, b) => a.sprite.layer - b.sprite.layer,
     );
 
+    const entityMissingLayer = entities.find(
+      (entity) => entity.sprite.layer == null,
+    );
+
+    if (entityMissingLayer != null) {
+      console.log(entityMissingLayer);
+
+      throw new Error(
+        `Entity is missing a layer. All entities with a sprite must have a layer.`,
+      );
+    }
+
     for (const entity of entities) {
       const { sprite, transform } = entity;
 

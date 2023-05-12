@@ -181,6 +181,37 @@ export class TitleScreen extends Scene {
       }),
     });
 
+    // Controls
+    this.world.createEntity({
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color5,
+        font: 'PICO-8',
+        message: 'Z (Shoot) X (Spread Shot)',
+      },
+      transform: transformFactory({
+        position: {
+          x: this.canvas.width / 2,
+          y: 100,
+        },
+      }),
+    });
+
+    this.world.createEntity({
+      text: {
+        align: 'center',
+        color: Pico8Colors.Color5,
+        font: 'PICO-8',
+        message: 'Arrow Keys (Move)',
+      },
+      transform: transformFactory({
+        position: {
+          x: this.canvas.width / 2,
+          y: 110,
+        },
+      }),
+    });
+
     // High score text
     const highscoreString = localStorage.getItem('highscore');
     let highscore = parseInt(highscoreString ?? '0');
