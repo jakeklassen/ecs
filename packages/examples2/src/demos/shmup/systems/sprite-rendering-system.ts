@@ -25,11 +25,10 @@ export function spriteRenderingSystemFactory({
     );
 
     if (entityMissingLayer != null) {
-      console.log(entityMissingLayer);
-
-      throw new Error(
+      console.warn(
         `Entity is missing a layer. All entities with a sprite must have a layer.`,
       );
+      console.warn(entityMissingLayer);
     }
 
     for (const entity of entities) {
