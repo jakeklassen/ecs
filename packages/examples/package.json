@@ -10,12 +10,12 @@
   },
   "devDependencies": {
     "typescript": "^5.0.4",
-    "vite": "^4.2.1"
+    "vite": "^4.3.5"
   },
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^4.0.0",
-    "@tweakpane/core": "1.1.6",
+    "@tweakpane/core": "1.1.8",
     "just-safe-set": "4.2.1",
-    "tweakpane": "3.1.7"
+    "tweakpane": "3.1.9"
   }
 }
