@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "typescript": "^5.3.2",
-    "vite": "^5.0.2"
+    "typescript": "^5.3.3",
+    "vite": "^5.1.5"
   },
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^4.0.0",
-    "@tweakpane/core": "2.0.1",
+    "@tweakpane/core": "2.0.3",
     "just-safe-set": "4.2.1",
-    "tweakpane": "4.0.1"
+    "tweakpane": "4.0.3"
   }
 }
