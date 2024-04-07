@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "typescript": "^5.4.3",
-    "vite": "^5.2.6"
+    "typescript": "^5.4.4",
+    "vite": "^5.2.8"
   },
   "dependencies": {
     "@jakeklassen/ecs": "workspace:^4.0.0",
