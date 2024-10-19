@@ -2,23 +2,19 @@
   "folders": [
     {
       "name": "✨ root",
-      "path": "."
+      "path": ".",
     },
     {
       "name": "📦 ecs",
-      "path": "packages/ecs"
+      "path": "packages/ecs",
     },
     {
       "name": "📦 examples",
-      "path": "packages/examples"
+      "path": "packages/examples",
     },
-    {
-      "name": "📦 js-consumer",
-      "path": "packages/js-consumer"
-    }
   ],
   "settings": {
     "typescript.preferences.importModuleSpecifierEnding": "js",
-    "typescript.tsdk": "📦 ecs/node_modules/typescript/lib"
-  }
+    "typescript.tsdk": "📦 ecs/node_modules/typescript/lib",
+  },
 }

@@ -8,14 +8,8 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.cjs"
-      }
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -27,14 +21,16 @@
     "url": "https://github.com/jakeklassen/ecs.git"
   },
   "scripts": {
-    "lint": "eslint src --ext .js,.ts --config .eslintrc.cjs",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" eslint.config.mjs",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\" eslint.config.mjs",
     "prebuild": "npm run clean",
     "build": "npm run lint && tsup src --format cjs,esm --dts-resolve",
     "build:watch": "nodemon --exec 'npm run build || exit 1'",
     "test": "vitest",
     "pretest:coverage": "npm run clean",
     "test:coverage": "vitest run --coverage",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "check-exports": "attw --pack ."
   },
   "author": "Jake Klassen <jklassendev@gmail.com>",
   "license": "MIT",
@@ -46,25 +42,32 @@
     "typescript"
   ],
   "devDependencies": {
-    "@types/benchmark": "^2.1.5",
-    "@types/eslint": "^8.56.10",
-    "@types/node": "^20.14.8",
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
+    "@arethetypeswrong/cli": "0.16.4",
+    "@eslint/js": "9.13.0",
+    "@types/benchmark": "2.1.5",
+    "@types/eslint": "^9.6.1",
+    "@types/eslint__eslintrc": "2.1.2",
+    "@types/eslint__js": "8.42.3",
+    "@types/node": "^22.7.7",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
     "benchmark": "^2.1.4",
-    "bumpp": "9.4.1",
-    "eslint": "^8.57.0",
+    "bumpp": "9.7.1",
+    "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
-    "nodemon": "^3.1.4",
-    "prettier": "^3.3.2",
-    "rimraf": "^5.0.7",
+    "eslint-plugin-depend": "0.11.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "globals": "15.11.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2",
-    "vite": "5.3.1",
-    "vitest": "^1.6.0"
+    "typescript": "^5.6.3",
+    "vite": "5.4.9",
+    "vitest": "^2.1.3"
   },
   "dependencies": {
-    "tsup": "^8.1.0",
-    "type-fest": "4.20.1"
+    "tsup": "^8.3.0",
+    "type-fest": "4.26.1"
   }
 }

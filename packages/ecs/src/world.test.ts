@@ -10,7 +10,10 @@ class Color extends Component {
 }
 
 class Rectangle extends Component {
-  constructor(public width = 0, public height = 0) {
+  constructor(
+    public width = 0,
+    public height = 0,
+  ) {
     super();
   }
 }
@@ -22,7 +25,10 @@ class Transform extends Component {
 }
 
 class Position extends Component {
-  constructor(public x = 0, public y = 0) {
+  constructor(
+    public x = 0,
+    public y = 0,
+  ) {
     super();
   }
 }

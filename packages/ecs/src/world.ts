@@ -47,7 +47,8 @@ export class World {
 
   public createEntity(): EntityId {
     if (this.#deletedEntities.size > 0) {
-      const entity = this.#deletedEntities.values().next().value;
+      const entity = this.#deletedEntities.values().next().value!;
+
       this.#deletedEntities.delete(entity);
 
       return entity;
