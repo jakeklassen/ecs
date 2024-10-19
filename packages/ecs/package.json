@@ -1,6 +1,6 @@
 {
   "name": "@jakeklassen/ecs",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "Entity Component System",
   "type": "module",
   "main": "./dist/index.cjs",
