@@ -43,6 +43,7 @@
   ],
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.1",
+    "@eslint/eslintrc": "3.3.1",
     "@eslint/js": "9.27.0",
     "@types/benchmark": "2.1.5",
     "@types/eslint": "^9.6.1",
